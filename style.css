@@ -278,31 +278,31 @@ nav a:hover {
    BOWLING LINKS SECTION - COMPACT STYLING ONLY
    ============================================================================ */
 
-#bowling-links .grid {
+#bowling-links,#news .grid {
     gap: 15px;
     padding: 20px 20px;
 }
 
-#bowling-links .card,
-#bowling-links .card2 {
+#bowling-links,#news .card,
+#bowling-links,#news .card2 {
     padding: 15px;
     min-width: 200px;
     max-width: 220px;
     flex: 0 1 auto;
 }
 
-#bowling-links h3 {
+#bowling-links,#news h3 {
     font-size: 1rem;
     margin-bottom: 8px;
 }
 
-#bowling-links p {
+#bowling-links,news p {
     font-size: 0.85rem;
     margin-bottom: 10px;
     line-height: 1.4;
 }
 
-#bowling-links .text-link {
+#bowling-links,#news .text-link {
     font-size: 0.85rem;
     display: inline-block;
     padding: 6px 12px;
