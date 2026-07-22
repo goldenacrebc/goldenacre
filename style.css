@@ -275,6 +275,40 @@ nav a:hover {
 }
 
 /* ============================================================================
+   BOWLING LINKS SECTION - COMPACT STYLING
+   ============================================================================ */
+
+#bowling-links .grid {
+    gap: 15px;
+    padding: 20px 20px;
+}
+
+#bowling-links .card,
+#bowling-links .card2 {
+    padding: 15px;
+    min-width: 200px;
+    max-width: 220px;
+    flex: 0 1 auto;
+}
+
+#bowling-links h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+#bowling-links p {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+#bowling-links .text-link {
+    font-size: 0.85rem;
+    display: inline-block;
+    padding: 6px 12px;
+}
+
+/* ============================================================================
    GALLERY
    ============================================================================ */
 
@@ -570,4 +604,3 @@ footer {
 .preview-hover:hover .hover-image {
   display: block;
 }
-
