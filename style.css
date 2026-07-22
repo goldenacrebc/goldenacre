@@ -278,36 +278,65 @@ nav a:hover {
    BOWLING LINKS SECTION - COMPACT STYLING ONLY
    ============================================================================ */
 
-#bowling-links,#news .grid {
+#bowling-links .grid {
     gap: 15px;
     padding: 20px 20px;
 }
 
-#bowling-links,#news .card,
-#bowling-links,#news .card2 {
+#bowling-links .card,
+#bowling-links .card2 {
     padding: 15px;
     min-width: 200px;
     max-width: 220px;
     flex: 0 1 auto;
 }
 
-#bowling-links,#news h3 {
+#bowling-links h3 {
     font-size: 1rem;
     margin-bottom: 8px;
 }
 
-#bowling-links,news p {
+#bowling-links p {
     font-size: 0.85rem;
     margin-bottom: 10px;
     line-height: 1.4;
 }
 
-#bowling-links,#news .text-link {
+#bowling-links .text-link {
     font-size: 0.85rem;
     display: inline-block;
     padding: 6px 12px;
 }
 
+#news .grid {
+    gap: 15px;
+    padding: 20px 20px;
+}
+
+#news .card,
+#news .card2 {
+    padding: 15px;
+    min-width: 200px;
+    max-width: 220px;
+    flex: 0 1 auto;
+}
+
+#news h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+#news p {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+#news .text-link {
+    font-size: 0.85rem;
+    display: inline-block;
+    padding: 6px 12px;
+}
 /* ============================================================================
    GALLERY
    ============================================================================ */
