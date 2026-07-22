@@ -275,34 +275,6 @@ nav a:hover {
 }
 
 /* ============================================================================
-   JOIN OR VISIT US SECTION - COMPACT STYLING
-   ============================================================================ */
-
-#join .grid {
-    gap: 15px;
-    padding: 20px 20px;
-}
-
-#join .card,
-#join .card2 {
-    padding: 15px;
-    min-width: 200px;
-    max-width: 220px;
-    flex: 0 1 auto;
-}
-
-#join h3 {
-    font-size: 1rem;
-    margin-bottom: 8px;
-}
-
-#join p {
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-    line-height: 1.4;
-}
-
-/* ============================================================================
    BOWLING LINKS SECTION - COMPACT STYLING
    ============================================================================ */
 
