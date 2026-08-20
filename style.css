@@ -337,10 +337,12 @@ nav a:hover {
     display: inline-block;
     padding: 6px 12px;
 }
+
 #schedule .grid {
     gap: 15px;
     padding: 20px 20px;
 }
+
 #schedule .card,
 #schedule .card2 {
     padding: 15px;
@@ -348,19 +350,86 @@ nav a:hover {
     max-width: 220px;
     flex: 0 1 auto;
 }
+
 #schedule h3 {
     font-size: 1rem;
     margin-bottom: 8px;
 }
+
 #schedule p {
     font-size: 0.85rem;
     margin-bottom: 10px;
     line-height: 1.4;
 }
+
 #schedule .text-link {
     font-size: 0.85rem;
     display: inline-block; 
     padding: 6px 12px;
+}
+
+/* ============================================================================
+   SPONSORS SECTION - CLEAN BANNER STYLE
+   ============================================================================ */
+
+#sponsors {
+    background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
+    padding: 50px 10%;
+    text-align: center;
+}
+
+#sponsors h2 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#sponsors h2::after {
+    background: #ffcc00;
+    width: 80px;
+}
+
+#sponsors > p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    margin-bottom: 35px;
+    font-weight: 400;
+}
+
+/* Sponsors logo container */
+#sponsors .sponsors-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+#sponsors .sponsor-logo {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px 25px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    min-height: 80px;
+}
+
+#sponsors .sponsor-logo:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+#sponsors .sponsor-logo img {
+    max-width: 150px;
+    max-height: 70px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 /* ============================================================================
@@ -579,6 +648,10 @@ footer {
         height: auto;
         object-fit: cover;
     }
+
+    #sponsors .sponsors-logos {
+        gap: 50px;
+    }
 }
 
 /* ============================================================================
@@ -624,6 +697,34 @@ footer {
         height: 250px;
         object-fit: cover;
     }
+
+    /* Mobile sponsors section */
+    #sponsors {
+        padding: 35px 5%;
+    }
+
+    #sponsors h2 {
+        font-size: 1.8rem;
+    }
+
+    #sponsors > p {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+
+    #sponsors .sponsors-logos {
+        gap: 20px;
+    }
+
+    #sponsors .sponsor-logo {
+        padding: 12px 18px;
+        min-height: 70px;
+    }
+
+    #sponsors .sponsor-logo img {
+        max-width: 120px;
+        max-height: 60px;
+    }
 }
 
 /* Hover for the facebook link */
@@ -638,22 +739,16 @@ footer {
 .preview-hover .hover-image {
   display: none;
   position: absolute;
-  left: 50%;          /* Positions the image to the right of the link text */
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%); /* Centers the image vertically against the text */
-  width: 300px;        /* Increased size for better readability */
-  height: auto;        /* Maintains the original aspect ratio */
+  transform: translateY(-50%);
+  width: 300px;
+  height: auto;
   z-index: 10;
   border: 1px solid #ddd; 
   box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-  border-radius: 4px;  /* Optional: rounds the corners slightly */
+  border-radius: 4px;
 }
-
-/* Show the image on hover */
-.preview-hover:hover .hover-image {
-  display: block;
-}
-
 
 /* Show the image on hover */
 .preview-hover:hover .hover-image {
