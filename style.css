@@ -800,3 +800,66 @@ footer {
                 flex: 1 1 140px;
             }
         }
+/* ============================================================================
+   SPONSORS SECTION - CLEAN BANNER STYLE
+   ============================================================================ */
+
+#sponsors {
+    background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
+    padding: 15px 10%;
+    text-align: center;
+}
+
+#sponsors h2 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#sponsors h2::after {
+    background: #ffcc00;
+    width: 80px;
+}
+
+#sponsors > p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+/* Sponsors logo container */
+#sponsors .sponsors-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 5px 0;
+}
+
+#sponsors .sponsor-logo {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    min-height: 50px;
+}
+
+#sponsors .sponsor-logo:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+#sponsors .sponsor-logo img {
+    max-width: 80px;
+    max-height: 40px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
