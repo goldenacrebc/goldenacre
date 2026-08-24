@@ -860,6 +860,7 @@ footer {
     max-width: 80px;
     max-height: 40px;
     width: auto;
+    align-items: center;
     height: auto;
     object-fit: contain;
 }
