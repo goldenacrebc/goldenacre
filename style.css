@@ -1,5 +1,5 @@
 /* ============================================================================
-   GOLDEN ACRE BOWLING CLUB - CONSOLIDATED STYLESHEET
+   GOLDEN ACRE BOWLING CLUB - CONSOLIDATED & MOBILE-READY STYLESHEET
    ============================================================================ */
 
 /* RESET & VARIABLES */
@@ -24,11 +24,16 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     color: #111111;
     background-color: var(--bg-color);
+    overflow-x: hidden;
 }
 
 /* ============================================================================
@@ -60,13 +65,19 @@ header {
     letter-spacing: 0.2px;
 }
 
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
 nav a {
     color: #ffffff;
     text-decoration: none;
-    margin-left: 18px;
     font-weight: 500;
     font-size: 0.95rem;
     transition: color 0.2s ease;
+    padding: 4px 6px;
 }
 
 nav a:hover {
@@ -81,12 +92,12 @@ nav a:hover {
     background: linear-gradient(135deg, #7ecaf6 0%, #4ba3e3 100%);
     color: #111111;
     text-align: center;
-    padding: 18px 20px;
+    padding: 24px 16px;
     border-bottom: 4px solid #ffcc00;
 }
 
 .hero-logo-wrapper {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,13 +116,13 @@ nav a:hover {
 
 .hero h1 {
     font-size: 1.5rem;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     color: #111111;
 }
 
 .hero p {
     font-size: 0.9rem;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -125,13 +136,15 @@ nav a:hover {
     display: inline-block;
     background: #111111;
     color: #ffcc00;
-    padding: 7px 16px;
+    padding: 10px 18px;
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
     font-size: 0.85rem;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     transition: transform 0.2s ease, background 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -144,7 +157,7 @@ nav a:hover {
    ============================================================================ */
 
 .content-section {
-    padding: 30px 8%;
+    padding: 28px 6%;
     text-align: center;
 }
 
@@ -154,7 +167,7 @@ nav a:hover {
 
 .content-section h2 {
     font-size: 1.3rem;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     color: #111111;
     position: relative;
 }
@@ -168,17 +181,17 @@ nav a:hover {
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
-    padding: 10px 0;
+    padding: 8px 0;
 }
 
 /* Compact Cards for News */
 .card, .card2 {
     background: white;
-    padding: 15px;
+    padding: 16px;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    flex: 1 1 200px;
-    max-width: 240px;
+    flex: 1 1 220px;
+    max-width: 280px;
     text-align: center;
 }
 
@@ -198,8 +211,8 @@ nav a:hover {
 }
 
 .card p, .card2 p {
-    font-size: 0.82rem;
-    line-height: 1.35;
+    font-size: 0.85rem;
+    line-height: 1.4;
     color: #333333;
     margin-bottom: 8px;
 }
@@ -208,7 +221,7 @@ nav a:hover {
     color: #4ba3e3;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
 }
 
 .text-link:hover {
@@ -246,8 +259,8 @@ nav a:hover {
 }
 
 .compact-tile p {
-    font-size: 0.8rem;
-    line-height: 1.3;
+    font-size: 0.82rem;
+    line-height: 1.35;
     color: #333333;
 }
 
@@ -259,7 +272,7 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 0.5rem;
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
     align-items: start;
 }
@@ -289,7 +302,7 @@ nav a:hover {
 }
 
 .event-card {
-    padding: 0.4rem 0.5rem;
+    padding: 0.45rem 0.5rem;
     border-radius: 4px;
     font-size: 0.78rem;
     line-height: 1.25;
@@ -313,7 +326,7 @@ nav a:hover {
 
 #sponsors {
     background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
-    padding: 20px 5%;
+    padding: 24px 5%;
     text-align: center;
 }
 
@@ -333,7 +346,7 @@ nav a:hover {
 
 #sponsors .sponsor-logo {
     background: rgba(255, 255, 255, 0.25);
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -348,8 +361,8 @@ nav a:hover {
 }
 
 #sponsors .sponsor-logo img {
-    max-width: 75px;
-    max-height: 32px;
+    max-width: 80px;
+    max-height: 35px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -369,18 +382,18 @@ nav a:hover {
 
 .social-item {
     background: white;
-    padding: 15px;
+    padding: 16px;
     border-radius: 6px;
-    flex: 1 1 250px;
-    max-width: 350px;
+    flex: 1 1 260px;
+    max-width: 380px;
     border-top: 3px solid #ffcc00;
 }
 
-/* Contact Section - Blue Gradient Background Restored */
+/* Contact Section */
 #contact {
     background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
     color: #ffffff;
-    padding: 30px 8%;
+    padding: 30px 6%;
     text-align: center;
 }
 
@@ -407,7 +420,7 @@ nav a:hover {
 
 #contact .contact-logo {
     background: rgba(255, 255, 255, 0.25);
-    padding: 8px 14px;
+    padding: 10px 16px;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -468,41 +481,88 @@ footer {
 }
 
 /* ============================================================================
-   MOBILE RESPONSIVENESS
+   MOBILE RESPONSIVENESS (PHONES & TABLETS)
    ============================================================================ */
 
-@media (max-width: 650px) {
+@media (max-width: 768px) {
     header {
         flex-direction: column;
-        gap: 10px;
+        padding: 10px 15px;
+        gap: 8px;
+        text-align: center;
+    }
+
+    nav {
+        justify-content: center;
+        gap: 8px 12px;
     }
 
     nav a {
-        margin: 0 8px;
-        font-size: 0.85rem;
+        font-size: 0.88rem;
     }
 
+    .content-section {
+        padding: 22px 16px;
+    }
+
+    .card, .card2, .compact-tile, .social-item {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    /* Mobile Schedule Stack */
     .compact-week-grid {
         grid-template-columns: 1fr;
+        gap: 8px;
     }
 
     .day-column {
         display: flex;
+        flex-direction: row;
+        align-items: stretch;
     }
 
     .day-header {
-        width: 60px;
-        min-width: 60px;
+        width: 65px;
+        min-width: 65px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-bottom: none;
         border-right: 1px solid var(--border-color);
+        font-size: 0.85rem;
     }
 
     .events-container {
         flex-grow: 1;
         flex-direction: row;
         flex-wrap: wrap;
+        align-items: center;
+        padding: 6px;
+    }
+
+    .event-card {
+        flex: 1 1 auto;
+        min-width: 140px;
+    }
+
+    /* Contact & Sponsor Badges on Mobile */
+    #contact .contact-logos {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #contact .contact-logo {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    #sponsors .sponsors-logos {
+        gap: 8px;
+    }
+
+    #sponsors .sponsor-logo {
+        flex: 1 1 calc(50% - 12px);
+        max-width: 160px;
     }
 }
