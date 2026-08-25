@@ -614,3 +614,19 @@ footer a:hover {
         text-align: center;
     }
 }
+.schedule-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-left: 3px solid;
+}
