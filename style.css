@@ -32,14 +32,14 @@ body {
 }
 
 /* ============================================================================
-   HEADER & NAVIGATION
+   HEADER & NAVIGATION (CENTERED)
    ============================================================================ */
 
 header {
     background: #111111;
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 12px 5%;
     position: sticky;
@@ -48,22 +48,17 @@ header {
     border-bottom: 4px solid #ffcc00;
 }
 
-.logo-container {
+nav {
     display: flex;
-    align-items: center;
-}
-
-.logo-text {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #ffffff;
-    letter-spacing: 0.2px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 18px;
 }
 
 nav a {
     color: #ffffff;
     text-decoration: none;
-    margin-left: 18px;
+    margin-left: 0;
     font-weight: 500;
     font-size: 0.95rem;
     transition: color 0.2s ease;
@@ -74,7 +69,7 @@ nav a:hover {
 }
 
 /* ============================================================================
-   HERO SECTION (COMPACT)
+   HERO SECTION
    ============================================================================ */
 
 .hero {
@@ -171,7 +166,7 @@ nav a:hover {
     padding: 10px 0;
 }
 
-/* Compact Cards for News */
+/* Cards (News) */
 .card, .card2 {
     background: white;
     padding: 15px;
@@ -180,6 +175,8 @@ nav a:hover {
     flex: 1 1 200px;
     max-width: 240px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .card {
@@ -204,6 +201,14 @@ nav a:hover {
     margin-bottom: 8px;
 }
 
+.news-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 6px 0 10px 0;
+}
+
 .text-link {
     color: #4ba3e3;
     text-decoration: none;
@@ -215,7 +220,7 @@ nav a:hover {
     text-decoration: underline;
 }
 
-/* Compact Tile for About Section */
+/* About Section */
 .about-grid {
     gap: 15px;
 }
@@ -308,7 +313,7 @@ nav a:hover {
 .cat-mixed { background-color: var(--color-mixed); color: var(--text-mixed); border-left-color: var(--text-mixed); }
 
 /* ============================================================================
-   SPONSORS SECTION (COMPACT & CENTERED)
+   SPONSORS SECTION
    ============================================================================ */
 
 #sponsors {
@@ -357,7 +362,7 @@ nav a:hover {
 }
 
 /* ============================================================================
-   SOCIAL & CONTACT SECTIONS
+   SOCIAL SECTION
    ============================================================================ */
 
 .social-items {
@@ -376,7 +381,85 @@ nav a:hover {
     border-top: 3px solid #ffcc00;
 }
 
-/* Contact Section - Blue Gradient Background Restored */
+.diary-events img {
+    max-width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.social-item h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #111111;
+}
+
+.social-item p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* ============================================================================
+   HALL HIRE FULL-WIDTH BANNER (ATTACHED TO CONTACT SECTION)
+   ============================================================================ */
+
+.hall-hire-banner {
+    width: 100%;
+    background-color: #ffcc00;
+    padding: 12px 5%;
+    border-top: 3px solid #e6b800;
+}
+
+.hall-hire-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hall-hire-text {
+    text-align: left;
+    flex: 1;
+}
+
+.hall-hire-text h3 {
+    font-size: 1.05rem;
+    color: #111111;
+    margin: 0;
+}
+
+.hall-hire-text p {
+    font-size: 0.88rem;
+    color: #222222;
+    margin: 0;
+}
+
+.hall-hire-banner .btn {
+    white-space: nowrap;
+    margin: 0 10px;
+}
+
+.hall-hire-note {
+    text-align: right;
+    flex: 1;
+}
+
+.hall-hire-banner .social-note {
+    font-size: 0.78rem !important;
+    color: #444444 !important;
+    margin: 0 !important;
+}
+
+/* ============================================================================
+   CONTACT & MEMBERSHIP SECTION
+   ============================================================================ */
+
 #contact {
     background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
     color: #ffffff;
@@ -473,12 +556,11 @@ footer {
 
 @media (max-width: 650px) {
     header {
-        flex-direction: column;
-        gap: 10px;
+        padding: 10px;
     }
 
     nav a {
-        margin: 0 8px;
+        margin: 0 4px;
         font-size: 0.85rem;
     }
 
@@ -505,42 +587,15 @@ footer {
         flex-direction: row;
         flex-wrap: wrap;
     }
-}
-/* Cabaret Night Image Sizing */
-.diary-events img {
-    max-width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-/* ============================================================================
-   SOCIAL SECTION UNIFORM TYPOGRAPHY
-   ============================================================================ */
 
-.social-item h3 {
-    font-size: 1rem;
-    margin-bottom: 6px;
-    color: #111111;
-}
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
 
-.social-item p {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    color: #333333;
-    margin-bottom: 10px;
-}
-
-.social-note {
-    font-size: 0.78rem !important;
-    color: #64748b !important;
-    margin-top: 10px;
-}
-/* News Card Images (Championship Winners, etc.) */
-.news-image {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin: 6px 0 10px 0;
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
 }
