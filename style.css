@@ -550,6 +550,21 @@ footer {
     border-top: 4px solid #ffcc00;
 }
 
+/* Adds spacing between copyright and the message link */
+.footer-link {
+    margin-top: 8px; 
+}
+
+/* Keeps the link color matching the text */
+footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #ffcc00;
+}
+
 /* ============================================================================
    MOBILE RESPONSIVENESS
    ============================================================================ */
