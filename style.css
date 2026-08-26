@@ -257,7 +257,7 @@ nav a:hover {
 }
 
 /* ============================================================================
-   WEEKLY SCHEDULE (COMPACT & MOBILE-READY)
+   WEEKLY SCHEDULE (COMPACT & MOBILE-READY - OPTION 2 BORDERED PASTELS)
    ============================================================================ */
 
 .week-grid {
@@ -311,18 +311,36 @@ nav a:hover {
     line-height: 1.25;
 }
 
+/* Category Tag Badges (Pastel + Border + High Contrast) */
 .category-tag {
     display: inline-block;
-    font-size: 0.62rem;
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 2px 5px;
+    padding: 3px 8px;
     border-radius: 4px;
+    letter-spacing: 0.03em;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-.tag-seniors { background: var(--color-seniors); color: var(--text-seniors); }
-.tag-ladies { background: var(--color-ladies); color: var(--text-ladies); }
-.tag-mixed { background: var(--color-mixed); color: var(--text-mixed); }
+.tag-seniors {
+    background-color: #bae6fd !important;
+    color: #0369a1 !important;
+    border: 1px solid #38bdf8;
+}
+
+.tag-ladies {
+    background-color: #fbcfe8 !important;
+    color: #be185d !important;
+    border: 1px solid #f472b6;
+}
+
+.tag-mixed {
+    background-color: #fde68a !important;
+    color: #b45309 !important;
+    border: 1px solid #fbbf24;
+}
 
 /* ============================================================================
    SPONSORS SECTION
