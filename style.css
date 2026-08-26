@@ -392,9 +392,19 @@ nav a:hover {
 }
 
 /* ============================================================================
-   SOCIAL SECTION
+   SOCIAL SECTION AND BAR BANNER 
    ============================================================================ */
-
+.bar-highlight {
+    background-color: #eef6fc;
+    color: #0c4a6e;
+    border: 1px solid #bfe0f6;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+}
 .social-items {
     display: flex;
     justify-content: center;
