@@ -257,9 +257,19 @@ nav a:hover {
 }
 
 /* ============================================================================
-   WEEKLY SCHEDULE (COMPACT & MOBILE-READY - OPTION 2 BORDERED PASTELS)
+   WEEKLY SCHEDULE (COMPACT & MOBILE-READY)
    ============================================================================ */
-
+.bar-highlight {
+    background-color: #eef6fc;
+    color: #0c4a6e;
+    border: 1px solid #bfe0f6;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+}
 .week-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
