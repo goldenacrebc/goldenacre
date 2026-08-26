@@ -257,19 +257,9 @@ nav a:hover {
 }
 
 /* ============================================================================
-   WEEKLY SCHEDULE (COMPACT & MOBILE-READY)
+   WEEKLY SCHEDULE (COMPACT & MOBILE-READY - OPTION 2 BORDERED PASTELS)
    ============================================================================ */
-.bar-highlight {
-    background-color: #eef6fc;
-    color: #0c4a6e;
-    border: 1px solid #bfe0f6;
-    padding: 10px 16px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-align: center;
-}
+
 .week-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -414,32 +404,32 @@ nav a:hover {
 
 .social-item {
     background: white;
-    padding: 15px;
+    padding: 10px 12px;
     border-radius: 6px;
-    flex: 1 1 250px;
-    max-width: 350px;
+    flex: 0 1 210px;
+    max-width: 210px;
     border-top: 3px solid #ffcc00;
 }
 
 .diary-events img {
     max-width: 100%;
-    height: 140px;
+    height: 85px;
     object-fit: cover;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .social-item h3 {
-    font-size: 1rem;
-    margin-bottom: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
     color: #111111;
 }
 
 .social-item p {
-    font-size: 0.85rem;
-    line-height: 1.4;
+    font-size: 0.78rem;
+    line-height: 1.3;
     color: #333333;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 /* ============================================================================
@@ -624,6 +614,10 @@ footer a:hover {
 
     .day-column {
         padding: 0.5rem;
+    }
+
+    .social-item {
+        margin: 0 auto;
     }
 
     .hall-hire-container {
