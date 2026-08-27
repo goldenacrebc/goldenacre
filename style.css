@@ -612,7 +612,7 @@ footer a:hover {
     header {
         position: sticky;
         top: 0;
-        padding: 8px 10px 10px 10px;
+        padding: 10px;
         z-index: 1000;
     }
 
@@ -621,34 +621,34 @@ footer a:hover {
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        gap: 6px 12px;
+        gap: 8px 14px;
     }
 
     nav a:not(.header-badge-link) {
-        font-size: 0.82rem;
+        font-size: 0.85rem;
         white-space: nowrap;
     }
 
-    /* Anchors badge to header bottom border so most of it hangs down into the hero */
+    /* Drops badge completely clear of the header link text */
     .header-badge-link {
         position: absolute;
         left: 50%;
         top: 100%;
-        transform: translate(-50%, -40%);
+        transform: translate(-50%, -10px); /* Adjust vertical offset here (-10px to 5px) */
         z-index: 1001;
     }
 
     .header-badge {
-        height: 82px;
-        width: 82px;
+        height: 75px;
+        width: 75px;
         border-width: 3px;
-        padding: 3px;
+        padding: 2px;
         margin-bottom: 0;
     }
 
-    /* Pushes hero title down so the lower-hanging badge doesn't cover text */
+    /* Increased top padding so the lowered badge doesn't overlap the hero heading */
     .hero {
-        padding-top: 55px;
+        padding-top: 75px;
     }
 
     .week-grid {
