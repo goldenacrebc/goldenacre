@@ -612,43 +612,62 @@ footer a:hover {
     header {
         position: sticky;
         top: 0;
-        padding: 10px 10px 12px 10px;
+        padding: 10px;
         z-index: 1000;
     }
 
+    /* 2-Column layout leaving a 75px center alley for the badge */
     nav {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px 14px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 75px; 
+        row-gap: 10px;
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
     }
 
-    nav a {
+    nav a:not(.header-badge-link) {
         font-size: 0.82rem;
         white-space: nowrap;
     }
 
-    /* Attaches badge below nav links so top 20% touches the yellow border */
+    /* Align left column links toward center */
+    nav a:nth-child(1),
+    nav a:nth-child(3),
+    nav a:nth-child(6) {
+        text-align: right;
+        justify-self: end;
+    }
+
+    /* Align right column links toward center */
+    nav a:nth-child(2),
+    nav a:nth-child(5),
+    nav a:nth-child(7) {
+        text-align: left;
+        justify-self: start;
+    }
+
+    /* Float badge in the center alley hanging through bottom border */
     .header-badge-link {
         position: absolute;
         left: 50%;
-        top: 100%;
-        transform: translate(-50%, -20%);
+        top: 50%;
+        transform: translate(-50%, -25%);
         z-index: 1001;
     }
 
     .header-badge {
-        height: 70px;
-        width: 70px;
+        height: 72px;
+        width: 72px;
         border-width: 3px;
         padding: 2px;
         margin-bottom: 0;
     }
 
-    /* Pushes hero title down to clear the lower hanging badge */
+    /* Breathing room for hero title below the hanging badge */
     .hero {
-        padding-top: 58px;
+        padding-top: 45px;
     }
 
     .week-grid {
@@ -671,5 +690,3 @@ footer a:hover {
         text-align: center;
     }
 }
-
-    
