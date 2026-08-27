@@ -32,7 +32,7 @@ body {
 }
 
 /* ============================================================================
-   HEADER & NAVIGATION (CENTERED)
+   HEADER & NAVIGATION WITH OVERLAPPING BADGE
    ============================================================================ */
 
 header {
@@ -41,18 +41,19 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px 5%;
+    padding: 8px 5%;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     border-bottom: 4px solid #ffcc00;
 }
 
 nav {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 12px 18px;
+    gap: 12px 20px;
 }
 
 nav a {
@@ -68,6 +69,32 @@ nav a:hover {
     color: #ffcc00;
 }
 
+/* Header Badge Overlap */
+.header-badge-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-badge {
+    height: 115px;
+    width: 115px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border: 4px solid #ffcc00;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    margin-bottom: -40px;
+    position: relative;
+    z-index: 1001;
+    transition: transform 0.2s ease;
+}
+
+.header-badge:hover {
+    transform: scale(1.06);
+}
+
 /* ============================================================================
    HERO SECTION
    ============================================================================ */
@@ -76,26 +103,8 @@ nav a:hover {
     background: linear-gradient(135deg, #7ecaf6 0%, #4ba3e3 100%);
     color: #111111;
     text-align: center;
-    padding: 18px 20px;
+    padding: 24px 20px 18px 20px;
     border-bottom: 4px solid #ffcc00;
-}
-
-.hero-logo-wrapper {
-    margin-bottom: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.prominent-logo {
-    height: 85px;
-    width: 85px;
-    object-fit: contain;
-    background-color: #ffffff;
-    border: 3px solid #ffcc00;
-    border-radius: 50%;
-    padding: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .hero h1 {
@@ -167,6 +176,7 @@ nav a:hover {
 }
 
 /* Cards (News) */
+/* Cards (News) */
 .card, .card2 {
     background: white;
     padding: 15px;
@@ -178,6 +188,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
 }
+
 
 .card {
     border-top: 3px solid #4ba3e3;
@@ -257,7 +268,7 @@ nav a:hover {
 }
 
 /* ============================================================================
-   WEEKLY SCHEDULE (COMPACT & MOBILE-READY - OPTION 2 BORDERED PASTELS)
+   WEEKLY SCHEDULE
    ============================================================================ */
 
 .week-grid {
@@ -311,7 +322,7 @@ nav a:hover {
     line-height: 1.25;
 }
 
-/* Category Tag Badges (Pastel + Border + High Contrast) */
+/* Category Tag Badges */
 .category-tag {
     display: inline-block;
     font-size: 0.65rem;
@@ -392,19 +403,9 @@ nav a:hover {
 }
 
 /* ============================================================================
-   SOCIAL SECTION AND BAR BANNER 
+   SOCIAL SECTION
    ============================================================================ */
-.bar-highlight {
-    background-color: #eef6fc;
-    color: #0c4a6e;
-    border: 1px solid #bfe0f6;
-    padding: 10px 16px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-align: center;
-}
+
 .social-items {
     display: flex;
     justify-content: center;
@@ -414,36 +415,36 @@ nav a:hover {
 
 .social-item {
     background: white;
-    padding: 10px 12px;
+    padding: 15px;
     border-radius: 6px;
-    flex: 0 1 210px;
-    max-width: 210px;
+    flex: 1 1 250px;
+    max-width: 350px;
     border-top: 3px solid #ffcc00;
 }
 
 .diary-events img {
     max-width: 100%;
-    height: 85px;
+    height: 140px;
     object-fit: cover;
     border-radius: 4px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
 }
 
 .social-item h3 {
-    font-size: 0.9rem;
-    margin-bottom: 4px;
+    font-size: 1rem;
+    margin-bottom: 6px;
     color: #111111;
 }
 
 .social-item p {
-    font-size: 0.78rem;
-    line-height: 1.3;
+    font-size: 0.85rem;
+    line-height: 1.4;
     color: #333333;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
 }
 
 /* ============================================================================
-   HALL HIRE FULL-WIDTH BANNER (ATTACHED TO CONTACT SECTION)
+   HALL HIRE FULL-WIDTH BANNER
    ============================================================================ */
 
 .hall-hire-banner {
@@ -617,6 +618,12 @@ footer a:hover {
         font-size: 0.85rem;
     }
 
+    .header-badge {
+        height: 85px;
+        width: 85px;
+        margin-bottom: -25px;
+    }
+
     .week-grid {
         grid-template-columns: 1fr;
         gap: 0.5rem;
@@ -624,18 +631,6 @@ footer a:hover {
 
     .day-column {
         padding: 0.5rem;
-    }
-
-    /* Social Card Mobile Layout Adjustments */
-    .social-item {
-        flex: 1 1 100%;
-        max-width: 280px;
-        margin: 0 auto;
-        padding: 12px 16px;
-    }
-
-    .diary-events img {
-        height: 120px;
     }
 
     .hall-hire-container {
