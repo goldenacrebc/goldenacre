@@ -608,20 +608,38 @@ footer a:hover {
    MOBILE RESPONSIVENESS
    ============================================================================ */
 
+/* ============================================================================
+   MOBILE RESPONSIVENESS & STICKY BADGE OVERLAP
+   ============================================================================ */
+
 @media (max-width: 650px) {
     header {
-        padding: 10px;
+        padding: 6px 8px;
+    }
+
+    nav {
+        gap: 6px 10px;
+        align-items: center;
     }
 
     nav a {
-        margin: 0 4px;
-        font-size: 0.85rem;
+        font-size: 0.78rem;
+        white-space: nowrap;
     }
 
+    /* Mobile Overlapping Badge */
     .header-badge {
-        height: 85px;
-        width: 85px;
-        margin-bottom: -25px;
+        height: 75px;
+        width: 75px;
+        border-width: 3px;
+        padding: 2px;
+        /* Pulls badge downward through header border on mobile */
+        margin-bottom: -32px;
+    }
+
+    /* Gives hero text breathing room under the hanging mobile badge */
+    .hero {
+        padding-top: 36px;
     }
 
     .week-grid {
