@@ -605,14 +605,6 @@ footer a:hover {
 }
 
 /* ============================================================================
-   MOBILE RESPONSIVENESS
-   ============================================================================ */
-
-/* ============================================================================
-   MOBILE RESPONSIVENESS & STICKY BADGE OVERLAP
-   ============================================================================ */
-
-/* ============================================================================
    MOBILE RESPONSIVENESS (PORTRAIT & LANDSCAPE)
    ============================================================================ */
 
@@ -620,7 +612,7 @@ footer a:hover {
     header {
         position: sticky;
         top: 0;
-        padding: 10px 10px 14px 10px;
+        padding: 10px 10px 12px 10px;
         z-index: 1000;
     }
 
@@ -629,7 +621,7 @@ footer a:hover {
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        gap: 6px 14px;
+        gap: 8px 14px;
     }
 
     nav a {
@@ -637,26 +629,26 @@ footer a:hover {
         white-space: nowrap;
     }
 
-    /* Anchor badge to exact bottom edge of header regardless of text wrapping */
+    /* Attaches badge below nav links so top 20% touches the yellow border */
     .header-badge-link {
         position: absolute;
         left: 50%;
-        bottom: -28px;
-        transform: translateX(-50%);
+        top: 100%;
+        transform: translate(-50%, -20%);
         z-index: 1001;
     }
 
     .header-badge {
-        height: 72px;
-        width: 72px;
+        height: 70px;
+        width: 70px;
         border-width: 3px;
         padding: 2px;
-        margin-bottom: 0; /* Reset margin for absolute positioning */
+        margin-bottom: 0;
     }
 
-    /* Extra top padding so hero title isn't covered by hanging badge */
+    /* Pushes hero title down to clear the lower hanging badge */
     .hero {
-        padding-top: 38px;
+        padding-top: 58px;
     }
 
     .week-grid {
@@ -679,3 +671,5 @@ footer a:hover {
         text-align: center;
     }
 }
+
+    
