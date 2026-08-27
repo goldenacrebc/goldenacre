@@ -612,34 +612,51 @@ footer a:hover {
    MOBILE RESPONSIVENESS & STICKY BADGE OVERLAP
    ============================================================================ */
 
+/* ============================================================================
+   MOBILE RESPONSIVENESS (PORTRAIT & LANDSCAPE)
+   ============================================================================ */
+
 @media (max-width: 650px) {
     header {
-        padding: 6px 8px;
+        position: sticky;
+        top: 0;
+        padding: 10px 10px 14px 10px;
+        z-index: 1000;
     }
 
     nav {
-        gap: 6px 10px;
+        display: flex;
+        justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 14px;
     }
 
     nav a {
-        font-size: 0.78rem;
+        font-size: 0.82rem;
         white-space: nowrap;
     }
 
-    /* Mobile Overlapping Badge */
-    .header-badge {
-        height: 75px;
-        width: 75px;
-        border-width: 3px;
-        padding: 2px;
-        /* Pulls badge downward through header border on mobile */
-        margin-bottom: -32px;
+    /* Anchor badge to exact bottom edge of header regardless of text wrapping */
+    .header-badge-link {
+        position: absolute;
+        left: 50%;
+        bottom: -28px;
+        transform: translateX(-50%);
+        z-index: 1001;
     }
 
-    /* Gives hero text breathing room under the hanging mobile badge */
+    .header-badge {
+        height: 72px;
+        width: 72px;
+        border-width: 3px;
+        padding: 2px;
+        margin-bottom: 0; /* Reset margin for absolute positioning */
+    }
+
+    /* Extra top padding so hero title isn't covered by hanging badge */
     .hero {
-        padding-top: 36px;
+        padding-top: 38px;
     }
 
     .week-grid {
