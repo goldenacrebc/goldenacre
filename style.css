@@ -1312,3 +1312,58 @@ footer a:hover {
         gap: 0;
     }
 }
+/* ============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 650px) {
+    header {
+        padding: 10px 12px 14px 12px;
+    }
+
+    nav {
+        gap: 8px 14px;
+        justify-content: center;
+    }
+
+    nav a {
+        margin: 0;
+        font-size: 0.85rem;
+    }
+
+    /* Lower badge onto its own row below all navigation links */
+    .header-badge-link {
+        width: 100%;
+        justify-content: center;
+        order: 1;
+        margin-top: 4px;
+    }
+
+    .header-badge {
+        height: 80px;
+        width: 80px;
+        margin-bottom: -40px;
+        position: relative;
+        z-index: 1001;
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .day-column {
+        padding: 0.5rem;
+    }
+
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
+}
