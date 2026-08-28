@@ -268,19 +268,9 @@ nav a:hover {
 }
 
 /* ============================================================================
-   WEEKLY SCHEDULE + BAR BANNER
+   WEEKLY SCHEDULE
    ============================================================================ */
-.bar-highlight {
-    background-color: #eef6fc;
-    color: #0c4a6e;
-    border: 1px solid #bfe0f6;
-    padding: 10px 16px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-align: center;
-}
+
 .week-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -407,6 +397,7 @@ nav a:hover {
     filter: grayscale(0%);
     opacity: 1;
 }
+
 /* ============================================================================
    SOCIAL SECTION
    ============================================================================ */
@@ -507,59 +498,134 @@ nav a:hover {
    ============================================================================ */
 
 #contact {
-    background: linear-gradient(135deg, #4ba3e3 0%, #7ecaf6 100%);
-    color: #ffffff;
-    padding: 30px 8%;
+    background: #f4f9fd;
+    color: #111111;
+    padding: 36px 5%;
     text-align: center;
 }
 
 #contact h2 {
-    color: #ffffff;
-    font-size: 1.3rem;
-    margin-bottom: 12px;
+    color: #111111;
+    font-size: 1.35rem;
+    margin-bottom: 6px;
 }
 
-#contact p {
-    color: #ffffff;
-    margin-bottom: 8px;
+.section-intro {
+    max-width: 580px;
+    margin: 0 auto 20px auto;
+    color: #475569;
+    font-size: 0.88rem;
+}
+
+/* Membership Cards */
+.membership-grid {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    max-width: 750px;
+    margin: 0 auto 20px auto;
+}
+
+.membership-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    flex: 1 1 180px;
+    max-width: 210px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.membership-card h3 {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.membership-card .price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111111;
+}
+
+.membership-card .price span {
+    font-size: 0.72rem;
+    font-weight: normal;
+    color: #64748b;
+}
+
+.membership-card p {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+.membership-callout {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #4ba3e3;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin: 20px 0 10px 0;
+    font-size: 0.9rem;
+    color: #334155;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.membership-callout a {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.membership-callout a:hover {
+    color: #111111;
+}
+
+.btn-large {
+    padding: 9px 22px;
     font-size: 0.9rem;
 }
 
-#contact .contact-logos {
+/* Contact Details Bar */
+.contact-details-grid {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 14px;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #cbd5e1;
 }
 
-#contact .contact-logo {
-    background: rgba(255, 255, 255, 0.25);
-    padding: 8px 14px;
-    border-radius: 6px;
+.contact-detail-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(8px);
-}
-
-#contact .contact-logo p,
-#contact .contact-logo a {
-    color: #ffffff;
+    gap: 6px;
+    color: #1e293b;
     text-decoration: none;
     font-weight: 600;
+    font-size: 0.85rem;
+    padding: 7px 14px;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-#contact .contact-logo .text-link {
-    color: #ffffff;
+.contact-detail-item:hover {
+    transform: translateY(-2px);
+    border-color: #4ba3e3;
 }
 
-.contact-logo img {
-    max-width: 30px;
-    max-height: 30px;
+.fb-icon {
+    width: 18px;
+    height: 18px;
 }
-
 /* Hover Preview Image */
 .preview-hover {
     position: relative;
@@ -610,50 +676,23 @@ footer a:hover {
 }
 
 /* ============================================================================
-   MOBILE RESPONSIVENESS (PORTRAIT & LANDSCAPE)
+   MOBILE RESPONSIVENESS
    ============================================================================ */
 
 @media (max-width: 650px) {
     header {
-        position: sticky;
-        top: 0;
         padding: 10px;
-        z-index: 1000;
     }
 
-    nav {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px 14px;
-    }
-
-    nav a:not(.header-badge-link) {
+    nav a {
+        margin: 0 4px;
         font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    /* Drops badge completely clear of the header link text */
-    .header-badge-link {
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translate(-50%, -10px); /* Adjust vertical offset here (-10px to 5px) */
-        z-index: 1001;
     }
 
     .header-badge {
-        height: 75px;
-        width: 75px;
-        border-width: 3px;
-        padding: 2px;
-        margin-bottom: 0;
-    }
-
-    /* Increased top padding so the lowered badge doesn't overlap the hero heading */
-    .hero {
-        padding-top: 75px;
+        height: 85px;
+        width: 85px;
+        margin-bottom: -25px;
     }
 
     .week-grid {
@@ -676,6 +715,9 @@ footer a:hover {
         text-align: center;
     }
 }
+
+
+
 /* ============================================================================
    2-COLUMN DUAL TIMELINE (BLOCKS OF 2 WITH LINES & CIRCLES)
    ============================================================================ */
