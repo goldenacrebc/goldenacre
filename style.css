@@ -1380,12 +1380,17 @@ footer a:hover {
 
 @media (max-width: 650px) {
     header {
-        padding: 10px 12px 16px 12px;
+        position: sticky;
+        top: 0;
+        padding: 12px 12px 42px 12px; /* Bottom padding creates clearance above the badge */
     }
 
     nav {
-        gap: 8px 14px;
+        display: flex;
         justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px 14px;
     }
 
     nav a {
@@ -1393,19 +1398,20 @@ footer a:hover {
         font-size: 0.85rem;
     }
 
-    /* Pushes badge below text links and positions it lower */
+    /* Pins badge to bottom-center of header, completely out of the link flow */
     .header-badge-link {
-        order: 10;            /* Places badge at the bottom of the nav items */
-        flex-basis: 100%;     /* Keeps badge centered on its own row below links */
-        display: flex;
-        justify-content: center;
-        margin-top: 6px;
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        z-index: 1001;
     }
 
     .header-badge {
-        height: 75px;
-        width: 75px;
-        margin-bottom: -36px; /* Pushes the badge lower into the hero area */
+        height: 70px;
+        width: 70px;
+        margin: 0; /* Resets desktop negative margins */
     }
 
     .week-grid {
