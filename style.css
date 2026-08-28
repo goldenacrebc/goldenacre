@@ -521,32 +521,53 @@ nav a:hover {
     font-size: 0.88rem;
 }
 
-/* Membership Cards */
+/* Membership Cards Grid */
 .membership-grid {
     display: flex;
     justify-content: center;
-    gap: 14px;
+    gap: 16px;
     flex-wrap: wrap;
-    max-width: 750px;
+    max-width: 800px;
     margin: 0 auto 20px auto;
 }
 
+/* Card Container */
 .membership-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
+    border: 2px solid #e2e8f0;
     border-radius: 8px;
-    padding: 14px 18px;
-    flex: 1 1 180px;
-    max-width: 210px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    padding: 16px;
+    flex: 1 1 200px;
+    max-width: 240px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover Background & Elevation */
+.membership-card:hover {
+    background-color: #e0f2fe;
+    border-color: #0369a1;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(3, 105, 161, 0.15);
 }
 
 .membership-card h3 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #64748b;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    transition: color 0.25s ease;
+}
+
+.membership-card:hover h3 {
+    color: #0369a1;
 }
 
 .membership-card .price {
@@ -562,36 +583,29 @@ nav a:hover {
 }
 
 .membership-card p {
-    font-size: 0.78rem;
-    color: #64748b;
-    margin-top: 2px;
-}
-.membership-callout {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-left: 4px solid #4ba3e3;
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 6px;
-    margin: 20px 0 10px 0;
-    font-size: 0.9rem;
-    color: #334155;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    font-size: 0.8rem;
+    color: #475569;
+    margin: 4px 0 12px 0;
 }
 
-.membership-callout a {
+/* Enquire Prompt Button Inside Card */
+.enquire-text {
+    font-size: 0.75rem;
     color: #0369a1;
-    font-weight: 700;
-    text-decoration: underline;
+    background: #ffffff;
+    border: 1px solid #bae6fd;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: auto;
+    line-height: 1.35;
+    text-align: center;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.membership-callout a:hover {
-    color: #111111;
-}
-
-.btn-large {
-    padding: 9px 22px;
-    font-size: 0.9rem;
+.membership-card:hover .enquire-text {
+    background-color: #0369a1;
+    color: #ffffff;
+    border-color: #0369a1;
 }
 
 /* Contact Details Bar */
@@ -1227,6 +1241,54 @@ footer a:hover {
 }
 
 /* 2. Restored Spacing & 2-Column Width */
+
+/* Fixed 3-Column Grid for Schedule Items */
+#schedule .day-event {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 10px;
+    padding: 6px 0;
+    border: none !important;
+}
+
+/* Time Column */
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+/* Main Event Title */
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.35;
+}
+
+/* Sub-text forced onto its own line underneath */
+.event-name small {
+    display: block;
+    font-weight: 400;
+    color: #64748b;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+    justify-self: end;
+}
 .schedule-2col-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1310,60 +1372,5 @@ footer a:hover {
     .schedule-2col-layout {
         grid-template-columns: 1fr;
         gap: 0;
-    }
-}
-/* ============================================================================
-   MOBILE RESPONSIVENESS
-   ============================================================================ */
-
-@media (max-width: 650px) {
-    header {
-        padding: 10px 12px 14px 12px;
-    }
-
-    nav {
-        gap: 8px 14px;
-        justify-content: center;
-    }
-
-    nav a {
-        margin: 0;
-        font-size: 0.85rem;
-    }
-
-    /* Lower badge onto its own row below all navigation links */
-    .header-badge-link {
-        width: 100%;
-        justify-content: center;
-        order: 1;
-        margin-top: 4px;
-    }
-
-    .header-badge {
-        height: 80px;
-        width: 80px;
-        margin-bottom: -40px;
-        position: relative;
-        z-index: 1001;
-    }
-
-    .week-grid {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
-
-    .day-column {
-        padding: 0.5rem;
-    }
-
-    .hall-hire-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
-    }
-
-    .hall-hire-text, 
-    .hall-hire-note {
-        text-align: center;
     }
 }
