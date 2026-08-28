@@ -595,6 +595,43 @@ nav a:hover {
 }
 
 /* Contact Details Bar */
+/* Bar Notice Banner */
+.bar-notice-callout {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    padding: 10px 18px;
+    border-radius: 6px;
+    max-width: 650px;
+    margin: 0 auto 24px auto;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+/* Timeline schedule tweaks */
+#schedule .timeline-block {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px 14px 22px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+#schedule .timeline-block h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+#schedule .timeline-block p {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+#schedule .category-tag {
+    margin-top: 4px;
+}
 .contact-details-grid {
     display: flex;
     justify-content: center;
@@ -990,4 +1027,288 @@ footer a:hover {
 /* Removes the divider from the last section above the footer */
 #sponsors::after {
     display: none;
+}
+/* ============================================================================
+   ADDITIONS: SECTION DIVIDERS, BACKGROUNDS & COMPACT SCHEDULE
+   ============================================================================ */
+
+/* Alternating Section Backgrounds (2 Shades) */
+#news, #schedule, #contact {
+    background-color: #ffffff;
+}
+
+#about, #social, #hall-hire, #sponsors {
+    background-color: #f4f9fd;
+}
+
+/* Inset Section Divider Lines (Matches Contact Section Width) */
+.content-section, #hall-hire, #sponsors {
+    position: relative;
+}
+
+.content-section::after,
+#hall-hire::after,
+#sponsors::after {
+    content: '';
+    display: block;
+    width: 84%;
+    max-width: 900px;
+    height: 1px;
+    background-color: #cbd5e1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+#sponsors::after {
+    display: none;
+}
+
+/* Compact Schedule Layout (No White Backgrounds) */
+.bar-notice-compact {
+    background: #e6f4ea;
+    color: #137333;
+    border: 1px solid #ceead6;
+    border-left: 3px solid #34a853;
+    padding: 6px 12px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto 16px auto;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.schedule-day-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.day-card {
+    background: #f0f7ff;
+    border: 1px solid #d0e2f7;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.day-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0369a1;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #bae6fd;
+}
+
+.day-event {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.day-event:last-child {
+    border-bottom: none;
+}
+
+.event-time {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    flex: 1;
+}
+
+.event-name small {
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+
+/* Keep link text on one line */
+.enquiry-link,
+.hall-link {
+    white-space: nowrap;
+}
+/* ============================================================================
+   REMOVE ALL BORDERS, BACKGROUNDS & SHADOWS FROM SCHEDULE
+   ============================================================================ */
+
+/* Strips default card borders, backgrounds, and shadows from schedule blocks */
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 18px 32px;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Removes event line borders */
+#schedule .day-event {
+    border: none !important;
+    border-bottom: none !important;
+    padding: 3px 0;
+}
+
+/* 2-Column Schedule Layout (Mon-Wed Left | Thu-Sat Right) */
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile Stacking */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+/* ============================================================================
+   SUBTLE DAY HEADERS & RESTORED BALANCED SPACING
+   ============================================================================ */
+
+/* 1. Subtle, Clean Day Headers (No heavy background pills) */
+#schedule .block-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0369a1;
+    background: transparent !important;
+    padding: 0 0 4px 0 !important;
+    border-radius: 0 !important;
+    display: block;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e0f2fe;
+}
+
+/* 2. Restored Spacing & 2-Column Width */
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 16px 32px !important;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+.schedule-events-list {
+    margin-top: 4px;
+}
+
+#schedule .day-event {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+    border: none !important;
+}
+
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.event-name small {
+    display: inline;
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* 3. Category Badge Tags (Including Social Box) */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+.tag-social  { background-color: #e0e7ff; color: #3730a3; }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
 }
