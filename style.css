@@ -443,54 +443,58 @@ nav a:hover {
    HALL HIRE FULL-WIDTH BANNER
    ============================================================================ */
 
-.hall-hire-banner {
-    width: 100%;
-    background-color: #ffcc00;
-    padding: 12px 5%;
-    border-top: 3px solid #e6b800;
+.#hall-hire {
+    padding: 24px 5%;
+    text-align: center;
 }
 
-.hall-hire-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    max-width: 1200px;
+.hall-hire-callout {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #ffcc00; /* Gold/yellow accent border */
+    border-radius: 6px;
+    padding: 16px 24px;
+    max-width: 750px;
     margin: 0 auto;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-.hall-hire-text {
-    text-align: left;
-    flex: 1;
+.hall-hire-main-text {
+    font-size: 0.92rem;
+    color: #1e293b;
+    font-weight: 500;
+    margin-bottom: 6px;
 }
 
-.hall-hire-text h3 {
-    font-size: 1.05rem;
+.hall-link {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.hall-link:hover {
     color: #111111;
+}
+
+.hall-hire-subtext {
+    font-size: 0.78rem;
+    color: #64748b;
     margin: 0;
 }
-
-.hall-hire-text p {
-    font-size: 0.88rem;
-    color: #222222;
-    margin: 0;
+/* Keeps link text on a single unbroken line */
+.enquiry-link,
+.hall-link {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+    white-space: nowrap; /* Prevents "contact" and "us" from splitting */
+    transition: color 0.2s ease;
 }
 
-.hall-hire-banner .btn {
-    white-space: nowrap;
-    margin: 0 10px;
-}
-
-.hall-hire-note {
-    text-align: right;
-    flex: 1;
-}
-
-.hall-hire-banner .social-note {
-    font-size: 0.78rem !important;
-    color: #444444 !important;
-    margin: 0 !important;
+.enquiry-link:hover,
+.hall-link:hover {
+    color: #111111;
 }
 
 /* ============================================================================
@@ -957,4 +961,33 @@ footer a:hover {
         width: 75px;
         height: 75px;
     }
+}
+
+/* Ensure sections can position the divider line */
+.content-section,
+#sponsors,
+#hall-hire {
+    position: relative;
+}
+
+/* Creates a centered divider line matching the contact section width */
+.content-section::after,
+#sponsors::after,
+#hall-hire::after {
+    content: '';
+    display: block;
+    width: 84%;            /* Matches inner section padding width */
+    max-width: 900px;      /* Prevents line from stretching too wide on large screens */
+    height: 1px;
+    background-color: #cbd5e1; /* Same color as the contact divider line */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;        /* Keeps line centered */
+}
+
+/* Removes the divider from the last section above the footer */
+#sponsors::after {
+    display: none;
 }
