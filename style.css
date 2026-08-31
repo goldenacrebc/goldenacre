@@ -832,6 +832,12 @@ footer a:hover {
     align-items: center;
     justify-content: center;
 }
+.news-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
 
 .news-img {
     width: 100%;
