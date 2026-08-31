@@ -219,6 +219,13 @@ nav a:hover {
     border-radius: 4px;
     margin: 6px 0 10px 0;
 }
+/* Prevents logo images from being cropped inside news media boxes */
+.news-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
 
 .text-link {
     color: #4ba3e3;
