@@ -175,9 +175,9 @@ nav a:hover {
     padding: 10px 0;
 }
 
-/* Cards (News & About sections) */
-.card,
-.card2 {
+/* Cards (News) */
+/* Cards (News) */
+.card, .card2 {
     background: white;
     padding: 15px;
     border-radius: 6px;
@@ -189,6 +189,7 @@ nav a:hover {
     flex-direction: column;
 }
 
+
 .card {
     border-top: 3px solid #4ba3e3;
     border-bottom: 3px solid #ffcc00;
@@ -199,14 +200,12 @@ nav a:hover {
     border-bottom: 3px solid #4ba3e3;
 }
 
-.card h3,
-.card2 h3 {
+.card h3, .card2 h3 {
     font-size: 1rem;
     margin-bottom: 6px;
 }
 
-.card p,
-.card2 p {
+.card p, .card2 p {
     font-size: 0.82rem;
     line-height: 1.35;
     color: #333333;
@@ -220,6 +219,13 @@ nav a:hover {
     border-radius: 4px;
     margin: 6px 0 10px 0;
 }
+/* Prevents logo images from being cropped inside news media boxes */
+.news-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
 
 .text-link {
     color: #4ba3e3;
@@ -232,7 +238,7 @@ nav a:hover {
     text-decoration: underline;
 }
 
-/* About Section Tiles */
+/* About Section */
 .about-grid {
     gap: 15px;
 }
@@ -444,7 +450,7 @@ nav a:hover {
    HALL HIRE FULL-WIDTH BANNER
    ============================================================================ */
 
-#hall-hire {
+.#hall-hire {
     padding: 24px 5%;
     text-align: center;
 }
@@ -452,7 +458,7 @@ nav a:hover {
 .hall-hire-callout {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-left: 4px solid #ffcc00;
+    border-left: 4px solid #ffcc00; /* Gold/yellow accent border */
     border-radius: 6px;
     padding: 16px 24px;
     max-width: 750px;
@@ -467,19 +473,29 @@ nav a:hover {
     margin-bottom: 6px;
 }
 
+.hall-link {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.hall-link:hover {
+    color: #111111;
+}
+
 .hall-hire-subtext {
     font-size: 0.78rem;
     color: #64748b;
     margin: 0;
 }
-
-/* Links - keeps text on a single unbroken line */
+/* Keeps link text on a single unbroken line */
 .enquiry-link,
 .hall-link {
     color: #0369a1;
     font-weight: 700;
     text-decoration: underline;
-    white-space: nowrap;
+    white-space: nowrap; /* Prevents "contact" and "us" from splitting */
     transition: color 0.2s ease;
 }
 
@@ -522,7 +538,7 @@ nav a:hover {
     margin: 0 auto 20px auto;
 }
 
-/* Membership Card Container */
+/* Card Container */
 .membership-card {
     background: #ffffff;
     border: 2px solid #e2e8f0;
@@ -540,7 +556,7 @@ nav a:hover {
     transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Membership Card Hover State */
+/* Hover Background & Elevation */
 .membership-card:hover {
     background-color: #e0f2fe;
     border-color: #0369a1;
@@ -599,6 +615,7 @@ nav a:hover {
     border-color: #0369a1;
 }
 
+/* Contact Details Bar */
 /* Bar Notice Banner */
 .bar-notice-callout {
     background: #f0fdf4;
@@ -613,7 +630,7 @@ nav a:hover {
     text-align: center;
 }
 
-/* Schedule Timeline Blocks */
+/* Timeline schedule tweaks */
 #schedule .timeline-block {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -636,8 +653,6 @@ nav a:hover {
 #schedule .category-tag {
     margin-top: 4px;
 }
-
-/* Contact Details Bar */
 .contact-details-grid {
     display: flex;
     justify-content: center;
@@ -673,7 +688,6 @@ nav a:hover {
     width: 18px;
     height: 18px;
 }
-
 /* Hover Preview Image */
 .preview-hover {
     position: relative;
@@ -689,7 +703,7 @@ nav a:hover {
     width: 250px;
     z-index: 10;
     border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border-radius: 4px;
 }
 
@@ -711,7 +725,7 @@ footer {
 }
 
 .footer-link {
-    margin-top: 8px;
+    margin-top: 8px; 
 }
 
 footer a {
@@ -724,7 +738,50 @@ footer a:hover {
 }
 
 /* ============================================================================
-   2-COLUMN NEWS TIMELINE (BLOCKS WITH VERTICAL LINES & CIRCLE NODES)
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 650px) {
+    header {
+        padding: 10px;
+    }
+
+    nav a {
+        margin: 0 4px;
+        font-size: 0.85rem;
+    }
+
+    .header-badge {
+        height: 85px;
+        width: 85px;
+        margin-bottom: -25px;
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .day-column {
+        padding: 0.5rem;
+    }
+
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
+}
+
+
+
+/* ============================================================================
+   2-COLUMN DUAL TIMELINE (BLOCKS OF 2 WITH LINES & CIRCLES)
    ============================================================================ */
 
 .news-grid-2col {
@@ -782,8 +839,13 @@ footer a:hover {
     align-items: center;
     justify-content: center;
 }
+.news-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
 
-.news-media img,
 .news-img {
     width: 100%;
     height: 100%;
@@ -791,9 +853,13 @@ footer a:hover {
     transition: transform 0.25s ease;
 }
 
-.news-block:hover .news-img,
-.news-block:hover .news-media img {
+.news-block:hover .news-img {
     transform: scale(1.05);
+}
+
+.news-icon-box {
+    background: #e0f2fe;
+    font-size: 1.8rem;
 }
 
 .news-body {
@@ -836,6 +902,18 @@ footer a:hover {
     text-decoration: underline;
 }
 
+/* Mobile Responsiveness */
+@media (max-width: 650px) {
+    .news-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .news-media {
+        width: 75px;
+        height: 75px;
+    }
+}
 /* ============================================================================
    UNIFIED TIMELINE BLOCKS (WITH VERTICAL LINES & CIRCLE NODES)
    ============================================================================ */
@@ -936,40 +1014,417 @@ footer a:hover {
     margin-bottom: 4px;
 }
 
-.block-body .text-link {
-    color: #0369a1;
-    font-weight: 600;
+/* Mobile Responsiveness */
+@media (max-width: 650px) {
+    .timeline-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .block-media {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+/* Ensure sections can position the divider line */
+.content-section,
+#sponsors,
+#hall-hire {
+    position: relative;
+}
+
+/* Creates a centered divider line matching the contact section width */
+.content-section::after,
+#sponsors::after,
+#hall-hire::after {
+    content: '';
+    display: block;
+    width: 84%;            /* Matches inner section padding width */
+    max-width: 900px;      /* Prevents line from stretching too wide on large screens */
+    height: 1px;
+    background-color: #cbd5e1; /* Same color as the contact divider line */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;        /* Keeps line centered */
+}
+
+/* Removes the divider from the last section above the footer */
+#sponsors::after {
+    display: none;
+}
+/* ============================================================================
+   ADDITIONS: SECTION DIVIDERS, BACKGROUNDS & COMPACT SCHEDULE
+   ============================================================================ */
+
+/* Alternating Section Backgrounds (2 Shades) */
+#news, #schedule, #contact {
+    background-color: #ffffff;
+}
+
+#about, #social, #hall-hire, #sponsors {
+    background-color: #f4f9fd;
+}
+
+/* Inset Section Divider Lines (Matches Contact Section Width) */
+.content-section, #hall-hire, #sponsors {
+    position: relative;
+}
+
+.content-section::after,
+#hall-hire::after,
+#sponsors::after {
+    content: '';
+    display: block;
+    width: 84%;
+    max-width: 900px;
+    height: 1px;
+    background-color: #cbd5e1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+#sponsors::after {
+    display: none;
+}
+
+/* Compact Schedule Layout (No White Backgrounds) */
+.bar-notice-compact {
+    background: #e6f4ea;
+    color: #137333;
+    border: 1px solid #ceead6;
+    border-left: 3px solid #34a853;
+    padding: 6px 12px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto 16px auto;
     font-size: 0.8rem;
-    text-decoration: none;
+    text-align: center;
 }
 
-.block-body .text-link:hover {
-    text-decoration: underline;
+.schedule-day-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
 }
 
+.day-card {
+    background: #f0f7ff;
+    border: 1px solid #d0e2f7;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.day-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0369a1;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #bae6fd;
+}
+
+.day-event {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.day-event:last-child {
+    border-bottom: none;
+}
+
+.event-time {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    flex: 1;
+}
+
+.event-name small {
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+
+/* Keep link text on one line */
+.enquiry-link,
+.hall-link {
+    white-space: nowrap;
+}
+/* ============================================================================
+   REMOVE ALL BORDERS, BACKGROUNDS & SHADOWS FROM SCHEDULE
+   ============================================================================ */
+
+/* Strips default card borders, backgrounds, and shadows from schedule blocks */
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 18px 32px;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Removes event line borders */
+#schedule .day-event {
+    border: none !important;
+    border-bottom: none !important;
+    padding: 3px 0;
+}
+
+/* 2-Column Schedule Layout (Mon-Wed Left | Thu-Sat Right) */
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile Stacking */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+/* ============================================================================
+   SUBTLE DAY HEADERS & RESTORED BALANCED SPACING
+   ============================================================================ */
+
+/* 1. Subtle, Clean Day Headers (No heavy background pills) */
+#schedule .block-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0369a1;
+    background: transparent !important;
+    padding: 0 0 4px 0 !important;
+    border-radius: 0 !important;
+    display: block;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e0f2fe;
+}
+
+/* 2. Restored Spacing & 2-Column Width */
+
+/* Fixed 3-Column Grid for Schedule Items */
+#schedule .day-event {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 10px;
+    padding: 6px 0;
+    border: none !important;
+}
+
+/* Time Column */
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+/* Main Event Title */
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.35;
+}
+
+/* Sub-text forced onto its own line underneath */
+.event-name small {
+    display: block;
+    font-weight: 400;
+    color: #64748b;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+    justify-self: end;
+}
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 16px 32px !important;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+.schedule-events-list {
+    margin-top: 4px;
+}
+
+#schedule .day-event {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+    border: none !important;
+}
+
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.event-name small {
+    display: inline;
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* 3. Category Badge Tags (Including Social Box) */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+.tag-social  { background-color: #e0e7ff; color: #3730a3; }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
 /* ============================================================================
    MOBILE RESPONSIVENESS
    ============================================================================ */
 
 @media (max-width: 650px) {
     header {
-        padding: 10px;
+        position: sticky;
+        top: 0;
+        padding: 12px 12px 42px 12px; /* Bottom padding creates clearance above the badge */
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px 14px;
     }
 
     nav a {
-        margin: 0 4px;
+        margin: 0;
         font-size: 0.85rem;
     }
 
-    .category-links-subtle {
-        gap: 8px;
-        font-size: 0.8rem;
+    /* Pins badge to bottom-center of header, completely out of the link flow */
+    .header-badge-link {
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        z-index: 1001;
     }
 
     .header-badge {
-        height: 85px;
-        width: 85px;
-        margin-bottom: -25px;
+        height: 70px;
+        width: 70px;
+        margin: 0; /* Resets desktop negative margins */
     }
 
     .week-grid {
@@ -987,21 +1442,8 @@ footer a:hover {
         gap: 8px;
     }
 
-    .hall-hire-text,
+    .hall-hire-text, 
     .hall-hire-note {
         text-align: center;
-    }
-
-    /* News & Timeline responsive */
-    .news-grid-2col,
-    .timeline-grid-2col {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .news-media,
-    .block-media {
-        width: 75px;
-        height: 75px;
     }
 }
