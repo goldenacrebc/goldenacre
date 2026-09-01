@@ -7,6 +7,30 @@
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
 </head>
+    <script>
+function toggleMoreNews(event) {
+    event.preventDefault();
+    const extraItems = document.querySelectorAll('.news-item-extra');
+    const btn = document.getElementById('load-more-news-btn');
+    
+    let isExpanding = false;
+    extraItems.forEach(item => {
+        if (item.classList.contains('news-hidden')) {
+            item.classList.remove('news-hidden');
+            isExpanding = true;
+        } else {
+            item.classList.add('news-hidden');
+        }
+    });
+
+    if (isExpanding) {
+        btn.innerHTML = 'Show Less News &uarr;';
+    } else {
+        btn.innerHTML = 'More / Archived News &darr;';
+        document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+</script>
 <body>
 
     <!-- Header & Navigation -->
@@ -132,6 +156,37 @@
                 <a href="https://edinburghba.co.uk/gents-ko/" target="_blank" class="text-link">View Details</a>
             </div>
         </article>
+        <!-- Item 7 -->
+ <article class="news-block news-item-extra news-hidden">
+    <div class="news-media">
+        <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">Gents Triples </span>
+        <h3>Triples Winners</h3>
+        <p>Congratulations to George Lamb , Daniel Taylor and Billy Taylor winning the club triples </p>
+    </div>
+</article>
+<!-- Item 8 -->
+<article class="news-block news-item-extra news-hidden">
+    <div class="news-media">
+        <img src="photos/eba_logo.png" alt="EBA" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">1st 16</span>
+        <h3>Promoted to division 2 as runners up</h3>
+        <p>Congratulations to the 1st 16 getting promotion back into division 2 finishing runners up this season in Division 3 </p>
+    </div>
+</article> 
+        
+    </div>
+    <!-- Centered button directly under the grid -->
+    <div class="news-more-wrapper">
+        <a href="archive.html" id="load-more-news-btn" class="news-archive-link" onclick="toggleMoreNews(event)">
+            More / Archived News
+        </a>
+    </div>
+</section>
 
         
     </div>
