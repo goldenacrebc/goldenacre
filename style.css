@@ -1,3 +1,1595 @@
+/* ============================================================================
+   GOLDEN ACRE BOWLING CLUB - CONSOLIDATED STYLESHEET
+   ============================================================================ */
+
+/* RESET & VARIABLES */
+:root {
+    --bg-color: #f4f9fd;
+    --calendar-bg: #ffffff;
+    --border-color: #eef2f5;
+    --text-main: #111111;
+    --text-muted: #64748b;
+    
+    --color-seniors: #e0f2fe;
+    --text-seniors: #0369a1;
+    --color-ladies: #fce7f3;
+    --text-ladies: #be185d;
+    --color-mixed: #fef3c7;
+    --text-mixed: #b45309;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: #111111;
+    background-color: var(--bg-color);
+}
+
+/* ============================================================================
+   HEADER & NAVIGATION WITH OVERLAPPING BADGE
+   ============================================================================ */
+
+header {
+    background: #111111;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 4px solid #ffcc00;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+/* Header Badge Overlap */
+.header-badge-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-badge {
+    height: 115px;
+    width: 115px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border: 4px solid #ffcc00;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    margin-bottom: -40px;
+    position: relative;
+    z-index: 1001;
+    transition: transform 0.2s ease;
+}
+
+.header-badge:hover {
+    transform: scale(1.06);
+}
+
+/* ============================================================================
+   HERO SECTION
+   ============================================================================ */
+
+.hero {
+    background: linear-gradient(135deg, #7ecaf6 0%, #4ba3e3 100%);
+    color: #111111;
+    text-align: center;
+    padding: 24px 20px 18px 20px;
+    border-bottom: 4px solid #ffcc00;
+}
+
+.hero h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    color: #111111;
+}
+
+.hero p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn {
+    display: inline-block;
+    background: #111111;
+    color: #ffcc00;
+    padding: 7px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+    background: #222222;
+    transform: translateY(-2px);
+}
+
+/* ============================================================================
+   CONTENT SECTIONS & HEADINGS
+   ============================================================================ */
+
+.content-section {
+    padding: 30px 8%;
+    text-align: center;
+}
+
+.gray-bg {
+    background: #f4f9fd;
+}
+
+.content-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #111111;
+    position: relative;
+}
+
+/* ============================================================================
+   NEWS & ABOUT GRIDS
+   ============================================================================ */
+
+.grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+/* Cards (News) */
+/* Cards (News) */
+.card, .card2 {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex: 1 1 200px;
+    max-width: 240px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.card {
+    border-top: 3px solid #4ba3e3;
+    border-bottom: 3px solid #ffcc00;
+}
+
+.card2 {
+    border-top: 3px solid #ffcc00;
+    border-bottom: 3px solid #4ba3e3;
+}
+
+.card h3, .card2 h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.card p, .card2 p {
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.news-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 6px 0 10px 0;
+}
+
+.text-link {
+    color: #4ba3e3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.82rem;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+/* About Section */
+.about-grid {
+    gap: 15px;
+}
+
+.compact-tile {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 12px;
+    flex: 1 1 220px;
+    max-width: 300px;
+    border-top: 3px solid #4ba3e3;
+    border-bottom: 3px solid #ffcc00;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.compact-tile img {
+    height: 110px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.compact-tile h3 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.compact-tile p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: #333333;
+}
+
+/* ============================================================================
+   WEEKLY SCHEDULE
+   ============================================================================ */
+
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.day-column {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.day-header {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.event-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.45rem;
+}
+
+.time-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.event-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    line-height: 1.25;
+}
+
+/* Category Tag Badges */
+.category-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.tag-seniors {
+    background-color: #bae6fd !important;
+    color: #0369a1 !important;
+    border: 1px solid #38bdf8;
+}
+
+.tag-ladies {
+    background-color: #fbcfe8 !important;
+    color: #be185d !important;
+    border: 1px solid #f472b6;
+}
+
+.tag-mixed {
+    background-color: #fde68a !important;
+    color: #b45309 !important;
+    border: 1px solid #fbbf24;
+}
+
+/* ============================================================================
+   SPONSORS SECTION
+   ============================================================================ */
+
+#sponsors {
+    background: #ffffff;
+    border-top: 1px solid #eef2f5;
+    padding: 16px 5%;
+    text-align: center;
+}
+
+#sponsors h2 {
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+}
+
+#sponsors .sponsors-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+#sponsors .sponsor-logo {
+    background: transparent;
+    padding: 0;
+}
+
+#sponsors .sponsor-logo img {
+    max-width: 90px;
+    max-height: 32px;
+    filter: grayscale(100%);
+    opacity: 0.65;
+    transition: all 0.2s ease;
+}
+
+#sponsors .sponsor-logo img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* ============================================================================
+   SOCIAL SECTION
+   ============================================================================ */
+
+.social-items {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    flex: 1 1 250px;
+    max-width: 350px;
+    border-top: 3px solid #ffcc00;
+}
+
+.diary-events img {
+    max-width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.social-item h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #111111;
+}
+
+.social-item p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* ============================================================================
+   HALL HIRE FULL-WIDTH BANNER
+   ============================================================================ */
+
+.#hall-hire {
+    padding: 24px 5%;
+    text-align: center;
+}
+
+.hall-hire-callout {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #ffcc00; /* Gold/yellow accent border */
+    border-radius: 6px;
+    padding: 16px 24px;
+    max-width: 750px;
+    margin: 0 auto;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.hall-hire-main-text {
+    font-size: 0.92rem;
+    color: #1e293b;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.hall-link {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.hall-link:hover {
+    color: #111111;
+}
+
+.hall-hire-subtext {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin: 0;
+}
+/* Keeps link text on a single unbroken line */
+.enquiry-link,
+.hall-link {
+    color: #0369a1;
+    font-weight: 700;
+    text-decoration: underline;
+    white-space: nowrap; /* Prevents "contact" and "us" from splitting */
+    transition: color 0.2s ease;
+}
+
+.enquiry-link:hover,
+.hall-link:hover {
+    color: #111111;
+}
+
+/* ============================================================================
+   CONTACT & MEMBERSHIP SECTION
+   ============================================================================ */
+
+#contact {
+    background: #f4f9fd;
+    color: #111111;
+    padding: 36px 5%;
+    text-align: center;
+}
+
+#contact h2 {
+    color: #111111;
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+}
+
+.section-intro {
+    max-width: 580px;
+    margin: 0 auto 20px auto;
+    color: #475569;
+    font-size: 0.88rem;
+}
+
+/* Membership Cards Grid */
+.membership-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+/* Card Container */
+.membership-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    flex: 1 1 200px;
+    max-width: 240px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover Background & Elevation */
+.membership-card:hover {
+    background-color: #e0f2fe;
+    border-color: #0369a1;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(3, 105, 161, 0.15);
+}
+
+.membership-card h3 {
+    font-size: 0.9rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    transition: color 0.25s ease;
+}
+
+.membership-card:hover h3 {
+    color: #0369a1;
+}
+
+.membership-card .price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111111;
+}
+
+.membership-card .price span {
+    font-size: 0.72rem;
+    font-weight: normal;
+    color: #64748b;
+}
+
+.membership-card p {
+    font-size: 0.8rem;
+    color: #475569;
+    margin: 4px 0 12px 0;
+}
+
+/* Enquire Prompt Button Inside Card */
+.enquire-text {
+    font-size: 0.75rem;
+    color: #0369a1;
+    background: #ffffff;
+    border: 1px solid #bae6fd;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: auto;
+    line-height: 1.35;
+    text-align: center;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.membership-card:hover .enquire-text {
+    background-color: #0369a1;
+    color: #ffffff;
+    border-color: #0369a1;
+}
+
+/* Contact Details Bar */
+/* Bar Notice Banner */
+.bar-notice-callout {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    padding: 10px 18px;
+    border-radius: 6px;
+    max-width: 650px;
+    margin: 0 auto 24px auto;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+/* Timeline schedule tweaks */
+#schedule .timeline-block {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px 14px 22px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+#schedule .timeline-block h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+#schedule .timeline-block p {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+#schedule .category-tag {
+    margin-top: 4px;
+}
+.contact-details-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #cbd5e1;
+}
+
+.contact-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 7px 14px;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-detail-item:hover {
+    transform: translateY(-2px);
+    border-color: #4ba3e3;
+}
+
+.fb-icon {
+    width: 18px;
+    height: 18px;
+}
+/* Hover Preview Image */
+.preview-hover {
+    position: relative;
+    display: inline-block;
+}
+
+.preview-hover .hover-image {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    z-index: 10;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 4px;
+}
+
+.preview-hover:hover .hover-image {
+    display: block;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+footer {
+    background: #111111;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+    border-top: 4px solid #ffcc00;
+}
+
+.footer-link {
+    margin-top: 8px; 
+}
+
+footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #ffcc00;
+}
+
+/* ============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 650px) {
+    header {
+        padding: 10px;
+    }
+
+    nav a {
+        margin: 0 4px;
+        font-size: 0.85rem;
+    }
+    .category-links-subtle {
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+    .header-badge {
+        height: 85px;
+        width: 85px;
+        margin-bottom: -25px;
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .day-column {
+        padding: 0.5rem;
+    }
+
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
+}
+
+
+
+/* ============================================================================
+   2-COLUMN DUAL TIMELINE (BLOCKS OF 2 WITH LINES & CIRCLES)
+   ============================================================================ */
+
+.news-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.news-block {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding-left: 22px;
+    background: transparent;
+}
+
+/* Vertical Timeline Line */
+.news-block::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: -12px;
+    bottom: -12px;
+    width: 2px;
+    background-color: #e2e8f0;
+}
+
+/* Circle Node Marker */
+.news-block::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffcc00;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px #4ba3e3;
+    z-index: 2;
+}
+
+.news-media {
+    flex-shrink: 0;
+    width: 90px;
+    height: 80px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.news-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
+
+.news-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
+
+.news-block:hover .news-img {
+    transform: scale(1.05);
+}
+
+.news-icon-box {
+    background: #e0f2fe;
+    font-size: 1.8rem;
+}
+
+.news-body {
+    flex: 1;
+}
+
+.news-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.news-body h3 {
+    font-size: 0.95rem;
+    color: #111111;
+    margin-bottom: 4px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.news-body p {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+.news-body .text-link {
+    color: #0369a1;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.news-body .text-link:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 650px) {
+    .news-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .news-media {
+        width: 75px;
+        height: 75px;
+    }
+}
+/* ============================================================================
+   UNIFIED TIMELINE BLOCKS (WITH VERTICAL LINES & CIRCLE NODES)
+   ============================================================================ */
+
+.timeline-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.timeline-block {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding-left: 22px;
+    background: transparent;
+}
+
+/* Vertical Timeline Line */
+.timeline-block::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: -12px;
+    bottom: -12px;
+    width: 2px;
+    background-color: #e2e8f0;
+}
+
+/* Circle Node Marker */
+.timeline-block::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffcc00;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px #4ba3e3;
+    z-index: 2;
+}
+
+.block-media {
+    flex-shrink: 0;
+    width: 90px;
+    height: 80px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.block-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
+
+.timeline-block:hover .block-img {
+    transform: scale(1.05);
+}
+
+.block-body {
+    flex: 1;
+}
+
+.block-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.block-body h3 {
+    font-size: 0.95rem;
+    color: #111111;
+    margin-bottom: 4px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.block-body p {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 650px) {
+    .timeline-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .block-media {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+/* Ensure sections can position the divider line */
+.content-section,
+#sponsors,
+#hall-hire {
+    position: relative;
+}
+
+/* Creates a centered divider line matching the contact section width */
+.content-section::after,
+#sponsors::after,
+#hall-hire::after {
+    content: '';
+    display: block;
+    width: 84%;            /* Matches inner section padding width */
+    max-width: 900px;      /* Prevents line from stretching too wide on large screens */
+    height: 1px;
+    background-color: #cbd5e1; /* Same color as the contact divider line */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;        /* Keeps line centered */
+}
+
+/* Removes the divider from the last section above the footer */
+#sponsors::after {
+    display: none;
+}
+/* ============================================================================
+   ADDITIONS: SECTION DIVIDERS, BACKGROUNDS & COMPACT SCHEDULE
+   ============================================================================ */
+
+/* Alternating Section Backgrounds (2 Shades) */
+#news, #schedule, #contact {
+    background-color: #ffffff;
+}
+
+#about, #social, #hall-hire, #sponsors {
+    background-color: #f4f9fd;
+}
+
+/* Inset Section Divider Lines (Matches Contact Section Width) */
+.content-section, #hall-hire, #sponsors {
+    position: relative;
+}
+
+.content-section::after,
+#hall-hire::after,
+#sponsors::after {
+    content: '';
+    display: block;
+    width: 84%;
+    max-width: 900px;
+    height: 1px;
+    background-color: #cbd5e1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+#sponsors::after {
+    display: none;
+}
+
+/* Compact Schedule Layout (No White Backgrounds) */
+.bar-notice-compact {
+    background: #e6f4ea;
+    color: #137333;
+    border: 1px solid #ceead6;
+    border-left: 3px solid #34a853;
+    padding: 6px 12px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto 16px auto;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.schedule-day-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.day-card {
+    background: #f0f7ff;
+    border: 1px solid #d0e2f7;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.day-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0369a1;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #bae6fd;
+}
+
+.day-event {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.day-event:last-child {
+    border-bottom: none;
+}
+
+.event-time {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    flex: 1;
+}
+
+.event-name small {
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+
+/* Keep link text on one line */
+.enquiry-link,
+.hall-link {
+    white-space: nowrap;
+}
+/* ============================================================================
+   REMOVE ALL BORDERS, BACKGROUNDS & SHADOWS FROM SCHEDULE
+   ============================================================================ */
+
+/* Strips default card borders, backgrounds, and shadows from schedule blocks */
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 18px 32px;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Removes event line borders */
+#schedule .day-event {
+    border: none !important;
+    border-bottom: none !important;
+    padding: 3px 0;
+}
+
+/* 2-Column Schedule Layout (Mon-Wed Left | Thu-Sat Right) */
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile Stacking */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+/* ============================================================================
+   SUBTLE DAY HEADERS & RESTORED BALANCED SPACING
+   ============================================================================ */
+
+/* 1. Subtle, Clean Day Headers (No heavy background pills) */
+#schedule .block-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0369a1;
+    background: transparent !important;
+    padding: 0 0 4px 0 !important;
+    border-radius: 0 !important;
+    display: block;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e0f2fe;
+}
+
+/* 2. Restored Spacing & 2-Column Width */
+
+/* Fixed 3-Column Grid for Schedule Items */
+#schedule .day-event {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 10px;
+    padding: 6px 0;
+    border: none !important;
+}
+
+/* Time Column */
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+/* Main Event Title */
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.35;
+}
+
+/* Sub-text forced onto its own line underneath */
+.event-name small {
+    display: block;
+    font-weight: 400;
+    color: #64748b;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+/* Category Badges */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+    justify-self: end;
+}
+.schedule-2col-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.schedule-col {
+    display: flex;
+    flex-direction: column;
+}
+
+#schedule .timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 16px 32px !important;
+    position: relative;
+}
+
+#schedule .block-body {
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+}
+
+.schedule-events-list {
+    margin-top: 4px;
+}
+
+#schedule .day-event {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+    border: none !important;
+}
+
+.event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 62px;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.event-name small {
+    display: inline;
+    font-weight: normal;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* 3. Category Badge Tags (Including Social Box) */
+.category-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.tag-seniors { background-color: #e0f2fe; color: #0369a1; }
+.tag-ladies  { background-color: #fce7f3; color: #be185d; }
+.tag-mixed   { background-color: #fef3c7; color: #b45309; }
+.tag-social  { background-color: #e0e7ff; color: #3730a3; }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .schedule-2col-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+/* ============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 650px) {
+    header {
+        position: sticky;
+        top: 0;
+        padding: 12px 12px 42px 12px; /* Bottom padding creates clearance above the badge */
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+    }
+
+    nav a {
+        margin: 0;
+        font-size: 0.85rem;
+    }
+
+    /* Pins badge to bottom-center of header, completely out of the link flow */
+    .header-badge-link {
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        z-index: 1001;
+    }
+
+    .header-badge {
+        height: 70px;
+        width: 70px;
+        margin: 0; /* Resets desktop negative margins */
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .day-column {
+        padding: 0.5rem;
+    }
+
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
+}
+/* Prevents logo images from being cropped inside news media boxes */
+.news-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+/* ============================================================================
+   SUBTLE CATEGORY LINKS
+   ============================================================================ */
+
+.category-links-subtle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+}
+
+.category-link-subtle {
+    color: #4ba3e3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.category-link-subtle:hover {
+    color: #0369a1;
+    text-decoration: underline;
+}
+
+.link-divider {
+    color: #cbd5e1;
+    font-weight: 300;
+}
+/* ============================================================================
+   NEWS SECTION WITH SIDEBAR LAYOUT
+   ============================================================================ */
+
+.news-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.news-sidebar {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    height: fit-content;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    position: sticky;
+    top: 140px;
+}
+
+.sidebar-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.category-links-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-link-item {
+    display: block;
+    padding: 10px 12px;
+    color: #111111;
+    background: #f8fafc;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.category-link-item:hover {
+    background: #e0f2fe;
+    border-left-color: #4ba3e3;
+    color: #0369a1;
+}
+
+.news-main {
+    flex: 1;
+}
+
+.news-main h2 {
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .news-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .news-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 650px) {
+    .news-container {
+        gap: 12px;
+    }
+
+    .news-sidebar {
+        padding: 12px;
+    }
+
+    .sidebar-title {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .category-link-item {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}
+.category-links-subtle {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0; /* Subtle line under links */
+    font-size: 0.85rem;
+}
+
+
 .news-hidden {
   display: none;
 }
