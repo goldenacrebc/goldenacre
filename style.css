@@ -219,13 +219,6 @@ nav a:hover {
     border-radius: 4px;
     margin: 6px 0 10px 0;
 }
-/* Prevents logo images from being cropped inside news media boxes */
-.news-icon-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 4px;
-}
 
 .text-link {
     color: #4ba3e3;
@@ -750,6 +743,10 @@ footer a:hover {
         margin: 0 4px;
         font-size: 0.85rem;
     }
+    .category-links-subtle {
+    gap: 8px;
+    font-size: 0.8rem;
+}
 
     .header-badge {
         height: 85px;
@@ -1446,4 +1443,148 @@ footer a:hover {
     .hall-hire-note {
         text-align: center;
     }
+}
+/* Prevents logo images from being cropped inside news media boxes */
+.news-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+/* ============================================================================
+   SUBTLE CATEGORY LINKS
+   ============================================================================ */
+
+.category-links-subtle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+}
+
+.category-link-subtle {
+    color: #4ba3e3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.category-link-subtle:hover {
+    color: #0369a1;
+    text-decoration: underline;
+}
+
+.link-divider {
+    color: #cbd5e1;
+    font-weight: 300;
+}
+/* ============================================================================
+   NEWS SECTION WITH SIDEBAR LAYOUT
+   ============================================================================ */
+
+.news-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.news-sidebar {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    height: fit-content;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    position: sticky;
+    top: 140px;
+}
+
+.sidebar-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.category-links-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-link-item {
+    display: block;
+    padding: 10px 12px;
+    color: #111111;
+    background: #f8fafc;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.category-link-item:hover {
+    background: #e0f2fe;
+    border-left-color: #4ba3e3;
+    color: #0369a1;
+}
+
+.news-main {
+    flex: 1;
+}
+
+.news-main h2 {
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .news-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .news-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 650px) {
+    .news-container {
+        gap: 12px;
+    }
+
+    .news-sidebar {
+        padding: 12px;
+    }
+
+    .sidebar-title {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .category-link-item {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}
+.category-links-subtle {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0; /* Subtle line under links */
+    font-size: 0.85rem;
 }
