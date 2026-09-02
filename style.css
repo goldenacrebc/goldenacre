@@ -352,6 +352,27 @@ nav a:hover {
     color: #b45309 !important;
     border: 1px solid #fbbf24;
 }
+/* Update your existing rule to align the dot with text */
+.category-link-subtle {
+    color: #4ba3e3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Adds the yellow dot with blue border sized to the text */
+.category-link-subtle::before {
+    content: '';
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background-color: #ffcc00;       /* Yellow center */
+    box-shadow: 0 0 0 1.5px #4ba3e3; /* Blue outer ring */
+    flex-shrink: 0;
+}
 
 /* ============================================================================
    SPONSORS SECTION
@@ -1667,4 +1688,81 @@ footer a:hover {
         display: none;
     }
 }
+.price-inline {
+  font-size: 1.1rem;
+  margin: 8px 0;
+}
 
+.price-inline small {
+  font-size: 0.8rem;
+  color: #555;
+  font-weight: normal;
+}
+.card-price {
+  font-size: 1rem;
+  margin: 10px 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+
+.price-bold {
+  font-size: 1.8rem; /* Big bold numbers like the other boxes */
+  font-weight: 700;
+  color: #111;
+}
+
+.price-sub {
+  font-size: 0.85rem;
+  color: #555;
+  margin-right: 2px;
+}
+
+.price-sep {
+  color: #ccc;
+  margin: 0 4px;
+}
+
+.price-year {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: normal;
+}
+.adult-price-box {
+  margin: 6px 0 10px 0;
+  text-align: center;
+}
+
+.price-split {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.price-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.price-num {
+  font-size: 1.4rem;
+  font-weight: 800; /* Same heavy bold as £5 and £25 */
+  color: #111111;
+  line-height: 1.1;
+}
+
+.price-label {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.price-cycle {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 4px;
+  font-weight: normal;
+}
