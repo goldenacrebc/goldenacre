@@ -126,36 +126,38 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </article>
 
-        <!-- Item 2 --><article class="news-block">
-            <div class="news-media">
-                <img src="photos/RR.png" alt="Rita Reid" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-tag">Ladies</span>
-                <h3>Ladies Championship Winner</h3>
-                <p>Congratulations to Rita Reid , winner of the Ladies Championship.</p>
-            </div>
-        </article>
+        <!-- Item 2 -->
+        <article class="news-block clickable" onclick="openNewsModal('ladieschamp-modal')">
+    <div class="news-media">
+        <img src="photos/RR.png" alt="Rita" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">Ladies</span>
+        <h3>Ladies Championship Winner</h3>
+        <p>Congratulations to Rita Reid winner of the Ladies Championship.</p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article> 
 
 
         
                <!-- Item 3 -->
- <article class="news-block">
-            <div class="news-media">
-                <img src="photos/DT.jpg" alt="Daniel Taylor" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-tag">Junior</span>
-                <h3>Junior Championship Winner</h3>
-                <p>Congratulations to Daniel Taylor, winner of the Junior Championship.</p>
-            </div>
-            
-        </article>
+ <article class="news-block clickable" onclick="openNewsModal('jnrchamp-modal')">
+    <div class="news-media">
+        <img src="photos/DT.png" alt="Daniel Taylor" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">Junior</span>
+        <h3>Junior Championship Winner</h3>
+        <p>Congratulations to Daniel Taylor, winner of the Junior Championship.</p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article> 
 
         <!-- Item 4 -->
          <article class="news-block clickable" onclick="openNewsModal('steele-modal')">
     <div class="news-media">
-        <img src="photos/RR_ST.jpg" alt="Malcolm Thomson" class="news-img">
+        <img src="photos/RR_ST.jpg" alt="Rita" class="news-img">
     </div>
     <div class="news-body">
         <span class="news-tag">Steele Trophy</span>
@@ -619,7 +621,41 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </dialog>
-    
+
+    <!-- Junior modal -->
+    <dialog id="jnrchamp-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('jnrchamp-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Junior</span>
+            <h2>Junior Championship Winner</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/DT.png" alt="Daniel Taylor" class="modal-img" 
+     style="object-position: 50% 5% !important;">
+            <p><strong>Junior Championship Winner</strong></p>
+            <p>Congratulations to Daniel Taylor, winner of the Junior Championship. Beating Daniel Kidd in the final</p>
+    </div>
+</dialog>
+<!-- Ladies modal -->
+<dialog id="ladieschamp-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('ladieschamp-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Ladies</span>
+            <h2>Ladies Championship Winner</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/DT.png" alt="Daniel Taylor" class="modal-img" 
+     style="object-position: 50% 5% !important;">
+            <p><strong> Ladies Championship Winner</strong></p>
+            <p>Congratulations to Rita Reid, winner of the Ladies Championship.</p>
+    </div>
+</dialog>
 
 </body>
 </html>
