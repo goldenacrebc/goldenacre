@@ -1964,10 +1964,14 @@ footer a:hover {
         font-size: 1.1rem;
     }
 
-    .modal-img {
-        max-height: 180px;
-        margin-bottom: 10px;
-    }
+    /* Ensure modal containers aren't forcing a short height */
+dialog,
+.modal-content,
+.modal-body {
+    height: auto !important;
+    max-height: 90vh !important; /* lets the popup grow up to 90% of screen height */
+    overflow-y: auto !important; /* adds scrollbar if screen is too small */
+}
 
     .modal-body p {
         font-size: 0.85rem;
