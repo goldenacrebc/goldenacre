@@ -153,18 +153,17 @@ document.addEventListener('DOMContentLoaded', () => {
         </article>
 
         <!-- Item 4 -->
-         <article class="news-block">
-           
-             <div class="news-media">
-                <img src="photos/RR_ST.jpg" alt="Steele Trophy Winner" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-tag">Steele Trophy</span>
-                <h3>Winner</h3>
-                <p>Congratulations to the Rita Reid winning the  Steele Trophy</p>
-                <p></p>
-            </div>
-        </article>
+         <article class="news-block clickable" onclick="openNewsModal('steele-modal')">
+    <div class="news-media">
+        <img src="photos/RR_ST.jpg" alt="Malcolm Thomson" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">Steel Trophy</span>
+        <h3>Steele Trophy Winner</h3>
+        <p>Congratulations to the Rita Reid winning the  Steele Trophy</p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article> 
          
        
         
@@ -561,6 +560,24 @@ document.addEventListener('DOMContentLoaded', () => {
             <img src="photos/MT.jpg" alt="Malcolm Thomson" class="modal-img">
             <p><strong>Congratulations to Malcolm Thomson, winner of the Gents Championship!</strong></p>
             <p>Well done Malcolm beating Mark Hogg in the final to secure this year's top honor.</p>
+        </div>
+    </div>
+</dialog>
+
+    <!-- Steele Trophy Modal -->
+<dialog id="steele-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('steele-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Steele Trophy</span>
+            <h2>Steele Trophy Winner</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/RR_ST.jpg" alt="Rita Reid" class="modal-img">
+            <p><strong>Congratulations to Rita Reid, winner of the Steele Trophy!</strong></p>
+            <p>Well done Rita beating Jessica Young from Craigentinny 21 - 20 in the final.</p>
         </div>
     </div>
 </dialog>
