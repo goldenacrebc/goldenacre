@@ -30,6 +30,44 @@ function toggleMoreNews(event) {
         document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
     }
 }
+        function openNewsModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        document.body.style.overflow = 'hidden'; // Prevents page behind modal from scrolling on mobile
+        modal.showModal();
+    }
+}
+
+function closeNewsModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.close();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modals = document.querySelectorAll('.news-modal');
+    modals.forEach(modal => {
+        // Restore background scrolling when modal is closed (via button, backdrop, or ESC key)
+        modal.addEventListener('close', () => {
+            document.body.style.overflow = '';
+        });
+
+        // Close on backdrop tap outside modal
+        modal.addEventListener('click', (event) => {
+            const rect = modal.getBoundingClientRect();
+            const isInDialog = (
+                rect.top <= event.clientY &&
+                event.clientY <= rect.bottom &&
+                rect.left <= event.clientX &&
+                event.clientX <= rect.right
+            );
+            if (!isInDialog) {
+                modal.close();
+            }
+        });
+    });
+});
 </script>
 <body>
 
@@ -75,17 +113,18 @@ function toggleMoreNews(event) {
     </div>
     
     <div class="news-grid-2col">
-        <!-- Item 1 -->
-        <article class="news-block">
-            <div class="news-media">
-                <img src="photos/MT.jpg" alt="Malcolm Thomson" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-tag">Club Championship</span>
-                <h3>Championship Winner</h3>
-                <p>Congratulations to Malcolm Thomson, winner of the Gents Championship.</p>
-            </div>
-        </article>
+        <!-- Item 1: Club Championship -->
+<article class="news-block clickable" onclick="openNewsModal('championship-modal')">
+    <div class="news-media">
+        <img src="photos/MT.jpg" alt="Malcolm Thomson" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">Club Championship</span>
+        <h3>Championship Winner</h3>
+        <p>Congratulations to Malcolm Thomson, winner of the Gents Championship.</p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article>
 
         <!-- Item 2 --><article class="news-block">
             <div class="news-media">
@@ -507,6 +546,24 @@ function toggleMoreNews(event) {
             <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
         </p>
     </footer>
+
+    <!-- Club Championship Modal Popup -->
+<dialog id="championship-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('championship-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Club Championship</span>
+            <h2>Championship Winner</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/MT.jpg" alt="Malcolm Thomson" class="modal-img">
+            <p><strong>Congratulations to Malcolm Thomson, winner of the Gents Championship!</strong></p>
+            <p>Well done Malcolm beating Mark Hogg in the final to secure this year's top honor.</p>
+        </div>
+    </div>
+</dialog>
 
 </body>
 </html>
