@@ -168,15 +168,16 @@ document.addEventListener('DOMContentLoaded', () => {
        
         
         <!-- Item 5 -->
-<article class="news-block">
-    <div class="news-media news-icon-box">
-        <img src="photos/eba_logo.png" alt="EBA Logo" style="object-fit: contain; padding: 4px;">
+<article class="news-block clickable" onclick="openNewsModal('tait-modal')">
+    <div class="news-media">
+        <img src="photos/eba_logo.png" alt="EBA Logo" class="news-img">
     </div> 
     <div class="news-body">
         <span class="news-tag">Tait Trophy</span>
-        <h3></h3>
+        <h3>Good Luck Malcolm !</h3>
         <p>Good luck to Malcom Thomson playing in the Tait trophy on Friday 4th September. First round is against Parkside. The game will be played at Queensberry 6.15pm start.</p>
-        <a href="https://edinburghba.co.uk/tait/" target="_blank" class="text-link">View Details</a>
+        <span class="text-link">Read Details &rarr;</span>
+        
     </div>
 </article>
 
@@ -599,6 +600,25 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </dialog>
+    <!-- Tait Modal -->
+<dialog id="tait-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('tait-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Tait Trophy</span>
+            <h2>Good Luck Malcolm !</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/eba_logo.png" alt="EBA Logo" class="modal-img" 
+     style="object-position: 50% 5% !important;">
+            <p><strong>Good Luck in the Tait Trophy </strong></p>
+            <p>Good luck to Malcom Thomson playing in the Tait trophy on Friday 4th September. First round is against Parkside. The game will be played at Queensberry 6.15pm start.</p>
+        </div>
+    </div>
+</dialog>
+    
 
 </body>
 </html>
