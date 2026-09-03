@@ -181,19 +181,18 @@ document.addEventListener('DOMContentLoaded', () => {
 </article>
 
         <!-- Item 6 -->
-        <article class="news-block">
-          <!--  <div class="news-media news-icon-box">
-             <span class="news-icon">🏆</span>
-            </div> -->
-             <div class="news-media">
-                 <img src="photos/pairs.png"></div>
-            <div class="news-body">
-                <span class="news-tag">EBA Gents Knockout</span>
-                <h3>Pairs Winners</h3>
-                <p>Congratulations to the Pairs Malcolm Thomson and Gary Robertson winning the EBA Gents knockout pairs  </p>
-                <a href="https://edinburghba.co.uk/gents-ko/" target="_blank" class="text-link">View Details</a>
-            </div>
-        </article>
+
+        <article class="news-block clickable" onclick="openNewsModal('ebapairs-modal')">
+    <div class="news-media">
+        <img src="photos/pairs.png" alt="Pairs" class="news-img">
+    </div>
+    <div class="news-body">
+        <span class="news-tag">EBA Gents Knockout</span>
+        <h3>Pairs Winners</h3>
+        <p>Congratulations to the Pairs Malcolm Thomson and Gary Robertson winners of the EBA Gents knockout pairs  </p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article> 
         <!-- Item 7 -->
  <article class="news-block news-item-extra news-hidden">
     <div class="news-media">
@@ -579,6 +578,24 @@ document.addEventListener('DOMContentLoaded', () => {
      style="object-position: 50% 5% !important;">
             <p><strong>Congratulations to Rita Reid, winner of the Steele Trophy!</strong></p>
             <p>Well done Rita beating Jessica Young from Craigentinny 21 - 20 in the final.</p>
+        </div>
+    </div>
+</dialog>
+    <!-- EBA Pairs Modal --> 
+    <dialog id="ebapairs-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('ebapairs-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">EBA Gents Knockout</span>
+            <h2>Pairs Winners</h2>
+        </div>
+        
+        <div class="modal-body">
+            <img src="photos/pairs.png" alt="Pairs"  class="modal-img" 
+     style="object-position: 50% 5% !important;">
+            <p><strong>Congratulations to Malcolm Thomson and Gary Robertson</strong></p>
+            <p>Congratulations to Malcolm Thomson and Gary Robertson winners of the EBA Gents knockout pairs beating Mayfield 18 -9 in the final</p>
         </div>
     </div>
 </dialog>
