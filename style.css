@@ -1977,3 +1977,17 @@ dialog,
         font-size: 0.85rem;
     }
 }
+@media (max-width: 768px) {
+    /* Target your dialog element or modal container */
+    dialog,
+    .news-modal,
+    .modal-content {
+        width: 90% !important;          /* Leaves 5% margin on left and right */
+        max-width: 450px !important;     /* Caps width so it doesn't get awkwardly wide */
+        height: auto !important;         /* Prevents stretching to 100% screen height */
+        max-height: 85vh !important;     /* Keeps top/bottom margins visible */
+        margin: auto !important;         /* Keeps the popup vertically and horizontally centered */
+        border-radius: 12px !important;  /* Retains rounded corners on mobile */
+        padding: 20px !important;
+    }
+}
