@@ -2054,3 +2054,35 @@ dialog,
         margin-top: 3px;
     }
 }
+/* Mobile Only (< 768px): Turn contact links into icon buttons */
+@media (max-width: 767px) {
+    .contact-details-grid {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .contact-detail-item {
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+    }
+
+    /* Hide text labels on mobile */
+    .contact-detail-item > span:not(.detail-icon) {
+        display: none;
+    }
+
+    /* Adjust Facebook icon size inside round button */
+    .contact-detail-item .fb-icon {
+        width: 24px;
+        height: 24px;
+        margin: 0;
+    }
+}
