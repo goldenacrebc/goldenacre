@@ -457,41 +457,13 @@ document.addEventListener('DOMContentLoaded', () => {
     <section id="contact" class="content-section">
     <h2>Contact & Membership</h2>
     <p class="section-intro">New members are always welcome! Free introductory coaching and equipment are available for beginners.</p>
-
-    <!-- Membership Price Cards -->
+<!-- Single Membership Trigger Card -->
     <div class="membership-grid">
-        <a href="mailto:goldenacrebc@hotmail.com?subject=Adult%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Adult%20Membership" class="membership-card">
-            <h3>Adult</h3>
-            <div class="adult-price-box">
-  <div class="price-split">
-    <div class="price-item">
-      <span class="price-num">£50<span class="price-cycle">&nbsp;/ year</span></span>
-      <span class="price-label">(New)</span>
-    </div>
-    <div class="price-item">
-      <span class="price-num">£200<span class="price-cycle">&nbsp;/ year</span></span>
-    <span class="price-label">(Existing)</span>
-    </div>
-  </div>
-  
-</div>
-            <p>Access to club, green & bar</p>
-            <div class="enquire-text">To enquire about Adult membership, please contact us.</div>
-        </a>
-
-        <a href="mailto:goldenacrebc@hotmail.com?subject=Junior%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Junior%20Membership" class="membership-card">
-            <h3>Junior</h3>
-            <div class="price">£5 <span>/ year</span></div>
-            <p></p>
-            <div class="enquire-text">To enquire about Junior membership, please contact us.</div>
-        </a>
-
-        <a href="mailto:goldenacrebc@hotmail.com?subject=Social%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Social%20Membership" class="membership-card">
-            <h3>Social</h3>
-            <div class="price">£25 <span>/ year</span></div>
-            <p>Access to club & bar</p>
-            <div class="enquire-text">To enquire about Social membership, please contact us.</div>
-        </a>
+        <div class="membership-card clickable" onclick="openNewsModal('membership-modal')" style="max-width: 320px;">
+            <h3>Membership Options</h3>
+            <p style="margin: 12px 0;">Click to view Adult, Junior, and Social membership pricing & details.</p>
+            <div class="enquire-text">View Membership Options &rarr;</div>
+        </div>
     </div>
 
     
@@ -656,6 +628,62 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>Congratulations to Rita Reid, winner of the Ladies Championship.</p>
     </div>
 </dialog>
+
+<!-- Membership Options Modal Popup -->
+<dialog id="membership-modal" class="news-modal" style="max-width: 720px;">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('membership-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Join Us</span>
+            <h2>Membership Options</h2>
+        </div>
+        
+        <div class="modal-body">
+            <p style="margin-bottom: 16px; color: #475569; font-size: 0.88rem;">
+                New members are always welcome! Free introductory coaching and equipment are available for beginners. Select an option below to enquire via email.
+            </p>
+
+            <div class="membership-grid" style="margin: 0 auto; gap: 14px;">
+                <!-- Adult Membership -->
+                <a href="mailto:goldenacrebc@hotmail.com?subject=Adult%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Adult%20Membership" class="membership-card">
+                    <h3>Adult</h3>
+                    <div class="adult-price-box">
+                        <div class="price-split">
+                            <div class="price-item">
+                                <span class="price-num">£50<span class="price-cycle">&nbsp;/ year</span></span>
+                                <span class="price-label">(New)</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-num">£200<span class="price-cycle">&nbsp;/ year</span></span>
+                                <span class="price-label">(Existing)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Access to club, green & bar</p>
+                    <div class="enquire-text">Enquire via Email &rarr;</div>
+                </a>
+
+                <!-- Junior Membership -->
+                <a href="mailto:goldenacrebc@hotmail.com?subject=Junior%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Junior%20Membership" class="membership-card">
+                    <h3>Junior</h3>
+                    <div class="price">£5 <span>/ year</span></div>
+                    <p style="margin-top: 10px;">Full junior coaching & green access</p>
+                    <div class="enquire-text">Enquire via Email &rarr;</div>
+                </a>
+
+                <!-- Social Membership -->
+                <a href="mailto:goldenacrebc@hotmail.com?subject=Social%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Social%20Membership" class="membership-card">
+                    <h3>Social</h3>
+                    <div class="price">£25 <span>/ year</span></div>
+                    <p style="margin-top: 10px;">Access to club & bar facilities</p>
+                    <div class="enquire-text">Enquire via Email &rarr;</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</dialog>
+
 
 </body>
 </html>
