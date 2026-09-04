@@ -1977,125 +1977,80 @@ dialog,
         font-size: 0.85rem;
     }
 }
-@media (max-width: 768px) {
-    /* Target your dialog element or modal container */
-    dialog,
-    .news-modal,
-    .modal-content {
-        width: 90% !important;          /* Leaves 5% margin on left and right */
-        max-width: 450px !important;     /* Caps width so it doesn't get awkwardly wide */
-        height: auto !important;         /* Prevents stretching to 100% screen height */
-        max-height: 85vh !important;     /* Keeps top/bottom margins visible */
-        margin: auto !important;         /* Keeps the popup vertically and horizontally centered */
-        border-radius: 12px !important;  /* Retains rounded corners on mobile */
-        padding: 20px !important;
-    }
-}
-.membership-card.clickable {
-    cursor: pointer;
-}
-/* Modal Container sizing */
-#membership-modal {
-    width: 92%;
-    max-width: 680px;
-    padding: 16px;
-    overflow: hidden; /* Prevents scrollbars */
-    box-sizing: border-box;
-}
-
-/* Mobile Compact Layout (< 768px) */
+/* Compact Vertical Card Layout for Mobile (< 768px) */
 @media (max-width: 767px) {
     #membership-modal {
-        padding: 14px 12px;
+        width: 92%;
+        max-width: 480px;
+        padding: 12px 14px;
+        overflow: hidden; /* Prevents scrollbar */
     }
 
-    /* Reduce header & intro spacing */
+    #membership-modal .modal-header {
+        margin-bottom: 4px;
+    }
+
     #membership-modal .modal-header h2 {
-        font-size: 1.2rem;
-        margin-bottom: 2px;
+        font-size: 1.1rem;
+        margin: 0;
     }
 
     #membership-modal .modal-body > p {
-        font-size: 0.78rem;
-        margin-bottom: 10px;
-        line-height: 1.25;
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+        line-height: 1.2;
     }
 
-    /* Stack cards as slim horizontal rows */
+    /* Vertical stacked card grid with compact gap */
     #membership-modal .membership-grid {
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
 
+    /* Vertical Card Styling */
     #membership-modal .membership-card {
-        padding: 10px 12px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        text-align: left;
+        text-align: center;
+        padding: 8px 10px;
     }
 
     #membership-modal .membership-card h3 {
-        font-size: 0.95rem;
-        margin: 0;
-        min-width: 60px;
+        font-size: 0.9rem;
+        margin: 0 0 2px 0;
     }
 
-    /* Compact Pricing Displays */
+    /* Price Box Scaling */
     #membership-modal .adult-price-box {
-        margin: 0;
-        padding: 0;
-        background: none;
-        border: none;
-    }
-
-    #membership-modal .price-split {
-        gap: 8px;
+        margin: 2px 0;
+        padding: 3px 6px;
     }
 
     #membership-modal .price-num {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     #membership-modal .price-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
 
     #membership-modal .price {
         font-size: 0.95rem;
-        margin: 0;
+        margin: 2px 0;
     }
 
-    /* Hide subtext on mobile to save vertical height */
+    /* Card Subtext & Button */
     #membership-modal .membership-card p {
-        display: none;
+        display: block;
+        font-size: 0.7rem;
+        margin: 2px 0;
+        line-height: 1.15;
     }
 
     #membership-modal .enquire-text {
-        margin-top: 0;
-        font-size: 0.78rem;
-        white-space: nowrap;
-    }
-}
-
-/* Desktop Layout (>= 768px) */
-@media (min-width: 768px) {
-    #membership-modal .membership-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-    }
-
-    #membership-modal .membership-card {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        padding: 16px;
-    }
-
-    #membership-modal .membership-card p {
-        display: block;
+        font-size: 0.72rem;
+        margin-top: 3px;
     }
 }
