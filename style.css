@@ -1991,3 +1991,35 @@ dialog,
         padding: 20px !important;
     }
 }
+.membership-card.clickable {
+    cursor: pointer;
+}
+/* Ensure the modal dialog fits mobile screens and scrolls vertically if needed */
+#membership-modal {
+    width: 90%;
+    max-width: 720px;
+    max-height: 85vh;      /* Limits height to 85% of screen height on mobile */
+    overflow-y: auto;       /* Adds vertical scrollbar if height exceeds screen */
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+/* Force membership cards to stack vertically on mobile screens */
+#membership-modal .membership-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+#membership-modal .membership-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Switch back to 3-column side-by-side grid on desktop screens */
+@media (min-width: 768px) {
+    #membership-modal .membership-grid {
+        flex-direction: row;
+    }
+}
