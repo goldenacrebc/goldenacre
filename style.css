@@ -1747,7 +1747,7 @@ footer a:hover {
 }
 
 .price-num {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 800; /* Same heavy bold as £5 and £25 */
   color: #111111;
   line-height: 1.1;
