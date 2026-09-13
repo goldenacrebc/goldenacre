@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </section>
 
-     <!-- About & Facilities Section -->
+    <!-- About & Facilities Section -->
 <section id="about" class="content-section gray-bg">
     <h2>About the Club & Facilities</h2>
     
@@ -259,29 +259,18 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </article>
 
-        <!-- Block 2: Facilities (Green + Hall) -->
-        <article class="timeline-block">
-            <div class="block-media">
-                <img src="photos/bowls.jpeg" alt="Goldenacre Facilities" class="block-img">
-            </div>
-            <div class="block-body">
-                <span class="block-tag">Our Facilities</span>
-                <h3>Facilities</h3>
-                <p>Enjoy our outdoor green for competitive league matches and social roll-ups.</p>
-                <p>Our hall holds up to 80 people and is available for hire for private events and functions. Bar facilities available on request.</p>
-                <p>To check availability, please 
-                    <a href="mailto:goldenacrebc@hotmail.com?&subject=Hall%20Hire%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20hiring%20your%20hall" class="hall-link">
-                        contact us
-                    </a>
-                </p>
-                <p class="hall-hire-subtext">
-                    <small><strong>** No 18th or 21st Birthday parties **</strong></small>
-                </p>
-                <p class="hall-hire-subtext">
-                    <small><strong>** Please note the club does not offer catering **</strong></small>
-                </p>
-            </div>
-        </article>
+        <!-- Facilities Block -->
+<article class="timeline-block clickable" onclick="openNewsModal('facilities-modal')">
+    <div class="block-media">
+        <img src="photos/bowls.jpeg" alt="Goldenacre Facilities" class="block-img">
+    </div>
+    <div class="block-body">
+        <span class="block-tag">Facilities</span>
+        <h3>Facilities</h3>
+        <p>Enjoy our outdoor green and 80-capacity function hall available for hire.</p>
+        <span class="text-link">View Facilities & Photos &rarr;</span>
+    </div>
+</article>
     </div>
 </section>
 
@@ -671,6 +660,47 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </dialog>
 
+<!-- Facilities Modal Popup -->
+<dialog id="facilities-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('facilities-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Facilities</span>
+            <h2>Our Facilities</h2>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Facility 1: Outdoor Green -->
+            <div class="facility-block">
+                <img src="photos/bowls.jpeg" alt="Outdoor Bowling Green" class="modal-img">
+                <span class="img-label">Outdoor Bowling Green</span>
+                <p>Enjoy our pristine outdoor green for competitive league matches, club competitions, and social roll-ups.</p>
+            </div>
+
+            <hr class="modal-divider">
+
+            <!-- Facility 2: Function Hall -->
+            <div class="facility-block">
+                <!-- Update src if your hall image file has a different name -->
+                <!-- <img src="photos/hall.jpg" alt="Clubhouse Function Hall" class="modal-img"> -->
+                <span class="img-label">Function Hall</span>
+                <p>Our hall holds up to 80 people and is available for hire for private events and functions. Bar facilities are available on request.</p>
+                <p>To check hall availability, please 
+                    <a href="mailto:goldenacrebc@hotmail.com?&subject=Hall%20Hire%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20hiring%20your%20hall" class="hall-link">
+                        contact us
+                    </a>.
+                </p>
+                <p class="hall-hire-subtext">
+                    <small><strong>** No 18th or 21st Birthday parties **</strong></small>
+                </p>
+                <p class="hall-hire-subtext">
+                    <small><strong>** Please note the club does not offer catering **</strong></small>
+                </p>
+            </div>
+        </div>
+    </div>
+</dialog>
 
 </body>
 </html>
