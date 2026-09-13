@@ -2118,3 +2118,109 @@ dialog,
     margin: 0 auto;
     text-align: left;
 }
+/* Include facilities section in background styling if needed */
+#facilities {
+    background-color: #ffffff;
+}
+/* Single-column vertical timeline layout */
+.timeline-vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: left;
+}
+/* Single-column timeline layout matching site width and margins */
+.timeline-1col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+/* Vertical Image Gallery for Facilities Modal */
+.facilities-img-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.facilities-img-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.facilities-img-item .modal-img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+.img-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0369a1;
+    letter-spacing: 0.04em;
+}
+
+/* Mobile Scroll Optimization */
+@media (max-width: 650px) {
+    #facilities-modal .modal-content {
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .facilities-img-item .modal-img {
+        max-height: 160px; /* Reduced height on small screens to fit content comfortably */
+    }
+}
+/* Facilities Modal Grouping */
+.facility-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.facility-block .modal-img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.img-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0369a1;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+}
+
+.modal-divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+
+/* Mobile Scroll & Image Tuning */
+@media (max-width: 650px) {
+    #facilities-modal .modal-content {
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .facility-block .modal-img {
+        max-height: 160px;
+    }
+}
