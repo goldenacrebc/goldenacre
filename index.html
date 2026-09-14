@@ -408,17 +408,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     <div class="timeline-grid-2col">
         <!-- Item 1 -->
-        <article class="timeline-block">
-            <div class="block-media">
-               <!-- <img src="" class="block-img"> -->
-            </div>
-            <div class="block-body">
-                <span class="block-tag"></span>
-                <h3></h3>
-                <p></p>
-            </div>
-        </article>
+         
+       <article class="timeline-block clickable" onclick="openNewsModal('closing-day-modal')">
+    <div class="block-media">
+        <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="block-img">
     </div>
+    <div class="block-body">
+        <span class="block-tag">Social Event</span>
+        <h3>Closing Day</h3>
+        <p>Saturday 26th September</p>
+        <span class="text-link">Read Details &rarr;</span>
+    </div>
+</article>
 </section> 
      
 
@@ -690,6 +691,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     <small><strong>** Please note the club does not offer catering **</strong></small>
                 </p>
             </div>
+        </div>
+    </div>
+</dialog>
+
+    <!-- Closing Day Modal -->
+<dialog id="closing-day-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('closing-day-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Social Event</span>
+            <h2>Closing Day - Saturday 26th September</h2>
+        </div>
+        
+        <div class="modal-body">
+            <h3>Sign Up Now & Meal Choice</h3>
+            <p>If you have signed up for the closing day meal, please add your meal choice by ticking the box on the adapted sign up sheet on the noticeboard ASAP.</p>
+            
+            <p><em>(Choose from Chicken Curry, Chilli con Carne or Vegetarian Macaroni. All come with a sweet too.)</em></p>
         </div>
     </div>
 </dialog>
