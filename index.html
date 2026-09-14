@@ -6,7 +6,6 @@
     <title>Goldenacre Bowling Club | Edinburgh</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-</head>
     <script>
 function toggleMoreNews(event) {
     event.preventDefault();
@@ -30,7 +29,8 @@ function toggleMoreNews(event) {
         document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
     }
 }
-        function openNewsModal(modalId) {
+
+function openNewsModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         document.body.style.overflow = 'hidden'; // Prevents page behind modal from scrolling on mobile
@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-</script>
+    </script>
+</head>
 <body>
 
     <!-- Header & Navigation -->
@@ -91,14 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- Hero Welcome Banner -->
     <section class="hero">
-    
         <h1>Goldenacre Bowling Club</h1>
         <p>A friendly lawn bowling club in Warriston, Edinburgh.</p>
-        <!-- <a href="#contact" class="btn">Become a Member</a> -->
     </section>
 
     <!-- Latest News Section -->
-    <!-- Latest News Section (2-Column Timeline with Lines & Circles) -->
 <section id="news" class="content-section">
     <h2>Latest Club News</h2>
     <!-- Subtle Category Links -->
@@ -139,9 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </article> 
 
-
-        
-               <!-- Item 3 -->
+        <!-- Item 3 -->
  <article class="news-block clickable" onclick="openNewsModal('jnrchamp-modal')">
     <div class="news-media">
         <img src="photos/DT.jpg" alt="Daniel Taylor" class="news-img">
@@ -166,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="text-link">Read Details &rarr;</span>
     </div>
 </article> 
-                <!-- Item 5 -->
 
+        <!-- Item 5 -->
          <article class="news-block clickable" onclick="openNewsModal('wwood-modal')">
     <div class="news-media">
         <img src="photos/eba_logo.png" alt="EBA" class="news-img">
@@ -179,12 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="text-link">Read Details &rarr;</span>
     </div>
 </article> 
-       
-        
-
 
         <!-- Item 6 -->
-
         <article class="news-block clickable" onclick="openNewsModal('ebapairs-modal')">
     <div class="news-media">
         <img src="photos/pairs.png" alt="Pairs" class="news-img">
@@ -196,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="text-link">Read Details &rarr;</span>
     </div>
 </article> 
+
         <!-- Item 7 -->
         <article class="news-block news-item-extra news-hidden">
     <div class="news-media">
@@ -217,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>Congratulations to George Lamb , Daniel Taylor and Billy Taylor winning the club triples </p>
     </div>
 </article>
+
 <!-- Item 8 -->
 <article class="news-block news-item-extra news-hidden">
     <div class="news-media">
@@ -235,10 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="archive.html" id="load-more-news-btn" class="news-archive-link" onclick="toggleMoreNews(event)">
             More / Archived News
         </a>
-    </div>
-</section>
-
-        
     </div>
 </section>
 
@@ -294,11 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="schedule-events-list">
                         <div class="day-event">
                             <span class="event-time">Evening</span>
-                            <span class="event-name">Weekly Pool League</span>
+                            <span class="event-name">Weekly Pool League </span>
                             <span class="category-tag tag-social">Social</span>
-                            
                         </div>
-                        <p><small>The Return of the pool league is coming soon </small></p>
+                        <p><small>(The Return of the pool league is coming soon)</small></p>
                     </div>
                 </div>
             </article>
@@ -331,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="event-time">6:30 PM</span>
                             <span class="event-name">Mens 1st & 2nd 16 League Games</span>
                             <span class="category-tag tag-seniors">Men</span>
-                            
                         </div>
                         <p><small>(League season is now complete)</small></p>
                     </div>
@@ -361,12 +349,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="block-tag">Friday</span>
                     <div class="schedule-events-list">
                         <div class="day-event">
-                            <span class="event-time">6:00 PM</span>
+                            <span class="event-time">6:30 PM</span>
                             <span class="event-name">Friday Night Rollup </span>
                             <span class="category-tag tag-mixed">Mixed</span>
                         </div>
                         <p><small>(Everyone welcome)</small></p>
-                        
+                        <div class="day-event">
+                            <span class="event-time">All Day</span>
+                            <span class="event-name">Forth League</span>
+                            <span class="category-tag tag-ladies">Ladies</span>
+                        </div>
+                        <div class="day-event">
+                            <span class="event-time">Sept 4th</span>
+                            <span class="event-name">Ladies Club Triples</span>
+                            <span class="category-tag tag-ladies">Ladies</span>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -388,13 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="category-tag tag-mixed">Mixed</span>
                         </div>
                         <p><small>(Secretary v Treasurer for the biggest trophy in the club)</small></p>
-                        <!-- <div class="day-event">
-                            <span class="event-time">Oct 24th</span>
-                            <span class="event-name">Cabaret Act: Melody Lane </span>
-                            <span class="category-tag tag-social">Social</span>
-                        </div>
-                        <p><small>(£7 - please put your name down on notice board)</small></p>
-                    </div>  -->
+                    </div>
                 </div>
             </article>
         </div>
@@ -407,26 +398,26 @@ document.addEventListener('DOMContentLoaded', () => {
     <h2>Social Events for your Diary</h2>
     
     <div class="timeline-grid-2col">
-        <!-- Item 1 -->
-         
-       <article class="timeline-block clickable" onclick="openNewsModal('closing-day-modal')">
-    <div class="block-media">
-        <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="block-img">
+        <!-- Social Event Card -->
+        <article class="timeline-block clickable" onclick="openNewsModal('closing-day-modal')">
+            <div class="block-media">
+                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="block-img">
+            </div>
+            <div class="block-body">
+                <span class="block-tag">Social Event</span>
+                <h3>Closing Day</h3>
+                <p>Saturday 26th September</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
     </div>
-    <div class="block-body">
-        <span class="block-tag">Social Event</span>
-        <h3>Closing Day</h3>
-        <p>Saturday 26th September (Secretary v Treasurer for the biggest trophy in the club)</p>
-        <span class="text-link">Read Details &rarr;</span>
-    </div>
-</article>
 </section> 
-     
 
     <section id="contact" class="content-section">
     <h2>Contact & Membership</h2>
     <p class="section-intro">New members are always welcome! Free introductory coaching and equipment are available for beginners.</p>
-<!-- Single Membership Trigger Card -->
+
+    <!-- Single Membership Trigger Card -->
     <div class="membership-grid">
         <div class="membership-card clickable" onclick="openNewsModal('membership-modal')" style="max-width: 320px;">
             <h3>Membership Options</h3>
@@ -434,8 +425,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="enquire-text">View Membership Options &rarr;</div>
         </div>
     </div>
-
-    
 
     <!-- Contact Info Row -->
     <div class="contact-details-grid">
@@ -455,6 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </a>
     </div>
 </section>
+
 <!-- Sponsors Section -->
     <section id="sponsors" class="content-section">
         <h2>Our Sponsors and Association links</h2>
@@ -481,6 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
     </section>
+
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
@@ -525,6 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </dialog>
+
     <!-- EBA Pairs Modal --> 
     <dialog id="ebapairs-modal" class="news-modal">
     <div class="modal-content">
@@ -543,6 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </dialog>
+
     <!-- Willie wood Modal -->
 <dialog id="wwood-modal" class="news-modal">
     <div class="modal-content">
@@ -550,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <div class="modal-header">
             <span class="news-tag">U16 Willie Wood Trophy</span>
-            <h2></h2>
+            <h2>Willie Wood Trophy</h2>
         </div>
         
         <div class="modal-body">
@@ -580,6 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
     </dialog>
+
 <!-- Ladies modal -->
 <dialog id="ladieschamp-modal" class="news-modal">
     <div class="modal-content">
@@ -595,6 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
      style="object-position: 50% 5% !important;">
             <p><strong> Ladies Championship Winner</strong></p>
             <p>Congratulations to Rita Reid, winner of the Ladies Championship.</p>
+        </div>
     </div>
 </dialog>
 
@@ -675,10 +670,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- Facility 2: Function Hall -->
             <div class="facility-block">
-                <!-- Update src if your hall image file has a different name -->
-                <!-- <img src="photos/hall.jpg" alt="Clubhouse Function Hall" class="modal-img"> -->
+                <img src="photos/hall.jpg" alt="Clubhouse Function Hall" class="modal-img">
                 <span class="img-label">Function Hall</span>
                 <p>Our hall holds up to 80 people and is available for hire for private events and functions. Bar facilities are available on request.</p>
+                
+                <!-- Link to open the Hall Photos Popup -->
+                <p>
+                    <a href="#" onclick="closeNewsModal('facilities-modal'); openNewsModal('hall-photos-modal'); return false;" class="text-link">
+                        📷 View more photos of the hall &rarr;
+                    </a>
+                </p>
+
                 <p>To check hall availability, please 
                     <a href="mailto:goldenacrebc@hotmail.com?&subject=Hall%20Hire%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20hiring%20your%20hall" class="hall-link">
                         contact us
@@ -695,7 +697,35 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </dialog>
 
-    <!-- Closing Day Modal -->
+<!-- Hall Photos Popup Modal -->
+<dialog id="hall-photos-modal" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNewsModal('hall-photos-modal')" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+            <span class="news-tag">Gallery</span>
+            <h2>Function Hall Photos</h2>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Vertical Gallery Stack -->
+            <div class="hall-gallery-grid">
+                <img src="photos/hall1.jpg" alt="Hall Interior View 1" class="modal-img">
+                <img src="photos/hall2.jpg" alt="Hall Interior View 2" class="modal-img">
+                <img src="photos/hall3.jpg" alt="Hall Bar Area" class="modal-img">
+            </div>
+
+            <!-- Back Link -->
+            <p style="margin-top: 16px;">
+                <a href="#" onclick="closeNewsModal('hall-photos-modal'); openNewsModal('facilities-modal'); return false;" class="text-link">
+                    &larr; Back to Facilities
+                </a>
+            </p>
+        </div>
+    </div>
+</dialog>
+
+<!-- Closing Day Modal -->
 <dialog id="closing-day-modal" class="news-modal">
     <div class="modal-content">
         <button class="modal-close" onclick="closeNewsModal('closing-day-modal')" aria-label="Close modal">&times;</button>
@@ -703,7 +733,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="modal-header">
             <span class="news-tag">Social Event</span>
             <h2>Closing Day - Saturday 26th September</h2>
-            <p>(Secretary v Treasurer for the biggest trophy in the club)</p>
         </div>
         
         <div class="modal-body">
@@ -714,6 +743,5 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </dialog>
-
 </body>
 </html>
