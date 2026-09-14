@@ -2224,3 +2224,129 @@ dialog,
         max-height: 160px;
     }
 }
+/* ==========================================
+   Modal Dialog & Closing Day Popup Styles
+   ========================================== */
+
+/* Dialog reset & container styling */
+.news-modal {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 550px;
+    width: 90%;
+    margin: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+}
+
+/* Background overlay when modal is open */
+.news-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+/* Modal Inner Wrapper */
+.modal-content {
+    position: relative;
+    padding: 28px 24px 24px 24px;
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+/* Close Button (X) */
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #0f172a;
+}
+
+/* Header & Tag */
+.modal-header {
+    margin-bottom: 16px;
+    padding-right: 24px; /* Space for close button */
+}
+
+.news-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background-color: #fef08a; /* Goldenacre yellow tag */
+    color: #854d0e;
+    margin-bottom: 8px;
+}
+
+.modal-header h2 {
+    font-size: 1.35rem;
+    margin: 0;
+    color: #0f172a;
+}
+
+/* Body Content */
+.modal-body {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #334155;
+}
+
+.modal-body h3 {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+    color: #1e293b;
+}
+
+.modal-body p {
+    margin-bottom: 12px;
+}
+
+.modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Mobile Scroll & Dialog Sizing */
+@media (max-width: 650px) {
+    .news-modal {
+        width: 92%;
+    }
+
+    .modal-content {
+        padding: 20px 16px 20px 16px;
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+}
+.modal-header .social-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+/* Single-column vertical timeline layout */
+.timeline-vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: left;
+}
