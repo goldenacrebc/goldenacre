@@ -6,69 +6,7 @@
     <title>Goldenacre Bowling Club | Edinburgh</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <script>
-function toggleMoreNews(event) {
-    event.preventDefault();
-    const extraItems = document.querySelectorAll('.news-item-extra');
-    const btn = document.getElementById('load-more-news-btn');
-    
-    let isExpanding = false;
-    extraItems.forEach(item => {
-        if (item.classList.contains('news-hidden')) {
-            item.classList.remove('news-hidden');
-            isExpanding = true;
-        } else {
-            item.classList.add('news-hidden');
-        }
-    });
-
-    if (isExpanding) {
-        btn.innerHTML = 'Show Less News &uarr;';
-    } else {
-        btn.innerHTML = 'More / Archived News &darr;';
-        document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-function openNewsModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        document.body.style.overflow = 'hidden'; // Prevents page behind modal from scrolling on mobile
-        modal.showModal();
-    }
-}
-
-function closeNewsModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.close();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const modals = document.querySelectorAll('.news-modal');
-    modals.forEach(modal => {
-        // Restore background scrolling when modal is closed (via button, backdrop, or ESC key)
-        modal.addEventListener('close', () => {
-            document.body.style.overflow = '';
-        });
-
-        // Close on backdrop tap outside modal
-        modal.addEventListener('click', (event) => {
-            const rect = modal.getBoundingClientRect();
-            const isInDialog = (
-                rect.top <= event.clientY &&
-                event.clientY <= rect.bottom &&
-                rect.left <= event.clientX &&
-                event.clientX <= rect.right
-            );
-            if (!isInDialog) {
-                modal.close();
-            }
-        });
-    });
-});
-    </script>
+    <script src="modals.js" defer></script>
 </head>
 <body>
 
@@ -112,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     <div class="news-grid-2col">
         <!-- Item 1: Club Championship -->
-<article class="news-block clickable" onclick="openNewsModal('championship-modal')">
+<article class="news-block clickable" onclick="openNewsModal('championship')">
     <div class="news-media">
         <img src="photos/MT.jpg" alt="Malcolm Thomson" class="news-img">
     </div>
@@ -125,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </article>
 
         <!-- Item 2 -->
-        <article class="news-block clickable" onclick="openNewsModal('ladieschamp-modal')">
+        <article class="news-block clickable" onclick="openNewsModal('ladies-championship')">
     <div class="news-media">
         <img src="photos/RR.png" alt="Rita" class="news-img">
     </div>
@@ -138,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </article> 
 
         <!-- Item 3 -->
- <article class="news-block clickable" onclick="openNewsModal('jnrchamp-modal')">
+ <article class="news-block clickable" onclick="openNewsModal('junior-championship')">
     <div class="news-media">
         <img src="photos/DT.jpg" alt="Daniel Taylor" class="news-img">
     </div>
@@ -151,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </article> 
 
         <!-- Item 4 -->
-         <article class="news-block clickable" onclick="openNewsModal('steele-modal')">
+         <article class="news-block clickable" onclick="openNewsModal('steele')">
     <div class="news-media">
         <img src="photos/RR_ST.jpg" alt="Rita" class="news-img">
     </div>
@@ -164,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </article> 
 
         <!-- Item 5 -->
-         <article class="news-block clickable" onclick="openNewsModal('wwood-modal')">
+         <article class="news-block clickable" onclick="openNewsModal('willie-wood')">
     <div class="news-media">
         <img src="photos/eba_logo.png" alt="EBA" class="news-img">
     </div>
@@ -177,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </article> 
 
         <!-- Item 6 -->
-        <article class="news-block clickable" onclick="openNewsModal('ebapairs-modal')">
+        <article class="news-block clickable" onclick="openNewsModal('ebapairs')">
     <div class="news-media">
         <img src="photos/pairs.png" alt="Pairs" class="news-img">
     </div>
@@ -250,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </article>
 
         <!-- Facilities Block -->
-<article class="timeline-block clickable" onclick="openNewsModal('facilities-modal')">
+<article class="timeline-block clickable" onclick="openNewsModal('facilities')">
     <div class="block-media">
         <img src="photos/bowls.jpeg" alt="Goldenacre Facilities" class="block-img">
     </div>
@@ -399,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     <div class="timeline-grid-2col">
         <!-- Social Event Card -->
-        <article class="timeline-block clickable" onclick="openNewsModal('closing-day-modal')">
+        <article class="timeline-block clickable" onclick="openNewsModal('closing-day')">
             <div class="block-media">
                 <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="block-img">
             </div>
@@ -419,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- Single Membership Trigger Card -->
     <div class="membership-grid">
-        <div class="membership-card clickable" onclick="openNewsModal('membership-modal')" style="max-width: 320px;">
+        <div class="membership-card clickable" onclick="openNewsModal('membership')" style="max-width: 320px;">
             <h3>Membership Options</h3>
             <p style="margin: 12px 0;">Click to view Adult, Junior, and Social membership pricing & details.</p>
             <div class="enquire-text">View Membership Options &rarr;</div>
@@ -428,16 +366,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- Contact Info Row -->
     <div class="contact-details-grid">
-        <a href="https://maps.app.goo.gl/7t25LrRd8DpaP28S7" target="_blank" class="contact-detail-item preview-hover">
+        <a href="https://maps.app.goo.gl/7t25LrRd8DpaP28S7" target="_blank" class="contact-detail-item preview-hover" aria-label="Location">
             <span class="detail-icon">📍</span>
             <span>Location</span>
             <img src="photos/map_preview.png" alt="Map Preview" class="hover-image">
         </a>
-        <a href="tel:01315524206" class="contact-detail-item">
+        <a href="tel:01315524206" class="contact-detail-item" aria-label="Call 0131 552 4206">
             <span class="detail-icon">📞</span>
             <span>0131 552 4206</span>
         </a>
-        <a href="https://www.facebook.com/GoldenacreBC" target="_blank" class="contact-detail-item preview-hover">
+        <a href="https://www.facebook.com/GoldenacreBC" target="_blank" class="contact-detail-item preview-hover" aria-label="Facebook Page">
             <img src="facebook.png" alt="Facebook" class="fb-icon">
             <span>Facebook Page</span>
             <img src="photos/facebook_preview.png" alt="Facebook Preview" class="hover-image">
@@ -480,268 +418,16 @@ document.addEventListener('DOMContentLoaded', () => {
         </p>
     </footer>
 
-    <!-- Club Championship Modal Popup -->
-<dialog id="championship-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('championship-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Club Championship</span>
-            <h2>Championship Winner</h2>
-        </div>
-        
-        <div class="modal-body">
-            <img src="photos/MT.jpg" alt="Malcolm Thomson" class="modal-img">
-            <p><strong>Congratulations to Malcolm Thomson, winner of the Gents Championship!</strong></p>
-            <p>Well done Malcolm beating Mark Hogg in the final to secure this year's top honor.</p>
-        </div>
-    </div>
-</dialog>
-
-<!-- Steele Trophy Modal -->
-<dialog id="steele-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('steele-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Steele Trophy</span>
-            <h2>Steele Trophy Winner</h2>
-        </div>
-        
-        <div class="modal-body">
-            <img src="photos/RR_ST.jpg" alt="Rita Reid" class="modal-img" 
-     style="object-position: 50% 5% !important;">
-            <p><strong>Congratulations to Rita Reid, winner of the Steele Trophy!</strong></p>
-            <p>Congratulations to Rita beating Jessica Young from Craigentinny 21 - 20 in the final.</p>
-        </div>
-    </div>
-</dialog>
-
-    <!-- EBA Pairs Modal --> 
-    <dialog id="ebapairs-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('ebapairs-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">EBA Gents Knockout</span>
-            <h2>Pairs Winners</h2>
-        </div>
-        
-        <div class="modal-body">
-            <img src="photos/pairs2.png" alt="Pairs"  class="modal-img" 
-     style="object-position: 50% 5% !important;">
-            <p><strong>Congratulations to Malcolm Thomson and Gary Robertson</strong></p>
-            <p>Congratulations to Malcolm Thomson and Gary Robertson winners of the EBA Gents knockout pairs beating Mayfield 18 -9 in the final</p>
-        </div>
-    </div>
-</dialog>
-
-    <!-- Willie wood Modal -->
-<dialog id="wwood-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('wwood-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">U16 Willie Wood Trophy</span>
-            <h2>Willie Wood Trophy</h2>
-        </div>
-        
-        <div class="modal-body">
-            <img src="photos/eba_logo.png" alt="EBA Logo" class="modal-img" 
-     style="object-position: 50% 5% !important;">
-            <p><strong>U16 Willie Wood Trophy</strong></p>
-            <p>Congratulations to Daniel Kidd reaching the final of the Willie Wood Trophy for the 2nd year in a row</p>
-            <span class="text-link"><a href="https://edinburghba.co.uk/willie-wood/" target="_blank">View details&rarr;</a></span>
-        </div>
-    </div>
-</dialog>
-
-    <!-- Junior modal -->
-    <dialog id="jnrchamp-modal" class="news-modal">
+    <!-- One reusable modal; modals.js fills it with the selected news item. -->
+    <dialog id="global-modal" class="news-modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeNewsModal('jnrchamp-modal')" aria-label="Close modal">&times;</button>
-            
+            <button class="modal-close" onclick="closeNewsModal()" aria-label="Close modal">&times;</button>
             <div class="modal-header">
-                <span class="news-tag">Junior</span>
-                <h2>Junior Championship Winner</h2>
+                <span id="modal-tag" class="news-tag"></span>
+                <h2 id="modal-title"></h2>
             </div>
-            
-            <div class="modal-body">
-                <img src="photos/DT.jpg" alt="Daniel Taylor" class="modal-img" style="object-fit: contain; object-position: center; max-height: 280px;">
-                <p><strong>Junior Championship Winner</strong></p>
-                <p>Congratulations to Daniel Taylor, winner of the Junior Championship. Beating Daniel Kidd in the final.</p>
-            </div>
+            <div id="modal-body" class="modal-body"></div>
         </div>
     </dialog>
-
-<!-- Ladies modal -->
-<dialog id="ladieschamp-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('ladieschamp-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Ladies</span>
-            <h2>Ladies Championship Winner</h2>
-        </div>
-        
-        <div class="modal-body">
-            <img src="photos/RR.png" alt="Rita" class="modal-img" 
-     style="object-position: 50% 5% !important;">
-            <p><strong> Ladies Championship Winner</strong></p>
-            <p>Congratulations to Rita Reid, winner of the Ladies Championship.</p>
-        </div>
-    </div>
-</dialog>
-
-<!-- Membership Options Modal Popup -->
-<dialog id="membership-modal" class="news-modal" style="max-width: 720px;">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('membership-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Join Us</span>
-            <h2>Membership Options</h2>
-        </div>
-        
-        <div class="modal-body">
-            <p style="margin-bottom: 16px; color: #475569; font-size: 0.70rem;">
-                New members are always welcome! Free introductory coaching and equipment are available for beginners.
-            </p>
-
-            <div class="membership-grid" style="margin: 0 auto; gap: 14px;">
-                <!-- Adult Membership -->
-                <a href="mailto:goldenacrebc@hotmail.com?subject=Adult%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Adult%20Membership" class="membership-card">
-                    <h3>Adult</h3>
-                    <div class="adult-price-box">
-                        <div class="price-split">
-                            <div class="price-item">
-                                <span class="price-num">£50<span class="price-cycle">&nbsp;/ year</span></span>
-                                <span class="price-label">(New)</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-num">£200<span class="price-cycle">&nbsp;/ year</span></span>
-                                <span class="price-label">(Existing)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Access to club, green & bar</p>
-                    <div class="enquire-text">Enquire via Email &rarr;</div>
-                </a>
-
-                <!-- Junior Membership -->
-                <a href="mailto:goldenacrebc@hotmail.com?subject=Junior%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Junior%20Membership" class="membership-card">
-                    <h3>Junior</h3>
-                    <div class="price">£5 <span>/ year</span></div>
-                    <p style="margin-top: 10px;">Full junior coaching & green access</p>
-                    <div class="enquire-text">Enquire via Email &rarr;</div>
-                </a>
-
-                <!-- Social Membership -->
-                <a href="mailto:goldenacrebc@hotmail.com?subject=Social%20Membership%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20Social%20Membership" class="membership-card">
-                    <h3>Social</h3>
-                    <div class="price">£25 <span>/ year</span></div>
-                    <p style="margin-top: 10px;">Access to club & bar facilities</p>
-                    <div class="enquire-text">Enquire via Email &rarr;</div>
-                </a>
-            </div>
-        </div>
-    </div>
-</dialog>
-
-<!-- Facilities Modal Popup -->
-<dialog id="facilities-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('facilities-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Facilities</span>
-            <h2>Our Facilities</h2>
-        </div>
-        
-        <div class="modal-body">
-            <!-- Facility 1: Outdoor Green -->
-            <div class="facility-block">
-                <img src="photos/bowls.jpeg" alt="Outdoor Bowling Green" class="modal-img">
-                <span class="img-label">Outdoor Bowling Green</span>
-                <p>Enjoy our pristine outdoor green for competitive league matches, club competitions, and social roll-ups.</p>
-            </div>
-
-            <hr class="modal-divider">
-
-            <!-- Facility 2: Function Hall -->
-            <div class="facility-block">
-                <!-- <img src="photos/hall.jpg" alt="Clubhouse Function Hall" class="modal-img"> -->
-                <span class="img-label">Function Hall</span>
-                <p>Our hall holds up to 80 people and is available for hire for private events and functions. Bar facilities are available on request.</p>
-                
-                <!-- Link to open the Hall Photos Popup -->
-                <!-- <p>
-                    <a href="#" onclick="closeNewsModal('facilities-modal'); openNewsModal('hall-photos-modal'); return false;" class="text-link">
-                        📷 View more photos of the hall &rarr;
-                    </a>
-                </p> -->
-
-                <p>To check hall availability, please 
-                    <a href="mailto:goldenacrebc@hotmail.com?&subject=Hall%20Hire%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about%20hiring%20your%20hall" class="hall-link">
-                        contact us
-                    </a>.
-                </p>
-                <p class="hall-hire-subtext">
-                    <small><strong>** No 18th or 21st Birthday parties **</strong></small>
-                </p>
-                <p class="hall-hire-subtext">
-                    <small><strong>** Please note the club does not offer catering **</strong></small>
-                </p>
-            </div>
-        </div>
-    </div>
-</dialog>
-
-<!-- Hall Photos Popup Modal -->
-<dialog id="hall-photos-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('hall-photos-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Gallery</span>
-            <h2>Function Hall Photos</h2>
-        </div>
-        
-        <div class="modal-body">
-            <!-- Vertical Gallery Stack -->
-            <div class="hall-gallery-grid">
-                <img src="photos/hall1.jpg" alt="Hall Interior View 1" class="modal-img">
-                <img src="photos/hall2.jpg" alt="Hall Interior View 2" class="modal-img">
-                <img src="photos/hall3.jpg" alt="Hall Bar Area" class="modal-img">
-            </div>
-
-            <!-- Back Link -->
-            <p style="margin-top: 16px;">
-                <a href="#" onclick="closeNewsModal('hall-photos-modal'); openNewsModal('facilities-modal'); return false;" class="text-link">
-                    &larr; Back to Facilities
-                </a>
-            </p>
-        </div>
-    </div>
-</dialog>
-
-<!-- Closing Day Modal -->
-<dialog id="closing-day-modal" class="news-modal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeNewsModal('closing-day-modal')" aria-label="Close modal">&times;</button>
-        
-        <div class="modal-header">
-            <span class="news-tag">Social Event</span>
-            <h2>Closing Day - Saturday 26th September</h2>
-        </div>
-        
-        <div class="modal-body">
-            <h3>Sign Up Now & Meal Choice</h3>
-            <p>If you have signed up for the closing day meal, please add your meal choice by ticking the box on the adapted sign up sheet on the noticeboard ASAP.</p>
-            
-            <p><em>(Choose from Chicken Curry, Chilli con Carne or Vegetarian Macaroni. All come with a sweet too.)</em></p>
-        </div>
-    </div>
-</dialog>
 </body>
 </html>
