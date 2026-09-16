@@ -1512,6 +1512,13 @@ footer a:hover {
     margin-bottom: 14px;
 }
 
+.ladies-championship-img {
+    max-height: 420px;
+    object-fit: contain;
+    object-position: center;
+    background: #f1f5f9;
+}
+
 .modal-body p {
     font-size: 0.9rem;
     line-height: 1.5;
