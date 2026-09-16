@@ -714,6 +714,46 @@ nav a:hover {
     border-radius: 4px;
 }
 
+@media (max-width: 650px) {
+    .contact-details-grid {
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .contact-detail-item {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 0;
+    }
+
+    .contact-detail-item > span:not(.detail-icon) {
+        display: none;
+    }
+
+    .contact-detail-item .detail-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        line-height: 20px;
+    }
+
+    .contact-detail-item .fb-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .contact-details-grid .contact-detail-item:first-child .detail-icon {
+        transform: translateY(6px);
+    }
+}
+
 .preview-hover:hover .hover-image {
     display: block;
 }
@@ -1524,101 +1564,128 @@ footer a:hover {
     cursor: pointer;
 }
 
-#membership-modal {
+.news-modal.membership-modal {
     width: 92%;
-    max-width: 680px;
+    max-width: 720px;
     padding: 16px;
     overflow: hidden;
     box-sizing: border-box;
 }
 
 @media (max-width: 767px) {
-    #membership-modal {
-        padding: 14px 12px;
+    .news-modal.membership-modal {
+        width: 94% !important;
+        max-width: 450px !important;
+        padding: 0 !important;
     }
 
-    #membership-modal .modal-header h2 {
+    .news-modal.membership-modal .modal-content {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 18px 16px !important;
+    }
+
+    .news-modal.membership-modal .modal-header h2 {
         font-size: 1.2rem;
         margin-bottom: 2px;
     }
 
-    #membership-modal .modal-body > p {
+    .membership-modal-body .membership-intro {
         font-size: 0.78rem;
         margin-bottom: 10px;
         line-height: 1.25;
     }
 
-    #membership-modal .membership-grid {
+    .membership-modal-body .membership-grid {
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
 
-    #membership-modal .membership-card {
+    .membership-modal-body .membership-card {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        flex: 0 0 auto;
         padding: 10px 12px;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        text-align: left;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+        text-align: center;
+        overflow: hidden;
     }
 
-    #membership-modal .membership-card h3 {
+    .membership-modal-body .membership-card h3 {
         font-size: 0.95rem;
         margin: 0;
-        min-width: 60px;
+        min-width: 0;
     }
 
-    #membership-modal .adult-price-box {
+    .membership-modal-body .adult-price-box {
         margin: 0;
         padding: 0;
         background: none;
         border: none;
+        min-width: 0;
+        width: 100%;
     }
 
-    #membership-modal .price-split {
+    .membership-modal-body .price-split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
     }
 
-    #membership-modal .price-num {
+    .membership-modal-body .price-item {
+        min-width: 0;
+        text-align: center;
+    }
+
+    .membership-modal-body .price-num {
         font-size: 0.9rem;
     }
 
-    #membership-modal .price-label {
+    .membership-modal-body .price-label {
         font-size: 0.7rem;
     }
 
-    #membership-modal .price {
+    .membership-modal-body .price {
         font-size: 0.95rem;
         margin: 0;
     }
 
-    #membership-modal .membership-card p {
+    .membership-modal-body .membership-card p {
         display: none;
     }
 
-    #membership-modal .enquire-text {
+    .membership-modal-body .enquire-text {
         margin-top: 0;
         font-size: 0.78rem;
-        white-space: nowrap;
+        align-self: center;
+        width: 100%;
+        max-width: 180px;
+        white-space: normal;
+        padding: 6px 8px;
     }
 }
 
 @media (min-width: 768px) {
-    #membership-modal .membership-grid {
+    .membership-modal-body .membership-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
     }
 
-    #membership-modal .membership-card {
+    .membership-modal-body .membership-card {
         display: flex;
         flex-direction: column;
         text-align: center;
         padding: 16px;
     }
 
-    #membership-modal .membership-card p {
+    .membership-modal-body .membership-card p {
         display: block;
     }
 }
