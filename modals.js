@@ -41,7 +41,7 @@ const modalData = {
         title: "Ladies Championship Winner",
         body: `
             <img src="photos/RR.jpg" alt="Ladies Champion" class="modal-img">
-            <p><strong>Congratulations to Rita Reid winner of the Ladies Championship.</strong></p>
+            <p>Congratulations to Rita Reid winner of the Ladies Championship.</p>
         `
     },
     "willie-wood": {
