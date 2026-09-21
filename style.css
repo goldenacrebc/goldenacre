@@ -1792,3 +1792,26 @@ footer a:hover {
 .event-social {
   /* Default styling for social events outside the pop-up */
 }
+/* Text-Only Badges (No Border, Flush Left) */
+.news-badge {
+    display: inline-block;
+    padding: 0 8px 0 0;
+    font-size: 0.70rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    width: fit-content;
+    background-color: transparent;
+    color: #475569;
+    border: none;
+}
+
+/* Modifier rules reset */
+.badge-internal,
+.badge-external {
+    background-color: transparent;
+    color: #475569;
+    border: none;
+}
