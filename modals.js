@@ -141,7 +141,16 @@ const modalData = {
         title: "2026 Internal Competition Winners",
         body: `
             <p>Season 2026 Winners</p>
-            <p>Details to follow after closing day</p>
+            <p>Gents Championship - <strong>Malcolm Thomson</stong></p>
+            <p>Ladies Championship - <strong>Rita Reid</stong></p>
+            <p>Junior Championship - <strong>Daniel Taylor</stong></p>
+            <p>Gents 2 Bowl - <p>
+            <hr>
+            <p>Gents Pairs - </p>
+            <p>Gents Triples - <strong>George Lamb, Daniel Taylor, Billy Taylor</stong></p>
+            <p>Gents Rinks - </p>
+            <hr>
+            <p>More Details to follow after closing day</p>
         `
     },
     // TO ADD A NEW POP-UP: Just add a new key here!
