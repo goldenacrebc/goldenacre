@@ -130,7 +130,8 @@ const modalData = {
         tag: "internal",
         title: "Competition Winners",
         body: `
-            <p><strong>2026 Winners</strong></p>
+            <p><strong>2026 Honours List</strong></p>
+            <br />
             <p><strong>Gents Championship</strong> - Malcolm Thomson</p>
             <p><strong>Ladies Championship </strong> - Rita Reid</p>
             <p><strong>Junior Championship </strong> - Daniel Taylor</p>
