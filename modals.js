@@ -130,16 +130,17 @@ const modalData = {
         tag: "internal",
         title: "Competition Winners",
         body: `
-            <p><strong><u>2026 Winners</u></strong></p>
-            <p><strong>Gents Championship</strong> - Malcolm Thomson/p>
+            <p><strong>2026 Winners</strong></p>
+            <p><strong>Gents Championship</strong> - Malcolm Thomson</p>
             <p><strong>Ladies Championship </strong> - Rita Reid</p>
             <p><strong>Junior Championship </strong> - Daniel Taylor</p>
             <p><strong>Gents 2 Bowl</strong> - <p>
             <hr>
             <p><strong>Gents Pairs</strong> - </p>
-            <p><strong>Gents Triples </strong> - George Lamb, Daniel Taylor, Billy Taylor</p>
+            <p><strong>Gents Triples </strong> - G Lamb, D Taylor, B Taylor</p>
             <p><strong>Gents Rinks </strong> - </p>
             <hr>
+            <br />
             <p>More Details to follow after closing day</p>
         `
     },
