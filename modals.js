@@ -141,7 +141,7 @@ const modalData = {
         title: "2026 Internal Competition Winners",
         body: `
             <p>Season 2026 Winners</p>
-            <p>Details to follow after closing day>/p>
+            <p>Details to follow after closing day</p>
         `
     },
     // TO ADD A NEW POP-UP: Just add a new key here!
