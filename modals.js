@@ -136,6 +136,14 @@ const modalData = {
             <p style="margin-top: 16px;"><a href="#" onclick="openNewsModal('facilities'); return false;" class="text-link">&larr; Back to Facilities</a></p>
         `
     },
+    "honours-list": {
+        tag: "2026 Winners",
+        title: "2026 Internal Competition Winners",
+        body: `
+            <p>Season 2026 Winners</p>
+            <p>Details to follow after closing day>/p>
+        `
+    },
     // TO ADD A NEW POP-UP: Just add a new key here!
 };
 
