@@ -40,18 +40,8 @@ const modalData = {
         tag: "Ladies Championship",
         title: "Ladies Championship Winner",
         body: `
-            <img src="photos/RR.jpg" alt="Ladies Champion" class="modal-img">
+            <img src="photos/RR.png" alt="Ladies Champion" class="modal-img">
             <p>Congratulations to Rita Reid winner of the Ladies Championship.</p>
-        `
-    },
-    "willie-wood": {
-        tag: "U16 Willie Wood Trophy",
-        title: "Willie Wood Trophy",
-        body: `
-            <img src="photos/eba_logo.png" alt="EBA Logo" class="modal-img">
-            <p><strong>U16 Willie Wood Trophy</strong></p>
-            <p>Congratulations to Daniel Kidd reaching the final of the Willie Wood Trophy for the 2nd year in a row</p>
-            <p><a href="#">View details→</a></p>
         `
     },
     "junior-championship": {
