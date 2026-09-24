@@ -137,17 +137,17 @@ const modalData = {
         `
     },
     "honours-list": {
-        tag: "2026 Winners",
-        title: "2026 Internal Competition Winners",
+        tag: "internal",
+        title: "Competition Winners",
         body: `
-            <p>Season 2026 Winners</p>
-            <p>Gents Championship - <strong>Malcolm Thomson</stong></p>
-            <p>Ladies Championship - <strong>Rita Reid</stong></p>
-            <p>Junior Championship - <strong>Daniel Taylor</stong></p>
+            <p><strong>2026 Winners</strong></p>
+            <p>Gents Championship - <strong>Malcolm Thomson</strong></p>
+            <p>Ladies Championship - <strong>Rita Reid</strong></p>
+            <p>Junior Championship - <strong>Daniel Taylor</strong></p>
             <p>Gents 2 Bowl - <p>
             <hr>
             <p>Gents Pairs - </p>
-            <p>Gents Triples - <strong>George Lamb, Daniel Taylor, Billy Taylor</stong></p>
+            <p>Gents Triples - <strong>George Lamb, Daniel Taylor, Billy Taylor</strong></p>
             <p>Gents Rinks - </p>
             <hr>
             <p>More Details to follow after closing day</p>
