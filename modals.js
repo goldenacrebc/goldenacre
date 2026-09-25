@@ -36,6 +36,15 @@ const modalData = {
             <p><em>(Choose from Chicken Curry, Chilli con Carne or Vegetarian Macaroni. All come with a sweet too.)</em></p>
         `
     },
+    "pool":{
+        tag: "Social",
+        title: "Monday night Pool League",
+        body: `
+            <h3>Pool League</h3>
+            <p>The Goldenacre Pool league is on a Monday night (All welcome)</p>
+            <p>Start date to be confirmed</p>
+        `
+    },
     "ladies-championship": {
         tag: "Ladies Championship",
         title: "Ladies Championship Winner",
