@@ -144,14 +144,14 @@ const modalData = {
             <p><strong>Gents Championship</strong> - Malcolm Thomson</p>
             <p><strong>Ladies Championship </strong> - Rita Reid</p>
             <p><strong>Junior Championship </strong> - Daniel Taylor</p>
-            <p><strong>Gents 2 Bowl</strong> - <p>
+            <p><strong>Gents 2 Bowl</strong> - Jim Hutchinson<p>
             <hr>
-            <p><strong>Gents Pairs</strong> - </p>
+            <p><strong>Gents Pairs</strong> - Malcolm Thomson / Jim Hutchison</p>
             <p><strong>Gents Triples </strong> - G Lamb, D Taylor, B Taylor</p>
-            <p><strong>Gents Rinks </strong> - </p>
+            <p><strong>Gents Rinks </strong> - Grant Stafford, Malcolm Thomson, Jim Hutchison, Gary Robertson</p>
             <hr>
             <br />
-            <p>More Details to follow after closing day</p>
+            <p></p>
         `
     },
     // TO ADD A NEW POP-UP: Just add a new key here!
