@@ -233,7 +233,7 @@
         <!-- LEFT COLUMN: Monday -->
         <div class="schedule-col">
             <!-- Monday -->
-            <article class="timeline-block">
+            <article class="timeline-block" clickable" onclick="openNewsModal('pool')">
                 <div class="block-body">
                     <span class="block-tag">Monday</span>
                     <div class="schedule-events-list">
@@ -242,7 +242,7 @@
                             <span class="event-name">Weekly Pool League </span>
                             <span class="category-tag tag-social">Social</span>
                         </div>
-                        <p><small>Starts Monday 12th October</small></p>
+                        <p><small>Starts Monday 12th October<span class="text-link">Read Details &rarr;</span></p></small>
                     </div>
                 </div>
             </article>
@@ -257,8 +257,8 @@
                     <div class="schedule-events-list">
                         <div class="day-event">
                             <span class="event-time">6:30 PM</span>
-                            <span class="event-name">Friday Night Social</span>
-                            <span class="category-tag tag-mixed">Mixed</span>
+                            <span class="event-name">Friday Night's</span>
+                            <span class="category-tag tag-social">Social</span>
                         </div>
                         <p><small>(Everyone welcome)</small></p>
                     </div>
@@ -276,7 +276,7 @@
     <div class="timeline-grid-2col">
         <!-- Social Event Card -->
         
-        <article class="timeline-block clickable" onclick="openNewsModal('pool')">
+        <article class="timeline-block >
             <div class="block-media">
                 <img src="photos/pool.png" alt="Pool League" class="block-img">
             </div>
@@ -284,8 +284,7 @@
                 <span class="block-tag">Social Event</span>
                 <h3>Monday Night Pool League</h3>
                 <p>The Goldenacre Pool League will return on a Monday night</p>
-                <p>Start date to be confirmed</p>
-                <span class="text-link">Read Details &rarr;</span>
+                
             </div>
         </article>
     </div>
