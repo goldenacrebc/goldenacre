@@ -715,28 +715,49 @@ nav a:hover {
     border-color: var(--text-seniors);
 }
 
-/* Schedule Blocks */
+/* Schedule Blocks - FIX: Make them proper card containers */
 #schedule .timeline-block {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 14px 16px 14px 22px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    padding: 18px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: block;
+    position: relative;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#schedule .timeline-block:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#schedule .timeline-block .block-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-seniors);
+    display: block;
+    margin-bottom: 8px;
 }
 
 #schedule .timeline-block h3 {
-    font-size: 0.95rem;
-    margin-bottom: 6px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--text-main);
+    font-weight: 600;
 }
 
 #schedule .timeline-block p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-bottom: 6px;
+    font-size: 0.85rem;
+    color: #475569;
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
 #schedule .category-tag {
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 /* Contact Details */
@@ -999,85 +1020,54 @@ nav a:hover {
     display: inline-block;
     font-size: 0.65rem;
     font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 3px;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.03em;
-    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .badge-internal {
-    background-color: #e0f2fe;
-    color: #0369a1;
-    border: 1px solid #7dd3fc;
+    background-color: #dbeafe !important;
+    color: #0369a1 !important;
 }
 
 .badge-external {
-    background-color: #fce7f3;
-    color: #be185d;
-    border: 1px solid #fbcfe8;
+    background-color: #fecaca !important;
+    color: #7f1d1d !important;
 }
 
 /* ============================================================================
-   14. FOOTER
-   ============================================================================ */
-
-footer {
-    background: var(--brand-primary);
-    color: #aaaaaa;
-    text-align: center;
-    padding: 20px;
-    font-size: 0.85rem;
-    border-top: 4px solid var(--brand-accent);
-}
-
-footer a {
-    color: inherit;
-    text-decoration: underline;
-}
-
-footer a:hover {
-    color: var(--brand-accent);
-}
-
-.footer-link {
-    margin-top: 8px;
-}
-
-/* ============================================================================
-   15. MODAL STYLES
+   14. MODALS
    ============================================================================ */
 
 .news-modal {
+    max-width: 600px;
     border: none;
     border-radius: 8px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    max-height: 90vh;
     padding: 0;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    animation: slideInUp 0.3s ease;
 }
 
 .news-modal::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 20px;
+    padding: 0;
 }
 
 .modal-close {
@@ -1086,75 +1076,67 @@ footer a:hover {
     right: 12px;
     background: none;
     border: none;
-    font-size: 28px;
-    color: #999;
+    font-size: 24px;
     cursor: pointer;
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #64748b;
     transition: color 0.2s ease;
+    padding: 4px 8px;
+    z-index: 1;
 }
 
 .modal-close:hover {
-    color: var(--text-main);
+    color: #111111;
 }
 
 .modal-header {
-    margin-bottom: 16px;
-    padding-right: 32px;
+    padding: 20px 24px 12px 24px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.modal-header h2 {
-    font-size: 1.3rem;
-    color: var(--text-main);
+.modal-header .news-tag {
+    color: var(--text-seniors);
     margin-bottom: 6px;
 }
 
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
 .modal-body {
+    padding: 20px 24px;
     font-size: 0.9rem;
     line-height: 1.6;
     color: #475569;
-    max-height: calc(90vh - 180px);
-    overflow-y: auto;
+}
+
+.modal-body h3 {
+    color: var(--text-main);
+    font-size: 1rem;
+    margin: 12px 0 8px 0;
+}
+
+.modal-body p {
+    margin-bottom: 12px;
+}
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 12px 0;
 }
 
 /* ============================================================================
-   16. MOBILE RESPONSIVENESS (Max-width: 650px)
+   15. RESPONSIVE DESIGN
    ============================================================================ */
 
-@media (max-width: 650px) {
-    /* Header & Navigation */
-    header {
-        padding: 10px;
-    }
-
-    nav a {
-        margin: 0 4px;
-        font-size: 0.85rem;
-    }
-
-    .category-links-subtle {
-        gap: 8px;
-        font-size: 0.8rem;
-    }
-
-    .header-badge {
-        height: 85px;
-        width: 85px;
-        margin-bottom: -25px;
-    }
-
-    /* Schedule */
-    .week-grid {
+@media (max-width: 768px) {
+    .news-grid-2col,
+    .timeline-grid-2col {
         grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
-
-    .day-column {
-        padding: 0.5rem;
+        gap: 20px;
     }
 
     .schedule-2col-layout {
@@ -1162,71 +1144,64 @@ footer a:hover {
         gap: 16px;
     }
 
-    /* Hall Hire */
-    .hall-hire-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
-    }
-
-    .hall-hire-text,
-    .hall-hire-note {
-        text-align: center;
-    }
-
-    /* Contact Details Grid - Convert to circular icons */
     .contact-details-grid {
-        gap: 12px;
-        flex-wrap: nowrap;
+        gap: 10px;
     }
 
     .contact-detail-item {
-        width: 44px;
-        height: 44px;
-        padding: 0;
+        flex: 1 1 100%;
         justify-content: center;
-        border-radius: 50%;
-        font-size: 0;
     }
 
-    .contact-detail-item > span:not(.detail-icon) {
-        display: none;
+    #sponsors .sponsors-logos {
+        gap: 16px;
     }
 
-    .contact-detail-item .detail-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        line-height: 20px;
+    .header-badge {
+        height: 90px;
+        width: 90px;
+        margin-bottom: -30px;
     }
 
-    .contact-detail-item .fb-icon {
-        width: 40px;
-        height: 40px;
-        object-fit: contain;
+    nav {
+        gap: 8px 12px;
     }
 
-    .contact-details-grid .contact-detail-item:first-child .detail-icon {
-        transform: translateY(6px);
+    .membership-grid {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-section {
+        padding: 20px 5%;
     }
 
-    /* News & Timeline Grid */
-    .news-grid-2col,
-    .timeline-grid-2col {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .content-section h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
     }
 
-    .timeline-1col {
-        gap: 20px;
+    nav a {
+        font-size: 0.85rem;
     }
 
-    .news-media,
-    .block-media {
-        width: 75px;
+    .header-badge {
         height: 75px;
+        width: 75px;
+        margin-bottom: -20px;
+    }
+
+    .schedule-2col-layout {
+        gap: 12px;
+    }
+
+    #schedule .timeline-block {
+        padding: 14px 16px;
+    }
+
+    .membership-card {
+        max-width: 100%;
+        flex: 1 1 150px;
     }
 }
