@@ -377,14 +377,8 @@ nav a:hover {
     gap: 6px;
 }
 
-.category-link-subtle::before {
-    content: '';
-    width: 0.55em;
-    height: 0.55em;
-    border-radius: 50%;
-    background-color: var(--brand-accent);
-    box-shadow: 0 0 0 1.5px var(--brand-blue);
-    flex-shrink: 0;
+.category-link-subtle:hover {
+    color: var(--brand-primary);
 }
 
 /* ============================================================================
