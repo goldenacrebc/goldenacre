@@ -148,7 +148,7 @@ const modalData = {
             <hr>
             <p><strong>Gents Pairs</strong> - Malcolm Thomson / Jim Hutchison</p>
             <p><strong>Gents Triples </strong> - G Lamb, D Taylor, B Taylor</p>
-            <p><strong>Gents Rinks </strong> - Grant Stafford, Malcolm Thomson, Jim Hutchison, Gary Robertson</p>
+            <p><strong>Gents Rinks </strong> - G Stafford, M Thomson, J Hutchison, G Robertson</p>
             <hr>
             <br />
             <p></p>
