@@ -42,7 +42,7 @@ const modalData = {
         body: `
             <h3>Pool League</h3>
             <p>The Goldenacre Pool league is on a Monday night (All welcome)</p>
-            <p>Start date to be confirmed</p>
+            <p>Starting on Monday the 12th October</p>
         `
     },
     "ladies-championship": {
