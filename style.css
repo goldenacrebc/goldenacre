@@ -2047,14 +2047,19 @@ footer a:hover {
         gap: 10px 14px;
     }
 }
-@media (max-width: 480px) {
-    .draws-section {
-        padding: 20px 8px; /* Tighter side padding for smaller screens */
-    }
-    
-    .match-row {
-        padding: 6px 6px;
-        font-size: 0.78rem; /* Slightly smaller text for long names */
+/* Vertical Mobile View (Portrait) */
+@media (max-width: 768px) and (orientation: portrait), (max-width: 480px) {
+    /* Prevent row flex items from stretching vertically */
+    .draws-row {
+        align-items: flex-start;
     }
 
+    /* Force Quarter Finals, Semi Finals, and Finals cards to collapse to content size */
+    .tier-2 .draw-card,
+    .tier-3 .draw-card {
+        height: auto !important;
+        min-height: 0 !important;
+        flex: 0 0 auto !important;
+        align-self: flex-start;
+    }
 }
