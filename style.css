@@ -1792,26 +1792,269 @@ footer a:hover {
 .event-social {
   /* Default styling for social events outside the pop-up */
 }
-/* Text-Only Badges (No Border, Flush Left) */
-.news-badge {
-    display: inline-block;
-    padding: 0 8px 0 0;
-    font-size: 0.70rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    line-height: 1.2;
-    margin-bottom: 8px;
-    width: fit-content;
-    background-color: transparent;
-    color: #475569;
-    border: none;
+/* ============================================================================
+   COMPETITION DRAWS SECTION
+   ============================================================================ */
+.draws-section { 
+    background: #f4f9fd; 
+    padding: 30px 12px; 
+    font-family: inherit; 
+    color: #111111; 
 }
 
-/* Modifier rules reset */
-.badge-internal,
-.badge-external {
-    background-color: transparent;
-    color: #475569;
-    border: none;
+.draws-container { 
+    max-width: 1050px; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+
+.draws-title { 
+    font-size: 1.5rem; 
+    margin-bottom: 4px; 
+}
+
+.draws-subtitle { 
+    color: #64748b; 
+    font-size: 0.88rem; 
+    margin-bottom: 18px; 
+}
+
+.draws-tabs { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 8px; 
+    margin-bottom: 24px; 
+    flex-wrap: wrap;
+}
+
+.tab-btn { 
+    background: none; 
+    border: none; 
+    font-size: 0.88rem; 
+    font-weight: 600; 
+    color: #0369a1; 
+    cursor: pointer; 
+    padding: 3px 6px; 
+}
+
+.tab-btn.active { 
+    color: #111111; 
+    border-bottom: 2px solid #ffcc00; 
+}
+
+.tab-divider { 
+    color: #cbd5e1; 
+    font-size: 0.85rem; 
+}
+
+/* Tiered Row Layout Controls */
+.draws-stages-wrapper {
+    display: block;
+    width: 100%;
+}
+
+.draws-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+/* Row 1 Widths */
+.tier-1 .draw-card {
+    flex: 1 1 260px;
+    max-width: 320px;
+}
+
+/* Row 2 Widths */
+.tier-2 .draw-card {
+    flex: 0 1 320px;
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Row 3 Width */
+.tier-3 .draw-card {
+    flex: 0 1 320px;
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Base Card Styling */
+.draw-card { 
+    background: #ffffff; 
+    border: 1px solid #e2e8f0; 
+    border-top: 3px solid #0369a1; 
+    border-radius: 6px; 
+    padding: 10px 12px; 
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); 
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.draw-card.final-card {
+    border: 2px solid #ffcc00;
+    border-top: 4px solid #ffcc00;
+    box-shadow: 0 3px 10px rgba(255, 204, 0, 0.25);
+}
+
+.final-card .badge.deadline {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Header */
+.draw-card-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #f1f5f9; 
+    padding-bottom: 6px; 
+    margin-bottom: 8px; 
+}
+
+.draw-card-header h3 { 
+    margin: 0; 
+    font-size: 0.88rem; 
+    font-weight: 700;
+}
+
+.badge.deadline { 
+    font-size: 0.68rem; 
+    background: #e0f2fe; 
+    color: #0369a1; 
+    padding: 2px 6px; 
+    border-radius: 10px; 
+    font-weight: 600; 
+    white-space: nowrap;
+}
+
+/* Match Rows */
+.match-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+
+.match-row { 
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 4px; 
+    padding: 5px 8px; 
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
+    gap: 5px;
+    align-items: center; 
+    font-size: 0.8rem; 
+}
+
+.player { 
+    min-width: 0;
+    font-weight: 500; 
+    color: #334155;
+}
+
+.player-left {
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.player-right {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.player.winner { 
+    font-weight: 700; 
+    color: #0369a1; 
+}
+
+.vs { 
+    font-size: 0.68rem; 
+    color: #94a3b8; 
+    text-transform: lowercase; 
+}
+
+.score { 
+    background: #ffffff; 
+    border: 1px solid #cbd5e1; 
+    padding: 0px 4px; 
+    border-radius: 3px; 
+    font-size: 0.72rem; 
+    font-weight: 600;
+    min-width: 1.6em;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Hide Extra Matches by Default */
+.match-row.extra-match {
+    display: none;
+}
+
+/* Show Extra Matches when Card is Expanded */
+.draw-card.expanded .match-row.extra-match {
+    display: flex;
+}
+
+/* Toggle Show More / Less Button */
+.toggle-more-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 5px 8px;
+    background: transparent;
+    border: 1px dashed #cbd5e1;
+    border-radius: 4px;
+    color: #0369a1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-more-btn:hover {
+    background: #e0f2fe;
+    border-color: #0369a1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .draws-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .tier-1 .draw-card,
+    .tier-2 .draw-card,
+    .tier-3 .draw-card {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .tab-divider {
+        display: none;
+    }
+
+    .draws-tabs {
+        gap: 10px 14px;
+    }
+}
+@media (max-width: 480px) {
+    .draws-section {
+        padding: 20px 8px; /* Tighter side padding for smaller screens */
+    }
+    
+    .match-row {
+        padding: 6px 6px;
+        font-size: 0.78rem; /* Slightly smaller text for long names */
+    }
+
 }
