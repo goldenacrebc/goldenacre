@@ -13,31 +13,26 @@
     <script src="fixtures/fixtures-rinks.js" defer></script>
     <script src="fixtures/fixtures-handicap.js" defer></script>
     <script src="fixtures/fixtures-tomwilson.js" defer></script>
+    <script src="fixtures/2bowl.js" defer></script>	
     <script src="draws.js" defer></script>
 </head>
 <body>
     <!-- Header & Navigation -->
 <header>
     <nav>
-        <a href="index.html#news">Club News</a>
-        <a href="index.html#about">About</a>
-        <a href="index.html#schedule">Schedule</a>
 
         <!-- Header Overlapping Badge -->
-        <a href="#" class="header-badge-link">
+        <a href="index.html" class="header-badge-link">
             <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
         </a>
 
-        <a href="index.html#sponsors">Sponsors</a>
-        <a href="index.html#social">Social</a>
-        <a href="index.html#contact">Join Us</a>
     </nav>
 </header>
 
     <!-- Hero Welcome Banner -->
     <section class="hero">
-        <h1>Goldenacre Bowling Club</h1>
-        <p>A friendly lawn bowling club in Warriston, Edinburgh.</p>
+        <h1>Gents Internal Competition Draws</h1>
+        <p></p>
     </section>
 <!-- calls the JS in the fitures folder -->
 <!-- INTERNAL COMPETITION DRAWS SECTION -->
@@ -47,52 +42,10 @@
   </div>
 </section>
 
-<!-- Sponsors Section -->
-    <section id="sponsors" class="content-section">
-        <h2>Our Sponsors and Association links</h2>
-        <div class="sponsors-logos">
-            <div class="sponsor-logo">
-                <a href="https://www.taxassist.co.uk/accountants/goldenacre/" target="_blank" title="Tax Assist Goldenacre">
-                    <img src="photos/tax_assist_logo.png" alt="Tax Assist Goldenacre">
-                </a>
-            </div>
-            <div class="sponsor-logo">
-                <a href="https://www.blackhallmoving.co.uk" target="_blank" title="Blackhall Moving">
-                    <img src="photos/blackhall.png" alt="Blackhall Moving">
-                </a>
-            </div>
-            <div class="sponsor-logo">
-                <a href="https://edinburghba.co.uk/" target="_blank" title="Edinburgh Bowling Association">
-                    <img src="photos/eba_logo.png" alt="Edinburgh Bowling Association">
-                </a>
-            </div>
-            <div class="sponsor-logo">
-                <a href="https://www.bowlsscotland.com" target="_blank" title="Bowls Scotland">
-                    <img src="photos/bowls_scotland_logo.png" alt="Bowls Scotland">
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-        <p class="footer-link">
-            <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
-        </p>
-    </footer>
 
-    <!-- One reusable modal; modals.js fills it with the selected news item. -->
-    <dialog id="global-modal" class="news-modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeNewsModal()" aria-label="Close modal">&times;</button>
-            <div class="modal-header">
-                <span id="modal-tag" class="news-tag"></span>
-                <h2 id="modal-title"></h2>
-            </div>
-            <div id="modal-body" class="modal-body"></div>
-        </div>
-    </dialog>
 </body>
 </html>
   

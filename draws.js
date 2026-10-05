@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
 
     root.innerHTML = `
-      <h2 class="draws-title">Internal Competition Draws</h2>
       <p class="draws-subtitle">Select a competition to view its rounds, deadlines and fixtures.</p>
       <div class="draws-tabs">${tabsHtml}</div>
       <div class="draws-stages-wrapper"></div>
