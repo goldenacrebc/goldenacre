@@ -321,14 +321,18 @@ nav a:hover {
 }
 
 /* Category Tag Badges */
-.category-tag {
+.category-tag,
+#schedule .category-tag {
     display: inline-block;
-    font-size: 0.65rem;
+    font-size: 0.58rem !important;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.03em;
+    padding: 2px 5px !important;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    margin-left: auto;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
@@ -1182,16 +1186,6 @@ footer a:hover {
     font-size: 0.75rem;
 }
 
-.category-tag {
-    font-size: 0.62rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    margin-left: auto;
-}
-
 .tag-seniors { background-color: #e0f2fe; color: #0369a1; }
 .tag-ladies  { background-color: #fce7f3; color: #be185d; }
 .tag-mixed   { background-color: #fef3c7; color: #b45309; }
@@ -1208,12 +1202,6 @@ footer a:hover {
     padding: 0;
     background: transparent !important;
     border: none !important;
-}
-
-#schedule .day-event {
-    border: none !important;
-    border-bottom: none !important;
-    padding: 3px 0;
 }
 
 .schedule-2col-layout {
@@ -1252,11 +1240,25 @@ footer a:hover {
 
 #schedule .day-event {
     display: grid;
-    grid-template-columns: 80px 1fr auto;
-    align-items: start;
-    gap: 10px;
-    padding: 6px 0;
-    border: none !important;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 4px;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+#schedule .day-event:last-child {
+    border-bottom: none !important;
+}
+
+#schedule .day-event.clickable {
+    cursor: pointer;
+}
+
+#schedule .day-event.clickable:hover {
+    background-color: #f1f5f9;
 }
 
 .event-time {
@@ -1780,6 +1782,7 @@ footer a:hover {
         max-height: 140px;
     }
 }
+
 /* Styling applies ONLY within the pop-up modal */
 #popup-modal .event-social,
 .modal-content .event-social {
@@ -1792,6 +1795,7 @@ footer a:hover {
 .event-social {
   /* Default styling for social events outside the pop-up */
 }
+
 /* ============================================================================
    COMPETITION DRAWS SECTION
    ============================================================================ */
@@ -2000,7 +2004,7 @@ footer a:hover {
 
 /* Show Extra Matches when Card is Expanded */
 .draw-card.expanded .match-row.extra-match {
-    display: grid;
+    display: flex;
 }
 
 /* Toggle Show More / Less Button */
@@ -2047,22 +2051,18 @@ footer a:hover {
         gap: 10px 14px;
     }
 }
-/* Vertical Mobile View (Portrait) */
-@media (max-width: 768px) and (orientation: portrait), (max-width: 480px) {
-    /* Prevent row flex items from stretching vertically */
-    .draws-row {
-        align-items: flex-start;
-    }
 
-    /* Force Quarter Finals, Semi Finals, and Finals cards to collapse to content size */
-    .tier-2 .draw-card,
-    .tier-3 .draw-card {
-        height: auto !important;
-        min-height: 0 !important;
-        flex: 0 0 auto !important;
-        align-self: flex-start;
+@media (max-width: 480px) {
+    .draws-section {
+        padding: 20px 8px; /* Tighter side padding for smaller screens */
+    }
+    
+    .match-row {
+        padding: 6px 6px;
+        font-size: 0.78rem; /* Slightly smaller text for long names */
     }
 }
+
 .news-tag,
 .news-badge,
 .block-tag {
