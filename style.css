@@ -2063,3 +2063,14 @@ footer a:hover {
         align-self: flex-start;
     }
 }
+.news-tag,
+.news-badge,
+.block-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    display: block;
+    margin-bottom: 2px;
+}
