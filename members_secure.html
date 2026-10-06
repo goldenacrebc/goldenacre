@@ -35,22 +35,35 @@
         
         <!-- Tab Navigation Bar -->
         <div class="tab-menu">
-            <button class="tab-button active" onclick="openTab(event, 'firsts')">1st 16</button>
+            <button class="tab-button active" onclick="openTab(event, 'draws')">Club Ties & Draws</button>
+            <span class="tab-divider">|</span>
+            <button class="tab-button" onclick="openTab(event, 'firsts')">1st 16</button>
             <span class="tab-divider">|</span>
             <button class="tab-button" onclick="openTab(event, 'seconds')">2nd 16</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'draws')">Club Ties & Draws</button>
+        </div>
+
+        <!-- TAB 1: Club Draws -->
+        <div id="draws" class="tab-content active">
+            <h2>Internal Championship Draws</h2>
+            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
+                Please ensure all ties are played by the deadline dates listed below.
+            </p>
+
+            <!-- Target root container dynamically loaded by draws.js -->
+            <div class="draws-container">
+                <div id="draws-root"></div>
+            </div>
         </div>
 
         <!-- TAB 1: Gents Selection / Leagues -->
-        <div id="firsts" class="tab-content active">
+        <div id="firsts" class="tab-content">
             <h2><center>1st sixteen Team sheet</center></h2>
 		<br />
             <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
                 Latest team sheets and rink selections for upcoming league matches.
             </p>
 
-            <div class="draws-row tier-1">
+            <div class="draws-row tier-1 team-rinks">
                 <!-- Rink 1 Card -->
                 <div class="draw-card">
                     <div class="draw-card-header">
@@ -102,19 +115,42 @@
                         </li>
                     </ul>
                 </div>
+                <div class="draw-card">
+                    <div class="draw-card-header">
+                        <h3>Rink 3</h3>
+                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                    </div>
+                    <ul class="rink-list">
+                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
+                    </ul>
+                </div>
+                <div class="draw-card">
+                    <div class="draw-card-header">
+                        <h3>Rink 4</h3>
+                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                    </div>
+                    <ul class="rink-list">
+                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- TAB 2: 2nd 16-->
-<!-- TAB 1: Gents Selection / Leagues -->
-        <div id="seconds" class="tab-content active">
+        <!-- TAB 3: 2nd 16-->
+        <div id="seconds" class="tab-content">
             <h2><center>2nd sixteen Team sheet</center></h2>
                 <br />
             <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
                 Latest team sheets and rink selections for upcoming league matches.
             </p>
 
-            <div class="draws-row tier-1">
+            <div class="draws-row tier-1 team-rinks">
                 <!-- Rink 1 Card -->
                 <div class="draw-card">
                     <div class="draw-card-header">
@@ -140,18 +176,43 @@
                         </li>
                     </ul>
                 </div>
+                <div class="draw-card">
+                    <div class="draw-card-header">
+                        <h3>Rink 2</h3>
+                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                    </div>
+                    <ul class="rink-list">
+                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
+                    </ul>
+                </div>
+                <div class="draw-card">
+                    <div class="draw-card-header">
+                        <h3>Rink 3</h3>
+                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                    </div>
+                    <ul class="rink-list">
+                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
+                    </ul>
+                </div>
+                <div class="draw-card">
+                    <div class="draw-card-header">
+                        <h3>Rink 4</h3>
+                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                    </div>
+                    <ul class="rink-list">
+                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
+                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
+                    </ul>
+                </div>
 		</div>
-        </div>
-        <!-- TAB 3: Club Draws -->
-        <div id="draws" class="tab-content">
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
-                Please ensure all ties are played by the deadline dates listed below.
-            </p>
-            
-            <!-- Target root container dynamically loaded by draws.js -->
-            <div class="draws-container">
-                <div id="draws-root"></div>
-            </div>
         </div>
 
     </div>
