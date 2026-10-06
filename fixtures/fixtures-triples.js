@@ -1,6 +1,6 @@
 window.fixtureSets = window.fixtureSets || {};
 window.fixtureSets.triples = {
-  label: "Club Triples",
+  label: "Men's Triples",
   active: true,
   rows: [
     {

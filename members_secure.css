@@ -9,6 +9,7 @@
         
         /* Navigation Top Bar */
         .members-header {
+            position: relative;
             background-color: #111111;
             color: white;
             padding: 15px 20px;
@@ -17,6 +18,11 @@
             align-items: center;
             border-bottom: 4px solid #ffcc00;
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .members-header .header-badge-link {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .members-header h1 {
             margin: 0;
@@ -43,7 +49,7 @@
         /* Container Layout */
         .container {
             max-width: 1050px;
-            margin: 30px auto;
+            margin: 50px auto 30px;
             padding: 0 15px;
         }
 
@@ -128,6 +134,18 @@
             #draws-root .tier-2 .draw-card,
             #draws-root .tier-3 .draw-card {
                 flex-basis: auto;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .members-header {
+                padding-bottom: 42px;
+            }
+
+            .members-header .header-badge-link {
+                top: auto;
+                bottom: -35px;
+                transform: translateX(-50%);
             }
         }
 

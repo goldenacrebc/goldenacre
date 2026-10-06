@@ -1,6 +1,6 @@
 window.fixtureSets = window.fixtureSets || {};
 window.fixtureSets.pairs = {
-  label: "Club Pairs",
+  label: "Men's Pairs",
   active: false,
   rows: [
     {

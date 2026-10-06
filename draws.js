@@ -10,24 +10,27 @@ function toggleMatches(button) {
     button.textContent = isExpanded ? '– Show Less' : '+ Show More (' + extraCount + ')';
 }
 
-function buildMatch(match, extra = false) {
+function buildMatch(match, extra = false, showScores = false, showHandicaps = false) {
     const p1Winner = match.winner === 'p1' ? 'winner' : '';
     const p2Winner = match.winner === 'p2' ? 'winner' : '';
+    const player1 = `${match.p1}${showHandicaps ? `<span class="handicap-value">Handicap: ${match.p1Handicap ?? 'TBC'}</span>` : ''}`;
+    const player2 = `${match.p2}${showHandicaps ? `<span class="handicap-value">Handicap: ${match.p2Handicap ?? 'TBC'}</span>` : ''}`;
 
     return `
-      <li class="match-row ${extra ? 'extra-match' : ''}">
-        <div class="player player-left ${p1Winner}">${match.p1}</div>
-        <span class="score">${match.s1}</span>
+      <li class="match-row ${showScores ? 'has-scores' : 'no-scores'} ${extra ? 'extra-match' : ''}">
+        <div class="player player-left ${p1Winner}">${player1}</div>
+        ${showScores ? `<span class="score">${match.s1}</span>` : ''}
         <span class="vs">vs</span>
-        <span class="score">${match.s2}</span>
-        <div class="player player-right ${p2Winner}">${match.p2}</div>
+        ${showScores ? `<span class="score">${match.s2}</span>` : ''}
+        <div class="player player-right ${p2Winner}">${player2}</div>
       </li>
     `;
 }
 
-function buildRound(round) {
-    const visibleMatches = (round.matches || []).map(m => buildMatch(m)).join('');
-    const extraMatches = (round.extra || []).map(m => buildMatch(m, true)).join('');
+function buildRound(round, showHandicaps = false) {
+    const showScores = ['Quarter Final', 'Semi Final', 'Final'].includes(round.name);
+    const visibleMatches = (round.matches || []).map(m => buildMatch(m, false, showScores, showHandicaps)).join('');
+    const extraMatches = (round.extra || []).map(m => buildMatch(m, true, showScores, showHandicaps)).join('');
     const finalClass = round.name === 'Final' ? ' final-card' : '';
     const toggleBtn = round.extra && round.extra.length
         ? `<button class="toggle-more-btn" type="button" onclick="toggleMatches(this)">+ Show More (${round.extra.length})</button>`
@@ -50,7 +53,7 @@ function buildRound(round) {
 
 function buildRows(competition) {
   return (competition.rows || []).map(row => {
-        const roundsHtml = (row.rounds || []).map(buildRound).join('');
+        const roundsHtml = (row.rounds || []).map(round => buildRound(round, competition.type === 'handicap')).join('');
         return `<div class="draws-row ${row.tier}">${roundsHtml}</div>`;
     }).join('');
 }

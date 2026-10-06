@@ -2040,6 +2040,10 @@ footer a:hover {
     font-size: 0.8rem; 
 }
 
+.match-row.no-scores {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
 .player { 
     min-width: 0;
     font-weight: 500; 
@@ -2059,6 +2063,18 @@ footer a:hover {
 .player.winner { 
     font-weight: 700; 
     color: #0369a1; 
+}
+
+.handicap-value {
+    display: block;
+    margin-top: 2px;
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.player.winner .handicap-value {
+    color: #64748b;
 }
 
 .vs { 
@@ -2086,7 +2102,7 @@ footer a:hover {
 
 /* Show Extra Matches when Card is Expanded */
 .draw-card.expanded .match-row.extra-match {
-    display: flex;
+    display: grid;
 }
 
 /* Toggle Show More / Less Button */

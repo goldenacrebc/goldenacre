@@ -1,6 +1,6 @@
 window.fixtureSets = window.fixtureSets || {};
 window.fixtureSets.rinks = {
-  label: "Club Rinks",
+  label: "Men's Rinks",
   active: true,
   rows: [
     {

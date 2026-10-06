@@ -1,5 +1,6 @@
 window.fixtureSets = window.fixtureSets || {};
 window.fixtureSets.handicap = {
+  type: "handicap",
   label: "Gerard Handicap",
   active: true,
   rows: [
