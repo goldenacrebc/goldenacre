@@ -503,6 +503,68 @@
             background-color: #fafafa;
         }
 
+        .downloads-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .downloads-section > h2,
+        .downloads-intro {
+            text-align: center;
+        }
+
+        .downloads-intro {
+            margin: 0 0 24px;
+            color: #64748b;
+        }
+
+        .download-category + .download-category {
+            margin-top: 24px;
+        }
+
+        .download-category h3 {
+            margin: 0 0 10px;
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        .download-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: #f8fafc;
+        }
+
+        .download-name {
+            font-weight: 600;
+            color: #0369a1;
+        }
+
+        .download-status {
+            flex: 0 0 auto;
+            color: #64748b;
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 560px) {
+            .download-item {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+                padding: 12px;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
