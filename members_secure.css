@@ -91,6 +91,61 @@
             font-size: 0.85rem;
         }
 
+        .external-content-section {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .external-content-section h2,
+        .external-content-section p {
+            text-align: center;
+        }
+
+        .knockout-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 18px;
+        }
+
+        .knockout-tab {
+            padding: 8px 12px;
+            border: 1px solid #bae6fd;
+            border-radius: 5px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .knockout-tab:hover,
+        .knockout-tab.active {
+            background: #0369a1;
+            border-color: #0369a1;
+            color: white;
+        }
+
+        .external-content-frame-wrap {
+            display: block;
+            width: 100%;
+            height: min(80vh, 900px);
+            min-height: 600px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .external-content-frame {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: white;
+        }
+
         .team-rinks {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -101,6 +156,211 @@
             min-width: 0;
         }
 
+        .team-fixture {
+            margin: 0 0 18px;
+            text-align: center;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .team-sheet-heading,
+        .team-sheet-intro {
+            text-align: center;
+        }
+
+        .team-sheet-heading {
+            margin: 0 0 10px;
+        }
+
+        .team-sheet-intro {
+            margin: 0 0 18px;
+            color: #64748b;
+            font-size: 0.88rem;
+        }
+
+        .team-venue {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .team-venue.home {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .team-venue.away {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .league-table-section {
+            max-width: 1100px;
+            margin: 34px auto 0;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .league-table-section h2 {
+            text-align: center;
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .league-fixtures-section {
+            max-width: 900px;
+            margin: 30px auto 0;
+            padding-top: 22px;
+            border-top: 1px solid #cbd5e1;
+        }
+
+        .league-fixtures-section > h3 {
+            margin: 0 0 16px;
+            color: #1e293b;
+            text-align: center;
+            font-size: 1.08rem;
+        }
+
+        .league-fixture-period + .league-fixture-period {
+            margin-top: 20px;
+        }
+
+        .league-fixture-more {
+            margin-top: 16px;
+        }
+
+        .league-fixture-more summary {
+            width: fit-content;
+            margin: 0 auto;
+            padding: 8px 14px;
+            border: 1px solid #bae6fd;
+            border-radius: 5px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .league-fixture-more summary:hover {
+            background: #bae6fd;
+        }
+
+        .league-fixture-more[open] summary {
+            margin-bottom: 14px;
+        }
+
+        .league-fixture-period h4 {
+            margin: 0 0 8px;
+            color: #475569;
+            font-size: 0.92rem;
+            text-align: center;
+        }
+
+        .league-table-link {
+            margin: 0 0 14px;
+            text-align: center;
+        }
+
+        .league-table-link a {
+            display: inline-block;
+            padding: 7px 12px;
+            border: 1px solid #bae6fd;
+            border-radius: 5px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .league-table-link a:hover {
+            background: #bae6fd;
+        }
+
+        .league-table-scroll {
+            display: flex;
+            justify-content: safe center;
+            width: min(100%, 900px);
+            margin: 18px auto 0;
+            overflow-x: auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .league-table-frame {
+            display: block;
+            width: 100%;
+            min-width: 825px;
+            height: 280px;
+            border: 0;
+            background: white;
+        }
+
+        .league-fixture-frame {
+            display: block;
+            width: 100%;
+            min-width: 650px;
+            max-width: 760px;
+            height: 700px;
+            border: 0;
+            background: white;
+            margin-inline: auto;
+        }
+
+        .league-fixture-scroll {
+            width: min(100%, 760px);
+            margin-top: 0;
+        }
+
+        @media (max-width: 560px) {
+            .league-table-section {
+                margin-top: 24px;
+                padding: 12px;
+            }
+
+            .league-fixtures-section {
+                margin-top: 22px;
+                padding-top: 16px;
+            }
+
+            .league-fixture-scroll {
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .league-table-section > .league-table-scroll {
+                height: 135px;
+                overflow-y: hidden;
+            }
+
+            .league-table-frame {
+                height: 280px;
+                transform: scale(0.48);
+                transform-origin: top left;
+            }
+
+            .league-fixture-frame {
+                height: 700px;
+            }
+        }
+
+        /*
+         * Google controls the table cells inside the cross-origin iframe.
+         * Keep its full table width available and let the wrapper scroll on
+         * narrow screens rather than clipping the standings columns.
+         */
+        .league-table-section p {
+            color: #64748b;
+        }
+
         @media (max-width: 900px) {
             .team-rinks {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -108,6 +368,32 @@
         }
 
         @media (max-width: 560px) {
+            .knockout-tabs {
+                flex-wrap: nowrap;
+                gap: 4px;
+            }
+
+            .knockout-tab {
+                flex: 0 1 auto;
+                padding: 7px 6px;
+                font-size: 0.72rem;
+                white-space: nowrap;
+            }
+
+            .external-content-frame-wrap {
+                height: 75vh;
+                min-height: 500px;
+            }
+
+            .external-content-frame {
+                width: 760px;
+                height: 150vh;
+                max-width: none;
+                min-height: 0;
+                transform: scale(0.5);
+                transform-origin: top left;
+            }
+
             .members-header {
                 flex-direction: row;
                 align-items: center;

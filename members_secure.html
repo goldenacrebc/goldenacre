@@ -17,7 +17,9 @@
     <script src="fixtures/fixtures-2bowl.js" defer></script>
     <script src="fixtures/fixtures-handicap.js" defer></script>
     <script src="fixtures/fixtures-tomwilson.js" defer></script>
+    <script src="fixtures/team-sheets.js" defer></script>
     <script src="draws.js" defer></script>
+    <script src="js/team-sheets.js" defer></script>
 
     <style>
         
@@ -27,8 +29,8 @@
 
     <!-- Private Header -->
     <header class="members-header">
-        <h1>Goldenacre Members Area</h1>
-        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+        <h1>🔒 Goldenacre Members Area</h1>
+        <a href="###" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
             <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
         </a>
         <a href="index.html" class="logout-btn">Log Out</a>
@@ -43,6 +45,8 @@
             <button class="tab-button" onclick="openTab(event, 'firsts')">1st 16</button>
             <span class="tab-divider">|</span>
             <button class="tab-button" onclick="openTab(event, 'seconds')">2nd 16</button>
+            <span class="tab-divider">|</span>
+            <button class="tab-button" onclick="openTab(event, 'eba-knockouts')">EBA Knockouts</button>
         </div>
 
         <!-- TAB 1: Club Draws -->
@@ -59,162 +63,123 @@
 
         <!-- TAB 1: Gents Selection / Leagues -->
         <div id="firsts" class="tab-content">
-            <h2><center>1st sixteen Team sheet</center></h2>
-		<br />
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
+            <h2 class="team-sheet-heading">1st sixteen Team sheet</h2>
+            <p class="team-sheet-intro">
                 Latest team sheets and rink selections for upcoming league matches.
             </p>
-
-            <div class="draws-row tier-1 team-rinks">
-                <!-- Rink 1 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 1</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">A. Bowler</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">B. Smith</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">C. Jones</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">D. Skip</span>
-                        </li>
-                    </ul>
+            <div id="firsts-team-sheet"></div>
+            <section class="league-table-section" aria-labelledby="league-table-heading">
+                <h2 id="league-table-heading">1st XVI — Division 2</h2>
+                <div class="league-table-scroll">
+                    <iframe
+                        class="league-table-frame"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A14:L23"
+                        title="Edinburgh Bowling Association 1st XVI Division 2 table"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
-
-                <!-- Rink 2 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 2</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
+                <section class="league-fixtures-section" aria-labelledby="firsts-fixtures-heading">
+                    <h3 id="firsts-fixtures-heading">1st XVI Division 2 Fixtures</h3>
+                    <div class="league-fixture-period">
+                        <h4>Weeks 1–7</h4>
+                        <div class="league-table-scroll league-fixture-scroll">
+                            <iframe
+                                class="league-fixture-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=L2:R60"
+                                title="1st XVI Division 2 fixtures, weeks 1 to 7"
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        </div>
                     </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">E. Player</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">F. Brown</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">G. Wilson</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">H. Skip</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 3</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
-                    </ul>
-                </div>
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 4</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
-                    </ul>
-                </div>
-            </div>
+                    <details class="league-fixture-more">
+                        <summary>Show more fixtures (Weeks 8–14)</summary>
+                        <div class="league-fixture-period">
+                        <div class="league-table-scroll league-fixture-scroll">
+                            <iframe
+                                class="league-fixture-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=L65:R123"
+                                title="1st XVI Division 2 fixtures, weeks 8 to 14"
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        </div>
+                        </div>
+                    </details>
+                </section>
+            </section>
         </div>
 
         <!-- TAB 3: 2nd 16-->
         <div id="seconds" class="tab-content">
-            <h2><center>2nd sixteen Team sheet</center></h2>
-                <br />
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
+            <h2 class="team-sheet-heading">2nd sixteen Team sheet</h2>
+            <p class="team-sheet-intro">
                 Latest team sheets and rink selections for upcoming league matches.
             </p>
+            <div id="seconds-team-sheet"></div>
+            <section class="league-table-section" aria-labelledby="seconds-league-table-heading">
+                <h2 id="seconds-league-table-heading">2nd XVI — Division 2</h2>
+                <div class="league-table-scroll">
+                    <iframe
+                        class="league-table-frame"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A76:L85"
+                        title="Edinburgh Bowling Association 2nd XVI Division 2 table"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+                <section class="league-fixtures-section" aria-labelledby="seconds-fixtures-heading">
+                    <h3 id="seconds-fixtures-heading">2nd XVI Division 2 Fixtures</h3>
+                    <div class="league-fixture-period">
+                        <h4>Weeks 1–7</h4>
+                        <div class="league-table-scroll league-fixture-scroll">
+                            <iframe
+                                class="league-fixture-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L2:R60"
+                                title="2nd XVI Division 2 fixtures, weeks 1 to 7"
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        </div>
+                    </div>
+                    <details class="league-fixture-more">
+                        <summary>Show more fixtures (Weeks 8–14)</summary>
+                        <div class="league-fixture-period">
+                        <div class="league-table-scroll league-fixture-scroll">
+                            <iframe
+                                class="league-fixture-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L65:R123"
+                                title="2nd XVI Division 2 fixtures, weeks 8 to 14"
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        </div>
+                        </div>
+                    </details>
+                </section>
+            </section>
+        </div>
 
-            <div class="draws-row tier-1 team-rinks">
-                <!-- Rink 1 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 1</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">A. Bowler</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">B. Smith</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">C. Jones</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">D. Skip</span>
-                        </li>
-                    </ul>
+        <div id="eba-knockouts" class="tab-content">
+            <section class="external-content-section" aria-labelledby="eba-knockouts-heading">
+                <h2 id="eba-knockouts-heading">EBA Knockouts</h2>
+                <div class="knockout-tabs" role="tablist" aria-label="EBA Spring Knockouts">
+                    <button class="knockout-tab active" id="gents-sets-tab" role="tab" aria-selected="true" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Sets')">Gents Sets</button>
+                    <button class="knockout-tab" id="gents-aussie-pairs-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=1012375617&amp;range=B5:I58&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Aussie Pairs')">Gents Aussie Pairs</button>
+                    <button class="knockout-tab" id="fleming-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=898640902&amp;range=B5:I76&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Fleming')">Fleming</button>
                 </div>
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 2</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
-                    </ul>
+                <div class="external-content-frame-wrap">
+                    <iframe
+                        class="external-content-frame"
+                        id="eba-knockout-frame"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false"
+                        title="EBA Spring Knockouts — Gents Sets"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 3</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
-                    </ul>
-                </div>
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 4</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row"><span class="rink-position">Lead</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Second</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Third</span><span class="rink-player">TBC</span></li>
-                        <li class="rink-row"><span class="rink-position">Skip</span><span class="rink-player">TBC</span></li>
-                    </ul>
-                </div>
-		</div>
+            </section>
         </div>
 
     </div>
@@ -234,6 +199,19 @@
 
         document.getElementById(tabId).classList.add("active");
         evt.currentTarget.classList.add("active");
+    }
+
+    function openEbaKnockout(evt, source, title) {
+        const frame = document.getElementById("eba-knockout-frame");
+        frame.src = source;
+        frame.title = `EBA Spring Knockouts — ${title}`;
+
+        const tabs = document.querySelectorAll(".knockout-tab");
+        tabs.forEach(tab => {
+            const selected = tab === evt.currentTarget;
+            tab.classList.toggle("active", selected);
+            tab.setAttribute("aria-selected", String(selected));
+        });
     }
     </script>
 
