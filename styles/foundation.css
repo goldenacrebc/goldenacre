@@ -1,0 +1,165 @@
+/* ============================================================================
+   GOLDEN ACRE BOWLING CLUB - CONSOLIDATED STYLESHEET
+   ============================================================================ */
+
+/* RESET & VARIABLES */
+:root {
+    --bg-color: #f4f9fd;
+    --calendar-bg: #ffffff;
+    --border-color: #eef2f5;
+    --text-main: #111111;
+    --text-muted: #64748b;
+    
+    --color-seniors: #e0f2fe;
+    --text-seniors: #0369a1;
+    --color-ladies: #fce7f3;
+    --text-ladies: #be185d;
+    --color-mixed: #fef3c7;
+    --text-mixed: #b45309;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: #111111;
+    background-color: var(--bg-color);
+}
+
+/* ============================================================================
+   HEADER & NAVIGATION WITH OVERLAPPING BADGE
+   ============================================================================ */
+
+header {
+    background: #111111;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 4px solid #ffcc00;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+/* Header Badge Overlap */
+.header-badge-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-badge {
+    height: 115px;
+    width: 115px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border: 4px solid #ffcc00;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    margin-bottom: -40px;
+    position: relative;
+    z-index: 1001;
+    transition: transform 0.2s ease;
+}
+
+.header-badge:hover {
+    transform: scale(1.06);
+}
+
+/* ============================================================================
+   HERO SECTION
+   ============================================================================ */
+
+.hero {
+    background: linear-gradient(135deg, #7ecaf6 0%, #4ba3e3 100%);
+    color: #111111;
+    text-align: center;
+    padding: 24px 20px 18px 20px;
+    border-bottom: 4px solid #ffcc00;
+}
+
+.hero h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    color: #111111;
+}
+
+.hero p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn {
+    display: inline-block;
+    background: #111111;
+    color: #ffcc00;
+    padding: 7px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+    background: #222222;
+    transform: translateY(-2px);
+}
+
+/* ============================================================================
+   CONTENT SECTIONS & HEADINGS
+   ============================================================================ */
+
+.content-section {
+    padding: 30px 8%;
+    text-align: center;
+}
+
+.gray-bg {
+    background: #f4f9fd;
+}
+
+.content-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #111111;
+    position: relative;
+}
+

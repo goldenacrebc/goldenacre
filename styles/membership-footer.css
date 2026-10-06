@@ -1,0 +1,315 @@
+/* ============================================================================
+   CONTACT & MEMBERSHIP SECTION
+   ============================================================================ */
+
+#contact {
+    background: #f4f9fd;
+    color: #111111;
+    padding: 36px 5%;
+    text-align: center;
+}
+
+#contact h2 {
+    color: #111111;
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+}
+
+.section-intro {
+    max-width: 580px;
+    margin: 0 auto 20px auto;
+    color: #475569;
+    font-size: 0.88rem;
+}
+
+/* Membership Cards Grid */
+.membership-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+/* Card Container */
+.membership-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    flex: 1 1 200px;
+    max-width: 240px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.membership-card:hover {
+    background-color: #e0f2fe;
+    border-color: #0369a1;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(3, 105, 161, 0.15);
+}
+
+.membership-card h3 {
+    font-size: 0.9rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    transition: color 0.25s ease;
+}
+
+.membership-card:hover h3 {
+    color: #0369a1;
+}
+
+.membership-card .price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111111;
+}
+
+.membership-card .price span {
+    font-size: 0.72rem;
+    font-weight: normal;
+    color: #64748b;
+}
+
+.membership-card p {
+    font-size: 0.8rem;
+    color: #475569;
+    margin: 4px 0 12px 0;
+}
+
+.enquire-text {
+    font-size: 0.75rem;
+    color: #0369a1;
+    background: #ffffff;
+    border: 1px solid #bae6fd;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: auto;
+    line-height: 1.35;
+    text-align: center;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.membership-card:hover .enquire-text {
+    background-color: #0369a1;
+    color: #ffffff;
+    border-color: #0369a1;
+}
+
+.bar-notice-callout {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    padding: 10px 18px;
+    border-radius: 6px;
+    max-width: 650px;
+    margin: 0 auto 24px auto;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+#schedule .timeline-block {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px 14px 22px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+#schedule .timeline-block h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+#schedule .timeline-block p {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+#schedule .category-tag {
+    margin-top: 4px;
+}
+
+.contact-details-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #cbd5e1;
+}
+
+.contact-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 7px 14px;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-detail-item:hover {
+    transform: translateY(-2px);
+    border-color: #4ba3e3;
+}
+
+.fb-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.preview-hover {
+    position: relative;
+    display: inline-block;
+}
+
+.preview-hover .hover-image {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    z-index: 10;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 4px;
+}
+
+@media (max-width: 650px) {
+    .contact-details-grid {
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .contact-detail-item {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 0;
+    }
+
+    .contact-detail-item > span:not(.detail-icon) {
+        display: none;
+    }
+
+    .contact-detail-item .detail-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        line-height: 20px;
+    }
+
+    .contact-detail-item .fb-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .contact-details-grid .contact-detail-item:first-child .detail-icon {
+        transform: translateY(6px);
+    }
+}
+
+.preview-hover:hover .hover-image {
+    display: block;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+footer {
+    background: #111111;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+    border-top: 4px solid #ffcc00;
+}
+
+.footer-link {
+    margin-top: 8px; 
+}
+
+footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #ffcc00;
+}
+
+/* ============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 650px) {
+    header {
+        padding: 10px;
+    }
+
+    nav a {
+        margin: 0 4px;
+        font-size: 0.85rem;
+    }
+
+    .category-links-subtle {
+        gap: 8px;
+        font-size: 0.8rem;
+    }
+
+    .header-badge {
+        height: 85px;
+        width: 85px;
+        margin-bottom: -25px;
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .day-column {
+        padding: 0.5rem;
+    }
+
+    .hall-hire-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hall-hire-text, 
+    .hall-hire-note {
+        text-align: center;
+    }
+}
+

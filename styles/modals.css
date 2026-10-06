@@ -1,0 +1,452 @@
+/* ============================================================================
+   NEWS POPUP MODAL STYLES
+   ============================================================================ */
+
+.news-block.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.news-block.clickable:hover {
+    transform: translateY(-2px);
+}
+
+.news-block.clickable:active {
+    opacity: 0.8;
+}
+
+.news-modal {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 520px;
+    width: 92%;
+    margin: auto;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    max-height: 85vh;
+}
+
+.news-modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.members-login-dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 24px;
+    width: min(92%, 360px);
+    margin: auto;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.members-login-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.members-login-dialog form {
+    display: grid;
+    gap: 12px;
+}
+
+.members-login-dialog h2,
+.members-login-dialog p {
+    margin: 0;
+}
+
+.members-login-dialog label {
+    font-weight: 600;
+}
+
+.members-login-dialog input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.members-login-dialog #members-login-error {
+    color: #b91c1c;
+    font-size: 0.9rem;
+}
+
+.members-login-submit {
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 4px;
+    background: #0369a1;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.members-login-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    padding: 24px;
+    background: #ffffff;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f1f5f9;
+    border: none;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #475569;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #111111;
+    background-color: #e2e8f0;
+}
+
+.modal-header {
+    margin-bottom: 12px;
+    padding-right: 40px;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    color: #111111;
+    margin-top: 2px;
+}
+
+.modal-img {
+    width: 100%;
+    max-height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+
+.ladies-championship-img {
+    max-height: 420px;
+    object-fit: contain;
+    object-position: center;
+    background: #f1f5f9;
+}
+
+.modal-body p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 650px) {
+    .news-modal {
+        width: 94%;
+        border-radius: 10px;
+    }
+
+    .modal-content {
+        padding: 18px 16px;
+    }
+
+    .modal-header h2 {
+        font-size: 1.1rem;
+    }
+
+    dialog,
+    .modal-content,
+    .modal-body {
+        height: auto !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+
+    .modal-body p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    dialog,
+    .news-modal,
+    .modal-content {
+        width: 90% !important;
+        max-width: 450px !important;
+        height: auto !important;
+        max-height: 85vh !important;
+        margin: auto !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+    }
+}
+
+.membership-card.clickable {
+    cursor: pointer;
+}
+
+.news-modal.membership-modal {
+    width: 92%;
+    max-width: 720px;
+    padding: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    .news-modal.membership-modal {
+        width: 94% !important;
+        max-width: 450px !important;
+        padding: 0 !important;
+    }
+
+    .news-modal.membership-modal .modal-content {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 18px 16px !important;
+    }
+
+    .news-modal.membership-modal .modal-header h2 {
+        font-size: 1.2rem;
+        margin-bottom: 2px;
+    }
+
+    .membership-modal-body .membership-intro {
+        font-size: 0.78rem;
+        margin-bottom: 10px;
+        line-height: 1.25;
+    }
+
+    .membership-modal-body .membership-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .membership-modal-body .membership-card {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        flex: 0 0 auto;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .membership-modal-body .membership-card h3 {
+        font-size: 0.95rem;
+        margin: 0;
+        min-width: 0;
+    }
+
+    .membership-modal-body .adult-price-box {
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .membership-modal-body .price-split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .membership-modal-body .price-item {
+        min-width: 0;
+        text-align: center;
+    }
+
+    .membership-modal-body .price-num {
+        font-size: 0.9rem;
+    }
+
+    .membership-modal-body .price-label {
+        font-size: 0.7rem;
+    }
+
+    .membership-modal-body .price {
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .membership-modal-body .membership-card p {
+        display: none;
+    }
+
+    .membership-modal-body .enquire-text {
+        margin-top: 0;
+        font-size: 0.78rem;
+        align-self: center;
+        width: 100%;
+        max-width: 180px;
+        white-space: normal;
+        padding: 6px 8px;
+    }
+}
+
+@media (min-width: 768px) {
+    .membership-modal-body .membership-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .membership-modal-body .membership-card {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding: 16px;
+    }
+
+    .membership-modal-body .membership-card p {
+        display: block;
+    }
+}
+
+.timeline-vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.timeline-1col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.facility-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.facility-block .modal-img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.img-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0369a1;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+}
+
+.modal-divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+
+.hall-photos-button {
+    display: inline-block;
+    padding: 9px 14px;
+    border-radius: 4px;
+    background: #0369a1;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.hall-photos-button:hover {
+    background: #075985;
+}
+
+@media (max-width: 650px) {
+    #facilities-modal .modal-content {
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .facility-block .modal-img {
+        max-height: 160px;
+    }
+}
+
+.hall-gallery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hall-gallery-grid .modal-img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+@media (max-width: 650px) {
+    #hall-photos-modal .modal-content {
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hall-gallery-grid .modal-img {
+        max-height: 140px;
+    }
+}
+
+/* Styling applies ONLY within the pop-up modal */
+#popup-modal .event-social,
+.modal-content .event-social {
+  background-color: #ffd700; /* Yellow accent */
+  color: #111111;
+  border-left: 4px solid #e6c200;
+}
+
+/* Base style for main page/calendar remains unchanged */
+.event-social {
+  /* Default styling for social events outside the pop-up */
+}
+

@@ -48,6 +48,8 @@
             <span class="tab-divider">|</span>
             <button class="tab-button" onclick="openTab(event, 'eba-knockouts')">EBA Knockouts</button>
             <span class="tab-divider">|</span>
+            <button class="tab-button" onclick="openTab(event, 'upload-results')">Submit League Results</button>
+            <span class="tab-divider">|</span>
             <button class="tab-button" onclick="openTab(event, 'downloads')">Downloads</button>
         </div>
 
@@ -71,25 +73,25 @@
             </p>
             <div id="firsts-team-sheet"></div>
             <section class="league-table-section" aria-labelledby="league-table-heading">
-                <h2 id="league-table-heading">1st XVI — Division 2</h2>
+                <h2 id="league-table-heading">1st XVI — Division 3</h2>
                 <div class="league-table-scroll">
                     <iframe
                         class="league-table-frame"
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A14:L23"
-                        title="Edinburgh Bowling Association 1st XVI Division 2 table"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A26:L35"
+                        title="Edinburgh Bowling Association 1st XVI Division 3 table"
                         loading="lazy"
                         referrerpolicy="strict-origin-when-cross-origin">
                     </iframe>
                 </div>
                 <section class="league-fixtures-section" aria-labelledby="firsts-fixtures-heading">
-                    <h3 id="firsts-fixtures-heading">1st XVI Division 2 Fixtures</h3>
+                    <h3 id="firsts-fixtures-heading">1st XVI Division 3 Fixtures</h3>
                     <div class="league-fixture-period">
                         <h4>Weeks 1–7</h4>
                         <div class="league-table-scroll league-fixture-scroll">
                             <iframe
                                 class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=L2:R60"
-                                title="1st XVI Division 2 fixtures, weeks 1 to 7"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V2:AB60"
+                                title="1st XVI Division 3 fixtures, weeks 1 to 7"
                                 loading="lazy"
                                 referrerpolicy="strict-origin-when-cross-origin">
                             </iframe>
@@ -101,8 +103,8 @@
                         <div class="league-table-scroll league-fixture-scroll">
                             <iframe
                                 class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=L65:R123"
-                                title="1st XVI Division 2 fixtures, weeks 8 to 14"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V65:AB123"
+                                title="1st XVI Division 3 fixtures, weeks 8 to 14"
                                 loading="lazy"
                                 referrerpolicy="strict-origin-when-cross-origin">
                             </iframe>
@@ -211,7 +213,27 @@
             </section>
         </div>
 
+        <div id="upload-results" class="tab-content">
+            <section class="external-content-section">
+                <p class="team-sheet-intro">Complete the EBA form below after your league match. Your submission is sent directly to the Edinburgh Bowling Association.</p>
+                <div class="league-results-upload-frame-wrap">
+                    <iframe
+                        class="league-results-upload-frame"
+                        src="https://edinburghba.co.uk/upload/"
+                        title="Edinburgh Bowling Association league results submission form"
+                        loading="lazy"
+                        scrolling="no"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+            </section>
+        </div>
+
     </div>
+
+    <footer>
+        <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+    </footer>
 
     <!-- Script to handle main tab switching -->
     <script>

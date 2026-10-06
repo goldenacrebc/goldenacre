@@ -146,6 +146,40 @@
             background: white;
         }
 
+        .league-results-upload-frame-wrap {
+            position: relative;
+            width: min(100%, 850px);
+            height: 930px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            margin-inline: auto;
+        }
+
+        .league-results-upload-frame-wrap::before {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            content: "";
+            pointer-events: none;
+        }
+
+        .league-results-upload-frame {
+            position: relative;
+            z-index: 0;
+            display: block;
+            width: 1100px;
+            height: 1400px;
+            transform: translate(-266px, -200px);
+            border: 0;
+            background: white;
+        }
+
         .team-rinks {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -367,7 +401,23 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .league-results-upload-frame-wrap {
+                width: 100%;
+                height: 1068px;
+            }
+
+            .league-results-upload-frame {
+                width: 100%;
+                transform: translateY(-140px);
+            }
+        }
+
         @media (max-width: 560px) {
+            .league-results-upload-frame-wrap {
+                height: 1100px;
+            }
+
             .knockout-tabs {
                 flex-wrap: nowrap;
                 gap: 4px;
@@ -420,6 +470,72 @@
             #draws-root .tier-2 .draw-card,
             #draws-root .tier-3 .draw-card {
                 flex-basis: auto;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .league-results-upload-frame-wrap {
+                height: 1120px;
+            }
+        }
+
+        @media (max-width: 483px) {
+            .league-results-upload-frame-wrap {
+                height: 1230px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .league-results-upload-frame-wrap {
+                height: 1250px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .league-results-upload-frame-wrap {
+                height: 1290px;
+            }
+        }
+
+        @media (max-width: 410px) {
+            .league-results-upload-frame-wrap {
+                height: 1315px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .league-results-upload-frame-wrap {
+                height: 1330px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .league-results-upload-frame-wrap {
+                height: 1330px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .league-results-upload-frame-wrap {
+                height: 1460px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .league-results-upload-frame-wrap {
+                height: 1490px;
+            }
+        }
+
+        @media (max-width: 340px) {
+            .league-results-upload-frame-wrap {
+                height: 1530px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .league-results-upload-frame-wrap {
+                height: 1790px;
             }
         }
 
