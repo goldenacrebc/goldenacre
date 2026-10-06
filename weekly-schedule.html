@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule | Goldenacre Bowling Club</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="modals/modal-social-events.js" defer></script>
+    <script src="modals/modal-controller.js" defer></script>
+</head>
+<body>
+    <main class="content-section">
+        <h1>Weekly Schedule</h1>
+        <p><a href="index.html">Back to Goldenacre Bowling Club</a></p>
+
+        <!-- Restore this section on the homepage when the new season begins. -->
+        <section id="schedule">
+            <div class="schedule-2col-layout">
+                <div class="schedule-col">
+                    <article class="timeline-block">
+                        <div class="block-body">
+                            <span class="block-tag">Monday</span>
+                            <div class="schedule-events-list">
+                                <div class="day-event clickable" onclick="openNewsModal('pool')">
+                                    <span class="event-time">Evening</span>
+                                    <span class="event-name">Monday Night Pool League</span>
+                                    <span class="category-tag tag-social">Social</span>
+                                </div>
+                                <p><small>Fortnightly on winter evenings, when the green is closed. Everyone welcome.</small></p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="schedule-col">
+                    <article class="timeline-block">
+                        <div class="block-body">
+                            <span class="block-tag">Friday</span>
+                            <div class="schedule-events-list">
+                                <div class="day-event">
+                                    <span class="event-time">6:30 PM</span>
+                                    <span class="event-name">Friday Night Social</span>
+                                    <span class="category-tag tag-social">Social</span>
+                                </div>
+                                <p><small>Winter evenings, when the green is closed. Everyone welcome.</small></p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="global-modal" class="news-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeNewsModal()" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <span id="modal-tag" class="news-tag"></span>
+                <h2 id="modal-title"></h2>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </dialog>
+</body>
+</html>
