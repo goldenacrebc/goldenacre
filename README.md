@@ -40,6 +40,19 @@ cd goldenacre
 - Clean and intuitive user interface
 - Easy-to-maintain HTML and CSS structure
 
+## Stylesheets
+
+Pages that load `style.css` continue to use it as the shared stylesheet entry point. It imports the styles in `styles/` in their original cascade order:
+
+- `foundation.css` - reset, colour variables, shared header, hero, and buttons
+- `club-sections.css` - news, about, schedule, sponsors, social, and hall hire sections
+- `membership-footer.css` - membership/contact sections, footer, and shared responsive rules
+- `timelines.css` - news and event timeline layouts
+- `modals.css` - dialogs and modal content
+- `competition-draws.css` - competition draw cards and their responsive layout
+
+When updating the styling, edit the relevant file in `styles/`; keep the `style.css` import order unchanged unless you intend to change style precedence.
+
 ## Contributing
 
 We welcome contributions from club members and the community! Please feel free to submit issues or pull requests.
