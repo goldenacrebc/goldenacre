@@ -1813,6 +1813,21 @@ footer a:hover {
     margin: 20px 0;
 }
 
+.hall-photos-button {
+    display: inline-block;
+    padding: 9px 14px;
+    border-radius: 4px;
+    background: #0369a1;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.hall-photos-button:hover {
+    background: #075985;
+}
+
 @media (max-width: 650px) {
     #facilities-modal .modal-content {
         max-height: 85vh;

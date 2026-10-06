@@ -11,13 +11,15 @@ window.modalData["facilities"] = {
         </div>
         <hr class="modal-divider">
         <div class="facility-block">
+            <span class="img-label">Pool Table</span>
+            <p>Our clubhouse pool table hosts a fortnightly Monday night pool league. Everyone is welcome.</p>
+        </div>
+        <hr class="modal-divider">
+        <div class="facility-block">
             <img src="photos/hall.jpg" alt="Clubhouse Function Hall" class="modal-img">
             <span class="img-label">Function Hall</span>
-            <p>Our hall holds up to 80 people and is available for hire for private events and functions. Bar facilities are available on request.</p>
-            <p><a href="#" onclick="openNewsModal('hall-photos'); return false;" class="text-link">View more photos of the hall &rarr;</a></p>
-            <p>To check hall availability, please <a href="mailto:goldenacrebc@hotmail.com" class="hall-link">contact us</a>.</p>
-            <p class="hall-hire-subtext"><small><strong>** No 18th or 21st Birthday parties **</strong></small></p>
-            <p class="hall-hire-subtext"><small><strong>** Please note the club does not offer catering **</strong></small></p>
+            <p>Our function hall accommodates up to 80 people and is available to hire for private events. Bar facilities are available on request. <strong>Please note that we do not provide catering and cannot accept bookings for 18th or 21st birthday parties.</strong> To check hall availability, please <a href="mailto:goldenacrebc@hotmail.com" class="hall-link">contact us</a>.</p>
+            <p><a href="#" onclick="openNewsModal('hall-photos'); return false;" class="hall-photos-button">View Hall Photos</a></p>
         </div>
     `
 };

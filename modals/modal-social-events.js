@@ -15,7 +15,7 @@ window.modalData["pool"] = {
     title: "Monday night Pool League",
     body: `
         <h3>Pool League</h3>
-        <p>The Goldenacre Pool league is on a Monday night (All welcome)</p>
+        <p>The Goldenacre Pool League meets fortnightly on Monday nights. All welcome.</p>
         <p>Starting on Monday the 12th October</p>
     `
 };
