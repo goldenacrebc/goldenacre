@@ -1,0 +1,159 @@
+/* Core Layout Styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f9fd;
+            color: #111111;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navigation Top Bar */
+        .members-header {
+            background-color: #111111;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #ffcc00;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .members-header h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .logout-btn:hover {
+            background-color: #fff;
+            color: #111111;
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: 1050px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        /* Draws-Style Main Navigation Tabs */
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0369a1;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: #111111;
+        }
+
+        /* Active tab matching style.css (.tab-btn.active) */
+        .tab-button.active {
+            color: #111111;
+            border-bottom: 2px solid #ffcc00;
+        }
+
+        .tab-divider {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+
+        /* Tab Content Containers */
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Rink Card Row Layouts (Matches Draws Row Styling) */
+        .rink-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .rink-row {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 6px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+        }
+
+        .rink-position {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .rink-player {
+            font-weight: 600;
+            color: #0369a1;
+        }
+
+        /* Custom Table Style */
+        .club-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .club-table th, .club-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        .club-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .club-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
