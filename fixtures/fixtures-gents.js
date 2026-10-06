@@ -1,6 +1,6 @@
 window.fixtureSets = window.fixtureSets || {};
 window.fixtureSets.gents = {
-  label: "Gents Championship",
+  label: "Championship",
   active: true,
   rows: [
     {

@@ -102,8 +102,32 @@
         }
 
         @media (max-width: 560px) {
+            .members-header {
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 16px;
+            }
+
+            .members-header h1 {
+                flex: 1 1 auto;
+                min-width: 0;
+                font-size: clamp(0.65rem, 3vw, 1.15rem);
+                white-space: nowrap;
+            }
+
+            .logout-btn {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+
             .team-rinks {
                 grid-template-columns: 1fr;
+            }
+
+            #draws-root .tier-2 .draw-card,
+            #draws-root .tier-3 .draw-card {
+                flex-basis: auto;
             }
         }
 

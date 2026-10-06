@@ -13,6 +13,7 @@
     <script src="modals/modal-facilities.js" defer></script>
     <script src="modals/modal-membership.js" defer></script>
     <script src="modals/modal-controller.js" defer></script>
+    <script src="js/members_secure.js" defer></script>
 </head>
 <body>
  
@@ -30,7 +31,7 @@
 
         <a href="#sponsors">Sponsors</a>
         <a href="#social">Social</a>
-        <a href="#contact">Join Us</a>
+        <a href="#members-login">Members Area</a>
     </nav>
 </header>
 
@@ -45,6 +46,7 @@
     <h2>Latest Club News</h2>
 
     <!-- Category Links -->
+    <!--
     <div class="category-links-subtle">
         <a href="gents.html" class="category-link-subtle">Gents</a>
         <span class="link-divider">|</span>
@@ -54,6 +56,7 @@
         <span class="link-divider">|</span>
         <a href="seniors.html" class="category-link-subtle">Senior Men</a>
     </div>
+    -->
 
     <div class="news-grid-2col">
         
@@ -357,6 +360,17 @@
              <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
          </p>
      </footer>
+
+     <dialog id="members-login" class="members-login-dialog" aria-labelledby="members-login-title">
+         <form id="members-login-form">
+             <button class="members-login-close" type="button" aria-label="Close dialog">&times;</button>
+             <h2 id="members-login-title">Members Area</h2>
+             <label for="members-password">Enter the club password</label>
+             <input id="members-password" name="password" type="password" autocomplete="current-password" required>
+             <p id="members-login-error" role="alert" hidden></p>
+             <button class="members-login-submit" type="submit">Continue</button>
+         </form>
+     </dialog>
 
      <!-- One reusable modal; modals.js fills it with the selected news item. -->
      <dialog id="global-modal" class="news-modal">
