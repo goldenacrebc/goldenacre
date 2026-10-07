@@ -656,6 +656,8 @@
     .site-menu-panel {
         grid-template-columns: 1fr;
         width: 250px;
+        max-height: calc(100vh - 56px);
+        max-height: calc(100dvh - 56px);
     }
 
     .header-badge-link {
