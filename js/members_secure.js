@@ -6,14 +6,24 @@ const membersLoginForm = document.getElementById("members-login-form");
 const membersPasswordInput = document.getElementById("members-password");
 const membersLoginError = document.getElementById("members-login-error");
 
-document.querySelector('nav a[href="#members-login"]').addEventListener("click", event => {
-    event.preventDefault();
+function openMembersLogin() {
     membersLoginError.hidden = true;
     membersLoginError.textContent = "";
     membersLoginForm.reset();
     membersLoginDialog.showModal();
     membersPasswordInput.focus();
+}
+
+document.querySelectorAll('.members-area-link, nav a[href="#members-login"]').forEach(link => {
+    link.addEventListener("click", event => {
+        event.preventDefault();
+        openMembersLogin();
+    });
 });
+
+if (window.location.hash === "#members-login") {
+    openMembersLogin();
+}
 
 membersLoginDialog.querySelector(".members-login-close").addEventListener("click", () => {
     membersLoginDialog.close();

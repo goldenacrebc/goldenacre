@@ -30,21 +30,38 @@ window.modalData["junior-championship"] = {
 };
 
 window.modalData["honours-list"] = {
-    tag: "internal",
-    title: "Competition Winners",
+    tag: "2026 Honours",
+    title: "Internal Competition Winners",
     body: `
-        <p><strong>2026 Honours List</strong></p>
-        <br />
-        <p><strong>Gents Championship</strong> - Malcolm Thomson</p>
-        <p><strong>Ladies Championship </strong> - Rita Reid</p>
-        <p><strong>Junior Championship </strong> - Daniel Taylor</p>
-        <p><strong>Gents 2 Bowl</strong> - Jim Hutchinson<p>
-        <hr>
-        <p><strong>Gents Pairs</strong> - Malcolm Thomson / Jim Hutchison</p>
-        <p><strong>Gents Triples </strong> - G Lamb, D Taylor, B Taylor</p>
-        <p><strong>Gents Rinks </strong> - G Stafford, M Thomson, J Hutchison, G Robertson</p>
-        <hr>
-        <br />
-        <p></p>
+        <div class="honours-intro">
+            <p>Congratulations to all our club competition winners.</p>
+        </div>
+        <section class="honours-group" aria-labelledby="honours-singles-heading">
+            <div class="honours-champion">
+                <span>Club Championship</span>
+                <strong>Malcolm Thomson</strong>
+            </div>
+            <h3 id="honours-singles-heading">Singles Competitions</h3>
+            <ul class="honours-list">
+                <li><span>Gents 2 Bowl</span><strong>Jim Hutchinson</strong></li>
+                <li><span>Tom Wilson</span><strong>Andy Kidd</strong></li>
+                <li><span>Gerard Handicap</span><strong>Malcolm Thomson</strong></li>
+            </ul>
+        </section>
+        <section class="honours-group" aria-labelledby="honours-teams-heading">
+            <h3 id="honours-teams-heading">Team Competitions</h3>
+            <ul class="honours-list">
+                <li><span>Gents Pairs</span><strong>Malcolm Thomson / Jim Hutchison</strong></li>
+                <li><span>Gents Triples</span><strong>G. Lamb, D. Taylor, B. Taylor</strong></li>
+                <li><span>Gents Rinks</span><strong>G. Stafford, M. Thomson, J. Hutchison, G. Robertson</strong></li>
+            </ul>
+        </section>
+        <section class="honours-group" aria-labelledby="honours-other-heading">
+            <h3 id="honours-other-heading">Other Club Competitions</h3>
+            <ul class="honours-list">
+                <li><span>Ladies Championship</span><strong>Rita Reid</strong></li>
+                <li><span>Junior Championship</span><strong>Daniel Taylor</strong></li>
+            </ul>
+        </section>
     `
 };

@@ -6,6 +6,7 @@ function openNewsModal(key) {
     if (!modal) return;
 
     modal.classList.toggle('membership-modal', key === 'membership');
+    modal.classList.toggle('honours-list-modal', key === 'honours-list');
 
     document.getElementById('modal-tag').textContent = data.tag;
     document.getElementById('modal-title').textContent = data.title;
@@ -38,19 +39,6 @@ function closeNewsModal() {
     const modal = document.getElementById('global-modal');
     if (modal) {
         modal.close();
-    }
-}
-
-function toggleMoreNews(event) {
-    event.preventDefault();
-    const extraItems = document.querySelectorAll('.news-item-extra');
-    const button = document.getElementById('load-more-news-btn');
-    const isExpanding = [...extraItems].some(item => item.classList.contains('news-hidden'));
-
-    extraItems.forEach(item => item.classList.toggle('news-hidden', !isExpanding));
-    button.innerHTML = isExpanding ? 'Show Less News &uarr;' : 'More / Archived News &darr;';
-    if (!isExpanding) {
-        document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
     }
 }
 

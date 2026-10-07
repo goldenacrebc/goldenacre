@@ -220,7 +220,143 @@
     box-sizing: border-box;
 }
 
+.news-modal.honours-list-modal {
+    width: 92%;
+    max-width: 720px;
+    border-top: 5px solid #ffcc00;
+}
+
+.honours-list-modal .modal-header {
+    margin: 0;
+    padding: 22px 64px 16px 24px;
+    background: #f0f9ff;
+    border-bottom: 1px solid #dbeafe;
+}
+
+.honours-list-modal .modal-header .news-tag {
+    display: inline-block;
+    margin: 0 0 6px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.68rem;
+}
+
+.honours-list-modal .modal-header h2 {
+    margin: 0;
+    color: #111111;
+    font-size: 1.4rem;
+}
+
+.honours-list-modal .modal-body {
+    padding: 18px 24px 24px;
+}
+
+.honours-intro p {
+    margin: 0 0 16px;
+    color: #475569;
+}
+
+.honours-champion {
+    margin: 0 0 22px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #ffcc00;
+    background: #0369a1;
+    text-align: center;
+}
+
+.honours-champion span {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffcc00;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.honours-champion strong {
+    display: block;
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.honours-group + .honours-group {
+    margin-top: 20px;
+}
+
+.honours-group h3 {
+    margin: 0 0 10px;
+    color: #0369a1;
+    font-size: 0.95rem;
+}
+
+.honours-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    list-style: none;
+}
+
+.honours-list li {
+    display: grid;
+    grid-template-columns: minmax(130px, 0.8fr) minmax(0, 1.2fr);
+    align-items: baseline;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.honours-list li span {
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.honours-list li strong {
+    color: #111111;
+    font-size: 0.86rem;
+}
+
 @media (max-width: 767px) {
+    .news-modal.honours-list-modal {
+        width: 94% !important;
+        max-width: 520px !important;
+        padding: 0 !important;
+    }
+
+    .honours-list-modal .modal-content {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .honours-list-modal .modal-header {
+        padding: 18px 56px 14px 16px;
+    }
+
+    .honours-list-modal .modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .honours-list-modal .modal-body {
+        padding: 16px;
+    }
+
+    .honours-list {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .honours-list li {
+        grid-template-columns: 1fr;
+        gap: 2px;
+        padding: 9px 0;
+    }
+
     .news-modal.membership-modal {
         width: 94% !important;
         max-width: 450px !important;
@@ -449,4 +585,3 @@
 .event-social {
   /* Default styling for social events outside the pop-up */
 }
-

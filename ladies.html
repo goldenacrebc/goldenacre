@@ -11,19 +11,29 @@
 
     <!-- Header & Navigation -->
     <header>
+        <details class="site-menu">
+            <summary>Club Links</summary>
+            <div class="site-menu-panel">
+                <a href="index.html">Home</a>
+                <a href="index.html#news">Club News</a>
+                <a href="index.html#about">About &amp; Facilities</a>
+                <a href="gents.html">Gents</a>
+                <a href="ladies.html">Ladies</a>
+                <a href="juniors.html">Juniors</a>
+                <a href="seniors.html">Seniors</a>
+                <a href="weekly-schedule.html">Weekly Schedule</a>
+                <a href="archive.html">News Archive</a>
+                <a href="index.html#social">Social</a>
+                <a href="index.html#contact">Contact &amp; Membership</a>
+                <a href="index.html#sponsors">Sponsors</a>
+            </div>
+        </details>
+        <a href="index.html#members-login" class="members-area-link">Members Area</a>
         <nav>
-            <a href="index.html#news">Club News</a>
-            <a href="index.html#about">About</a>
-            <a href="index.html#schedule">Schedule</a>
-
             <!-- Header Overlapping Badge -->
             <a href="index.html" class="header-badge-link">
                 <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
             </a>
-
-            <a href="index.html#sponsors">Sponsors</a>
-            <a href="index.html#social">Social</a>
-            <a href="index.html#contact">Join Us</a>
         </nav>
     </header>
 
@@ -36,68 +46,51 @@
     <!-- Latest News Section -->
     <section id="news" class="content-section">
         <h2>Ladies Section</h2>
-        <div class="category-links-subtle">
-        <a href="index.html" class="category-link-subtle">Home</a>
-        <span class="link-divider">|</span>
-        <a href="gents.html" class="category-link-subtle">Gents</a>
-        <span class="link-divider">|</span>
-        <a href="juniors.html" class="category-link-subtle">Juniors</a>
-        <span class="link-divider">|</span>
-        <a href="seniors.html" class="category-link-subtle">Senior Men</a>
-    </div>
-        
-        <div class="news-grid-2col">
-            
-            <!-- Item 1 left -->
-            <article class="news-block">
-                <div class="news-media">
-                    <img src="photos/RR.png" alt="Rita Reid" class="news-img">
-                </div>
-                <div class="news-body">
-                    <span class="news-tag">Ladies</span>
-                    <h3>Ladies Championship Winner</h3>
-                    <p>Congratulations to Rita Reid , winner of the Ladies Championship.</p>
-                </div>
-            </article>
-            <!-- item 2 rignt -->
-            <article class="news-block">
-           
-             <div class="news-media">
-                <img src="photos/RR_ST.jpg" alt="Steele Trophy Winner" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-tag">Steele Trophy</span>
-                <h3>Winner</h3>
-                <p>Congratulations to the Rita Reid winning the Steele Trophy 21 - 20 against Jessica Young from Craigentinny. </p>
-                <p><strong>Well done Rita from everyone at Goldenacre</strong></p>
-            </div>
-        </article>            
 
-            <!-- item 3 left -->
-            <article class="news-block">
-                <div class="news-media">
-                    <img src="photos/bowls_scotland_logo.png" alt="Bowls Scotland" class="news-img">
-                </div>
-                <div class="news-body">
-                    <span class="news-tag">Ayr National Championships</span>
-                    <h3>Ladies Triples </h3>
-                    <p>Congratulations to Bunty , Carol and Rita for reaching Ayr in the ladies Triples</p>
-                    <p>Unfortunately, they were unable to qualify for the next round.</p>
-                </div>
-              </article>              
-            <article class="news-block">
-                <div class="news-media">
-             <span class="news-icon">🏆</span>
-                            </div>
-                <div class="news-body">
-                    <span class="news-tag">Friday Sept 4th</span>
-                    <h3>Ladies Triples </h3>
-                    <p>This years Ladies club triples will take place on Friday the 4th September</p>
-                </div>
-                
-            </article>
-        </div><!-- Closed news-grid-2col -->
-    </section><!-- Closed section#news -->
+        <div class="news-category-group">
+            <h3 class="news-category-heading">Internal Club Competitions</h3>
+            <div class="news-grid-2col">
+                <article class="news-block">
+                    <div class="news-media">
+                        <img src="photos/RR.png" alt="Rita Reid" class="news-img">
+                    </div>
+                    <div class="news-body">
+                        <span class="news-badge badge-internal">Internal</span>
+                        <h3>Ladies Championship Winner</h3>
+                        <p>Congratulations to Rita Reid, winner of the Ladies Championship.</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <div class="news-category-group">
+            <h3 class="news-category-heading">External Competitions</h3>
+            <div class="news-grid-2col">
+                <article class="news-block">
+                    <div class="news-media">
+                        <img src="photos/RR_ST.jpg" alt="Rita Reid with the Steele Trophy" class="news-img">
+                    </div>
+                    <div class="news-body">
+                        <span class="news-badge badge-external">External</span>
+                        <h3>Steele Trophy Winner</h3>
+                        <p>Congratulations to Rita Reid, who beat Jessica Young of Craigentinny 21–20 in the final.</p>
+                    </div>
+                </article>
+
+                <article class="news-block">
+                    <div class="news-media">
+                        <img src="photos/bowls_scotland_logo.png" alt="Bowls Scotland" class="news-img">
+                    </div>
+                    <div class="news-body">
+                        <span class="news-badge badge-external">External</span>
+                        <h3>Ayr National Championships: Ladies Triples</h3>
+                        <p>Congratulations to Bunty, Carol and Rita for reaching Ayr. They were unable to qualify for the next round.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <section id="contact" class="content-section">
     <h2>Contact & Membership</h2>

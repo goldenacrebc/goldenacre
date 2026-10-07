@@ -199,19 +199,6 @@ function closeNewsModal() {
     }
 }
 
-function toggleMoreNews(event) {
-    event.preventDefault();
-    const extraItems = document.querySelectorAll('.news-item-extra');
-    const button = document.getElementById('load-more-news-btn');
-    const isExpanding = [...extraItems].some(item => item.classList.contains('news-hidden'));
-
-    extraItems.forEach(item => item.classList.toggle('news-hidden', !isExpanding));
-    button.innerHTML = isExpanding ? 'Show Less News &uarr;' : 'More / Archived News &darr;';
-    if (!isExpanding) {
-        document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
 // 3. EVENT LISTENERS FOR CLOSE & BACKDROP CLICK
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('global-modal');
