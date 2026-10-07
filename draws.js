@@ -1,100 +1,87 @@
-function toggleMatches(button) {
-    if (!button) return;
-
-    const card = button.closest('.draw-card');
-    if (!card) return;
-
-    const isExpanded = card.classList.toggle('expanded');
-    const extraCount = card.querySelectorAll('.match-row.extra-match').length;
-
-    button.textContent = isExpanded ? '– Show Less' : '+ Show More (' + extraCount + ')';
-}
-
-function buildMatch(match, extra = false, showScores = false, showHandicaps = false) {
-    const p1Winner = match.winner === 'p1' ? 'winner' : '';
-    const p2Winner = match.winner === 'p2' ? 'winner' : '';
-    const player1 = `${match.p1}${showHandicaps ? `<span class="handicap-value">Handicap: ${match.p1Handicap ?? 'TBC'}</span>` : ''}`;
-    const player2 = `${match.p2}${showHandicaps ? `<span class="handicap-value">Handicap: ${match.p2Handicap ?? 'TBC'}</span>` : ''}`;
-
-    return `
-      <li class="match-row ${showScores ? 'has-scores' : 'no-scores'} ${extra ? 'extra-match' : ''}">
-        <div class="player player-left ${p1Winner}">${player1}</div>
-        ${showScores ? `<span class="score">${match.s1}</span>` : ''}
-        <span class="vs">vs</span>
-        ${showScores ? `<span class="score">${match.s2}</span>` : ''}
-        <div class="player player-right ${p2Winner}">${player2}</div>
-      </li>
-    `;
-}
-
-function buildRound(round, showHandicaps = false) {
-    const showScores = ['Quarter Final', 'Semi Final', 'Final'].includes(round.name);
-    const visibleMatches = (round.matches || []).map(m => buildMatch(m, false, showScores, showHandicaps)).join('');
-    const extraMatches = (round.extra || []).map(m => buildMatch(m, true, showScores, showHandicaps)).join('');
-    const finalClass = round.name === 'Final' ? ' final-card' : '';
-    const toggleBtn = round.extra && round.extra.length
-        ? `<button class="toggle-more-btn" type="button" onclick="toggleMatches(this)">+ Show More (${round.extra.length})</button>`
-        : '';
-
-    return `
-      <div class="draw-card${finalClass}">
-        <div class="draw-card-header">
-          <h3>${round.name}</h3>
-          <span class="badge deadline">${round.deadline}</span>
-        </div>
-        <ul class="match-list">
-          ${visibleMatches}
-          ${extraMatches}
-        </ul>
-        ${toggleBtn}
-      </div>
-    `;
-}
-
-function buildRows(competition) {
-  return (competition.rows || []).map(row => {
-        const roundsHtml = (row.rounds || []).map(round => buildRound(round, competition.type === 'handicap')).join('');
-        return `<div class="draws-row ${row.tier}">${roundsHtml}</div>`;
-    }).join('');
-}
+const SHOW_PUBLISHED_DRAW_SHEETS = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const root = document.getElementById('draws-root');
+  const root = document.getElementById('draws-root');
   if (!root) return;
 
-  const competitions = Object.values(window.fixtureSets || {});
-    const activeIndex = Math.max(0, competitions.findIndex(competition => competition.active));
-    const tabsHtml = competitions.map((competition, index) => `
-      <button class="tab-btn ${index === activeIndex ? 'active' : ''}" type="button" data-competition-index="${index}">${competition.label}</button>
-      ${index < competitions.length - 1 ? '<span class="tab-divider">|</span>' : ''}
-    `).join('');
+  const competitions = window.drawSheets || [];
+  const initialIndex = Math.max(0, competitions.findIndex(competition => competition.active));
+  const tabs = document.createElement('div');
+  tabs.className = 'draws-tabs';
+  tabs.setAttribute('role', 'group');
+  tabs.setAttribute('aria-label', 'Club competition draws');
 
-    root.innerHTML = `
-      <p class="draws-subtitle">Select a competition to view its rounds, deadlines and fixtures.</p>
-      <div class="draws-tabs">${tabsHtml}</div>
-      <div class="draws-stages-wrapper"></div>
-    `;
+  const stages = document.createElement('div');
+  stages.className = 'draws-stages-wrapper';
 
-    const stages = root.querySelector('.draws-stages-wrapper');
-    const tabs = root.querySelectorAll('.tab-btn');
+  function showCompetition(index) {
+    const competition = competitions[index];
+    if (!competition) return;
 
-    function showCompetition(index) {
-      const competition = competitions[index];
-      if (!competition || !stages) return;
+    tabs.querySelectorAll('.tab-btn').forEach((tab, tabIndex) => {
+      const active = tabIndex === index;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-pressed', String(active));
+    });
+    stages.replaceChildren();
 
-      tabs.forEach((tab, tabIndex) => {
-        tab.classList.toggle('active', tabIndex === index);
-      });
-      stages.innerHTML = competition.rows && competition.rows.length
-        ? buildRows(competition)
-        : '<p>No draw has been added yet.</p>';
+    if (!SHOW_PUBLISHED_DRAW_SHEETS || !competition.embedUrl) {
+      const message = document.createElement('p');
+      message.className = 'draw-sheet-pending';
+      message.setAttribute('role', 'status');
+      message.textContent = `The 2027 ${competition.label} draw will appear here once it has been made and published to Google Sheets.`;
+      stages.append(message);
+      return;
     }
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        showCompetition(Number(tab.dataset.competitionIndex));
-      });
-    });
+    if (!URL.canParse(competition.embedUrl)) {
+      const message = document.createElement('p');
+      message.className = 'draw-sheet-error';
+      message.setAttribute('role', 'alert');
+      message.textContent = `The published Google Sheets link for ${competition.label} is invalid.`;
+      stages.append(message);
+      return;
+    }
 
-    if (competitions.length) showCompetition(activeIndex);
+    const embedUrl = new URL(competition.embedUrl);
+    if (embedUrl.protocol !== 'https:' || embedUrl.hostname !== 'docs.google.com' || !embedUrl.pathname.startsWith('/spreadsheets/')) {
+      const message = document.createElement('p');
+      message.className = 'draw-sheet-error';
+      message.setAttribute('role', 'alert');
+      message.textContent = `The published Google Sheets link for ${competition.label} is invalid.`;
+      stages.append(message);
+      return;
+    }
+
+    const frame = document.createElement('iframe');
+    frame.className = 'draw-sheet-frame';
+    frame.src = embedUrl.href;
+    frame.title = `${competition.label} 2027 draw`;
+    frame.loading = 'lazy';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    stages.append(frame);
+  }
+
+  competitions.forEach((competition, index) => {
+    const button = document.createElement('button');
+    button.className = 'tab-btn';
+    button.type = 'button';
+    button.textContent = competition.label;
+    button.addEventListener('click', () => showCompetition(index));
+    tabs.append(button);
+
+    if (index < competitions.length - 1) {
+      const divider = document.createElement('span');
+      divider.className = 'tab-divider';
+      divider.textContent = '|';
+      tabs.append(divider);
+    }
+  });
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'draws-subtitle';
+  subtitle.textContent = 'Select a competition to view its draw.';
+  root.replaceChildren(subtitle, tabs, stages);
+
+  if (competitions.length) showCompetition(initialIndex);
 });
