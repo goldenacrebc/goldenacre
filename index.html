@@ -13,7 +13,6 @@
     <script src="modals/modal-facilities.js" defer></script>
     <script src="modals/modal-membership.js" defer></script>
     <script src="modals/modal-controller.js" defer></script>
-    <script src="js/members_secure.js" defer></script>
 </head>
 <body>
  
@@ -23,20 +22,20 @@
         <summary>Club Links</summary>
         <div class="site-menu-panel">
             <a href="index.html">Home</a>
-            <a href="index.html#news">Club News</a>
             <a href="index.html#about">About &amp; Facilities</a>
+            <a href="index.html#news">Club News</a>
+            <a href="archive.html">News Archive</a>
             <a href="gents.html">Gents</a>
             <a href="ladies.html">Ladies</a>
             <a href="juniors.html">Juniors</a>
             <a href="seniors.html">Seniors</a>
             <a href="weekly-schedule.html">Weekly Schedule</a>
-            <a href="archive.html">News Archive</a>
             <a href="social.html">Social Events</a>
-            <a href="index.html#contact">Contact &amp; Membership</a>
+            <a href="contact.html">Contact &amp; Membership</a>
             <a href="sponsors.html">Sponsors</a>
         </div>
     </details>
-    <a href="index.html#members-login" class="members-area-link">Members Area</a>
+    <a href="members-protected.html" class="members-area-link">Members Area</a>
     <nav>
         <!-- Header Overlapping Badge -->
         <a href="#" class="header-badge-link">
@@ -270,17 +269,6 @@
              <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
          </p>
      </footer>
-
-     <dialog id="members-login" class="members-login-dialog" aria-labelledby="members-login-title">
-         <form id="members-login-form">
-             <button class="members-login-close" type="button" aria-label="Close dialog">&times;</button>
-             <h2 id="members-login-title">Members Area</h2>
-             <label for="members-password">Enter the club password</label>
-             <input id="members-password" name="password" type="password" autocomplete="current-password" required>
-             <p id="members-login-error" role="alert" hidden></p>
-             <button class="members-login-submit" type="submit">Continue</button>
-         </form>
-     </dialog>
 
      <!-- One reusable modal; modals.js fills it with the selected news item. -->
      <dialog id="global-modal" class="news-modal">

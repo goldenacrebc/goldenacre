@@ -24,6 +24,11 @@
     box-sizing: border-box;
 }
 
+h1,
+h2 {
+    color: #0369a1;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -215,7 +220,7 @@ nav a:hover {
 .hero h1 {
     font-size: 1.5rem;
     margin-bottom: 2px;
-    color: #111111;
+    color: #0369a1;
 }
 
 .hero p {
@@ -264,6 +269,6 @@ nav a:hover {
 .content-section h2 {
     font-size: 1.3rem;
     margin-bottom: 15px;
-    color: #111111;
+    color: #0369a1;
     position: relative;
 }

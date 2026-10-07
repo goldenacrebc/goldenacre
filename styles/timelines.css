@@ -153,6 +153,10 @@
     text-align: left;
 }
 
+.archive-page .news-category-heading {
+    font-size: 1rem;
+}
+
 #news .news-block {
     padding-left: 0;
 }
