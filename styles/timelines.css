@@ -229,6 +229,51 @@
     margin-bottom: 4px;
 }
 
+#about .timeline-block {
+    display: block;
+    padding-left: 0;
+}
+
+#about .timeline-block::before,
+#about .timeline-block::after {
+    display: none;
+}
+
+#about .block-body {
+    width: 100%;
+}
+
+#about .block-body p {
+    margin: 0;
+}
+
+#about .block-body h4 {
+    margin: 22px 0 6px;
+    color: #111111;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+#about .block-body h4 + p {
+    margin: 0;
+}
+
+.about-club-photo {
+    width: 100%;
+    max-height: 320px;
+    aspect-ratio: 2.4 / 1;
+    margin: 14px 0 18px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.about-club-photo .block-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 @media (max-width: 650px) {
     .timeline-grid-2col {
         grid-template-columns: 1fr;
@@ -238,6 +283,11 @@
     .block-media {
         width: 75px;
         height: 75px;
+    }
+
+    .about-club-photo {
+        max-height: 210px;
+        aspect-ratio: 1.8 / 1;
     }
 }
 
@@ -589,4 +639,3 @@
   margin-top: 4px;
   font-weight: normal;
 }
-
