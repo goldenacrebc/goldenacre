@@ -35,19 +35,18 @@
             </a>
         </nav>
     </header>
-    <section class="hero">
-        <h1>Weekly Schedule</h1>
-        <p>Regular social events at Goldenacre Bowling Club.</p>
-    </section>
+    <section class="hero" aria-hidden="true"></section>
     <main class="content-section">
+        <h1>Weekly Schedule</h1>
+        <p class="section-intro">Regular social events at Goldenacre Bowling Club.</p>
         <section id="schedule">
             <div class="schedule-2col-layout">
                 <div class="schedule-col">
                     <article class="timeline-block">
                         <div class="block-body">
-                            <span class="block-tag">Monday</span>
                             <div class="schedule-events-list">
                                 <div class="day-event clickable" onclick="openNewsModal('pool')">
+                                    <span class="block-tag event-day">Monday</span>
                                     <span class="event-name">Monday Night Pool League</span>
                                     <span class="category-tag tag-social tag-bar-open">Bar open</span>
                                     <span class="category-tag tag-social event-social-tag">Social</span>
@@ -62,9 +61,25 @@
                 <div class="schedule-col">
                     <article class="timeline-block">
                         <div class="block-body">
-                            <span class="block-tag">Friday</span>
                             <div class="schedule-events-list">
                                 <div class="day-event">
+                                    <span class="block-tag event-day">Tuesday</span>
+                                    <span class="event-name">Country Dancing</span>
+                                    <span class="category-tag tag-social event-social-tag">Social</span>
+                                    <span class="event-time">2:00 PM</span>
+                                </div>
+                                <p><small>Join us every Tuesday afternoon for country dancing. Everyone is welcome.</small></p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="schedule-col">
+                    <article class="timeline-block">
+                        <div class="block-body">
+                            <div class="schedule-events-list">
+                                <div class="day-event">
+                                    <span class="block-tag event-day">Friday</span>
                                     <span class="event-name">Friday Night Social</span>
                                     <span class="category-tag tag-social tag-bar-open">Bar open</span>
                                     <span class="category-tag tag-social event-social-tag">Social</span>

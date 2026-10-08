@@ -5,3 +5,30 @@
 @import url("styles/timelines.css");
 @import url("styles/modals.css");
 @import url("styles/competition-draws.css");
+/* 3-Column Layout */
+.timeline-grid-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* Vertical divider lines between 1st & 2nd and 2nd & 3rd columns */
+@media (min-width: 769px) {
+    .timeline-grid-3col > .timeline-block:not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.12); /* Adjust color if your theme uses a different border shade */
+        padding-right: 30px;
+    }
+}
+
+/* Horizontal dividers for mobile view */
+@media (max-width: 768px) {
+    .timeline-grid-3col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .timeline-grid-3col > .timeline-block:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        padding-bottom: 20px;
+    }
+}
