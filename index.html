@@ -14,7 +14,7 @@
     <script src="modals/modal-membership.js" defer></script>
     <script src="modals/modal-controller.js" defer></script>
 </head>
-<body>
+<body class="site-page home-page">
  
     <!-- Header & Navigation -->
 <header>
@@ -31,7 +31,7 @@
             <a href="seniors.html">Seniors</a>
             <a href="weekly-schedule.html">Weekly Schedule</a>
             <a href="social.html">Social Events</a>
-            <a href="contact.html">Contact &amp; Membership</a>
+            <a href="contact.html">Join Us</a>
             <a href="sponsors.html">Sponsors</a>
             <a href="associations.html">Associations</a>
         </div>
@@ -47,13 +47,18 @@
 
     <!-- Hero Welcome Banner -->
     <section class="hero">
-        <h1>Goldenacre Bowling Club</h1>
-        <p>A friendly lawn bowling club in Warriston, Edinburgh.</p>
+        <div class="site-hero-content">
+            <p class="hero-tagline">Bowling • Competition • Community</p>
+            <h1>Goldenacre Bowling Club</h1>
+        </div>
     </section>
 
+<main class="home-main">
     <!-- Latest News Section -->
 <section id="news" class="content-section">
+    <p class="home-section-kicker">Life at Goldenacre</p>
     <h2>Latest Club News</h2>
+    <p class="home-section-intro">Catch up on club results, competition highlights and news from our members.</p>
 
     <!-- Category Links -->
     <!--
@@ -160,7 +165,8 @@
 </section>
 
     <!-- About & Facilities Section -->
-<section id="about" class="content-section gray-bg">
+<section id="about" class="content-section gray-bg home-about">
+    <p class="home-section-kicker">Our club</p>
     <h2>About the Club & Facilities</h2>
     
     <div class="timeline-1col">
@@ -180,7 +186,8 @@
     </div>
 </section>
 
- <section id="schedule" class="content-section gray-bg">
+ <section id="schedule" class="content-section gray-bg home-schedule">
+    <p class="home-section-kicker">On and off the green</p>
     <h2 id="social">Winter Social Events</h2>
     <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and Friday social evenings. Everyone is welcome.</p>
     
@@ -215,8 +222,9 @@
     </div>
 </section>
 
-     <section id="contact" class="content-section">
-     <h2>Contact & Membership</h2>
+     <section id="contact" class="content-section home-join">
+     <p class="home-section-kicker">Your next step</p>
+     <h2>Come and Join Us</h2>
      <p class="section-intro">New members are always welcome! Free introductory coaching and equipment are available for beginners.</p>
 
      <!-- Single Membership Trigger Card -->
@@ -248,7 +256,8 @@
  </section>
 
  <!-- Sponsors Section -->
-     <section id="sponsors" class="content-section">
+     <section id="sponsors" class="content-section home-sponsors">
+         <p class="home-section-kicker">With thanks to</p>
          <h2>Our Sponsors and Association links</h2>
          <div class="sponsors-logos">
              <div class="sponsor-logo">
@@ -273,6 +282,7 @@
              </div>
          </div>
      </section>
+</main>
 
      <!-- Footer -->
      <footer>

@@ -36,6 +36,22 @@ body {
     background-color: var(--bg-color);
 }
 
+.site-page h1,
+.site-page h2,
+.site-page h3,
+.site-page h4 {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.site-page:not(.join-us-page) h1,
+.site-page:not(.join-us-page) h2 {
+    color: #173b32;
+}
+
+.site-page:not(.join-us-page) .hero h1 {
+    color: #ffffff;
+}
+
 /* ============================================================================
    HEADER & NAVIGATION WITH OVERLAPPING BADGE
    ============================================================================ */
@@ -210,25 +226,39 @@ nav a:hover {
    ============================================================================ */
 
 .hero {
-    background: linear-gradient(135deg, #7ecaf6 0%, #4ba3e3 100%);
-    color: #111111;
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    height: 280px;
+    min-height: 0;
+    padding: 45px 24px 32px;
+    background:
+        linear-gradient(90deg, rgba(8, 18, 27, 0.82), rgba(8, 18, 27, 0.32)),
+        url("../photos/theacre.jpg") center 74% / cover;
+    color: #ffffff;
     text-align: center;
-    padding: 24px 20px 18px 20px;
-    border-bottom: 4px solid #ffcc00;
+    border-bottom: 5px solid #ffcc00;
+}
+
+.hero-tagline {
+    margin: 0 0 12px;
+    color: #ffdc62;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
 }
 
 .hero h1 {
-    font-size: 1.5rem;
-    margin-bottom: 2px;
-    color: #0369a1;
-}
-
-.hero p {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.3rem, 5.2vw, 4rem);
+    font-weight: 600;
+    line-height: 1.08;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
 }
 
 /* ============================================================================
@@ -258,7 +288,7 @@ nav a:hover {
    ============================================================================ */
 
 .content-section {
-    padding: 30px 8%;
+    padding: 54px 8%;
     text-align: center;
 }
 
@@ -269,6 +299,15 @@ nav a:hover {
 .content-section h2 {
     font-size: 1.3rem;
     margin-bottom: 15px;
-    color: #0369a1;
+    color: #173b32;
     position: relative;
+}
+
+.site-page:not(.join-us-page) .content-section > h1,
+.site-page:not(.join-us-page) .content-section > h2 {
+    margin-bottom: 10px;
+    color: #173b32;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+    font-weight: 600;
 }
