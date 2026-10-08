@@ -32,3 +32,8 @@
         padding-bottom: 20px;
     }
 }
+.draw-sheet-frame {
+    width: 100%;
+    height: 600px; /* Adjust height as needed */
+    border: none;
+}
