@@ -1055,7 +1055,7 @@
         flex-wrap: nowrap;
     }
 
-    .contact-detail-item {
+    .contact-details-grid .contact-detail-item {
         width: 44px;
         height: 44px;
         padding: 0;
@@ -1064,11 +1064,11 @@
         font-size: 0;
     }
 
-    .contact-detail-item > span:not(.detail-icon) {
+    .contact-details-grid .contact-detail-item > span:not(.detail-icon) {
         display: none;
     }
 
-    .contact-detail-item .detail-icon {
+    .contact-details-grid .contact-detail-item .detail-icon {
         width: 20px;
         height: 20px;
         display: inline-flex;
@@ -1078,7 +1078,7 @@
         line-height: 20px;
     }
 
-    .contact-detail-item .fb-icon {
+    .contact-details-grid .contact-detail-item .fb-icon {
         width: 40px;
         height: 40px;
         object-fit: contain;
