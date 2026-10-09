@@ -209,8 +209,17 @@
 }
 
 /* ============================================================================
-   CALENDAR EVENT GRID TAGS & TEAM COLOR CODING
+   CALENDAR DAY CELL & INDIVIDUAL EVENT HOVER STYLES
    ============================================================================ */
+
+/* Disable whole-day box dark border on hover */
+.calendar-day:hover,
+.calendar-day-has-events:hover {
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: default !important;
+}
 
 /* Default border accent color for generic match entries */
 .calendar-event.fixture-event-tag {
@@ -233,6 +242,26 @@
     background: #f3e8ff !important;
     color: #6b21a8 !important;
     font-weight: 600;
+}
+
+/* Individual Event Tag Hover Animations */
+.calendar-day .calendar-event {
+    cursor: pointer !important;
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calendar-day .calendar-event:hover {
+    transform: translateY(-1px);
+    filter: brightness(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-event.fixture-team-1st:hover {
+    background: #bae6fd !important;
+}
+
+.calendar-event.fixture-team-2nd:hover {
+    background: #e9d5ff !important;
 }
 
 /* ============================================================================
