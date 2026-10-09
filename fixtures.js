@@ -114,7 +114,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (let day = 1; day <= daysInMonth; day += 1) {
             const date = new Date(year, month, day);
             const dayEvents = events.filter(event => event.date.getTime() === date.getTime());
-            const dayCell = document.createElement(dayEvents.length ? 'button' : 'article');
+            
+            // Container cell for the date
+            const dayCell = document.createElement('article');
             dayCell.className = 'calendar-day';
             
             if (date.getTime() === today.getTime()) {
@@ -122,141 +124,144 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             if (dayEvents.length) {
-                dayCell.type = 'button';
                 dayCell.classList.add('calendar-day-has-events');
-                dayCell.setAttribute('aria-label', `${eventDateLabel.format(date)}, ${dayEvents.length} entry listed. Open popup details.`);
-                dayCell.addEventListener('click', () => showDayEvents(date, dayEvents));
             }
 
-            const dateNumber = document.createElement(dayEvents.length ? 'span' : 'h3');
-            if (dayEvents.length) dateNumber.className = 'calendar-day-number';
+            const dateNumber = document.createElement('h3');
+            dateNumber.className = 'calendar-day-number';
             dateNumber.textContent = String(day);
             dayCell.append(dateNumber);
 
+            // Render each event as an individual clickable button
             dayEvents.forEach(event => {
-                const eventLabel = document.createElement('span');
-                eventLabel.className = event.isFixture ? 'calendar-event fixture-event-tag' : 'calendar-event';
+                const eventBtn = document.createElement('button');
+                eventBtn.type = 'button';
+                eventBtn.className = event.isFixture ? 'calendar-event fixture-event-tag' : 'calendar-event';
                 
                 // Color-coding class assignment
                 if (event.team === '1st 16') {
-                    eventLabel.classList.add('fixture-team-1st');
+                    eventBtn.classList.add('fixture-team-1st');
                 } else if (event.team === '2nd 16') {
-                    eventLabel.classList.add('fixture-team-2nd');
+                    eventBtn.classList.add('fixture-team-2nd');
                 }
 
                 const prefix = event.isFixture ? '🏆 ' : '';
-                eventLabel.textContent = event.time ? `${prefix}${event.time} ${event.title}` : `${prefix}${event.title}`;
-                dayCell.append(eventLabel);
+                eventBtn.textContent = event.time ? `${prefix}${event.time} ${event.title}` : `${prefix}${event.title}`;
+                
+                // Click listener tied ONLY to this single entry
+                eventBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showSingleEvent(date, event);
+                });
+
+                dayCell.append(eventBtn);
             });
 
             calendarGrid.append(dayCell);
         }
     }
 
-    // 3. Dynamic Pop-up Selector Engine
-    function showDayEvents(date, dayEvents) {
+    // 3. Single Event Pop-up Selector Engine
+    function showSingleEvent(date, event) {
         if (!detailDate || !detailList || !detailDialog) return;
         detailDate.textContent = eventDateLabel.format(date);
         detailList.replaceChildren();
 
-        dayEvents.forEach(event => {
-            const card = document.createElement('article');
+        const card = document.createElement('article');
 
-            if (event.isFixture) {
-                card.className = 'events-detail-item fixture-popup-card';
-                
-                const matchRegex = /(.*?)\s+v(?:s)?(?:\.)?\s+(.*)/i;
-                const isMatch = event.title.match(matchRegex);
-                
-                let homeTeam = isMatch ? isMatch[1].trim() : event.title;
-                let awayTeam = isMatch ? isMatch[2].trim() : "Opponent";
-                
-                const homeInitials = homeTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
-                const awayInitials = awayTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
+        if (event.isFixture) {
+            card.className = 'events-detail-item fixture-popup-card';
+            
+            const matchRegex = /(.*?)\s+v(?:s)?(?:\.)?\s+(.*)/i;
+            const isMatch = event.title.match(matchRegex);
+            
+            let homeTeam = isMatch ? isMatch[1].trim() : event.title;
+            let awayTeam = isMatch ? isMatch[2].trim() : "Opponent";
+            
+            const homeInitials = homeTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
+            const awayInitials = awayTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
 
-                // Format Team Badge Label
-                let teamLabelHtml = '';
-                if (event.team) {
-                    teamLabelHtml = `<div class="fixture-team-badge-header">${event.team} Fixture</div>`;
-                }
-
-                card.innerHTML = `
-                    ${teamLabelHtml}
-                    <div class="fixture-badge-grid">
-                        <div class="fixture-team-col home-team">
-                            <div class="club-badge-placeholder">${homeInitials}</div>
-                            <span class="fixture-team-name">${homeTeam}</span>
-                            <span class="venue-tag tag-home">Home</span>
-                        </div>
-                        <div class="fixture-vs-divider">VS</div>
-                        <div class="fixture-team-col away-team">
-                            <div class="club-badge-placeholder">${awayInitials}</div>
-                            <span class="fixture-team-name">${awayTeam}</span>
-                            <span class="venue-tag tag-away">Away</span>
-                        </div>
-                    </div>
-                    <div class="fixture-meta-info">
-                        ${event.time ? `<p class="events-detail-meta">🕒 ${event.time} ·${event.location}</p>` : `<p class="events-detail-meta">📍 ${event.location}</p>`}
-                        <p class="fixture-description">${event.description || 'No further match details listed for this fixture.'}</p>
-                    </div>
-                    <div class="reminder-action-panel">
-                        <button type="button" class="btn-set-reminder">🔔 Set Match Reminder</button>
-                        <p class="reminder-status-text" style="display: none;"></p>
-                    </div>
-                `;
-
-                const reminderBtn = card.querySelector('.btn-set-reminder');
-                const statusText = card.querySelector('.reminder-status-text');
-
-                reminderBtn.addEventListener('click', () => {
-                    if (!('Notification' in window)) {
-                        statusText.textContent = '❌ Web alerts not supported by this browser.';
-                        statusText.style.display = 'block';
-                        return;
-                    }
-
-                    Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                            reminderBtn.textContent = '✓ Reminder Scheduled';
-                            reminderBtn.disabled = true;
-                            statusText.textContent = '🔔 Notification approved! Alert triggers before green rolls.';
-                            statusText.style.display = 'block';
-                            
-                            setTimeout(() => {
-                                new Notification(`Matchday Reminder: ${event.title}`, {
-                                    body: `The fixture starts at ${event.time || 'Scheduled Time'}. Good luck!`,
-                                    icon: '/favicon.ico'
-                                });
-                            }, 2000);
-                        } else {
-                            statusText.textContent = '❌ Permission denied. Unblock notification settings in your browser bar.';
-                            statusText.style.display = 'block';
-                        }
-                    });
-                });
-
-            } else {
-                card.className = 'events-detail-item';
-                const title = document.createElement('h3');
-                title.textContent = event.title;
-                card.append(title);
-
-                const details = [event.time, event.location].filter(Boolean).join(' · ');
-                if (details) {
-                    const detailText = document.createElement('p');
-                    detailText.className = 'events-detail-meta';
-                    detailText.textContent = details;
-                    card.append(detailText);
-                }
-
-                const description = document.createElement('p');
-                description.textContent = event.description || 'No further details are available for this event.';
-                card.append(description);
+            // Format Team Badge Label
+            let teamLabelHtml = '';
+            if (event.team) {
+                teamLabelHtml = `<div class="fixture-team-badge-header">${event.team} Fixture</div>`;
             }
 
-            detailList.append(card);
-        });
+            card.innerHTML = `
+                ${teamLabelHtml}
+                <div class="fixture-badge-grid">
+                    <div class="fixture-team-col home-team">
+                        <div class="club-badge-placeholder">${homeInitials}</div>
+                        <span class="fixture-team-name">${homeTeam}</span>
+                        <span class="venue-tag tag-home">Home</span>
+                    </div>
+                    <div class="fixture-vs-divider">VS</div>
+                    <div class="fixture-team-col away-team">
+                        <div class="club-badge-placeholder">${awayInitials}</div>
+                        <span class="fixture-team-name">${awayTeam}</span>
+                        <span class="venue-tag tag-away">Away</span>
+                    </div>
+                </div>
+                <div class="fixture-meta-info">
+                    ${event.time ? `<p class="events-detail-meta">🕒 ${event.time} ·${event.location}</p>` : `<p class="events-detail-meta">📍 ${event.location}</p>`}
+                    <p class="fixture-description">${event.description || 'No further match details listed for this fixture.'}</p>
+                </div>
+                <div class="reminder-action-panel">
+                    <button type="button" class="btn-set-reminder">🔔 Set Match Reminder</button>
+                    <p class="reminder-status-text" style="display: none;"></p>
+                </div>
+            `;
 
+            const reminderBtn = card.querySelector('.btn-set-reminder');
+            const statusText = card.querySelector('.reminder-status-text');
+
+            reminderBtn.addEventListener('click', () => {
+                if (!('Notification' in window)) {
+                    statusText.textContent = '❌ Web alerts not supported by this browser.';
+                    statusText.style.display = 'block';
+                    return;
+                }
+
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        reminderBtn.textContent = '✓ Reminder Scheduled';
+                        reminderBtn.disabled = true;
+                        statusText.textContent = '🔔 Notification approved! Alert triggers before green rolls.';
+                        statusText.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            new Notification(`Matchday Reminder: ${event.title}`, {
+                                body: `The fixture starts at ${event.time || 'Scheduled Time'}. Good luck!`,
+                                icon: '/favicon.ico'
+                            });
+                        }, 2000);
+                    } else {
+                        statusText.textContent = '❌ Permission denied. Unblock notification settings in your browser bar.';
+                        statusText.style.display = 'block';
+                    }
+                });
+            });
+
+        } else {
+            card.className = 'events-detail-item';
+            const title = document.createElement('h3');
+            title.textContent = event.title;
+            card.append(title);
+
+            const details = [event.time, event.location].filter(Boolean).join(' · ');
+            if (details) {
+                const detailText = document.createElement('p');
+                detailText.className = 'events-detail-meta';
+                detailText.textContent = details;
+                card.append(detailText);
+            }
+
+            const description = document.createElement('p');
+            description.textContent = event.description || 'No further details are available for this event.';
+            card.append(description);
+        }
+
+        detailList.append(card);
         detailDialog.showModal();
         if (closeDetailsButton) closeDetailsButton.focus();
     }
