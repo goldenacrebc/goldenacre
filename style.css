@@ -233,3 +233,45 @@ dialog.events-detail-dialog {
         padding: 1rem !important;
     }
 }
+/* Prevent modal card elements from stretching vertically */
+dialog.events-detail-dialog {
+    margin: auto !important;
+    width: min(88vw, 420px) !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    padding: 1.25rem !important;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* Ensure the inner list doesn't force extra space */
+#events-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: auto !important;
+}
+
+/* Tighten spacing inside normal event cards */
+.events-detail-item {
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.events-detail-item h3 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.events-detail-item p {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.events-detail-item p:last-child {
+    margin-bottom: 0;
+}
