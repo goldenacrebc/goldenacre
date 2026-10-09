@@ -234,9 +234,8 @@
     color: #6b21a8 !important;
     font-weight: 600;
 }
-
 /* ============================================================================
-   EVENTS DIALOG MODAL SIZING & HEIGHT RESET
+   EVENTS DIALOG MODAL SIZING & HEIGHT RESET (DESKTOP & VERTICAL MOBILE)
    ============================================================================ */
 
 /* Backdrop Overlay */
@@ -244,14 +243,19 @@ dialog.events-detail-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Reset dialog box dimensions for both desktop and mobile */
+/* Hard reset dialog dimensions across desktop and mobile browsers */
+dialog#events-detail-dialog,
 dialog.events-detail-dialog {
     position: fixed !important;
-    inset: 0 !important;
-    margin: auto !important;
-    width: 90vw !important;
-    max-width: 460px !important;
-    height: fit-content !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    inset: auto !important;
+    margin: 0 !important;
+    width: 88vw !important;
+    max-width: 440px !important;
+    height: auto !important;
+    min-height: 0 !important;
     max-height: 80vh !important;
     padding: 1.25rem !important;
     border-radius: 12px !important;
@@ -261,23 +265,20 @@ dialog.events-detail-dialog {
     overflow-y: auto !important;
 }
 
-/* Force inner dialog container to wrap tightly around content */
-dialog.events-detail-dialog .events-detail-content {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-}
-
-/* Prevent list and item elements from pushing extra vertical whitespace */
-#events-detail-list {
+/* Force modal wrapper containers to wrap tightly around simple text */
+dialog.events-detail-dialog .events-detail-content,
+dialog.events-detail-dialog #events-detail-list {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
     height: auto !important;
     min-height: 0 !important;
+    flex: none !important;
+    gap: 12px !important;
 }
 
+/* Clean up paragraph and header margins in regular non-fixture cards */
 .events-detail-item {
+    display: block !important;
     height: auto !important;
     min-height: 0 !important;
     margin: 0 !important;
@@ -287,6 +288,8 @@ dialog.events-detail-dialog .events-detail-content {
 .events-detail-item h3 {
     margin-top: 0 !important;
     margin-bottom: 6px !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
 }
 
 .events-detail-item p {
@@ -298,10 +301,12 @@ dialog.events-detail-dialog .events-detail-content {
     margin-bottom: 0 !important;
 }
 
-/* Mobile viewport tightness adjustment */
+/* Vertical Mobile specific spacing adjustments */
 @media (max-width: 600px) {
+    dialog#events-detail-dialog,
     dialog.events-detail-dialog {
-        width: 88vw !important;
+        width: 86vw !important;
         padding: 1rem !important;
+        max-height: 75vh !important;
     }
 }
