@@ -3,7 +3,6 @@
     const calendarGrid = document.getElementById('calendar-grid');
     const detailList = document.getElementById('events-detail-list');
     
-    // Set up standard UK date formatting to match your existing page style
     const eventDateLabel = new Intl.DateTimeFormat('en-GB', {
         weekday: 'long',
         day: 'numeric',
@@ -11,40 +10,54 @@
         year: 'numeric'
     });
 
-    // 1. Fetch the separate fixtures file independently
+    // Fetch the separate fixtures.json file independently
     async function loadFixtures() {
         try {
             const response = await fetch('fixtures.json');
             if (!response.ok) return;
             fixtures = await response.json();
             
-            // Re-render matches onto the calendar grid after loading data
-            injectFixturesToGrid();
+            // Retry system: Waits for your existing grid days to become available
+            ensureGridIsReadyAndInject();
         } catch (e) {
             console.error("Could not load separate fixtures file:", e);
         }
     }
 
-    // 2. Inject fixtures directly into the existing calendar cells safely
+    function ensureGridIsReadyAndInject() {
+        if (!calendarGrid) return;
+        
+        const testCells = calendarGrid.querySelectorAll('.calendar-day');
+        // If your original script hasn't built the day cells yet, wait 100ms and try again
+        if (testCells.length === 0) {
+            setTimeout(ensureGridIsReadyAndInject, 100);
+            return;
+        }
+
+        injectFixturesToGrid();
+    }
+
+    // Inject your separate fixtures into your existing calendar cells safely
     function injectFixturesToGrid() {
         if (!calendarGrid) return;
         
-        // Loop through all active buttons/cells in your current calendar day layout
         const dayCells = calendarGrid.querySelectorAll('.calendar-day');
+        const headingElement = document.getElementById('calendar-heading');
+        if (!headingElement) return;
+        
+        const headingText = headingElement.textContent.trim(); // e.g. "October 2026"
+
         dayCells.forEach(cell => {
-            // Find the day number text to figure out the active date
+            // Find the day number text to calculate the true date
             const numSpan = cell.querySelector('.calendar-day-number, h3');
             if (!numSpan) return;
             
             const dayNum = numSpan.textContent.trim();
-            const headingText = document.getElementById('calendar-heading').textContent; // e.g. "October 2026"
-            
-            // Parse cell date parameters safely
             const dateStr = `${dayNum} ${headingText}`;
             const parsedDate = new Date(Date.parse(dateStr));
             if (isNaN(parsedDate)) return;
 
-            // Format cell date to match strict YYYY-MM-DD JSON lookup keys
+            // Convert date variables to YYYY-MM-DD match keys
             const yyyy = parsedDate.getFullYear();
             const mm = String(parsedDate.getMonth() + 1).padStart(2, '0');
             const dd = String(parsedDate.getDate()).padStart(2, '0');
@@ -66,13 +79,18 @@
                 
                 cell.classList.add('calendar-day-has-events');
                 
-                // Add the visual label marker to the calendar grid day block
-                const label = document.createElement('span');
-                label.className = 'calendar-event fixture-event-tag';
-                label.textContent = fixture.time ? `🏆 ${fixture.time} ${fixture.title}` : `🏆 ${fixture.title}`;
-                cell.appendChild(label);
+                // Check if this fixture is already drawn on screen to prevent duplicates
+                const existingTags = Array.from(cell.querySelectorAll('.fixture-event-tag'));
+                const isAlreadyAdded = existingTags.some(t => t.textContent.includes(fixture.title));
                 
-                // Overwrite click to open our layout pop-up card instead
+                if (!isAlreadyAdded) {
+                    const label = document.createElement('span');
+                    label.className = 'calendar-event fixture-event-tag';
+                    label.textContent = fixture.time ? `🏆 ${fixture.time} ${fixture.title}` : `🏆 ${fixture.title}`;
+                    cell.appendChild(label);
+                }
+                
+                // Add the pop-up modal view display execution trigger
                 cell.addEventListener('click', (e) => {
                     e.stopPropagation();
                     showFixtureModal(parsedDate, fixture);
@@ -81,7 +99,7 @@
         });
     }
 
-    // 3. Render the specific custom Home / Away popup layout card
+    // Render the layout popup cards
     function showFixtureModal(date, fixture) {
         const detailDialog = document.getElementById('events-detail-dialog');
         const detailDate = document.getElementById('events-detail-date');
@@ -128,7 +146,6 @@
             </div>
         `;
 
-        // Wire up Browser Notification Interface Permissions
         const reminderBtn = card.querySelector('.btn-set-reminder');
         const statusText = card.querySelector('.reminder-status-text');
 
@@ -164,10 +181,10 @@
         if (closeDetailsButton) closeDetailsButton.focus();
     }
 
-    // Run initialization scripts
+    // Run file loading setup
     loadFixtures();
     
-    // Watch grid to capture month modifications asynchronously (Prev/Next buttons)
+    // Watch grid to recapture month pagination adjustments asynchronously (Prev/Next month clicks)
     if (calendarGrid) {
         const gridObserver = new MutationObserver(() => {
             gridObserver.disconnect();
