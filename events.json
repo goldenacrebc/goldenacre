@@ -19,21 +19,21 @@
     "time": "7:00 pm",
     "location": "Goldenacre Bowling Club",
     "description": "Sample calendar entry for preview only."
-  }
-  	{
+  },
+ {
     "date": "2026-12-25",
     "title": "Christmas Day",
     "time": "All Day",
     "location": "",
     "description": "Happy Christmas from Everyone at Goldenacre Bowling Club."
-  }
+  },
   {
     "date": "2026-12-26",
     "title": "Boxing Day",
     "time": "All Day",
     "location": "",
     "description": ""
-  }
+  },
   {
     "date": "2027-01-01",
     "title": "New Years Day",
