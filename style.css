@@ -196,4 +196,19 @@
     background: #f0f7ff !important;
     font-weight: 600;
 }
+/* Center dialog properly on desktop and prevent full-screen stretch on mobile */
+dialog.events-detail-dialog {
+    margin: auto;
+    max-width: 500px;
+    width: 90%;
+    max-height: 85vh;
+    border-radius: 8px;
+    border: none;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
 
+/* Ensure the backdrop covers properly and centers the modal */
+dialog.events-detail-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}

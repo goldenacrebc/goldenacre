@@ -20,11 +20,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 1. Dual File Data Loading Core
     try {
-        // Fetch regular club events
-        const responseEvents = await fetch('events.json');
+        const [responseEvents, responseFixtures] = await Promise.all([
+            fetch('events.json'),
+            fetch('fixtures.json').catch(() => ({ ok: false }))
+        ]);
+
         if (!responseEvents.ok) {
             throw new Error(`Could not load events.json (${responseEvents.status}).`);
         }
+        
         const dataEvents = await responseEvents.json();
         if (!Array.isArray(dataEvents)) {
             throw new Error('events.json must contain a JSON array of events.');
@@ -34,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!item || typeof item !== 'object' || typeof item.title !== 'string' || !item.title.trim()) {
                 throw new Error(`Event ${index + 1} needs a title.`);
             }
-            const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})\$/);
+            const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
             if (!match) {
                 throw new Error(`Event "${item.title}" needs a date in YYYY-MM-DD format.`);
             }
@@ -50,29 +54,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         // Fetch independent match fixtures file safely
-        try {
-            const responseFixtures = await fetch('fixtures.json');
-            if (responseFixtures.ok) {
-                const dataFixtures = await responseFixtures.json();
-                if (Array.isArray(dataFixtures)) {
-                    const parsedFixtures = dataFixtures.map(item => {
-                        const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})\$/);
-                        const [, year, month, day] = match;
-                        return {
-                            title: item.title.trim(),
-                            date: new Date(Number(year), Number(month) - 1, Number(day)),
-                            time: typeof item.time === 'string' ? item.time.trim() : '',
-                            location: typeof item.location === 'string' ? item.location.trim() : 'Goldenacre Bowling Club',
-                            description: typeof item.description === 'string' ? item.description.trim() : '',
-                            isFixture: true
-                        };
-                    });
-                    // Merge regular club events and match fixtures together
-                    events = [...events, ...parsedFixtures];
-                }
+        if (responseFixtures.ok) {
+            const dataFixtures = await responseFixtures.json();
+            if (Array.isArray(dataFixtures)) {
+                const parsedFixtures = dataFixtures.map((item, index) => {
+                    const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                    if (!match) {
+                        throw new Error(`Fixture ${index + 1} needs a valid date in YYYY-MM-DD format.`);
+                    }
+                    const [, year, month, day] = match;
+                    return {
+                        title: item.title.trim(),
+                        date: new Date(Number(year), Number(month) - 1, Number(day)),
+                        time: typeof item.time === 'string' ? item.time.trim() : '',
+                        location: typeof item.location === 'string' ? item.location.trim() : 'Goldenacre Bowling Club',
+                        description: typeof item.description === 'string' ? item.description.trim() : '',
+                        isFixture: true
+                    };
+                });
+                events = [...events, ...parsedFixtures];
             }
-        } catch (fixtureErr) {
-            console.warn("fixtures.json file reading skipped or empty:", fixtureErr);
         }
 
         // Sort everything chronologically by calendar date
@@ -135,6 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             calendarGrid.append(dayCell);
         }
     }
+
     // 3. Dynamic Pop-up Selector Engine
     function showDayEvents(date, dayEvents) {
         detailDate.textContent = eventDateLabel.format(date);
@@ -143,7 +145,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         dayEvents.forEach(event => {
             const card = document.createElement('article');
 
-            // Check if this item is a true separate fixture matchup
             if (event.isFixture) {
                 card.className = 'events-detail-item fixture-popup-card';
                 
@@ -171,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                     <div class="fixture-meta-info">
-                        ${event.time ? `<p class="events-detail-meta">🕒 event.time · {event.location}</p>` : `<p class="events-detail-meta">📍 \${event.location}</p>`}
+                        ${event.time ? `<p class="events-detail-meta">🕒 ${event.time} ·${event.location}</p>` : `<p class="events-detail-meta">📍 ${event.location}</p>`}
                         <p class="fixture-description">${event.description || 'No further match details listed for this fixture.'}</p>
                     </div>
                     <div class="reminder-action-panel">
@@ -180,7 +181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `;
 
-                // Set up Web Notification Trigger permissions
                 const reminderBtn = card.querySelector('.btn-set-reminder');
                 const statusText = card.querySelector('.reminder-status-text');
 
@@ -212,7 +212,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
             } else {
-                // Fallback structure: Standard text layouts for socials/meetings stay completely safe
                 card.className = 'events-detail-item';
                 const title = document.createElement('h3');
                 title.textContent = event.title;
@@ -240,6 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 4. Sidebar List Layout Generator
     function renderUpcomingEvents() {
+        if (!upcomingList) return;
         upcomingList.replaceChildren();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -305,4 +305,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderCalendar();
     renderUpcomingEvents();
 });
-
