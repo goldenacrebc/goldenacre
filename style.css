@@ -49,6 +49,20 @@
     padding: 16px 0 !important;
 }
 
+.fixture-team-badge-header {
+    display: inline-block;
+    background: #173b32;
+    color: #ffcc00;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    border: 1px solid #ffcc00;
+}
+
 .fixture-badge-grid {
     display: flex;
     justify-content: space-between;

@@ -174,7 +174,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const homeInitials = homeTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
                 const awayInitials = awayTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
 
+                // Format Team Badge Label
+                let teamLabelHtml = '';
+                if (event.team) {
+                    teamLabelHtml = `<div class="fixture-team-badge-header">${event.team} Fixture</div>`;
+                }
+
                 card.innerHTML = `
+                    ${teamLabelHtml}
                     <div class="fixture-badge-grid">
                         <div class="fixture-team-col home-team">
                             <div class="club-badge-placeholder">${homeInitials}</div>
