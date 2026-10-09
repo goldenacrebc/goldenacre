@@ -214,20 +214,22 @@ dialog.events-detail-dialog::backdrop {
 }
 /* Dialog Responsiveness Fix for Mobile and Desktop */
 dialog.events-detail-dialog {
-    margin: auto;
-    width: 90%;
-    max-width: 480px;
-    max-height: 85vh;
-    padding: 1.5rem;
+    margin: auto !important;
+    width: min(90vw, 460px) !important;
+    height: fit-content !important;
+    max-height: 80vh !important;
+    padding: 1.25rem !important;
     border-radius: 12px;
     border: none;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
+    overflow-y: auto;
 }
+
+/* Fix mobile viewport vertical alignment and container size */
 @media (max-width: 600px) {
     dialog.events-detail-dialog {
-        width: 90vw;
-        max-width: 420px;
-        padding: 1.25rem;
+        width: 88vw !important;
+        padding: 1rem !important;
     }
 }
