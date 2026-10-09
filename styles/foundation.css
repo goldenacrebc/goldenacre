@@ -52,6 +52,10 @@ body {
     color: #ffffff;
 }
 
+.site-page:not(.join-us-page) .membership-hero h1 {
+    color: #ffffff;
+}
+
 /* ============================================================================
    HEADER & NAVIGATION WITH OVERLAPPING BADGE
    ============================================================================ */
