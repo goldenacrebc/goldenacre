@@ -1,11 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-<<<<<<< HEAD
     const categoryMenu = document.querySelector(".gallery-category-menu");
     const categoryButtons = [...document.querySelectorAll("[data-open-category]")];
-=======
-    const categoryMenu = document.querySelector(".gallery-categories");
-    const categoryButtons = [...document.querySelectorAll(".gallery-category")];
->>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
     const categoryCounts = document.querySelectorAll(".gallery-category-count");
     const photosView = document.querySelector(".gallery-photos");
     const heading = document.querySelector(".gallery-category-heading");
@@ -41,11 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const selectedButton = categoryButtons.find((button) => button.dataset.openCategory === category);
-<<<<<<< HEAD
         heading.textContent = selectedButton.querySelector("strong")?.textContent || "All photos";
-=======
-        heading.textContent = selectedButton.querySelector("strong").textContent;
->>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
         count.textContent = `${visibleCards.length} ${visibleCards.length === 1 ? "photo" : "photos"}`;
         categoryMenu.hidden = true;
         photosView.hidden = false;
