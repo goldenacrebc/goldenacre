@@ -194,6 +194,10 @@
     .fixture-team-name { font-size: 1rem; }
 }
 
+/* ============================================================================
+   CALENDAR EVENT GRID TAGS & TEAM COLOR CODING
+   ============================================================================ */
+
 /* Default border accent color for generic match entries */
 .calendar-event.fixture-event-tag {
     border-left: 3px solid #0369a1 !important;
@@ -217,53 +221,70 @@
     font-weight: 600;
 }
 
-/* Ensure backdrop covers properly */
+/* ============================================================================
+   EVENTS DIALOG MODAL SIZING & HEIGHT RESET
+   ============================================================================ */
+
+/* Backdrop Overlay */
 dialog.events-detail-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Dialog Layout & Responsiveness Fix for Mobile and Desktop */
+/* Reset dialog box dimensions for both desktop and mobile */
 dialog.events-detail-dialog {
+    position: fixed !important;
+    inset: 0 !important;
     margin: auto !important;
-    width: min(88vw, 440px) !important;
-    height: auto !important;
+    width: 90vw !important;
+    max-width: 460px !important;
+    height: fit-content !important;
     max-height: 80vh !important;
     padding: 1.25rem !important;
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    box-sizing: border-box;
-    overflow-y: auto;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25) !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
 }
 
-/* Tighten spacing inside normal event cards to eliminate bottom dead space */
-#events-detail-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+/* Force inner dialog container to wrap tightly around content */
+dialog.events-detail-dialog .events-detail-content {
+    display: block !important;
     height: auto !important;
+    min-height: 0 !important;
+}
+
+/* Prevent list and item elements from pushing extra vertical whitespace */
+#events-detail-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    height: auto !important;
+    min-height: 0 !important;
 }
 
 .events-detail-item {
     height: auto !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .events-detail-item h3 {
-    margin-top: 0;
-    margin-bottom: 6px;
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
 }
 
 .events-detail-item p {
-    margin-top: 0;
-    margin-bottom: 8px;
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
 }
 
 .events-detail-item p:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
+/* Mobile viewport tightness adjustment */
 @media (max-width: 600px) {
     dialog.events-detail-dialog {
         width: 88vw !important;
