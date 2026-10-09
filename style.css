@@ -37,3 +37,163 @@
     height: 600px; /* Adjust height as needed */
     border: none;
 }
+/* ============================================================================
+   FIXTURE MATCH POPUP SYSTEM HOOK STYLES (HOME VS AWAY)
+   ============================================================================ */
+
+.fixture-popup-card {
+    text-align: center;
+    padding: 16px 0 !important;
+}
+
+.fixture-badge-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    max-width: 460px;
+    margin: 4px auto 20px auto;
+}
+
+.fixture-team-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Rounded Vector Style Placeholder Circle Badges */
+.club-badge-placeholder {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background-color: #173b32; /* Goldenacre Primary Corporate Green */
+    color: #ffcc00;            /* Goldenacre Yellow Accent Trim */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 12px rgba(23, 59, 50, 0.08);
+    border: 3px solid #ffcc00;
+    margin-bottom: 10px;
+}
+
+/* Shift Away club badge options to distinct structural blue colors */
+.fixture-team-col.away-team .club-badge-placeholder {
+    background-color: #0369a1; /* Association Sport Blue */
+    color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.fixture-team-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #173b32;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.fixture-vs-divider {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #64748b;
+    background: #eef3ee;
+    padding: 6px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+}
+
+/* Home / Away Venue Label Tags */
+.venue-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+}
+.tag-home {
+    background-color: #fff8df;
+    color: #b45309;
+    border: 1px solid #ffcc00;
+}
+.tag-away {
+    background-color: #f1f4f1;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.fixture-meta-info {
+    margin: 12px 0;
+    padding: 0 10px;
+}
+.fixture-description {
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-top: 4px;
+}
+
+/* Push Notification Activation Display Area */
+.reminder-action-panel {
+    margin-top: 22px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+}
+
+.btn-set-reminder {
+    background: #173b32;
+    color: #ffffff;
+    border: 1px solid #173b32;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-set-reminder:hover {
+    background: #245747;
+    transform: translateY(-1px);
+}
+.btn-set-reminder:disabled {
+    background: #cbd5e1;
+    border-color: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.reminder-status-text {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    color: #334155;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Responsive constraints for narrow mobile screens */
+@media (max-width: 480px) {
+    .fixture-badge-grid { gap: 10px; }
+    .club-badge-placeholder { width: 64px; height: 64px; font-size: 1.1rem; }
+    .fixture-team-name { font-size: 1rem; }
+}
+/* Custom distinct border accent color rules for match grid items */
+.calendar-event.fixture-event-tag {
+    border-left: 3px solid #0369a1 !important; /* Blue color tint for match entries */
+    background: #f0f7ff !important;
+    font-weight: 600;
+}
+
