@@ -32,6 +32,7 @@
     margin-top: 32px;
 }
 
+<<<<<<< HEAD
 .gallery-category-menu[hidden] {
     display: none;
 }
@@ -47,10 +48,16 @@
     display: block;
     min-width: 0;
     overflow: hidden;
+=======
+.gallery-category {
+    overflow: hidden;
+    padding: 0;
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     background: #ffffff;
     color: #173b32;
+<<<<<<< HEAD
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -59,6 +66,12 @@
     font: inherit;
     text-align: left;
     cursor: pointer;
+=======
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -67,6 +80,7 @@
     box-shadow: 0 8px 18px rgba(23, 59, 50, 0.12);
 }
 
+<<<<<<< HEAD
 .gallery-all-photos-button {
     display: flex;
     align-items: baseline;
@@ -89,6 +103,9 @@
 
 .gallery-category img,
 .gallery-placeholder-art {
+=======
+.gallery-category img {
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
     display: block;
     width: 100%;
     height: 190px;
@@ -96,6 +113,7 @@
     background: #e8eef0;
 }
 
+<<<<<<< HEAD
 .gallery-placeholder-art {
     display: grid;
     place-items: center;
@@ -104,6 +122,8 @@
     font-weight: 600;
 }
 
+=======
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
 .gallery-category-copy {
     display: grid;
     grid-template-rows: auto 2.7em auto;
@@ -125,6 +145,7 @@
     line-height: 1.35;
 }
 
+<<<<<<< HEAD
 .gallery-category-placeholder .gallery-category-copy {
     grid-template-rows: auto 2.7em;
 }
@@ -137,6 +158,8 @@
     background: #f4f9fd;
 }
 
+=======
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
 .gallery-category-count {
     align-self: end;
     margin-top: 0;
@@ -145,7 +168,10 @@
 }
 
 .gallery-category:focus-visible,
+<<<<<<< HEAD
 .gallery-all-photos-button:focus-visible,
+=======
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
 .gallery-back:focus-visible,
 .gallery-card:focus-visible,
 .gallery-lightbox button:focus-visible {
@@ -367,6 +393,7 @@
         gap: 15px;
     }
 
+<<<<<<< HEAD
     .gallery-category img,
     .gallery-placeholder-art {
         height: 170px;
@@ -376,6 +403,12 @@
         min-height: 298px;
     }
 
+=======
+    .gallery-category img {
+        height: 170px;
+    }
+
+>>>>>>> f7d0955f1a8c8cfeb6031276abc94c389939697f
     .gallery-card img {
         height: 210px;
     }
