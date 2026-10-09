@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let homeTeam = isMatch ? isMatch[1].trim() : event.title;
                 let awayTeam = isMatch ? isMatch[2].trim() : "Opponent";
                 
-                const homeInitials = homeTeam.split(' ').map(w => w).filter(Boolean).join('').substring(0, 3).toUpperCase();
-                const awayInitials = awayTeam.split(' ').map(w => w).filter(Boolean).join('').substring(0, 3).toUpperCase();
+                const homeInitials = homeTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
+                const awayInitials = awayTeam.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
 
                 card.innerHTML = `
                     <div class="fixture-badge-grid">
