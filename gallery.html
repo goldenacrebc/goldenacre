@@ -49,31 +49,42 @@
         <p class="home-section-kicker">Life at Goldenacre</p>
         <h1>Club Photo Gallery</h1>
         <p class="gallery-intro">A few moments from the green, club competitions and our bowling community.</p>
-        <div class="gallery-categories" aria-label="Gallery sections">
-            <button class="gallery-category" type="button" data-open-category="all">
-                <img src="photos/theacre.jpg" alt="" aria-hidden="true">
-                <span class="gallery-category-copy">
-                    <strong>All photos</strong>
-                    <span>A look at life around the club</span>
+        <div class="gallery-category-menu">
+            <div class="gallery-categories" aria-label="Gallery sections">
+                <button class="gallery-category" type="button" data-open-category="green">
+                    <img src="photos/bowls.jpeg" alt="" aria-hidden="true">
+                    <span class="gallery-category-copy">
+                        <strong>On the green</strong>
+                        <span>The green, bowling and club life outdoors</span>
+                        <span class="gallery-category-count" data-count-category="green"></span>
+                    </span>
+                </button>
+                <button class="gallery-category" type="button" data-open-category="competition">
+                    <img src="photos/MT.jpg" alt="" aria-hidden="true">
+                    <span class="gallery-category-copy">
+                        <strong>Competitions</strong>
+                        <span>Club champions and competition moments</span>
+                        <span class="gallery-category-count" data-count-category="competition"></span>
+                    </span>
+                </button>
+                <article class="gallery-category-placeholder">
+                    <div class="gallery-placeholder-art" aria-hidden="true">Photos to come</div>
+                    <div class="gallery-category-copy">
+                        <strong>Social</strong>
+                        <span>Photos from club social events</span>
+                    </div>
+                </article>
+                <!-- Add future gallery section placeholders here.
+                <div class="gallery-empty-placeholder" role="img" aria-label="Gallery section placeholder"></div>
+                <div class="gallery-empty-placeholder" role="img" aria-label="Gallery section placeholder"></div>
+                -->
+            </div>
+            <div class="gallery-all-photos-row">
+                <button class="gallery-all-photos-button" type="button" data-open-category="all">
+                    View all photos
                     <span class="gallery-category-count" data-count-category="all"></span>
-                </span>
-            </button>
-            <button class="gallery-category" type="button" data-open-category="green">
-                <img src="photos/bowls.jpeg" alt="" aria-hidden="true">
-                <span class="gallery-category-copy">
-                    <strong>On the green</strong>
-                    <span>The green, bowling and club life outdoors</span>
-                    <span class="gallery-category-count" data-count-category="green"></span>
-                </span>
-            </button>
-            <button class="gallery-category" type="button" data-open-category="competition">
-                <img src="photos/MT.jpg" alt="" aria-hidden="true">
-                <span class="gallery-category-copy">
-                    <strong>Competitions</strong>
-                    <span>Club champions and competition moments</span>
-                    <span class="gallery-category-count" data-count-category="competition"></span>
-                </span>
-            </button>
+                </button>
+            </div>
         </div>
 
         <section class="gallery-photos" hidden aria-live="polite">
