@@ -1,0 +1,23 @@
+[
+  {
+    "date": "2026-10-17",
+    "title": "Example: Club social afternoon",
+    "time": "2:00 pm",
+    "location": "Goldenacre Bowling Club",
+    "description": "Sample calendar entry for preview only."
+  },
+  {
+    "date": "2026-10-24",
+    "title": "Example: Autumn roll-up",
+    "time": "11:00 am",
+    "location": "Goldenacre Bowling Green",
+    "description": "Sample calendar entry for preview only."
+  },
+  {
+    "date": "2026-11-14",
+    "title": "Example: Club social evening",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling Club",
+    "description": "Sample calendar entry for preview only."
+  }
+]

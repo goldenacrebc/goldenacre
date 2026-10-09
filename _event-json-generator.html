@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Private Event JSON Generator | Goldenacre Bowling Club</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/club-sections.css">
+    <script src="_event-json-generator.js" defer></script>
+</head>
+<body class="site-page">
+    <section class="hero">
+        <div class="site-hero-content">
+            <p class="hero-tagline">Private website tool</p>
+            <h1>Event JSON Generator</h1>
+        </div>
+    </section>
+
+    <main class="event-json-generator">
+        <p class="event-json-notice">This local, unlinked helper generates one event entry. It does not edit or publish <code>events.json</code>.</p>
+        <p class="event-json-calendar-link"><a href="events.html">View the club events calendar &rarr;</a></p>
+
+        <form id="event-generator-form" class="event-generator-form">
+            <label for="event-generator-date">Event date</label>
+            <input id="event-generator-date" name="date" type="date" required>
+            <label for="event-generator-title">Event name</label>
+            <input id="event-generator-title" name="title" type="text" maxlength="120" required>
+            <label for="event-generator-time">Time <span>(optional)</span></label>
+            <input id="event-generator-time" name="time" type="text" maxlength="60" placeholder="e.g. 7:00 pm">
+            <label for="event-generator-location">Location <span>(optional)</span></label>
+            <input id="event-generator-location" name="location" type="text" maxlength="120" placeholder="e.g. Goldenacre Bowling Club">
+            <label for="event-generator-description">Short description <span>(optional)</span></label>
+            <textarea id="event-generator-description" name="description" rows="3" maxlength="300"></textarea>
+            <button type="submit" class="event-generator-submit">Generate event JSON</button>
+        </form>
+
+        <section id="event-generator-output" class="event-generator-output" aria-labelledby="event-generator-output-heading" hidden>
+            <h2 id="event-generator-output-heading">Event JSON entry</h2>
+            <textarea id="event-generator-json" rows="8" readonly aria-label="Generated event JSON"></textarea>
+            <div class="event-generator-actions">
+                <button type="button" id="copy-event-generator-json">Copy event JSON</button>
+                <button type="button" id="download-event-generator-json">Download event entry</button>
+            </div>
+            <p id="event-generator-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="event-generator-instructions" aria-labelledby="event-generator-instructions-heading">
+            <h2 id="event-generator-instructions-heading">Add the event to the calendar</h2>
+            <ol>
+                <li>Generate and copy the event JSON above.</li>
+                <li>Open <code>events.json</code> and paste the event object inside the outer square brackets, adding a comma between entries.</li>
+                <li>Save the file and refresh the calendar to check the event appears on the correct date.</li>
+            </ol>
+        </section>
+    </main>
+</body>
+</html>
