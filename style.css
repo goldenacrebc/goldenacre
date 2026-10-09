@@ -212,3 +212,26 @@ dialog.events-detail-dialog {
 dialog.events-detail-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
+/* Dialog Responsiveness Fix for Mobile and Desktop */
+dialog.events-detail-dialog {
+    margin: auto;
+    width: 90%;
+    max-width: 480px;
+    max-height: 85vh;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+/* Force absolute constraints on small mobile screens */
+@media (max-width: 600px) {
+    dialog.events-detail-dialog {
+        width: 92% !important;
+        max-width: none !important;
+        margin: auto !important;
+        left: 0;
+        right: 0;
+    }
+}
