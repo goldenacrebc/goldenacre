@@ -18,74 +18,81 @@ document.addEventListener('DOMContentLoaded', async () => {
     let displayedMonth = new Date();
     displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
 
-    // 1. Dual File Data Loading Core
+    // 1. Resilient Data Loading Core
     try {
-        const [responseEvents, responseFixtures] = await Promise.all([
-            fetch('events.json'),
-            fetch('fixtures.json').catch(() => ({ ok: false }))
-        ]);
+        let dataEvents = [];
+        let dataFixtures = [];
 
-        if (!responseEvents.ok) {
-            throw new Error(`Could not load events.json (${responseEvents.status}).`);
-        }
-        
-        const dataEvents = await responseEvents.json();
-        if (!Array.isArray(dataEvents)) {
-            throw new Error('events.json must contain a JSON array of events.');
-        }
-
-        events = dataEvents.map((item, index) => {
-            if (!item || typeof item !== 'object' || typeof item.title !== 'string' || !item.title.trim()) {
-                throw new Error(`Event ${index + 1} needs a title.`);
+        // Fetch regular events safely
+        try {
+            const resEvents = await fetch('events.json');
+            if (resEvents.ok) {
+                dataEvents = await resEvents.json();
+            } else {
+                console.warn(`Could not load events.json (${resEvents.status})`);
             }
+        } catch (e) {
+            console.warn('Error reading events.json:', e);
+        }
+
+        // Fetch fixtures safely
+        try {
+            const resFixtures = await fetch('fixtures.json');
+            if (resFixtures.ok) {
+                dataFixtures = await resFixtures.json();
+            } else {
+                console.warn(`Could not load fixtures.json (${resFixtures.status})`);
+            }
+        } catch (e) {
+            console.warn('Error reading fixtures.json:', e);
+        }
+
+        // Parse regular events
+        const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map((item, index) => {
+            if (!item || typeof item !== 'object') return null;
             const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-            if (!match) {
-                throw new Error(`Event "${item.title}" needs a date in YYYY-MM-DD format.`);
-            }
+            if (!match) return null;
             const [, year, month, day] = match;
             return {
-                title: item.title.trim(),
+                title: typeof item.title === 'string' ? item.title.trim() : `Event ${index + 1}`,
                 date: new Date(Number(year), Number(month) - 1, Number(day)),
                 time: typeof item.time === 'string' ? item.time.trim() : '',
                 location: typeof item.location === 'string' ? item.location.trim() : '',
                 description: typeof item.description === 'string' ? item.description.trim() : '',
                 isFixture: false
             };
-        });
+        }).filter(Boolean);
 
-        // Fetch independent match fixtures file safely
-        if (responseFixtures.ok) {
-            const dataFixtures = await responseFixtures.json();
-            if (Array.isArray(dataFixtures)) {
-                const parsedFixtures = dataFixtures.map((item, index) => {
-                    const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                    if (!match) {
-                        throw new Error(`Fixture ${index + 1} needs a valid date in YYYY-MM-DD format.`);
-                    }
-                    const [, year, month, day] = match;
-                    return {
-                        title: item.title.trim(),
-                        date: new Date(Number(year), Number(month) - 1, Number(day)),
-                        time: typeof item.time === 'string' ? item.time.trim() : '',
-                        location: typeof item.location === 'string' ? item.location.trim() : 'Goldenacre Bowling Club',
-                        description: typeof item.description === 'string' ? item.description.trim() : '',
-                        isFixture: true
-                    };
-                });
-                events = [...events, ...parsedFixtures];
-            }
-        }
+        // Parse fixtures
+        const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map((item, index) => {
+            if (!item || typeof item !== 'object') return null;
+            const match = typeof item.date === 'string' && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (!match) return null;
+            const [, year, month, day] = match;
+            return {
+                title: typeof item.title === 'string' ? item.title.trim() : `Fixture ${index + 1}`,
+                date: new Date(Number(year), Number(month) - 1, Number(day)),
+                time: typeof item.time === 'string' ? item.time.trim() : '',
+                location: typeof item.location === 'string' ? item.location.trim() : 'Goldenacre Bowling Club',
+                description: typeof item.description === 'string' ? item.description.trim() : '',
+                isFixture: true
+            };
+        }).filter(Boolean);
 
-        // Sort everything chronologically by calendar date
+        // Merge and sort chronologically by date
+        events = [...parsedEvents, ...parsedFixtures];
         events.sort((a, b) => a.date - b.date || a.title.localeCompare(b.title));
 
     } catch (error) {
-        status.textContent = `Events could not be loaded: ${error.message}`;
-        status.classList.add('events-status-error');
+        if (status) {
+            status.textContent = `Events could not be loaded: ${error.message}`;
+            status.classList.add('events-status-error');
+        }
     }
 
     // 2. Main Grid Rendering Logic
     function renderCalendar() {
+        if (!calendarGrid || !heading) return;
         heading.textContent = monthLabel.format(displayedMonth);
         calendarGrid.replaceChildren();
 
@@ -139,6 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. Dynamic Pop-up Selector Engine
     function showDayEvents(date, dayEvents) {
+        if (!detailDate || !detailList || !detailDialog) return;
         detailDate.textContent = eventDateLabel.format(date);
         detailList.replaceChildren();
 
@@ -195,7 +203,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         if (permission === 'granted') {
                             reminderBtn.textContent = '✓ Reminder Scheduled';
                             reminderBtn.disabled = true;
-                            statusText.textContent = '🔔 Notification approved! Alert triggers 15–30 mins before green rolls.';
+                            statusText.textContent = '🔔 Notification approved! Alert triggers before green rolls.';
                             statusText.style.display = 'block';
                             
                             setTimeout(() => {
@@ -234,7 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         detailDialog.showModal();
-        closeDetailsButton.focus();
+        if (closeDetailsButton) closeDetailsButton.focus();
     }
 
     // 4. Sidebar List Layout Generator
@@ -285,23 +293,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 5. Month Switcher Event Listeners
-    document.getElementById('previous-month').addEventListener('click', () => {
-        displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
-        renderCalendar();
-    });
+    // 5. Navigation Controls
+    const prevBtn = document.getElementById('previous-month');
+    const nextBtn = document.getElementById('next-month');
 
-    document.getElementById('next-month').addEventListener('click', () => {
-        displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
-        renderCalendar();
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
+            renderCalendar();
+        });
+    }
 
-    closeDetailsButton.addEventListener('click', () => detailDialog.close());
-    detailDialog.addEventListener('click', event => {
-        if (event.target === detailDialog) detailDialog.close();
-    });
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
+            renderCalendar();
+        });
+    }
 
-    // Run layout render configurations
+    if (closeDetailsButton && detailDialog) {
+        closeDetailsButton.addEventListener('click', () => detailDialog.close());
+        detailDialog.addEventListener('click', event => {
+            if (event.target === detailDialog) detailDialog.close();
+        });
+    }
+
+    // Execute Initial Render
     renderCalendar();
     renderUpcomingEvents();
 });
