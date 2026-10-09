@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | Goldenacre Bowling Club</title>
+    <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/gallery.css">
+    <script src="gallery.js" defer></script>
+</head>
+<body class="site-page gallery-page">
+    <header>
+        <details class="site-menu">
+            <summary>Club Links</summary>
+            <div class="site-menu-panel">
+                <a href="index.html">Home</a>
+                <a href="about.html">About &amp; Facilities</a>
+                <a href="index.html#news">Club News</a>
+                <a href="archive.html">News Archive</a>
+                <a href="gents.html">Gents</a>
+                <a href="ladies.html">Ladies</a>
+                <a href="juniors.html">Juniors</a>
+                <a href="seniors.html">Seniors</a>
+                <a href="weekly-schedule.html">Weekly Schedule</a>
+                <a href="social.html">Social Events</a>
+                <a href="contact.html">Join Us</a>
+                <a href="sponsors.html">Sponsors</a>
+                <a href="gallery.html">Photo Gallery</a>
+                <a href="associations.html">Associations</a>
+            </div>
+        </details>
+        <a href="members-protected.html" class="members-area-link">Members Area</a>
+        <nav>
+            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+            </a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="site-hero-content">
+            <p class="hero-tagline">Bowling • Competition • Community</p>
+            <h1>Goldenacre Bowling Club</h1>
+        </div>
+    </section>
+
+    <main class="content-section gallery-main">
+        <p class="home-section-kicker">Life at Goldenacre</p>
+        <h1>Club Photo Gallery</h1>
+        <p class="gallery-intro">A few moments from the green, club competitions and our bowling community.</p>
+        <div class="gallery-categories" aria-label="Gallery sections">
+            <button class="gallery-category" type="button" data-open-category="all">
+                <img src="photos/theacre.jpg" alt="" aria-hidden="true">
+                <span class="gallery-category-copy">
+                    <strong>All photos</strong>
+                    <span>A look at life around the club</span>
+                    <span class="gallery-category-count" data-count-category="all"></span>
+                </span>
+            </button>
+            <button class="gallery-category" type="button" data-open-category="green">
+                <img src="photos/bowls.jpeg" alt="" aria-hidden="true">
+                <span class="gallery-category-copy">
+                    <strong>On the green</strong>
+                    <span>The green, bowling and club life outdoors</span>
+                    <span class="gallery-category-count" data-count-category="green"></span>
+                </span>
+            </button>
+            <button class="gallery-category" type="button" data-open-category="competition">
+                <img src="photos/MT.jpg" alt="" aria-hidden="true">
+                <span class="gallery-category-copy">
+                    <strong>Competitions</strong>
+                    <span>Club champions and competition moments</span>
+                    <span class="gallery-category-count" data-count-category="competition"></span>
+                </span>
+            </button>
+        </div>
+
+        <section class="gallery-photos" hidden aria-live="polite">
+            <button class="gallery-back" type="button">&larr; All gallery sections</button>
+            <h2 class="gallery-category-heading"></h2>
+            <p class="gallery-count"></p>
+            <section class="gallery-group" data-gallery-group="green">
+                <h3 class="gallery-subheading">On the green</h3>
+                <div class="gallery-grid">
+            <button class="gallery-card" type="button" data-category="green" data-full="photos/theacre.jpg" data-caption="Goldenacre Bowling Club — our home in Warriston, Edinburgh">
+                <img src="photos/theacre.jpg" alt="Goldenacre Bowling Club in Warriston, Edinburgh" loading="lazy">
+                <span class="gallery-card-caption">Our club in Warriston</span>
+            </button>
+            <button class="gallery-card" type="button" data-category="green" data-full="photos/bowls.jpeg" data-caption="The outdoor bowling green at Goldenacre">
+                <img src="photos/bowls.jpeg" alt="Outdoor bowling green at Goldenacre Bowling Club" loading="lazy">
+                <span class="gallery-card-caption">The bowling green</span>
+            </button>
+            <button class="gallery-card" type="button" data-category="green" data-full="photos/trybowls.jpeg" data-caption="Give bowls a try at Goldenacre Bowling Club">
+                <img src="photos/trybowls.jpeg" alt="Try bowls at Goldenacre Bowling Club" loading="lazy">
+                <span class="gallery-card-caption">Give bowls a try</span>
+            </button>
+                </div>
+            </section>
+
+            <section class="gallery-group" data-gallery-group="competition">
+                <h3 class="gallery-year-heading">2026</h3>
+                <section class="gallery-competition-group" data-gallery-group="internal">
+                    <h4 class="gallery-subheading">Internal Competitions</h4>
+                    <div class="gallery-grid">
+            <button class="gallery-card" type="button" data-category="competition" data-full="photos/MT.jpg" data-caption="Malcolm Thomson — Gents Championship winner">
+                <img src="photos/MT.jpg" alt="Malcolm Thomson, Gents Championship winner" loading="lazy">
+                <span class="gallery-card-caption">Gents Championship</span>
+            </button>
+            <button class="gallery-card" type="button" data-category="competition" data-full="photos/RR.png" data-caption="Rita Reid — Ladies Championship winner">
+                <img src="photos/RR.png" alt="Rita Reid, Ladies Championship winner" loading="lazy">
+                <span class="gallery-card-caption">Ladies Championship</span>
+            </button>
+            <button class="gallery-card" type="button" data-category="competition" data-full="photos/DT.jpg" data-caption="Daniel Taylor — Junior Championship winner">
+                <img src="photos/DT.jpg" alt="Daniel Taylor, Junior Championship winner" loading="lazy">
+                <span class="gallery-card-caption">Junior Championship</span>
+            </button>
+                    </div>
+                </section>
+                <section class="gallery-competition-group" data-gallery-group="external">
+                    <h4 class="gallery-subheading">External Competitions</h4>
+                    <div class="gallery-grid">
+            <button class="gallery-card" type="button" data-category="competition" data-full="photos/RR_ST.jpg" data-caption="Rita Reid — Steele Trophy winner">
+                <img src="photos/RR_ST.jpg" alt="Rita Reid, Steele Trophy winner" loading="lazy">
+                <span class="gallery-card-caption">Steele Trophy</span>
+            </button>
+            <button class="gallery-card" type="button" data-category="competition" data-full="photos/pairs.png" data-caption="Goldenacre winners of the EBA Gents Knockout Pairs">
+                <img src="photos/pairs.png" alt="Goldenacre EBA Gents Knockout Pairs winners" loading="lazy">
+                <span class="gallery-card-caption">EBA Knockout Pairs</span>
+            </button>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <dialog class="gallery-lightbox" aria-label="Enlarged gallery photo">
+        <div class="gallery-lightbox-inner">
+            <button class="gallery-close" type="button" aria-label="Close photo">&times;</button>
+            <button class="gallery-previous" type="button" aria-label="Previous photo">&larr;</button>
+            <figure>
+                <img class="gallery-lightbox-image" src="" alt="">
+                <figcaption class="gallery-lightbox-caption"></figcaption>
+            </figure>
+            <button class="gallery-next" type="button" aria-label="Next photo">&rarr;</button>
+        </div>
+    </dialog>
+
+    <footer>
+        <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+        <p class="footer-link">
+            <a href="mailto:goldenacrebc@hotmail.com?&amp;subject=General%20Enquiry&amp;body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
+        </p>
+    </footer>
+</body>
+</html>
