@@ -5,6 +5,7 @@
 @import url("styles/timelines.css");
 @import url("styles/modals.css");
 @import url("styles/competition-draws.css");
+
 /* 3-Column Layout */
 .timeline-grid-3col {
     display: grid;
@@ -15,7 +16,7 @@
 /* Vertical divider lines between 1st & 2nd and 2nd & 3rd columns */
 @media (min-width: 769px) {
     .timeline-grid-3col > .timeline-block:not(:last-child) {
-        border-right: 1px solid rgba(0, 0, 0, 0.12); /* Adjust color if your theme uses a different border shade */
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
         padding-right: 30px;
     }
 }
@@ -32,11 +33,13 @@
         padding-bottom: 20px;
     }
 }
+
 .draw-sheet-frame {
     width: 100%;
-    height: 600px; /* Adjust height as needed */
+    height: 600px;
     border: none;
 }
+
 /* ============================================================================
    FIXTURE MATCH POPUP SYSTEM HOOK STYLES (HOME VS AWAY)
    ============================================================================ */
@@ -190,53 +193,39 @@
     .club-badge-placeholder { width: 64px; height: 64px; font-size: 1.1rem; }
     .fixture-team-name { font-size: 1rem; }
 }
-/* Custom distinct border accent color rules for match grid items */
+
+/* Default border accent color for generic match entries */
 .calendar-event.fixture-event-tag {
-    border-left: 3px solid #0369a1 !important; /* Blue color tint for match entries */
+    border-left: 3px solid #0369a1 !important;
     background: #f0f7ff !important;
     font-weight: 600;
 }
-/* Center dialog properly on desktop and prevent full-screen stretch on mobile */
-dialog.events-detail-dialog {
-    margin: auto;
-    max-width: 500px;
-    width: 90%;
-    max-height: 85vh;
-    border-radius: 8px;
-    border: none;
-    padding: 1.5rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+/* Team Color Coding: 1st 16 (Blue Accent) */
+.calendar-event.fixture-team-1st {
+    border-left: 4px solid #0369a1 !important;
+    background: #e0f2fe !important;
+    color: #0369a1 !important;
+    font-weight: 600;
 }
 
-/* Ensure the backdrop covers properly and centers the modal */
+/* Team Color Coding: 2nd 16 (Purple Accent) */
+.calendar-event.fixture-team-2nd {
+    border-left: 4px solid #7c3aed !important;
+    background: #f3e8ff !important;
+    color: #6b21a8 !important;
+    font-weight: 600;
+}
+
+/* Ensure backdrop covers properly */
 dialog.events-detail-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
-/* Dialog Responsiveness Fix for Mobile and Desktop */
-dialog.events-detail-dialog {
-    margin: auto !important;
-    width: min(90vw, 460px) !important;
-    height: fit-content !important;
-    max-height: 80vh !important;
-    padding: 1.25rem !important;
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    box-sizing: border-box;
-    overflow-y: auto;
-}
 
-/* Fix mobile viewport vertical alignment and container size */
-@media (max-width: 600px) {
-    dialog.events-detail-dialog {
-        width: 88vw !important;
-        padding: 1rem !important;
-    }
-}
-/* Prevent modal card elements from stretching vertically */
+/* Dialog Layout & Responsiveness Fix for Mobile and Desktop */
 dialog.events-detail-dialog {
     margin: auto !important;
-    width: min(88vw, 420px) !important;
+    width: min(88vw, 440px) !important;
     height: auto !important;
     max-height: 80vh !important;
     padding: 1.25rem !important;
@@ -247,7 +236,7 @@ dialog.events-detail-dialog {
     overflow-y: auto;
 }
 
-/* Ensure the inner list doesn't force extra space */
+/* Tighten spacing inside normal event cards to eliminate bottom dead space */
 #events-detail-list {
     display: flex;
     flex-direction: column;
@@ -255,7 +244,6 @@ dialog.events-detail-dialog {
     height: auto !important;
 }
 
-/* Tighten spacing inside normal event cards */
 .events-detail-item {
     height: auto !important;
     margin-bottom: 0 !important;
@@ -274,4 +262,11 @@ dialog.events-detail-dialog {
 
 .events-detail-item p:last-child {
     margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+    dialog.events-detail-dialog {
+        width: 88vw !important;
+        padding: 1rem !important;
+    }
 }

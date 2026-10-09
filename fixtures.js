@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let displayedMonth = new Date();
     displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
 
-    // 1. Resilient Data Loading Core
+    // 1. Independent & Safe Data Loading Core
     try {
         let dataEvents = [];
         let dataFixtures = [];
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const [, year, month, day] = match;
             return {
                 title: typeof item.title === 'string' ? item.title.trim() : `Fixture ${index + 1}`,
+                team: typeof item.team === 'string' ? item.team.trim() : '',
                 date: new Date(Number(year), Number(month) - 1, Number(day)),
                 time: typeof item.time === 'string' ? item.time.trim() : '',
                 location: typeof item.location === 'string' ? item.location.trim() : 'Goldenacre Bowling Club',
@@ -135,6 +136,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             dayEvents.forEach(event => {
                 const eventLabel = document.createElement('span');
                 eventLabel.className = event.isFixture ? 'calendar-event fixture-event-tag' : 'calendar-event';
+                
+                // Color-coding class assignment
+                if (event.team === '1st 16') {
+                    eventLabel.classList.add('fixture-team-1st');
+                } else if (event.team === '2nd 16') {
+                    eventLabel.classList.add('fixture-team-2nd');
+                }
+
                 const prefix = event.isFixture ? '🏆 ' : '';
                 eventLabel.textContent = event.time ? `${prefix}${event.time} ${event.title}` : `${prefix}${event.title}`;
                 dayCell.append(eventLabel);
@@ -265,7 +274,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const card = document.createElement('article');
             card.className = 'upcoming-event-card';
             if (event.isFixture) {
-                card.style.borderTop = '3px solid #0369a1';
+                if (event.team === '1st 16') {
+                    card.style.borderTop = '3px solid #0369a1';
+                } else if (event.team === '2nd 16') {
+                    card.style.borderTop = '3px solid #7c3aed';
+                } else {
+                    card.style.borderTop = '3px solid #0369a1';
+                }
             }
 
             const date = document.createElement('p');
