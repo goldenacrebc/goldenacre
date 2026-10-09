@@ -244,17 +244,21 @@ dialog.events-detail-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Reset dialog box dimensions and leverage native browser centering */
+/* Centered fixed positioning for desktop, vertical mobile, and horizontal mobile */
 dialog#events-detail-dialog,
 dialog.events-detail-dialog {
     position: fixed !important;
-    inset: 0 !important;
-    margin: auto !important;
+    top: 50% !important;
+    left: 50% !important;
+    bottom: auto !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
     width: min(88vw, 440px) !important;
     max-width: 440px !important;
-    height: fit-content !important;
+    height: auto !important;
     min-height: 0 !important;
-    max-height: 80vh !important;
+    max-height: 85vh !important;
     padding: 1.25rem !important;
     border-radius: 12px !important;
     border: none !important;
@@ -263,18 +267,21 @@ dialog.events-detail-dialog {
     overflow-y: auto !important;
 }
 
-/* Force modal wrapper containers to wrap tightly around single cards */
-dialog.events-detail-dialog .events-detail-content,
-dialog.events-detail-dialog #events-detail-list {
-    display: flex !important;
-    flex-direction: column !important;
+/* Force inner container to wrap tightly without flex stretching */
+dialog.events-detail-dialog .events-detail-content {
+    display: block !important;
     height: auto !important;
     min-height: 0 !important;
-    flex: none !important;
-    gap: 12px !important;
 }
 
-/* Clean up paragraph and header margins in popup cards */
+dialog.events-detail-dialog #events-detail-list {
+    display: table !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+/* Clean up spacing inside popup items */
 .events-detail-item {
     display: block !important;
     height: auto !important;
@@ -299,12 +306,11 @@ dialog.events-detail-dialog #events-detail-list {
     margin-bottom: 0 !important;
 }
 
-/* Mobile viewport adjustments */
-@media (max-width: 600px) {
+/* Horizontal / Short height mobile screen handling */
+@media (max-height: 500px) {
     dialog#events-detail-dialog,
     dialog.events-detail-dialog {
-        width: 86vw !important;
-        padding: 1rem !important;
-        max-height: 75vh !important;
+        max-height: 90vh !important;
+        padding: 0.75rem 1rem !important;
     }
 }
