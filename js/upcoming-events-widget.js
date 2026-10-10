@@ -23,6 +23,50 @@ document.addEventListener('DOMContentLoaded', async () => {
             return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
         }
 
+        // Helper to generate a downloadable .ics calendar data URI
+        function createIcsDataUri(event) {
+            const pad = (n) => String(n).padStart(2, '0');
+            const d = event.date;
+            const dateStr = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+            
+            // Default to all-day or a standard 2-hour window if time isn't explicitly granular
+            let timeStr = 'T140000Z'; // default 2:00 PM UTC equivalent
+            if (event.time) {
+                // Basic check if time string contains numbers
+                const matchTime = event.time.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+                if (matchTime) {
+                    let hours = parseInt(matchTime[1], 10);
+                    const minutes = matchTime[2] ? matchTime[2] : '00';
+                    const ampm = matchTime[3] ? matchTime[3].toLowerCase() : '';
+                    if (ampm === 'pm' && hours < 12) hours += 12;
+                    if (ampm === 'am' && hours === 12) hours = 0;
+                    timeStr = `T${pad(hours)}${minutes}00`;
+                }
+            }
+
+            const startIso = `${dateStr}${timeStr}`;
+            // End time 2 hours later for calendar block safety
+            const endIso = `${dateStr}`; // or computed if needed
+
+            const summary = event.isFixture && event.team ? `${event.team} Fixture: ${event.title}` : event.title;
+            const description = event.description || 'Goldenacre Bowling Club Event';
+            const location = event.location || 'Goldenacre Bowling Club, Warriston, Edinburgh';
+
+            const icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'BEGIN:VEVENT',
+                `SUMMARY:${summary}`,
+                `DESCRIPTION:${description}`,
+                `LOCATION:${location}`,
+                `DTSTART:${startIso}`,
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+
+            return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsContent);
+        }
+
         // Parse regular events
         const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map(item => {
             const date = parseLocalDate(item.date);
@@ -32,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 team: '',
                 date: date,
                 time: item.time || '',
-                location: item.location || '',
+                location: item.location || 'Goldenacre Bowling Club',
                 description: item.description || '',
                 isFixture: false
             };
@@ -68,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Group upcoming items by calendar date so multiple events share one row/badge block
+        // Group upcoming items by calendar date
         const groupedByDate = [];
         upcoming.forEach(event => {
             const dateKey = event.date.toISOString().split('T')[0];
@@ -80,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             group.events.push(event);
         });
 
-        // Render groups with a vertically centered date badge spanning the full day block
+        // Render groups with a vertically centered date badge and calendar download links
         container.innerHTML = groupedByDate.map(group => {
             const monthStr = group.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
             const dayNum = group.date.getDate();
@@ -106,6 +150,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     badgeHtml = `<span class="fixture-team-badge ${badgeClass}">🏆 ${labelText}</span>`;
                 }
 
+                const icsUrl = createIcsDataUri(event);
+                const safeFileTitle = event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
                 const dividerStyle = idx > 0 ? 'margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;' : '';
 
                 return `
@@ -114,6 +160,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h3>${event.title}</h3>
                         <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                         ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
+                        <div style="margin-top: 6px;">
+                            <a href="${icsUrl}" download="${safeFileTitle}.ics" class="calendar-download-link" style="font-size: 0.75rem; font-weight: 700; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                📥 Add to Calendar
+                            </a>
+                        </div>
                     </div>
                 `;
             }).join('');
