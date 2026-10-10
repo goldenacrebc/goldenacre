@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }).filter(Boolean);
 
-        // Parse fixtures (incorporating the team property like "1st 16" or "2nd 16")
+        // Parse fixtures
         const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -68,38 +68,62 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        container.innerHTML = upcoming.map((event, index, arr) => {
-            const monthStr = event.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
-            const dayNum = event.date.getDate();
-            const weekdayStr = event.date.toLocaleString('en-GB', { weekday: 'short' });
-            const fullDateStr = event.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
-
-            // Check if the previous event falls on the exact same date to hide duplicate date badges
-            const prevEvent = index > 0 ? arr[index - 1] : null;
-            const isSameDayAsPrevious = prevEvent && prevEvent.date.getTime() === event.date.getTime();
-
-            // Construct title with trophy and team prefix if applicable
-            let fullTitle = event.title;
-            if (event.isFixture) {
-                const teamPrefix = event.team ? `${event.team} Fixture: ` : 'Fixture: ';
-                fullTitle = `🏆 ${teamPrefix}${event.title}`;
+        // Group upcoming items by calendar date
+        const groupedByDate = [];
+        upcoming.forEach(event => {
+            const dateKey = event.date.toISOString().split('T')[0];
+            let group = groupedByDate.find(g => g.dateKey === dateKey);
+            if (!group) {
+                group = { date: event.date, events: [] };
+                groupedByDate.push(group);
             }
+            group.events.push(event);
+        });
 
-            // If it's the same day as the previous item, render an invisible placeholder box to keep alignment clean
-            const dateBadgeHtml = isSameDayAsPrevious
-                ? `<div class="event-date-badge" style="visibility: hidden; opacity: 0;" aria-hidden="true"></div>`
-                : `<div class="event-date-badge">
-                       <span class="badge-month">${monthStr}</span>
-                       <span class="badge-day">${dayNum}</span>
-                   </div>`;
+        // Render groups with a single centered date badge per day
+        container.innerHTML = groupedByDate.map(group => {
+            const monthStr = group.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+            const dayNum = group.date.getDate();
+            const weekdayStr = group.date.toLocaleString('en-GB', { weekday: 'short' });
+            const fullDateStr = group.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
+
+            const eventsListHtml = group.events.map(event => {
+                let badgeHtml = '';
+                if (event.isFixture) {
+                    let badgeClass = 'tag-fixture-default';
+                    let labelText = 'Fixture';
+
+                    if (event.team === '1st 16') {
+                        badgeClass = 'tag-fixture-1st';
+                        labelText = '1st 16 Fixture';
+                    } else if (event.team === '2nd 16') {
+                        badgeClass = 'tag-fixture-2nd';
+                        labelText = '2nd 16 Fixture';
+                    } else if (event.team) {
+                        labelText = `${event.team} Fixture`;
+                    }
+
+                    badgeHtml = `<span class="fixture-team-badge ${badgeClass}">🏆 ${labelText}</span>`;
+                }
+
+                return `
+                    <div class="event-single-entry">
+                        ${badgeHtml}
+                        <h3>${event.title}</h3>
+                        <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
+                        ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
+                    </div>
+                `;
+            }).join('<hr class="event-entry-divider">');
 
             return `
                 <article class="event-badge-card">
-                    ${dateBadgeHtml}
+                    <div class="event-date-badge">
+                        <span class="badge-month">${monthStr}</span>
+                        <span class="badge-day">${dayNum}</span>
+                    </div>
                     <div class="event-info-body">
-                        <h3>${fullTitle}</h3>
-                        <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
-                        ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
+                        ${eventsListHtml}
                     </div>
                 </article>
             `;
