@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!container) return;
 
     try {
-        // Fetch both regular events and league fixtures concurrently (matching fixtures.js paths)
+        // Fetch both regular events and league fixtures concurrently
         const [resEvents, resFixtures] = await Promise.all([
             fetch('events.json').catch(() => ({ ok: false })),
             fetch('fixtures.json').catch(() => ({ ok: false }))
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Filter for upcoming future events starting from today onwards
+        // Filter for upcoming future events and slice the top 5
         const upcoming = allEvents.filter(event => event.date >= today).slice(0, 5);
 
         if (upcoming.length === 0) {
@@ -73,22 +73,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const weekdayStr = event.date.toLocaleString('en-GB', { weekday: 'short' });
             const fullDateStr = event.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
 
-            // Add team badge or fixture indicator tag
-            let tagHtml = '';
-            if (event.isFixture) {
-                const teamText = event.team ? `${event.team} Fixture` : 'Fixture';
-                tagHtml = `<span class="category-tag tag-social" style="margin-bottom: 6px; display: inline-block; background-color: #0369a1; color: #fff;">🏆 ${teamText}</span>`;
-            }
+            const titlePrefix = event.isFixture ? '🏆 ' : '';
 
             return `
-                <article class="event-badge-card" ${event.isFixture ? 'style="border-left: 4px solid #0369a1;"' : ''}>
+                <article class="event-badge-card">
                     <div class="event-date-badge">
                         <span class="badge-month">${monthStr}</span>
                         <span class="badge-day">${dayNum}</span>
                     </div>
                     <div class="event-info-body">
-                        ${tagHtml}
-                        <h3>${event.title}</h3>
+                        <h3>${titlePrefix}${event.title}</h3>
                         <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                         ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
                     </div>
