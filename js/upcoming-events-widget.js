@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         today.setHours(0, 0, 0, 0);
 
         // Filter for upcoming future events starting from today onwards
-        const upcoming = allEvents.filter(event => event.date >= today).slice(0, 3);
+        const upcoming = allEvents.filter(event => event.date >= today).slice(0, 5);
 
         if (upcoming.length === 0) {
             container.innerHTML = '<p class="events-empty">No upcoming events or fixtures currently listed.</p>';
