@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Group upcoming items by calendar date
+        // Group upcoming items by calendar date so multiple events share one row/badge block
         const groupedByDate = [];
         upcoming.forEach(event => {
             const dateKey = event.date.toISOString().split('T')[0];
@@ -80,14 +80,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             group.events.push(event);
         });
 
-        // Render groups with a single centered date badge per day
+        // Render groups with a vertically centered date badge spanning the full day block
         container.innerHTML = groupedByDate.map(group => {
             const monthStr = group.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
             const dayNum = group.date.getDate();
             const weekdayStr = group.date.toLocaleString('en-GB', { weekday: 'short' });
             const fullDateStr = group.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
 
-            const eventsListHtml = group.events.map(event => {
+            const eventsListHtml = group.events.map((event, idx) => {
                 let badgeHtml = '';
                 if (event.isFixture) {
                     let badgeClass = 'tag-fixture-default';
@@ -106,18 +106,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     badgeHtml = `<span class="fixture-team-badge ${badgeClass}">🏆 ${labelText}</span>`;
                 }
 
+                const dividerStyle = idx > 0 ? 'margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;' : '';
+
                 return `
-                    <div class="event-single-entry">
+                    <div style="${dividerStyle}">
                         ${badgeHtml}
                         <h3>${event.title}</h3>
                         <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                         ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
                     </div>
                 `;
-            }).join('<hr class="event-entry-divider">');
+            }).join('');
 
             return `
-                <article class="event-badge-card">
+                <article class="event-badge-card" style="align-items: center;">
                     <div class="event-date-badge">
                         <span class="badge-month">${monthStr}</span>
                         <span class="badge-day">${dayNum}</span>
