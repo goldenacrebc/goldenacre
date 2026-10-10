@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!date) return null;
             return {
                 title: item.title,
+                team: '',
                 date: date,
                 time: item.time || '',
                 location: item.location || '',
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }).filter(Boolean);
 
-        // Parse fixtures
+        // Parse fixtures (incorporating the team property like "1st 16" or "2nd 16")
         const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Filter for upcoming future events and slice the top 5
+        // Filter for upcoming future events and slice up to 5 items
         const upcoming = allEvents.filter(event => event.date >= today).slice(0, 5);
 
         if (upcoming.length === 0) {
@@ -67,22 +68,36 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        container.innerHTML = upcoming.map(event => {
+        container.innerHTML = upcoming.map((event, index, arr) => {
             const monthStr = event.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
             const dayNum = event.date.getDate();
             const weekdayStr = event.date.toLocaleString('en-GB', { weekday: 'short' });
             const fullDateStr = event.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
 
-            const titlePrefix = event.isFixture ? '🏆 ' : '';
+            // Check if the previous event falls on the exact same date to hide duplicate date badges
+            const prevEvent = index > 0 ? arr[index - 1] : null;
+            const isSameDayAsPrevious = prevEvent && prevEvent.date.getTime() === event.date.getTime();
+
+            // Construct title with trophy and team prefix if applicable
+            let fullTitle = event.title;
+            if (event.isFixture) {
+                const teamPrefix = event.team ? `${event.team} Fixture: ` : 'Fixture: ';
+                fullTitle = `🏆 ${teamPrefix}${event.title}`;
+            }
+
+            // If it's the same day as the previous item, render an invisible placeholder box to keep alignment clean
+            const dateBadgeHtml = isSameDayAsPrevious
+                ? `<div class="event-date-badge" style="visibility: hidden; opacity: 0;" aria-hidden="true"></div>`
+                : `<div class="event-date-badge">
+                       <span class="badge-month">${monthStr}</span>
+                       <span class="badge-day">${dayNum}</span>
+                   </div>`;
 
             return `
                 <article class="event-badge-card">
-                    <div class="event-date-badge">
-                        <span class="badge-month">${monthStr}</span>
-                        <span class="badge-day">${dayNum}</span>
-                    </div>
+                    ${dateBadgeHtml}
                     <div class="event-info-body">
-                        <h3>${titlePrefix}${event.title}</h3>
+                        <h3>${fullTitle}</h3>
                         <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                         ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
                     </div>
