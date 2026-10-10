@@ -13,6 +13,8 @@
     <script src="modals/modal-facilities.js" defer></script>
     <script src="modals/modal-membership.js" defer></script>
     <script src="modals/modal-controller.js" defer></script>
+<script src="modals/modal-welcome.js" defer></script>
+<script src="js/upcoming-events-widget.js" defer></script>
 </head>
 <body class="site-page home-page">
  
@@ -194,38 +196,77 @@
 
  <section id="schedule" class="content-section gray-bg home-schedule">
     <p class="home-section-kicker">On and off the green</p>
-    <h2 id="social">Winter Social Events</h2>
-    <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and Friday social evenings. Everyone is welcome.</p>
+    <h2 id="social">Upcoming Social Events</h2>
+    <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and social evenings. Everyone is welcome.</p>
     
-    <!-- Make sure class is updated to timeline-grid-3col -->
-    <div class="timeline-grid-3col">
-        <article class="timeline-block">
-            <div class="block-body">
-                <span class="block-tag">Monday evenings</span>
-                <h3>Pool League</h3>
-                <span class="category-tag tag-social">Bar Open</span>
-                <p>Join our fortnightly Monday night pool league. Starting Monday 12th October</p>
-            </div>
-        </article>
-
-        <article class="timeline-block">
-            <div class="block-body">
-                <span class="block-tag">Tuesday afternoons</span>
-                <h3>Country Dancing</h3>
-                <span class="category-tag tag-social">2:00 PM</span>
-                <p>Join us every Tuesday at 2:00 PM for country dancing. Everyone welcome.</p>
-            </div>
-        </article>
-
-        <article class="timeline-block">
-            <div class="block-body">
-                <span class="block-tag">Friday evenings</span>
-                <h3>Friday Night Social</h3>
-                <span class="category-tag tag-social">Bar Open</span>
-                <p>Come along for a relaxed Friday night at the club. Everyone welcome.</p>
-            </div>
-        </article>
+    <!-- Widget container -->
+    <div id="upcoming-events-widget" class="upcoming-events-list">
+        <p class="events-empty">Loading upcoming events...</p>
     </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="events.html" class="btn">View Full Calendar &rarr;</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('upcoming-events-widget');
+            if (!container) return;
+
+            try {
+                // Try fetching events.json with an absolute relative path
+                const response = await fetch('./events.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} (${response.statusText})`);
+                }
+
+                const data = await response.json();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const events = data
+                    .map(item => {
+                        const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                        if (!match) return null;
+                        const [, y, m, d] = match;
+                        return { ...item, parsedDate: new Date(Number(y), Number(m) - 1, Number(d)) };
+                    })
+                    .filter(item => item && item.parsedDate >= today)
+                    .sort((a, b) => a.parsedDate - b.parsedDate)
+                    .slice(0, 3);
+
+                if (events.length === 0) {
+                    container.innerHTML = '<p class="events-empty">No upcoming social events currently listed.</p>';
+                    return;
+                }
+
+                container.innerHTML = events.map(event => {
+                    const monthStr = event.parsedDate.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+                    const dayNum = event.parsedDate.getDate();
+                    const weekdayStr = event.parsedDate.toLocaleString('en-GB', { weekday: 'short' });
+                    const fullDateStr = event.parsedDate.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
+
+                    return `
+                        <article class="event-badge-card">
+                            <div class="event-date-badge">
+                                <span class="badge-month">${monthStr}</span>
+                                <span class="badge-day">${dayNum}</span>
+                            </div>
+                            <div class="event-info-body">
+                                <h3>${event.title}</h3>
+                                <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
+                                ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Failed to load events.json:', error);
+                container.innerHTML = `<p class="events-empty" style="color: #b91c1c;">Error loading events: ${error.message}</p>`;
+            }
+        });
+    </script>
 </section>
 
      <section id="contact" class="content-section home-join">
@@ -311,5 +352,28 @@
          </div>
      </dialog>
     <script src="contact-form.js" defer></script>
+<!-- Welcome Membership Modal Pop-up -->
+<dialog id="welcome-pop-up" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeWelcomeModal()" aria-label="Close modal">&times;</button>
+        <div class="modal-header">
+            <span class="news-tag badge-internal">Welcome</span>
+            <h2>Join Goldenacre Bowling Club</h2>
+        </div>
+        <div class="modal-body">
+            <p>We are always looking for new members.</p>
+            <p>If you are interested in joining Goldenacre Bowling Club then please ask in the club, call us on <strong>0131 552 4206</strong>[cite: 1], or send us an email to <a href="mailto:goldenacrebc@hotmail.com">goldenacrebc@hotmail.com</a>.</p>
+            <h4>Our Facilities:</h4>
+            <ul>
+                <li>Outdoor Bowling Green</li>
+                <li>Clubhouse Pool Table & Winter League</li>
+                <li>Function Hall (Available to hire)</li>
+            </ul>
+            <p style="margin-top: 20px; text-align: center;">
+                <a href="contact.html" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">Find Out More &rarr;</a>
+            </p>
+        </div>
+    </div>
+</dialog>
  </body>
  </html>

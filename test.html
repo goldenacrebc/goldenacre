@@ -1,331 +1,379 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goldenacre Bowling Club - Members Portal</title>
-    
-    <!-- External stylesheet for Draws component & global styles -->
+    <title>Goldenacre Bowling Club | Edinburgh</title>
+    <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-
-    <!-- Competition labels and published Google Sheets links for the draw tabs -->
-    <script src="fixtures/draw-sheets.js" defer></script>
-    <script src="fixtures/modals.js" defer></script>
-    <script src="draws.js" defer></script>
-
-    <style>
-        /* Core Layout Styling */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f9fd;
-            color: #111111;
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* Navigation Top Bar */
-        .members-header {
-            background-color: #111111;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 4px solid #ffcc00;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        .members-header h1 {
-            margin: 0;
-            font-size: 1.3rem;
-            letter-spacing: 0.5px;
-        }
-
-        .logout-btn {
-            background-color: transparent;
-            color: #fff;
-            border: 2px solid #fff;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-        }
-        .logout-btn:hover {
-            background-color: #fff;
-            color: #111111;
-        }
-
-        /* Container Layout */
-        .container {
-            max-width: 1050px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        /* Draws-Style Main Navigation Tabs */
-        .tab-menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #0369a1;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s ease, border-color 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .tab-button:hover {
-            color: #111111;
-        }
-
-        /* Active tab matching style.css (.tab-btn.active) */
-        .tab-button.active {
-            color: #111111;
-            border-bottom: 2px solid #ffcc00;
-        }
-
-        .tab-divider {
-            color: #cbd5e1;
-            font-size: 0.85rem;
-        }
-
-        /* Tab Content Containers */
-        .tab-content {
-            display: none;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Rink Card Row Layouts (Matches Draws Row Styling) */
-        .rink-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .rink-row {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            padding: 6px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.82rem;
-        }
-
-        .rink-position {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .rink-player {
-            font-weight: 600;
-            color: #0369a1;
-        }
-
-        /* Custom Table Style */
-        .club-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        .club-table th, .club-table td {
-            border: 1px solid #dee2e6;
-            padding: 12px;
-            text-align: left;
-        }
-        .club-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        .club-table tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <script src="modals/modal-championships.js" defer></script>
+    <script src="modals/modal-external-competitions.js" defer></script>
+    <script src="modals/modal-social-events.js" defer></script>
+    <script src="modals/modal-facilities.js" defer></script>
+    <script src="modals/modal-membership.js" defer></script>
+    <script src="modals/modal-controller.js" defer></script>
+<script src="modals/modal-welcome.js" defer></script>
+<script src="js/upcoming-events-widget.js" defer></script>
 </head>
-<body>
+<body class="site-page home-page">
+ 
+    <!-- Header & Navigation -->
+<header>
+    <details class="site-menu">
+        <summary>Club Links</summary>
+        <div class="site-menu-panel">
+            <a href="index.html">Home</a>
+            <a href="about.html">About &amp; Facilities</a>
+            <a href="index.html#news">Club News</a>
+            <a href="archive.html">News Archive</a>
+            <a href="gents.html">Gents</a>
+            <a href="ladies.html">Ladies</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="seniors.html">Seniors</a>
+            <a href="weekly-schedule.html">Weekly Schedule</a>
+            <a href="events.html">Events Calendar</a>
+            <a href="social.html">Social Events</a>
+            <a href="try-bowls.html">Try Bowls</a>
+            <a href="contact.html">Join Us</a>
+            <a href="honours-boards.html">Honours Boards</a>
+            <a href="club-history.html">Club History</a>
+            <a href="sponsors.html">Sponsors</a>
+            <a href="gallery.html">Photo Gallery</a>
+            <a href="architectural-history.html">Architectural History</a>
+            <a href="associations.html">Associations</a>
+        </div>
+    </details>
+    <a href="members-protected.html" class="members-area-link">Members Area</a>
+    <nav>
+        <!-- Header Overlapping Badge -->
+        <a href="#" class="header-badge-link">
+            <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+        </a>
+    </nav>
+</header>
 
-    <!-- Private Header -->
-    <header class="members-header">
-        <h1>🔒 Goldenacre Members Area</h1>
-        <a href="index.html" class="logout-btn">Log Out</a>
-    </header>
+    <!-- Hero Welcome Banner -->
+    <section class="hero">
+        <div class="site-hero-content">
+            <p class="hero-tagline">Bowling • Competition • Community</p>
+            <h1>Goldenacre Bowling Club</h1>
+        </div>
+    </section>
 
-    <div class="container">
+<main class="home-main">
+    <!-- Latest News Section -->
+<section id="news" class="content-section">
+    <p class="home-section-kicker">Life at Goldenacre</p>
+    <h2>Latest Club News</h2>
+    <p class="home-section-intro">Catch up on club results, competition highlights and news from our members.</p>
+
+    <!-- Category Links -->
+    <!--
+    <div class="category-links-subtle">
+        <a href="gents.html" class="category-link-subtle">Gents</a>
+        <span class="link-divider">|</span>
+        <a href="ladies.html" class="category-link-subtle">Ladies</a>
+        <span class="link-divider">|</span>
+        <a href="juniors.html" class="category-link-subtle">Juniors</a>
+        <span class="link-divider">|</span>
+        <a href="seniors.html" class="category-link-subtle">Senior Men</a>
+    </div>
+    -->
+
+    <div class="news-category-group">
+        <h3 class="news-category-heading">Internal Club News</h3>
+        <div class="news-grid-2col">
+        <article class="news-block clickable" onclick="openNewsModal('honours-list')">
+            <div class="news-media">
+                <img src="logo.jpeg" alt="GA" class="news-img">
+            </div>
+            <div class="news-body">
+                <span class="news-badge badge-internal">Internal</span>
+                <h3>2026 Internal competition Winners</h3>
+                <p>Congratulations to all our internal competition winners</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
         
-        <!-- Tab Navigation Bar -->
-        <div class="tab-menu">
-            <button class="tab-button active" onclick="openTab(event, 'firsts')">1st 16</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'seconds')">2nd 16</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'draws')">Club Ties & Draws</button>
-        </div>
-
-        <!-- TAB 1: Gents Selection / Leagues -->
-        <div id="firsts" class="tab-content active">
-            <h2><center>1st sixteen Team sheet</center></h2>
-		<br />
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
-                Latest team sheets and rink selections for upcoming league matches.
-            </p>
-
-            <div class="draws-row tier-1">
-                <!-- Rink 1 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 1</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">A. Bowler</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">B. Smith</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">C. Jones</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">D. Skip</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Rink 2 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 2</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">E. Player</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">F. Brown</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">G. Wilson</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">H. Skip</span>
-                        </li>
-                    </ul>
-                </div>
+        <!-- Item : Gents Championship -->
+        <article class="news-block clickable" onclick="openNewsModal('championship')">
+            <div class="news-media">
+                <img src="photos/MT.jpg" alt="Malcolm Thomson" class="news-img">
             </div>
-        </div>
-
-        <!-- TAB 2: 2nd 16-->
-<!-- TAB 1: Gents Selection / Leagues -->
-        <div id="seconds" class="tab-content active">
-            <h2><center>2nd sixteen Team sheet</center></h2>
-                <br />
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
-                Latest team sheets and rink selections for upcoming league matches.
-            </p>
-
-            <div class="draws-row tier-1">
-                <!-- Rink 1 Card -->
-                <div class="draw-card">
-                    <div class="draw-card-header">
-                        <h3>Rink 1</h3>
-                        <span class="badge deadline">Vs. Bainfield (Home)</span>
-                    </div>
-                    <ul class="rink-list">
-                        <li class="rink-row">
-                            <span class="rink-position">Lead</span>
-                            <span class="rink-player">A. Bowler</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Second</span>
-                            <span class="rink-player">B. Smith</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Third</span>
-                            <span class="rink-player">C. Jones</span>
-                        </li>
-                        <li class="rink-row">
-                            <span class="rink-position">Skip</span>
-                            <span class="rink-player">D. Skip</span>
-                        </li>
-                    </ul>
-                </div>
-		</div>
-        </div>
-        <!-- TAB 3: Club Draws -->
-        <div id="draws" class="tab-content">
-            <h2>Internal Championship Draws</h2>
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
-                The 2027 draw sheets will appear here once the draws have been made and published.
-            </p>
-            
-            <!-- Target root container dynamically loaded by draws.js -->
-            <div class="draws-container">
-                <div id="draws-root"></div>
+            <div class="news-body">
+                <span class="news-badge badge-internal">Internal</span>
+                <h3>Gents Championship Winner</h3>
+                <p>Congratulations to Malcolm Thomson, winner of the Gents Championship.</p>
+                <span class="text-link">Read Details &rarr;</span>
             </div>
-        </div>
+        </article>
 
+        <!-- Item : Ladies Championship -->
+        <article class="news-block clickable" onclick="openNewsModal('ladies-championship')">
+            <div class="news-media">
+                <img src="photos/RR.png" alt="Rita" class="news-img">
+            </div>
+            <div class="news-body">
+                <span class="news-badge badge-internal">Internal</span>
+                <h3>Ladies Championship Winner</h3>
+                <p>Congratulations to Rita Reid winner of the Ladies Championship.</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
+
+        <!-- Item 3: Junior Championship -->
+        <article class="news-block clickable" onclick="openNewsModal('junior-championship')">
+            <div class="news-media">
+                <img src="photos/DT.jpg" alt="Daniel Taylor" class="news-img">
+            </div>
+            <div class="news-body">
+                <span class="news-badge badge-internal">Internal</span>
+                <h3>Junior Championship Winner</h3>
+                <p>Congratulations to Daniel Taylor, winner of the Junior Championship.</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
+
+        </div>
     </div>
 
-    <!-- Script to handle main tab switching -->
+    <div class="news-category-group">
+        <h3 class="news-category-heading">External Competitions</h3>
+        <div class="news-grid-2col">
+        <!-- Item 4: Steele Trophy -->
+        <article class="news-block clickable" onclick="openNewsModal('steele')">
+            <div class="news-media">
+                <img src="photos/RR_ST.jpg" alt="Rita" class="news-img">
+            </div>
+            <div class="news-body">
+                <span class="news-badge badge-external">External</span>
+                <h3>Steele Trophy Winner</h3>
+                <p>Congratulations to Rita Reid winner of the Steele Trophy.</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
+
+        <!-- Item 6: EBA Knockout Pairs -->
+        <article class="news-block clickable" onclick="openNewsModal('ebapairs')">
+            <div class="news-media">
+                <img src="photos/pairs.png" alt="Pairs" class="news-img">
+            </div>
+            <div class="news-body">
+                <span class="news-badge badge-external">External</span>
+                <h3>EBA Gents Knockout Pairs Winners</h3>
+                <p>Congratulations to Malcolm Thomson and Gary Robertson, winners of the EBA Gents knockout pairs.</p>
+                <span class="text-link">Read Details &rarr;</span>
+            </div>
+        </article>
+
+        </div>
+    </div>
+
+</section>
+
+    <!-- About & Facilities Section -->
+<section id="about" class="content-section gray-bg home-about">
+    <p class="home-section-kicker">Our club</p>
+    <h2>About the Club & Facilities</h2>
+    
+    <div class="timeline-1col">
+        <article class="timeline-block">
+            <div class="block-body">
+                <div class="about-club-photo">
+                    <img src="photos/theacre.jpg" alt="Goldenacre Bowling Club" class="block-img">
+                </div>
+                <p>Established in 1942, Goldenacre Bowling Club is based in Warriston, Edinburgh. We welcome bowlers of all ages and abilities, whether you are new to the sport, enjoy playing socially or want to represent the club in competitions and league matches. Our friendly club has an active social calendar throughout the year, and new members are always welcome.</p>
+                <h4>Membership &amp; affiliations</h4>
+                <p>We offer Gents, Ladies and Junior memberships. The club is affiliated to <a href="https://www.bowlsscotland.com/" target="_blank" rel="noopener noreferrer">Bowls Scotland</a>, <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Edinburgh Bowling Association</a> and Edinburgh Top Ten.</p>
+                <h4>Club facilities</h4>
+                <p>Our facilities include an outdoor bowling green for league matches, club competitions and social roll-ups; a clubhouse pool table with a fortnightly winter league; and a function hall for up to 80 people, available to hire for private events. Bar facilities are available on request. Please contact us to check hall availability.</p>
+                <p class="facility-notice"><strong>Please note:</strong> We do not provide catering or accept bookings for 18th or 21st birthday parties.</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+ <section id="schedule" class="content-section gray-bg home-schedule">
+    <p class="home-section-kicker">On and off the green</p>
+    <h2 id="social">Upcoming Social Events</h2>
+    <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and social evenings. Everyone is welcome.</p>
+    
+    <!-- Widget container -->
+    <div id="upcoming-events-widget" class="upcoming-events-list">
+        <p class="events-empty">Loading upcoming events...</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="events.html" class="btn">View Full Calendar &rarr;</a>
+    </div>
+
     <script>
-    function openTab(evt, tabId) {
-        const contents = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < contents.length; i++) {
-            contents[i].classList.remove("active");
-        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('upcoming-events-widget');
+            if (!container) return;
 
-        const buttons = document.getElementsByClassName("tab-button");
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove("active");
-        }
+            try {
+                // Try fetching events.json with an absolute relative path
+                const response = await fetch('./events.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} (${response.statusText})`);
+                }
 
-        document.getElementById(tabId).classList.add("active");
-        evt.currentTarget.classList.add("active");
-    }
+                const data = await response.json();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const events = data
+                    .map(item => {
+                        const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                        if (!match) return null;
+                        const [, y, m, d] = match;
+                        return { ...item, parsedDate: new Date(Number(y), Number(m) - 1, Number(d)) };
+                    })
+                    .filter(item => item && item.parsedDate >= today)
+                    .sort((a, b) => a.parsedDate - b.parsedDate)
+                    .slice(0, 3);
+
+                if (events.length === 0) {
+                    container.innerHTML = '<p class="events-empty">No upcoming social events currently listed.</p>';
+                    return;
+                }
+
+                container.innerHTML = events.map(event => {
+                    const monthStr = event.parsedDate.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+                    const dayNum = event.parsedDate.getDate();
+                    const weekdayStr = event.parsedDate.toLocaleString('en-GB', { weekday: 'short' });
+                    const fullDateStr = event.parsedDate.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
+
+                    return `
+                        <article class="event-badge-card">
+                            <div class="event-date-badge">
+                                <span class="badge-month">${monthStr}</span>
+                                <span class="badge-day">${dayNum}</span>
+                            </div>
+                            <div class="event-info-body">
+                                <h3>${event.title}</h3>
+                                <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
+                                ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Failed to load events.json:', error);
+                container.innerHTML = `<p class="events-empty" style="color: #b91c1c;">Error loading events: ${error.message}</p>`;
+            }
+        });
     </script>
+</section>
 
-</body>
-</html>
+     <section id="contact" class="content-section home-join">
+     <p class="home-section-kicker">Your next step</p>
+     <h2>Come and Join Us</h2>
+     <p class="section-intro">New members are always welcome! Free introductory coaching and equipment are available for beginners.</p>
+     <p><a class="btn" href="try-bowls.html">Find out about Try Bowls</a></p>
+
+     <!-- Single Membership Trigger Card -->
+     <div class="membership-grid">
+         <div class="membership-card clickable" onclick="openNewsModal('membership')" style="max-width: 320px;">
+             <h3>Membership Options</h3>
+             <p style="margin: 12px 0;">Click to view Adult, Junior, and Social membership pricing & details.</p>
+             <div class="enquire-text">View Membership Options &rarr;</div>
+         </div>
+     </div>
+
+     <!-- Contact Info Row -->
+     <div class="contact-details-grid">
+         <a href="https://maps.app.goo.gl/7t25LrRd8DpaP28S7" target="_blank" class="contact-detail-item preview-hover" aria-label="Location">
+             <span class="detail-icon">📍</span>
+             <span>Location</span>
+             <img src="photos/map_preview.png" alt="Map Preview" class="hover-image">
+         </a>
+         <a href="tel:01315524206" class="contact-detail-item" aria-label="Call 0131 552 4206">
+             <span class="detail-icon">📞</span>
+             <span>0131 552 4206</span>
+         </a>
+         <a href="https://www.facebook.com/GoldenacreBC" target="_blank" class="contact-detail-item preview-hover" aria-label="Facebook Page">
+             <img src="facebook.png" alt="Facebook" class="fb-icon">
+             <span>Facebook Page</span>
+             <img src="photos/facebook_preview.png" alt="Facebook Preview" class="hover-image">
+         </a>
+     </div>
+ </section>
+
+ <!-- Sponsors Section -->
+     <section id="sponsors" class="content-section home-sponsors">
+         <p class="home-section-kicker">With thanks to</p>
+         <h2>Our Sponsors and Association links</h2>
+         <div class="sponsors-logos">
+             <div class="sponsor-logo">
+                 <a href="https://www.taxassist.co.uk/accountants/goldenacre/" target="_blank" title="Tax Assist Goldenacre">
+                     <img src="photos/tax_assist_logo.png" alt="Tax Assist Goldenacre">
+                 </a>
+             </div>
+             <div class="sponsor-logo">
+                 <a href="https://www.blackhallmoving.co.uk" target="_blank" title="Blackhall Moving">
+                     <img src="photos/blackhall.png" alt="Blackhall Moving">
+                 </a>
+             </div>
+             <div class="sponsor-logo">
+                 <a href="https://edinburghba.co.uk/" target="_blank" title="Edinburgh Bowling Association">
+                     <img src="photos/eba_logo.png" alt="Edinburgh Bowling Association">
+                 </a>
+             </div>
+             <div class="sponsor-logo">
+                 <a href="https://www.bowlsscotland.com" target="_blank" title="Bowls Scotland">
+                     <img src="photos/bowls_scotland_logo.png" alt="Bowls Scotland">
+                 </a>
+             </div>
+         </div>
+     </section>
+</main>
+
+     <!-- Footer -->
+     <footer>
+         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+         <p class="footer-link">
+             <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
+         </p>
+     </footer>
+
+     <!-- One reusable modal; modals.js fills it with the selected news item. -->
+     <dialog id="global-modal" class="news-modal">
+         <div class="modal-content">
+             <button class="modal-close" onclick="closeNewsModal()" aria-label="Close modal">&times;</button>
+             <div class="modal-header">
+                 <span id="modal-tag" class="news-tag"></span>
+                 <h2 id="modal-title"></h2>
+             </div>
+             <div id="modal-body" class="modal-body"></div>
+         </div>
+     </dialog>
+    <script src="contact-form.js" defer></script>
+<!-- Welcome Membership Modal Pop-up -->
+<dialog id="welcome-pop-up" class="news-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeWelcomeModal()" aria-label="Close modal">&times;</button>
+        <div class="modal-header">
+            <span class="news-tag badge-internal">Welcome</span>
+            <h2>Join Goldenacre Bowling Club</h2>
+        </div>
+        <div class="modal-body">
+            <p>We are always looking for new members.</p>
+            <p>If you are interested in joining Goldenacre Bowling Club then please ask in the club, call us on <strong>0131 552 4206</strong>[cite: 1], or send us an email to <a href="mailto:goldenacrebc@hotmail.com">goldenacrebc@hotmail.com</a>.</p>
+            <h4>Our Facilities:</h4>
+            <ul>
+                <li>Outdoor Bowling Green</li>
+                <li>Clubhouse Pool Table & Winter League</li>
+                <li>Function Hall (Available to hire)</li>
+            </ul>
+            <p style="margin-top: 20px; text-align: center;">
+                <a href="contact.html" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">Find Out More &rarr;</a>
+            </p>
+        </div>
+    </div>
+</dialog>
+ </body>
+ </html>
