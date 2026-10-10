@@ -226,14 +226,21 @@
                 if (resEvents.ok) dataEvents = await resEvents.json();
                 if (resFixtures.ok) dataFixtures = await resFixtures.json();
 
+                // Helper to parse YYYY-MM-DD cleanly as local midnight
+                function parseLocalDate(dateString) {
+                    if (!dateString) return null;
+                    const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                    if (!match) return null;
+                    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+                }
+
                 // Parse regular events
                 const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map(item => {
-                    const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                    if (!match) return null;
-                    const [, y, m, d] = match;
+                    const date = parseLocalDate(item.date);
+                    if (!date) return null;
                     return {
                         title: item.title,
-                        date: new Date(Number(y), Number(m) - 1, Number(d)),
+                        date: date,
                         time: item.time || '',
                         location: item.location || '',
                         description: item.description || '',
@@ -243,13 +250,12 @@
 
                 // Parse fixtures
                 const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
-                    const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                    if (!match) return null;
-                    const [, y, m, d] = match;
+                    const date = parseLocalDate(item.date);
+                    if (!date) return null;
                     return {
-                        title: `🏆 ${item.title}`,
+                        title: item.title,
                         team: item.team || '',
-                        date: new Date(Number(y), Number(m) - 1, Number(d)),
+                        date: date,
                         time: item.time || '',
                         location: item.location || 'Goldenacre Bowling Club',
                         description: item.description || '',
@@ -277,8 +283,12 @@
                     const weekdayStr = event.date.toLocaleString('en-GB', { weekday: 'short' });
                     const fullDateStr = event.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
 
-                    // Optional team badge accent if it's a 1st/2nd 16 match
-                    let teamBadge = event.team ? `<span class="category-tag tag-social" style="margin-bottom: 6px; display: inline-block;">${event.team} Match</span>` : '';
+                    // Add team badge or fixture indicator tag
+                    let tagHtml = '';
+                    if (event.isFixture) {
+                        const teamText = event.team ? `${event.team} Fixture` : 'Fixture';
+                        tagHtml = `<span class="category-tag tag-social" style="margin-bottom: 6px; display: inline-block; background-color: #0369a1; color: #fff;">🏆 ${teamText}</span>`;
+                    }
 
                     return `
                         <article class="event-badge-card" ${event.isFixture ? 'style="border-left: 4px solid #0369a1;"' : ''}>
@@ -287,7 +297,7 @@
                                 <span class="badge-day">${dayNum}</span>
                             </div>
                             <div class="event-info-body">
-                                ${teamBadge}
+                                ${tagHtml}
                                 <h3>${event.title}</h3>
                                 <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                                 ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
