@@ -29,10 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const d = event.date;
             const dateStr = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
             
-            // Default to all-day or a standard 2-hour window if time isn't explicitly granular
-            let timeStr = 'T140000Z'; // default 2:00 PM UTC equivalent
+            let timeStr = 'T140000Z';
             if (event.time) {
-                // Basic check if time string contains numbers
                 const matchTime = event.time.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
                 if (matchTime) {
                     let hours = parseInt(matchTime[1], 10);
@@ -45,9 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const startIso = `${dateStr}${timeStr}`;
-            // End time 2 hours later for calendar block safety
-            const endIso = `${dateStr}`; // or computed if needed
-
             const summary = event.isFixture && event.team ? `${event.team} Fixture: ${event.title}` : event.title;
             const description = event.description || 'Goldenacre Bowling Club Event';
             const location = event.location || 'Goldenacre Bowling Club, Warriston, Edinburgh';
@@ -112,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Group upcoming items by calendar date
+        // Group upcoming items by calendar date so multiple events share one row/badge block
         const groupedByDate = [];
         upcoming.forEach(event => {
             const dateKey = event.date.toISOString().split('T')[0];
@@ -124,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             group.events.push(event);
         });
 
-        // Render groups with a vertically centered date badge and calendar download links
+        // Render groups with a vertically centered date badge spanning the full day block
         container.innerHTML = groupedByDate.map(group => {
             const monthStr = group.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
             const dayNum = group.date.getDate();
@@ -152,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const icsUrl = createIcsDataUri(event);
                 const safeFileTitle = event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                const dividerStyle = idx > 0 ? 'margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;' : '';
+                const dividerStyle = idx > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0;' : '';
 
                 return `
                     <div style="${dividerStyle}">
@@ -160,8 +155,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h3>${event.title}</h3>
                         <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                         ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
-                        <div style="margin-top: 6px;">
-                            <a href="${icsUrl}" download="${safeFileTitle}.ics" class="calendar-download-link" style="font-size: 0.75rem; font-weight: 700; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        <div style="margin-top: 4px;">
+                            <a href="${icsUrl}" download="${safeFileTitle}.ics" style="font-size: 0.75rem; font-weight: 700; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
                                 📥 Add to Calendar
                             </a>
                         </div>
@@ -170,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }).join('');
 
             return `
-                <article class="event-badge-card" style="align-items: center;">
+                <article class="event-badge-card">
                     <div class="event-date-badge">
                         <span class="badge-month">${monthStr}</span>
                         <span class="badge-day">${dayNum}</span>
