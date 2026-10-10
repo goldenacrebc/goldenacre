@@ -214,45 +214,80 @@
             if (!container) return;
 
             try {
-                // Try fetching events.json with an absolute relative path
-                const response = await fetch('./events.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status} (${response.statusText})`);
-                }
+                // Fetch both regular events and league fixtures concurrently
+                const [resEvents, resFixtures] = await Promise.all([
+                    fetch('./events.json').catch(() => ({ ok: false })),
+                    fetch('./fixtures.json').catch(() => ({ ok: false }))
+                ]);
 
-                const data = await response.json();
+                let dataEvents = [];
+                let dataFixtures = [];
+
+                if (resEvents.ok) dataEvents = await resEvents.json();
+                if (resFixtures.ok) dataFixtures = await resFixtures.json();
+
+                // Parse regular events
+                const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map(item => {
+                    const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                    if (!match) return null;
+                    const [, y, m, d] = match;
+                    return {
+                        title: item.title,
+                        date: new Date(Number(y), Number(m) - 1, Number(d)),
+                        time: item.time || '',
+                        location: item.location || '',
+                        description: item.description || '',
+                        isFixture: false
+                    };
+                }).filter(Boolean);
+
+                // Parse fixtures
+                const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
+                    const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                    if (!match) return null;
+                    const [, y, m, d] = match;
+                    return {
+                        title: `🏆 ${item.title}`,
+                        team: item.team || '',
+                        date: new Date(Number(y), Number(m) - 1, Number(d)),
+                        time: item.time || '',
+                        location: item.location || 'Goldenacre Bowling Club',
+                        description: item.description || '',
+                        isFixture: true
+                    };
+                }).filter(Boolean);
+
+                // Merge and sort chronologically
+                const allEvents = [...parsedEvents, ...parsedFixtures];
+                allEvents.sort((a, b) => a.date - b.date || a.title.localeCompare(b.title));
+
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
-                const events = data
-                    .map(item => {
-                        const match = item.date && item.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                        if (!match) return null;
-                        const [, y, m, d] = match;
-                        return { ...item, parsedDate: new Date(Number(y), Number(m) - 1, Number(d)) };
-                    })
-                    .filter(item => item && item.parsedDate >= today)
-                    .sort((a, b) => a.parsedDate - b.parsedDate)
-                    .slice(0, 3);
+                const upcoming = allEvents.filter(event => event.date >= today).slice(0, 3);
 
-                if (events.length === 0) {
-                    container.innerHTML = '<p class="events-empty">No upcoming social events currently listed.</p>';
+                if (upcoming.length === 0) {
+                    container.innerHTML = '<p class="events-empty">No upcoming events or fixtures currently listed.</p>';
                     return;
                 }
 
-                container.innerHTML = events.map(event => {
-                    const monthStr = event.parsedDate.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
-                    const dayNum = event.parsedDate.getDate();
-                    const weekdayStr = event.parsedDate.toLocaleString('en-GB', { weekday: 'short' });
-                    const fullDateStr = event.parsedDate.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
+                container.innerHTML = upcoming.map(event => {
+                    const monthStr = event.date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+                    const dayNum = event.date.getDate();
+                    const weekdayStr = event.date.toLocaleString('en-GB', { weekday: 'short' });
+                    const fullDateStr = event.date.toLocaleString('en-GB', { day: 'numeric', month: 'long' });
+
+                    // Optional team badge accent if it's a 1st/2nd 16 match
+                    let teamBadge = event.team ? `<span class="category-tag tag-social" style="margin-bottom: 6px; display: inline-block;">${event.team} Match</span>` : '';
 
                     return `
-                        <article class="event-badge-card">
+                        <article class="event-badge-card" ${event.isFixture ? 'style="border-left: 4px solid #0369a1;"' : ''}>
                             <div class="event-date-badge">
                                 <span class="badge-month">${monthStr}</span>
                                 <span class="badge-day">${dayNum}</span>
                             </div>
                             <div class="event-info-body">
+                                ${teamBadge}
                                 <h3>${event.title}</h3>
                                 <p class="event-time-meta">📅 ${weekdayStr} ${fullDateStr} ${event.time ? '@ ' + event.time : ''}</p>
                                 ${event.description ? `<p class="event-desc">${event.description}</p>` : ''}
@@ -262,8 +297,8 @@
                 }).join('');
 
             } catch (error) {
-                console.error('Failed to load events.json:', error);
-                container.innerHTML = `<p class="events-empty" style="color: #b91c1c;">Error loading events: ${error.message}</p>`;
+                console.error('Failed to load upcoming items:', error);
+                container.innerHTML = '<p class="events-empty">Unable to load upcoming events and fixtures.</p>';
             }
         });
     </script>
