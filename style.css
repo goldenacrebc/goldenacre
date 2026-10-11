@@ -596,3 +596,22 @@ dialog.events-detail-dialog #events-detail-list {
         display: none !important;
     }
 }
+
+.pwa-item-icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        overflow: hidden; /* This crops any overflow */
+        border: 1px solid rgba(23, 59, 50, 0.2);
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .pwa-item-icon img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }

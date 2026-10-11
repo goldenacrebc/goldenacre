@@ -77,6 +77,7 @@
         <div class="pwa-item-content">
             <span class="pwa-item-title">Install Club App</span>
             <span class="pwa-item-subtitle">Add Goldenacre BC to your home screen</span>
+            <span class="pwa-item-subtitle" id="banner-subtitle">Add Goldenacre BC to your home screen</span>
         </div>
         <span class="pwa-arrow">&rarr;</span>
     </a>
@@ -322,9 +323,30 @@
     </div>
 </dialog>
 
-<!-- Cross-Platform PWA Install Handler Script -->
+<!-- Cross-Platform PWA & Bookmark Handler Script -->
 <script>
     let deferredPrompt;
+
+    // 1. On page load: Check if user already hid it, and adjust text for desktop users
+    document.addEventListener('DOMContentLoaded', () => {
+        const installLink = document.getElementById('pwa-install-trigger');
+        if (!installLink) return;
+
+        // If previously hidden/clicked, remove it immediately
+        if (localStorage.getItem('club_app_hidden') === 'true') {
+            installLink.style.display = 'none';
+            return;
+        }
+
+        // If on desktop (screen wider than 768px), change text to Bookmark instructions
+        const isDesktop = window.innerWidth > 768;
+        if (isDesktop) {
+            const titleEl = installLink.querySelector('.pwa-item-title');
+            const subtitleEl = installLink.querySelector('.pwa-item-subtitle');
+            if (titleEl) titleEl.textContent = "Bookmark Our Site";
+            if (subtitleEl) subtitleEl.textContent = "Press Cmd+D (Mac) or Ctrl+D (Windows)";
+        }
+    });
 
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -338,6 +360,16 @@
         installLink.addEventListener('click', async (event) => {
             event.preventDefault();
 
+            const isDesktop = window.innerWidth > 768;
+
+            if (isDesktop) {
+                alert("To bookmark this site:\n\n• On Mac: Press Cmd + D\n• On Windows: Press Ctrl + D");
+                // Remember they clicked it so it disappears forever
+                localStorage.setItem('club_app_hidden', 'true');
+                installLink.style.display = 'none';
+                return;
+            }
+
             // Detect iOS (iPhone/iPad)
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
@@ -347,6 +379,7 @@
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
+                    localStorage.setItem('club_app_hidden', 'true');
                     installLink.style.display = 'none';
                 }
                 deferredPrompt = null;
@@ -355,6 +388,13 @@
             }
         });
     });
+</script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('Service Worker registered successfully.'))
+            .catch((err) => console.log('Service Worker registration failed:', err));
+    }
 </script>
  </body>
  </html>
