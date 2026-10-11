@@ -69,14 +69,14 @@
     </section>
 
 <main class="home-main">
-    <!-- Prominent Mobile PWA Install Banner (Index Page Only) -->
+    <main class="home-main">
+    <!-- Prominent Install / Bookmark Banner -->
     <a href="#" id="pwa-install-trigger" class="pwa-menu-item">
         <div class="pwa-item-icon">
             <img src="logo.jpeg" alt="Goldenacre Bowling Club Badge">
         </div>
         <div class="pwa-item-content">
-            <span class="pwa-item-title">Install Club App</span>
-            <span class="pwa-item-subtitle">Add Goldenacre BC to your home screen</span>
+            <span class="pwa-item-title" id="banner-title">Install Club App</span>
             <span class="pwa-item-subtitle" id="banner-subtitle">Add Goldenacre BC to your home screen</span>
         </div>
         <span class="pwa-arrow">&rarr;</span>
@@ -327,7 +327,6 @@
 <script>
     let deferredPrompt;
 
-    // 1. On page load: Check if user already hid it, and adjust text for desktop users
     document.addEventListener('DOMContentLoaded', () => {
         const installLink = document.getElementById('pwa-install-trigger');
         if (!installLink) return;
@@ -338,11 +337,13 @@
             return;
         }
 
-        // If on desktop (screen wider than 768px), change text to Bookmark instructions
-        const isDesktop = window.innerWidth > 768;
-        if (isDesktop) {
-            const titleEl = installLink.querySelector('.pwa-item-title');
-            const subtitleEl = installLink.querySelector('.pwa-item-subtitle');
+        // Accurately detect if device is Desktop (ignoring screen rotation width)
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isMobileDevice) {
+            // Desktop user: Show bookmark prompt
+            const titleEl = document.getElementById('banner-title');
+            const subtitleEl = document.getElementById('banner-subtitle');
             if (titleEl) titleEl.textContent = "Bookmark Our Site";
             if (subtitleEl) subtitleEl.textContent = "Press Cmd+D (Mac) or Ctrl+D (Windows)";
         }
@@ -360,11 +361,10 @@
         installLink.addEventListener('click', async (event) => {
             event.preventDefault();
 
-            const isDesktop = window.innerWidth > 768;
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-            if (isDesktop) {
+            if (!isMobileDevice) {
                 alert("To bookmark this site:\n\n• On Mac: Press Cmd + D\n• On Windows: Press Ctrl + D");
-                // Remember they clicked it so it disappears forever
                 localStorage.setItem('club_app_hidden', 'true');
                 installLink.style.display = 'none';
                 return;
