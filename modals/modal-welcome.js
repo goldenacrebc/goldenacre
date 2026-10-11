@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!localStorage.getItem('hasSeenWelcomePopup')) {
         setTimeout(() => {
             welcomeModal.showModal();
-            startCountdown(welcomeModal, 10);
-        }, 1000);
+            startCountdown(welcomeModal, 20);
+        }, 2000);
     }
 });
 
