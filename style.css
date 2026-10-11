@@ -363,7 +363,7 @@ dialog.events-detail-dialog #events-detail-list {
 
 .event-badge-card {
     display: flex;
-    align-items: center; /* Vertically centers date box when multiple events share a date */
+    align-items: center;
     background: transparent;
     border: none;
     border-bottom: 1px solid #f1f5f9;
@@ -391,8 +391,8 @@ dialog.events-detail-dialog #events-detail-list {
     justify-content: center;
     min-width: 48px;
     height: 48px;
-    background-color: #173b32; /* Primary Corporate Green */
-    color: #ffcc00;            /* Accent Yellow */
+    background-color: #173b32;
+    color: #ffcc00;
     border-radius: 6px;
     padding: 2px;
     margin-right: 16px;
@@ -466,21 +466,18 @@ dialog.events-detail-dialog #events-detail-list {
     margin-bottom: 4px;
 }
 
-/* 1st 16 (Blue Accent) */
 .tag-fixture-1st {
     background-color: #e0f2fe;
     color: #0369a1;
     border: 1px solid #bae6fd;
 }
 
-/* 2nd 16 (Purple Accent) */
 .tag-fixture-2nd {
     background-color: #f3e8ff;
     color: #6b21a8;
     border: 1px solid #e9d5ff;
 }
 
-/* Generic Fixture (Navy Accent) */
 .tag-fixture-default {
     background-color: #f0f7ff;
     color: #0369a1;
@@ -494,7 +491,6 @@ dialog.events-detail-dialog #events-detail-list {
     padding: 15px 0;
 }
 
-/* Responsive adjustments for mobile screens */
 @media (max-width: 480px) {
     .upcoming-events-list {
         padding: 4px 14px;
@@ -509,5 +505,94 @@ dialog.events-detail-dialog #events-detail-list {
     }
     .event-info-body h3 {
         font-size: 0.98rem;
+    }
+}
+
+/* ============================================================================
+   COMPACT MOBILE PWA INSTALL MENU ITEM STYLING
+   ============================================================================ */
+.pwa-menu-item {
+    display: none; /* Hidden on desktop screens */
+}
+
+@media (max-width: 768px) {
+    .pwa-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #fff8df;
+        color: #173b32 !important;
+        padding: 10px 14px;
+        margin: 0 auto 20px auto;
+        max-width: 92%;
+        border-radius: 10px;
+        border: 1.5px solid #ffcc00;
+        box-shadow: 0 3px 8px rgba(23, 59, 50, 0.08);
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .pwa-menu-item:hover,
+    .pwa-menu-item:active {
+        background-color: #fef08a;
+        transform: scale(0.98);
+    }
+
+    .pwa-item-icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid rgba(23, 59, 50, 0.2);
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .pwa-item-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .pwa-item-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .pwa-item-title {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #173b32;
+        letter-spacing: 0.01em;
+        line-height: 1.2;
+    }
+
+    .pwa-item-subtitle {
+        font-size: 0.7rem;
+        color: #475569;
+        font-weight: 400;
+        line-height: 1.2;
+    }
+
+    .pwa-arrow {
+        font-size: 0.95rem;
+        color: #173b32;
+        font-weight: 700;
+        padding-left: 2px;
+    }
+}
+
+/* ============================================================================
+   AUTO-HIDE INSTALL BANNER WHEN APP IS INSTALLED (STANDALONE MODE)
+   ============================================================================ */
+@media (display-mode: standalone) {
+    #pwa-install-trigger {
+        display: none !important;
     }
 }

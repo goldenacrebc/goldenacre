@@ -1,0 +1,15 @@
+{
+    "name": "Goldenacre Bowling Club",
+    "short_name": "Goldenacre BC",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#173b32",
+    "theme_color": "#173b32",
+    "icons": [
+        {
+            "src": "photos/favicon.ico",
+            "sizes": "192x192 512x512",
+            "type": "image/x-icon"
+        }
+    ]
+}
