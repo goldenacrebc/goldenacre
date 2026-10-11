@@ -70,17 +70,17 @@
 
 <main class="home-main">
     <main class="home-main">
-    <!-- Prominent Install / Bookmark Banner -->
-    <a href="#" id="pwa-install-trigger" class="pwa-menu-item">
-        <div class="pwa-item-icon">
-            <img src="logo.jpeg" alt="Goldenacre Bowling Club Badge">
-        </div>
-        <div class="pwa-item-content">
-            <span class="pwa-item-title" id="banner-title">Install Club App</span>
-            <span class="pwa-item-subtitle" id="banner-subtitle">Add Goldenacre BC to your home screen</span>
-        </div>
-        <span class="pwa-arrow">&rarr;</span>
-    </a>
+   <!-- Prominent Device-Specific Install / Bookmark Banner -->
+<a href="#" id="pwa-install-trigger" class="pwa-menu-item">
+    <div class="pwa-item-icon">
+        <img src="logo.jpeg" alt="Goldenacre Bowling Club Badge">
+    </div>
+    <div class="pwa-item-content">
+        <span class="pwa-item-title" id="banner-title">Add to Home Screen</span>
+        <span class="pwa-item-subtitle" id="banner-subtitle">Quick access to Goldenacre Bowling Club</span>
+    </div>
+    <span class="pwa-arrow">&rarr;</span>
+</a>
     <!-- Latest News Section -->
 <section id="news" class="content-section">
     <p class="home-section-kicker">Life at Goldenacre</p>
@@ -323,10 +323,8 @@
     </div>
 </dialog>
 
-<!-- Cross-Platform PWA & Bookmark Handler Script -->
+<!-- Cross-Platform Device Instruction Handler Script -->
 <script>
-    let deferredPrompt;
-
     document.addEventListener('DOMContentLoaded', () => {
         const installLink = document.getElementById('pwa-install-trigger');
         if (!installLink) return;
@@ -337,64 +335,48 @@
             return;
         }
 
-        // Accurately detect if device is Desktop (ignoring screen rotation width)
-        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (!isMobileDevice) {
-            // Desktop user: Show bookmark prompt
-            const titleEl = document.getElementById('banner-title');
-            const subtitleEl = document.getElementById('banner-subtitle');
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+        const isAndroid = /android/i.test(ua);
+        const titleEl = document.getElementById('banner-title');
+        const subtitleEl = document.getElementById('banner-subtitle');
+
+        // Dynamically customize the banner subtitle based on the user's device
+        if (isIOS) {
+            if (subtitleEl) subtitleEl.textContent = "Tap to add to your iPhone home screen";
+        } else if (isAndroid) {
+            if (subtitleEl) subtitleEl.textContent = "Tap to add to your Android home screen";
+        } else {
+            // Desktop
             if (titleEl) titleEl.textContent = "Bookmark Our Site";
             if (subtitleEl) subtitleEl.textContent = "Press Cmd+D (Mac) or Ctrl+D (Windows)";
         }
-    });
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
     });
 
     document.addEventListener('DOMContentLoaded', () => {
         const installLink = document.getElementById('pwa-install-trigger');
         if (!installLink) return;
 
-        installLink.addEventListener('click', async (event) => {
+        installLink.addEventListener('click', (event) => {
             event.preventDefault();
 
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            if (!isMobileDevice) {
-                alert("To bookmark this site:\n\n• On Mac: Press Cmd + D\n• On Windows: Press Ctrl + D");
-                localStorage.setItem('club_app_hidden', 'true');
-                installLink.style.display = 'none';
-                return;
-            }
-
-            // Detect iOS (iPhone/iPad)
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            const isAndroid = /android/i.test(ua);
 
             if (isIOS) {
-                alert("To install this app on your iPhone:\n\n1. Tap the Share button (square with an arrow) at the bottom of Safari.\n2. Scroll down and tap 'Add to Home Screen'.");
-            } else if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    localStorage.setItem('club_app_hidden', 'true');
-                    installLink.style.display = 'none';
-                }
-                deferredPrompt = null;
+                alert("To add this app to your iPhone home screen:\n\n1. Tap the Share button (square with an arrow) at the bottom of Safari.\n2. Scroll down and tap 'Add to Home Screen'.");
+            } else if (isAndroid) {
+                alert("To add this app to your Android home screen:\n\n1. Tap the browser menu (three dots in the top right).\n2. Tap 'Add to Home screen' or 'Install app'.");
             } else {
-                alert("To add this app to your home screen, use your browser's main menu options (e.g. 'Install App' or 'Add to Home Screen').");
+                alert("To bookmark this site:\n\n• On Mac: Press Cmd + D\n• On Windows: Press Ctrl + D");
             }
+
+            // Hide the banner permanently once clicked
+            localStorage.setItem('club_app_hidden', 'true');
+            installLink.style.display = 'none';
         });
     });
-</script>
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('Service Worker registered successfully.'))
-            .catch((err) => console.log('Service Worker registration failed:', err));
-    }
 </script>
  </body>
  </html>
