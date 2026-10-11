@@ -594,3 +594,82 @@ dialog.events-detail-dialog #events-detail-list {
         display: none !important;
     }
 }
+/* Static App & Bookmark Instruction Card Styling */
+.pwa-instruction-card {
+    background-color: #fff8df;
+    color: #173b32;
+    padding: 12px 16px;
+    margin: 0 auto 20px auto;
+    max-width: 700px;
+    border-radius: 10px;
+    border: 1.5px solid #ffcc00;
+    box-shadow: 0 3px 8px rgba(23, 59, 50, 0.08);
+}
+
+.pwa-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed rgba(23, 59, 50, 0.18);
+    padding-bottom: 8px;
+}
+
+.pwa-card-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.pwa-instruction-card h3.pwa-item-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #173b32;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.pwa-instruction-card .pwa-item-subtitle {
+    font-size: 0.75rem;
+    color: #475569;
+    margin: 2px 0 0 0;
+}
+
+.pwa-card-body {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #173b32;
+}
+
+.pwa-steps {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.pwa-steps li {
+    margin-bottom: 4px;
+}
+
+.pwa-steps li:last-child {
+    margin-bottom: 0;
+}
+
+.pwa-desktop-text {
+    margin: 0;
+}
+
+kbd {
+    background-color: #173b32;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: monospace;
+}
+
+@media (max-width: 768px) {
+    .pwa-instruction-card {
+        max-width: 92%;
+        padding: 12px 14px;
+    }
+}
