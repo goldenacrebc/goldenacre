@@ -673,3 +673,23 @@ kbd {
         padding: 12px 14px;
     }
 }
+.pwa-instruction-card {
+    position: relative;
+}
+.pwa-dismiss-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    color: #173b32;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.pwa-dismiss-btn:hover {
+    opacity: 1;
+}
