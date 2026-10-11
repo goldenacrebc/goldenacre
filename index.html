@@ -88,8 +88,8 @@
 </div>
 
 <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-    <strong>⚠️ Site is under constuction:</strong> The site is still going through testing and development. Some features may not work as expected.
-    
+    <strong>⚠️ Site is under constuction:</strong> The site is still going through testing and development. Some features may not work as expected.</div>
+
 
     <!-- Latest News Section -->
 <section id="news" class="content-section">
@@ -334,7 +334,6 @@
 </dialog>
 
 <!-- Cross-Platform Device Instruction Handler Script -->
- <!-- Device-Specific Instruction Card & Dismiss Handler -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const cardEl = document.getElementById('pwa-instruction-card');
@@ -352,10 +351,15 @@
         const dismissBtn = document.getElementById('pwa-dismiss-btn');
 
         const ua = navigator.userAgent || navigator.vendor || window.opera;
-        const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-        const isAndroid = /android/i.test(ua);
+        
+        // Device detection logic
+        const isIPad = /iPad/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isIPhone = /iPhone|iPod/.test(ua) && !window.MSStream;
+        const isAndroidTablet = /android/i.test(ua) && /tablet/i.test(ua);
+        const isAndroidPhone = /android/i.test(ua) && !isAndroidTablet;
+        const isDesktop = !isIPad && !isIPhone && !isAndroidTablet && !isAndroidPhone;
 
-        if (isIOS) {
+        if (isIPhone) {
             if (titleEl) titleEl.textContent = "Add to iPhone Home Screen";
             if (subtitleEl) subtitleEl.textContent = "Access Goldenacre BC quickly like an app";
             if (bodyEl) bodyEl.innerHTML = `
@@ -364,8 +368,17 @@
                     <li>Scroll down and tap <strong>"Add to Home Screen"</strong>.</li>
                 </ol>
             `;
-        } else if (isAndroid) {
-            if (titleEl) titleEl.textContent = "Add to Android Home Screen";
+        } else if (isIPad) {
+            if (titleEl) titleEl.textContent = "Add to iPad Home Screen";
+            if (subtitleEl) subtitleEl.textContent = "Access Goldenacre BC quickly like an app";
+            if (bodyEl) bodyEl.innerHTML = `
+                <ol class="pwa-steps">
+                    <li>Tap the <strong>Share button</strong> (square with an arrow) in the top Safari toolbar.</li>
+                    <li>Select <strong>"Add to Home Screen"</strong> from the menu.</li>
+                </ol>
+            `;
+        } else if (isAndroidPhone) {
+            if (titleEl) titleEl.textContent = "Add to Android Phone Home Screen";
             if (subtitleEl) subtitleEl.textContent = "Access Goldenacre BC quickly like an app";
             if (bodyEl) bodyEl.innerHTML = `
                 <ol class="pwa-steps">
@@ -373,8 +386,17 @@
                     <li>Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.</li>
                 </ol>
             `;
+        } else if (isAndroidTablet) {
+            if (titleEl) titleEl.textContent = "Add to Android Tablet Home Screen";
+            if (subtitleEl) subtitleEl.textContent = "Access Goldenacre BC quickly like an app";
+            if (bodyEl) bodyEl.innerHTML = `
+                <ol class="pwa-steps">
+                    <li>Open your browser menu (three dots).</li>
+                    <li>Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.</li>
+                </ol>
+            `;
         } else {
-            // Desktop
+            // Desktop (Mac / Windows / Linux)
             if (titleEl) titleEl.textContent = "Bookmark Our Website";
             if (subtitleEl) subtitleEl.textContent = "Save Goldenacre BC to your browser favorites";
             if (bodyEl) bodyEl.innerHTML = `
@@ -393,6 +415,5 @@
         }
     });
 </script>
-
  </body>
  </html>
