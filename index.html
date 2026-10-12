@@ -29,7 +29,6 @@
     <details class="site-menu">
         <summary>Club Links</summary>
         <div class="site-menu-panel">
-            
             <a href="index.html">Home</a>
             <a href="about.html">About &amp; Facilities</a>
             <a href="index.html#news">Club News</a>
@@ -69,7 +68,6 @@
     </section>
 
 <main class="home-main">
-    <main class="home-main">
    <!-- Static App & Bookmark Instructions Card -->
 <div id="pwa-instruction-card" class="pwa-instruction-card">
     <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="Dismiss instructions">&times;</button>
@@ -88,8 +86,7 @@
 </div>
 
 <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-    <strong>⚠️ Site is under constuction:</strong> The site is still going through testing and development. Some features may not work as expected.</div>
-
+    <strong>⚠️ Site is under construction:</strong> The site is still going through testing and development. Some features may not work as expected.</div>
 
     <!-- Latest News Section -->
 <section id="news" class="content-section">
@@ -185,7 +182,6 @@
 
         </div>
     </div>
-
 </section>
 
     <!-- About & Facilities Section -->
@@ -217,6 +213,16 @@
 <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
     <strong>⚠️ System Testing Notice:</strong> This is a test of the new events and fixtures system. Any entries listed here or in the calendar are for testing purposes only. Real club events will be added once testing is complete!
 </div>    
+    <!-- Push Notification Trigger Area -->
+<div class="reminder-action-panel">
+    <button id="push-bell-btn" class="btn-set-reminder" disabled>
+        🔔 Enable Match Reminders
+    </button>
+    <p id="reminder-status" class="reminder-status-text">
+        Checking notification settings...
+    </p>
+</div>
+
     <!-- Widget container -->
     <div id="upcoming-events-widget" class="upcoming-events-list">
         <p class="events-empty">Loading upcoming events...</p>
@@ -234,7 +240,6 @@
      <h2>Come and Join Us</h2>
      <p class="section-intro">New members are always welcome! Free introductory coaching and equipment are available for beginners.</p>
      
-
      <div class="membership-grid">
          <div class="membership-card clickable" onclick="openNewsModal('membership')" style="max-width: 320px;">
              <h3>Membership Options</h3>
@@ -339,7 +344,6 @@
         const cardEl = document.getElementById('pwa-instruction-card');
         if (!cardEl) return;
 
-        // If user previously dismissed it, hide it immediately
         if (localStorage.getItem('club_app_hidden') === 'true') {
             cardEl.style.display = 'none';
             return;
@@ -352,12 +356,10 @@
 
         const ua = navigator.userAgent || navigator.vendor || window.opera;
         
-        // Device detection logic
         const isIPad = /iPad/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         const isIPhone = /iPhone|iPod/.test(ua) && !window.MSStream;
         const isAndroidTablet = /android/i.test(ua) && /tablet/i.test(ua);
         const isAndroidPhone = /android/i.test(ua) && !isAndroidTablet;
-        const isDesktop = !isIPad && !isIPhone && !isAndroidTablet && !isAndroidPhone;
 
         if (isIPhone) {
             if (titleEl) titleEl.textContent = "Add to iPhone Home Screen";
@@ -396,7 +398,6 @@
                 </ol>
             `;
         } else {
-            // Desktop (Mac / Windows / Linux)
             if (titleEl) titleEl.textContent = "Bookmark Our Website";
             if (subtitleEl) subtitleEl.textContent = "Save Goldenacre BC to your browser favorites";
             if (bodyEl) bodyEl.innerHTML = `
@@ -406,7 +407,6 @@
             `;
         }
 
-        // Handle dismiss button click
         if (dismissBtn) {
             dismissBtn.addEventListener('click', () => {
                 localStorage.setItem('club_app_hidden', 'true');
@@ -415,5 +415,74 @@
         }
     });
 </script>
- </body>
- </html>
+
+<!-- Local Match Reminder Controller with Toggle Support -->
+<script type="module">
+  const bellBtn = document.getElementById('push-bell-btn');
+  const statusText = document.getElementById('reminder-status');
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  
+  function updateButtonState() {
+      if (isIOS && !isStandalone) {
+          statusText.textContent = 'Tap Share -> "Add to Home Screen" to unlock match alerts.';
+          bellBtn.disabled = true;
+          return;
+      }
+
+      if (!('Notification' in window)) {
+          statusText.textContent = 'Web alerts not supported by this browser.';
+          bellBtn.disabled = true;
+          return;
+      }
+
+      const isActive = localStorage.getItem('match_reminders_active') === 'true';
+      if (Notification.permission === 'granted' && isActive) {
+          bellBtn.textContent = '🔕 Turn Off Match Reminders';
+          bellBtn.style.backgroundColor = '#991b1b';
+          statusText.textContent = 'Match reminders are active (2 hours before fixtures).';
+      } else {
+          bellBtn.textContent = '🔔 Enable Match Reminders';
+          bellBtn.style.backgroundColor = '#173b32';
+          statusText.textContent = 'Click below to set phone reminders 2 hours before all matches.';
+      }
+      bellBtn.disabled = false;
+  }
+
+  if (bellBtn && statusText) {
+      updateButtonState();
+
+      bellBtn.addEventListener('click', async () => {
+        try {
+          const isActive = localStorage.getItem('match_reminders_active') === 'true';
+
+          if (isActive) {
+              localStorage.setItem('match_reminders_active', 'false');
+              updateButtonState();
+              statusText.textContent = 'Match reminders have been turned off.';
+          } else {
+              bellBtn.disabled = true;
+              statusText.textContent = 'Requesting system browser permission...';
+              
+              const permission = await Notification.requestPermission();
+              if (permission === 'granted') {
+                 localStorage.setItem('match_reminders_active', 'true');
+                 updateButtonState();
+                 statusText.textContent = 'Success! Alarms scheduled natively 2 hours before match fixtures.';
+              } else {
+                 statusText.textContent = 'Permission denied in browser settings.';
+                 bellBtn.disabled = false;
+              }
+          }
+        } catch (err) {
+           console.error(err);
+           statusText.textContent = 'Error updating notification settings.';
+           bellBtn.disabled = false;
+        }
+      });
+  }
+</script>
+
+</body>
+</html>

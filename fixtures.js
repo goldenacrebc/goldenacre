@@ -215,6 +215,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             const reminderBtn = card.querySelector('.btn-set-reminder');
             const statusText = card.querySelector('.reminder-status-text');
 
+            // Sync initial state from localStorage
+            const checkActive = localStorage.getItem('match_reminders_active') === 'true';
+            if (checkActive) {
+                reminderBtn.textContent = '🔕 Turn Off Match Reminders';
+                reminderBtn.style.backgroundColor = '#991b1b';
+                statusText.textContent = 'Match reminders are currently active.';
+                statusText.style.display = 'block';
+            }
+
             reminderBtn.addEventListener('click', () => {
                 if (!('Notification' in window)) {
                     statusText.textContent = '❌ Web alerts not supported by this browser.';
@@ -222,24 +231,30 @@ document.addEventListener('DOMContentLoaded', async () => {
                     return;
                 }
 
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        reminderBtn.textContent = '✓ Reminder Scheduled';
-                        reminderBtn.disabled = true;
-                        statusText.textContent = '🔔 Notification approved! Alert triggers before green rolls.';
-                        statusText.style.display = 'block';
-                        
-                        setTimeout(() => {
-                            new Notification(`Matchday Reminder: ${event.title}`, {
-                                body: `The fixture starts at ${event.time || 'Scheduled Time'}. Good luck!`,
-                                icon: '/favicon.ico'
-                            });
-                        }, 2000);
-                    } else {
-                        statusText.textContent = '❌ Permission denied. Unblock notification settings in your browser bar.';
-                        statusText.style.display = 'block';
-                    }
-                });
+                const isActiveNow = localStorage.getItem('match_reminders_active') === 'true';
+
+                if (isActiveNow) {
+                    // Turn off
+                    localStorage.setItem('match_reminders_active', 'false');
+                    reminderBtn.textContent = '🔔 Set Match Reminder';
+                    reminderBtn.style.backgroundColor = '#173b32';
+                    statusText.textContent = 'Match reminders turned off.';
+                    statusText.style.display = 'block';
+                } else {
+                    // Turn on
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            localStorage.setItem('match_reminders_active', 'true');
+                            reminderBtn.textContent = '🔕 Turn Off Match Reminders';
+                            reminderBtn.style.backgroundColor = '#991b1b';
+                            statusText.textContent = '🔔 Notification approved! Alarms active.';
+                            statusText.style.display = 'block';
+                        } else {
+                            statusText.textContent = '❌ Permission denied in browser settings.';
+                            statusText.style.display = 'block';
+                        }
+                    });
+                }
             });
 
         } else {
