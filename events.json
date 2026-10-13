@@ -1,18 +1,42 @@
 [
   {
-    "date": "2026-10-13",
-    "title": "Final test of push notifications",
-    "time": "7.00 pm",
-    "location": "Goldenacre Bowling Club",
-    "description": "Thanks for testing.",
+    "date": "2026-10-26",
+    "title": "Pool League",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "Pool League Week 2.",
     "notify": true
   },
   {
-    "date": "2026-10-26",
+    "date": "2026-11-09",
     "title": "Pool League",
-    "time": "7:00 am",
+    "time": "7:00 pm",
     "location": "Goldenacre Bowling club",
-    "description": "Pool League Week 2.",
+    "description": "Pool League Week 3.",
+    "notify": true
+  },
+  {
+    "date": "2026-11-23",
+    "title": "Pool League",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "Pool League Week 4.",
+    "notify": true
+  },
+  {
+    "date": "2026-12-07",
+    "title": "Pool League",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "Pool League Week 5.",
+    "notify": true
+  },
+{
+    "date": "2026-12-12",
+    "title": "Christmas Party",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "The Goldenacre Christmas party.",
     "notify": true
   },
  {
