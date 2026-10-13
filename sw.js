@@ -34,12 +34,15 @@ async function checkForUpcomingMatches() {
         const fixtures = await response.json();
         
         // Calculate the current date matching the club's UK local time zone
-        const todayStr = new Date().toLocaleDateString('en-GB', {
+        let rawDateStr = new Date().toLocaleDateString('en-GB', {
             timeZone: 'Europe/London',
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
-        }).split('/').reverse().join('-'); // Results in "YYYY-MM-DD"
+        }).split('/').reverse().join('-'); // Formats date as YYYY-MM-DD
+        
+        // Match standard format to filter out rows correctly
+        const todayStr = rawDateStr;
         
         // Filter matches scheduled for today
         const todaysMatches = fixtures.filter(match => match.date === todayStr);
@@ -55,18 +58,16 @@ async function checkForUpcomingMatches() {
             const teamInfo = match.team ? `(${match.team}) ` : "";
             const matchTime = match.time ? `at ${match.time}` : "Today";
             
-                   const options = {
-            body: `${teamInfo}Playing ${matchTime}. ${match.description || ''}`.trim(),
-            icon: 'logo.jpeg',
-            badge: 'logo.jpeg',
-            vibrate:, // Changed from vibrate:, to a clean bracket sequence
-            tag: `match-${match.date}-${match.time || 'all-day'}`,
-            data: {
-                dateOfArrival: Date.now()
-            }
-        };
+            const options = {
+                body: `${teamInfo}Playing ${matchTime}. ${match.description || ''}`.trim(),
+                icon: 'logo.jpeg',
+                badge: 'logo.jpeg',
+                tag: `match-${match.date}-${match.time || 'all-day'}`,
+                data: {
+                    dateOfArrival: Date.now()
+                }
+            };
 
- 
             await self.registration.showNotification(title, options);
         }
     } catch (err) {
@@ -88,3 +89,7 @@ self.addEventListener('message', (event) => {
     }
 });
 
+// TEST ENGINE LOGIC HOOK FOR LOCALHOST VISUAL ALERTS
+self.addEventListener('push', (event) => {
+    event.waitUntil(checkForUpcomingMatches());
+});
