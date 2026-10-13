@@ -14,6 +14,7 @@ self.addEventListener('notificationclick', (e) => {
         clients.openWindow('/index.html')
     );
 });
+
 // Listen for incoming match reminders or system alerts
 self.addEventListener('push', (e) => {
     let data = { title: 'Goldenacre BC Alert', body: 'New match update!' };
@@ -28,9 +29,9 @@ self.addEventListener('push', (e) => {
 
     const options = {
         body: data.body,
-        icon: 'logo.jpeg', // Update to your actual logo path
+        icon: 'logo.jpeg',
         badge: 'logo.jpeg',
-        vibrate:,
+        vibrate: [200, 100, 200],
         data: {
             dateOfArrival: Date.now()
         }
