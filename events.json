@@ -1,44 +1,34 @@
 [
   {
-    "date": "2026-10-12",
-    "title": "Pool League",
+    "date": "2026-10-13",
+    "title": "Final test of push notifications",
     "time": "7.00 pm",
     "location": "Goldenacre Bowling Club",
-    "description": "Pool League week 1."
+    "description": "Thanks for testing.",
+    "notify": true
   },
   {
     "date": "2026-10-26",
     "title": "Pool League",
     "time": "7:00 am",
-    "location": "Goldenacre Bowling Green",
-    "description": "Pool League Week 2."
-  },
-  {
-    "date": "2026-11-14",
-    "title": " Club social evening",
-    "time": "7:00 pm",
-    "location": "Goldenacre Bowling Club",
-    "description": "Sample calendar entry for preview only."
+    "location": "Goldenacre Bowling club",
+    "description": "Pool League Week 2.",
+    "notify": true
   },
  {
     "date": "2026-12-25",
     "title": "Christmas Day",
     "time": "All Day",
     "location": "",
-    "description": "Happy Christmas from Everyone at Goldenacre Bowling Club."
-  },
-  {
-    "date": "2026-12-26",
-    "title": "Boxing Day",
-    "time": "All Day",
-    "location": "",
-    "description": ""
+    "description": "Happy Christmas from Everyone at Goldenacre Bowling Club.",
+    "notify": true  
   },
   {
     "date": "2027-01-01",
     "title": "New Years Day",
     "time": "All Day",
     "location": "",
-    "description": "Happy New Year from Everyone at Goldenacre."
+    "description": "Happy New Year from Everyone at Goldenacre.",
+    "notify": true 
   }
 ]

@@ -1,24 +1,11 @@
 [
   {
-    "date": "2026-10-13",
-    "team": "1st 16",
-    "title": "Tanfield vs. Goldenacre",
-    "time": "2:00 pm",
-    "description": "Test of the push notifications."
-  },
-  {
-    "date": "2026-10-28",
-    "team": "1st 16",
-    "title": "Goldenacre v Maitland",
-    "time": "2:00 pm",
-    "description": "Midweek area cup match."
-  },
-  {
-    "date": "2026-10-28",
-    "team": "2nd 16",
-    "title": "Goldenacre v Maitland",
-    "time": "6.30 pm",
-    "description": "Midweek area cup match."
+    "date": "",
+    "title": "",
+    "time": "",
+    "location": "",
+    "description": "",
+    "notify": false
   }
+  
 ]
-

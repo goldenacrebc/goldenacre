@@ -26,43 +26,71 @@ self.addEventListener('notificationclick', (e) => {
     );
 });
 
-// BACKGROUND DATA ENGINE: Wakes up and checks fixtures.json on your server
+// PASS-THROUGH NETWORKING: Stops the service worker from blocking or caching site data files
+self.addEventListener('fetch', (event) => {
+    // Let the main page fetch files directly from the Python server or live domain without interference
+    return; 
+});
+
+// BACKGROUND DATA ENGINE: Wakes up and checks BOTH fixtures.json and events.json on your server
 async function checkForUpcomingMatches() {
     try {
-        // Fetch your match JSON file from the root directory of your server
-        const response = await fetch('/fixtures.json', { cache: 'no-store' });
-        const fixtures = await response.json();
-        
-        // Calculate the current date matching the club's UK local time zone
+        // Calculate the current date matching the club's UK local time zone (YYYY-MM-DD)
         let rawDateStr = new Date().toLocaleDateString('en-GB', {
             timeZone: 'Europe/London',
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
-        }).split('/').reverse().join('-'); // Formats date as YYYY-MM-DD
+        }).split('/').reverse().join('-'); 
         
-        // Match standard format to filter out rows correctly
         const todayStr = rawDateStr;
+        let allCombinedItems = [];
+
+        // 1. Fetch and read your match fixtures JSON file (Always includes all entries)
+        try {
+            const fixturesResponse = await fetch('/fixtures.json', { cache: 'no-store' });
+            const fixtures = await fixturesResponse.json();
+            
+            // Tag these so the engine knows they are fixtures and shouldn't be filtered out
+            const taggedFixtures = fixtures.map(f => ({ ...f, isFixture: true }));
+            allCombinedItems = allCombinedItems.concat(taggedFixtures);
+        } catch (err) {
+            console.log("No fixtures.json file found or failed to parse.");
+        }
+
+        // 2. Fetch and read your club events JSON file
+        try {
+            const eventsResponse = await fetch('/events.json', { cache: 'no-store' });
+            const events = await eventsResponse.json();
+            allCombinedItems = allCombinedItems.concat(events);
+        } catch (err) {
+            console.log("No events.json file found or failed to parse.");
+        }
         
-        // Filter matches scheduled for today
-        const todaysMatches = fixtures.filter(match => match.date === todayStr);
+        // Filter out everything scheduled for today
+        const todaysEntries = allCombinedItems.filter(item => {
+            if (item.date !== todayStr) return false;
+            if (item.isFixture) return true;
+            if (item.notify === false) return false;
+            return true;
+        });
         
-        if (todaysMatches.length === 0) {
-            console.log("No club matches scheduled for today.");
+        if (todaysEntries.length === 0) {
+            console.log("No club matches or important social events scheduled for today.");
             return;
         }
 
-        // Loop through matches scheduled for today and show notification banners
-        for (const match of todaysMatches) {
-            const title = match.title || "Goldenacre BC Match";
-            const teamInfo = match.team ? `(${match.team}) ` : "";
-            const matchTime = match.time ? `at ${match.time}` : "Today";
+        // Loop through everything found today and show notification banners
+        for (const item of todaysEntries) {
+            const title = item.title || "Goldenacre BC Alert";
+            const teamInfo = item.team ? `(${item.team}) ` : "";
+            const matchTime = item.time ? `at ${item.time}` : "Today";
             
             const options = {
-                body: `${teamInfo}Playing ${matchTime}. ${match.description || ''}`.trim(),
+                body: `${teamInfo}Playing/Happening ${matchTime}. ${item.description || ''}`.trim(),
                 icon: 'logo.jpeg',
                 badge: 'logo.jpeg',
-                tag: `match-${match.date}-${match.time || 'all-day'}`,
+                tag: `match-${item.date}-${item.time || 'all-day'}`,
                 data: {
                     dateOfArrival: Date.now()
                 }
