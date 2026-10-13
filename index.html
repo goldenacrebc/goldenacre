@@ -10,7 +10,9 @@
     <!-- PWA Meta Tags & Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
     <link rel="apple-touch-icon" href="photos/favicon.ico">
 
     <script src="modals/modal-championships.js" defer></script>
@@ -482,6 +484,123 @@
         }
       });
   }
+</script>
+<!-- ============================================================================
+   AUTOMATED SERVICE WORKER SYSTEM FOR FIXTURES HOOK (WITH TOGGLE)
+   ============================================================================ -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const reminderBtn = document.querySelector(".btn-set-reminder");
+    const statusText = document.querySelector(".reminder-status-text");
+
+    if (!reminderBtn) return;
+
+    // Helper function to update the button and status text layout based on active state
+    function updateUI(isActivated) {
+        if (isActivated) {
+            reminderBtn.textContent = "🔕 Disable Match Reminders";
+            reminderBtn.classList.add("active");
+            if (statusText) statusText.textContent = "Reminders active! Your device will monitor fixtures.json automatically.";
+        } else {
+            reminderBtn.textContent = "🔔 Enable Match Reminders";
+            reminderBtn.classList.remove("active");
+            if (statusText) statusText.textContent = "Match reminders are currently turned off on this device.";
+        }
+    }
+
+    // 1. Initial State Check on Page Load
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+        .then((reg) => {
+            if (Notification.permission === "granted") {
+                // Check if our custom background task is actually registered
+                if ('periodicSync' in reg) {
+                    reg.periodicSync.getTags().then((tags) => {
+                        const isSubscribed = tags.includes('check-match-reminders');
+                        updateUI(isSubscribed);
+                        
+                        // If it's on, trigger a quick background parsing pass right away
+                        if (isSubscribed && reg.active) {
+                            reg.active.postMessage({ action: 'checkReminders' });
+                        }
+                    });
+                } else {
+                    // Fallback for browsers that don't support PeriodicSync natively (like standard desktop Chrome)
+                    // We read a local setting to remember if the user wanted it toggled on or off
+                    const savedState = localStorage.getItem('matchRemindersEnabled') === 'true';
+                    updateUI(savedState);
+                    if (savedState && reg.active) {
+                        reg.active.postMessage({ action: 'checkReminders' });
+                    }
+                }
+            } else if (Notification.permission === "default") {
+                updateUI(false);
+                if (statusText) statusText.textContent = "Click the button above to enable match reminders on this device.";
+            } else {
+                updateUI(false);
+                if (statusText) statusText.textContent = "Notifications are blocked. Please reset your browser bar permissions to enable.";
+            }
+        });
+    } else {
+        if (statusText) statusText.textContent = "Notifications are not supported on this device or browser.";
+        reminderBtn.disabled = true;
+    }
+
+    // 2. Button Activation / Deactivation Click Event Listener
+    reminderBtn.addEventListener("click", async () => {
+        try {
+            // Check if we are currently turning it ON or OFF
+            const isCurrentlyOn = reminderBtn.textContent.includes("Disable");
+
+            if (isCurrentlyOn) {
+                // --- TURNING IT OFF ---
+                const reg = await navigator.serviceWorker.ready;
+                if ('periodicSync' in reg) {
+                    try {
+                        await reg.periodicSync.unregister('check-match-reminders');
+                    } catch (e) {
+                        console.log("Could not unregister background sync track.");
+                    }
+                }
+                localStorage.setItem('matchRemindersEnabled', 'false');
+                updateUI(false);
+            } else {
+                // --- TURNING IT ON ---
+                const permission = await Notification.requestPermission();
+                
+                if (permission === "granted") {
+                    const reg = await navigator.serviceWorker.ready;
+                    
+                    if ('periodicSync' in reg) {
+                        try {
+                            await reg.periodicSync.register('check-match-reminders', {
+                                minInterval: 12 * 60 * 60 * 1000 // Instructs device to poll fixtures.json every 12 hours
+                            });
+                        } catch (syncError) {
+                            console.log("Periodic sync initialization delayed by browser policy.");
+                        }
+                    }
+                    
+                    localStorage.setItem('matchRemindersEnabled', 'true');
+                    updateUI(true);
+                    
+                    // Run immediate parsing scan right after turning on
+                    if (reg.active) reg.active.postMessage({ action: 'checkReminders' });
+                } else {
+                    if (statusText) statusText.textContent = "Notifications blocked. Please clear permissions in your browser bar.";
+                }
+            }
+        } catch (err) {
+            console.error("Error toggling notification settings:", err);
+        }
+    });
+
+    // Handle PWA standalone display hook modes
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        const installBanner = document.getElementById('pwa-install-trigger');
+        if (installBanner) installBanner.style.display = 'none';
+    }
+});
 </script>
 
 </body>
