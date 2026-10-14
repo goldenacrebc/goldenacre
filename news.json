@@ -1,5 +1,13 @@
 [
   {
+    "title": "yet onther test",
+    "description": "testing",
+    "category": "internal",
+    "tag": "latest",
+    "image": "logo.jpeg",
+    "modal": "yet-onther-test"
+  },
+  {
     "title": "testing admin functions",
     "description": "test",
     "category": "external",
