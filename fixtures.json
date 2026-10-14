@@ -3,10 +3,10 @@
     "date": "2026-10-14",
     "team": "1st 16",
     "title": "Goldenacre vs. Goldenacre",
-    "time": "11:00 pm",
+    "time": "7:00 pm",
     "location": "Test",
     "description": "Test ",
-    "notify": false
+    "notify": "false"
   }
   
 ]
