@@ -6,7 +6,7 @@
     "time": "7:00 pm",
     "location": "Test",
     "description": "Test ",
-    "notify": "false"
+    "notify": false
   }
   
 ]

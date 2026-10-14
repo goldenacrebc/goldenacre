@@ -1,4 +1,4 @@
-// sw.js - Complete Service Worker with Persistent Daily Memory
+// sw.js - Complete Service Worker with Persistent Memory and Fixed Notification Rules
 
 const CACHE_NAME = 'goldenacre-notification-memory-v1';
 
@@ -49,8 +49,9 @@ async function checkForUpcomingMatches() {
         try {
             const fixturesResponse = await fetch('/fixtures.json', { cache: 'no-store' });
             const fixtures = await fixturesResponse.json();
-            const taggedFixtures = fixtures.map(f => ({ ...f, isFixture: true }));
-            allCombinedItems = allCombinedItems.concat(taggedFixtures);
+            for (const f of fixtures) {
+                allCombinedItems.push(f);
+            }
         } catch (err) {
             console.log("No fixtures.json file found or failed to parse.");
         }
@@ -59,14 +60,16 @@ async function checkForUpcomingMatches() {
         try {
             const eventsResponse = await fetch('/events.json', { cache: 'no-store' });
             const events = await eventsResponse.json();
-            allCombinedItems = allCombinedItems.concat(events);
+            for (const ev of events) {
+                allCombinedItems.push(ev);
+            }
         } catch (err) {
             console.log("No events.json file found or failed to parse.");
         }
         
+        // Filter items: must match today's date, and notify must NOT be false
         const todaysEntries = allCombinedItems.filter(item => {
             if (item.date !== todayStr) return false;
-            if (item.isFixture) return true;
             if (item.notify === false) return false;
             return true;
         });
@@ -82,12 +85,11 @@ async function checkForUpcomingMatches() {
             const title = item.title || "Goldenacre BC Alert";
             const teamInfo = item.team ? `(${item.team}) ` : "";
             const matchTime = item.time ? `at ${item.time}` : "Today";
-            const notificationKey = `/notified-${item.date}-${item.time || 'all-day'}`;
+            const notificationKey = `/notified-${item.date}-${item.time || 'all-day'}-${item.title || 'alert'}`;
             
             // Check if we already logged this notification in storage today
             const alreadyNotified = await notificationCache.match(notificationKey);
             if (alreadyNotified) {
-                // Skip it—even if you cleared it from your phone tray, it won't repeat!
                 continue;
             }
 
