@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goldenacre Bowling Club - Admin Portal</title>
     
-    <!-- Link your existing site stylesheets -->
+    <!-- Link your site stylesheets -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="members_secure.css">
     
@@ -14,7 +14,7 @@
 
     <style>
         .admin-wrapper {
-            max-width: 600px;
+            max-width: 520px;
             margin: 40px auto;
             padding: 0 15px;
         }
@@ -30,6 +30,7 @@
             margin-bottom: 20px;
             color: #111111;
             font-size: 1.4rem;
+            text-align: center;
         }
         .form-group {
             margin-bottom: 18px;
@@ -43,7 +44,8 @@
         }
         .form-group input[type="text"],
         .form-group textarea,
-        .form-group input[type="file"] {
+        .form-group input[type="file"],
+        .form-group select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #cbd5e1;
@@ -56,7 +58,7 @@
             min-height: 120px;
             resize: vertical;
         }
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: 2px solid #0369a1;
             border-color: transparent;
         }
@@ -64,18 +66,25 @@
             background-color: #0369a1;
             color: white;
             border: none;
-            padding: 12px 20px;
+            width: 100%;
+            padding: 12px;
             border-radius: 4px;
             font-weight: bold;
             font-size: 0.95rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            margin-top: 10px;
         }
         .submit-btn:hover {
             background-color: #0284c7;
         }
+        .submit-btn:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
         #status-msg {
             margin-top: 14px;
+            text-align: center;
             font-size: 0.9rem;
             font-weight: 600;
         }
@@ -85,7 +94,7 @@
 
     <!-- Admin Header -->
     <header class="members-header">
-        <h1>🛠️ Goldenacre Admin Portal</h1>
+        <h1>🔒 Goldenacre Admin Portal</h1>
         <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
             <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
         </a>
@@ -96,6 +105,24 @@
         <div class="admin-card">
             <h2>Publish News or Announcement</h2>
             <form id="news-form">
+                <div class="form-group">
+                    <label for="target-file">Select Target Section</label>
+                    <select id="target-file">
+                        <option value="news.json">Club News (news.json)</option>
+                        <option value="events.json">Social Events (events.json)</option>
+                        <option value="fixtures.json">Fixtures (fixtures.json)</option>
+                    </select>
+                </div>
+
+                <!-- Category selector (only applies when news.json is selected) -->
+                <div class="form-group" id="news-category-group">
+                    <label for="news-category">News Category</label>
+                    <select id="news-category">
+                        <option value="internal">Internal Club News</option>
+                        <option value="external">External Competitions</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label for="news-title">Headline / Title</label>
                     <input type="text" id="news-title" required placeholder="e.g. Opening Day Schedule Announced">
@@ -125,18 +152,55 @@
     <script>
         const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
         const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         // 1. Restrict page to logged-in admin/members
         async function checkAdminAuth() {
-            const { data: { user }, error } = await supabase.auth.getUser();
+            const { data: { user }, error } = await supabaseClient.auth.getUser();
             if (error || !user) {
-                window.location.replace('login.html');
+                window.location.replace('admin_login.html');
             }
         }
         checkAdminAuth();
 
-        // 2. Handle form submission (Upload Image + Save to Database)
+        // Show/hide category dropdown depending on target file selection
+        const targetFileSelect = document.getElementById('target-file');
+        const categoryGroup = document.getElementById('news-category-group');
+
+        targetFileSelect.addEventListener('change', () => {
+            if (targetFileSelect.value === 'news.json') {
+                categoryGroup.style.display = 'block';
+            } else {
+                categoryGroup.style.display = 'none';
+            }
+        });
+
+        // Helper to convert uploaded file to base64
+        function fileToGenerativePart(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64String = reader.result.split(',')[1];
+                    resolve(base64String);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function decodeBase64Utf8(base64Str) {
+            const binString = atob(base64Str.replace(/\s/g, ''));
+            const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
+            return new TextDecoder().decode(bytes);
+        }
+
+        function encodeUtf8Base64(str) {
+            const bytes = new TextEncoder().encode(str);
+            const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
+            return btoa(binString);
+        }
+
+        // 2. Handle form submission
         const newsForm = document.getElementById('news-form');
         const statusMsg = document.getElementById('status-msg');
         const publishBtn = document.getElementById('publish-btn');
@@ -144,51 +208,131 @@
         newsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const targetFile = targetFileSelect.value;
+            const category = document.getElementById('news-category').value;
             const title = document.getElementById('news-title').value.trim();
             const content = document.getElementById('news-content').value.trim();
             const imageFile = document.getElementById('news-image').files[0];
 
             statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = "Publishing update...";
+            statusMsg.innerText = "Connecting to repository...";
             publishBtn.disabled = true;
 
-            let imageUrl = null;
+            let imageUrl = "logo.jpeg";
 
             try {
-                // If a photo was selected, upload it to Supabase Storage first
+                const owner = "goldenacrebc";
+                const repo = "goldenacre";
+                const branch = "main";
+                const githubToken = "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";
+
+                // Upload photo to repository photos/ folder if attached
                 if (imageFile) {
-                    const fileName = `${Date.now()}-${imageFile.name}`;
-                    const { data: uploadData, error: uploadError } = await supabase.storage
-                        .from('club-photos')
-                        .upload(fileName, imageFile);
+                    statusMsg.innerText = "Uploading photo to GitHub...";
+                    const fileName = `${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
+                    const photoPath = `photos/${fileName}`;
+                    const photoBase64 = await fileToGenerativePart(imageFile);
 
-                    if (uploadError) throw uploadError;
+                    const photoUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${photoPath}`;
+                    const photoRes = await fetch(photoUrl, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `token ${githubToken}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            message: `Admin upload: added photo ${fileName}`,
+                            content: photoBase64,
+                            branch: branch
+                        })
+                    });
 
-                    // Get public URL for the uploaded image
-                    const { data: publicUrlData } = supabase.storage
-                        .from('club-photos')
-                        getPublicUrl(fileName);
-                    
-                    // Fallback URL generator if helper format varies
-                    imageUrl = `https://xprnfaadcqlxeamoywjs.supabase.co/storage/v1/object/public/club-photos/${fileName}`;
+                    if (!photoRes.ok) throw new Error("Failed to upload photo to GitHub repository.");
+                    imageUrl = photoPath;
                 }
 
-                // Insert the news record into the database table
-                const { error: dbError } = await supabase
-                    .from('news_posts')
-                    .insert([{ title, content, image_url: imageUrl }]);
+                statusMsg.innerText = "Fetching current file data...";
+                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${targetFile}`;
+                const getRes = await fetch(fileUrl, {
+                    headers: { "Authorization": `token ${githubToken}` }
+                });
+                
+                if (!getRes.ok) {
+                    const errJson = await getRes.json().catch(() => ({}));
+                    throw new Error(errJson.message || `Failed to fetch file (${getRes.status})`);
+                }
+                
+                const fileData = await getRes.json();
+                const existingContent = JSON.parse(decodeBase64Utf8(fileData.content));
 
-                if (dbError) throw dbError;
+                // Build new entry based on file type and selected category
+                let newEntry = {};
+                if (targetFile === 'news.json') {
+                    const modalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    
+                    newEntry = {
+                        title: title,
+                        description: content,
+                        category: category, 
+                        tag: "latest",
+                        image: imageUrl,
+                        modal: modalSlug
+                    };
+                } else if (targetFile === 'events.json') {
+                    newEntry = {
+                        date: new Date().toISOString().split('T')[0],
+                        title: title,
+                        time: "7:00 pm",
+                        location: "Goldenacre Bowling club",
+                        description: content,
+                        notify: true
+                    };
+                } else {
+                    newEntry = {
+                        date: new Date().toISOString().split('T')[0],
+                        team: "1st 16",
+                        title: title,
+                        time: "19:30 pm",
+                        location: "Goldenacre",
+                        description: content,
+                        notify: true
+                    };
+                }
+
+                existingContent.unshift(newEntry);
+
+                statusMsg.innerText = "Committing update to GitHub...";
+                const updatedContentBase64 = encodeUtf8Base64(JSON.stringify(existingContent, null, 2));
+                
+                const commitRes = await fetch(fileUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${githubToken}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: `Admin portal update: added ${title}`,
+                        content: updatedContentBase64,
+                        sha: fileData.sha,
+                        branch: branch
+                    })
+                });
+
+                if (!commitRes.ok) {
+                    const errJson = await commitRes.json().catch(() => ({}));
+                    throw new Error(errJson.message || `Failed to commit changes (${commitRes.status})`);
+                }
 
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = "Successfully published!";
+                statusMsg.innerText = "Successfully published! Please allow 1-2 mins for site to update.";
                 newsForm.reset();
+                categoryGroup.style.display = 'block';
                 publishBtn.disabled = false;
 
             } catch (err) {
                 console.error("Publishing error:", err);
                 statusMsg.style.color = '#dc2626';
-                statusMsg.innerText = "Error publishing: " + err.message;
+                statusMsg.innerText = "Error: " + err.message;
                 publishBtn.disabled = false;
             }
         });
@@ -198,7 +342,7 @@
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
-                await supabase.auth.signOut();
+                await supabaseClient.auth.signOut();
                 window.location.replace('index.html');
             });
         }

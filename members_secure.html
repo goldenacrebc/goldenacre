@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goldenacre Bowling Club - Members Portal</title>
+    <title>Goldenacre Bowling Club — Members Portal</title>
     
-    <!-- External stylesheet for Draws component & global styles -->
+    <!-- External stylesheets -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="members_secure.css">
     
@@ -15,237 +15,760 @@
     <script src="fixtures/team-sheets.js" defer></script>
     <script src="draws.js" defer></script>
     <script src="js/team-sheets.js" defer></script>
-</head>
-<body>
 
-    <!-- Private Header -->
-    <header class="members-header">
-        <h1>🔒 Goldenacre Members Area</h1>
-        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
-            <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+    <style>
+        /* ==========================================================================
+           PROFESSIONAL MEMBERS PORTAL - APP DASHBOARD REDESIGN
+           ========================================================================== */
+        :root {
+            --app-primary: #173b32;
+            --app-primary-hover: #102a24;
+            --app-accent: #ffcc00;
+            --app-bg: #f4f6f8;
+            --app-surface: #ffffff;
+            --app-text: #1e293b;
+            --app-text-muted: #64748b;
+            --app-border: #e2e8f0;
+            --app-radius: 12px;
+        }
+
+        body.app-body {
+            background-color: var(--app-bg);
+            color: var(--app-text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Command Header */
+        .app-header {
+            background-color: var(--app-primary);
+            color: #ffffff;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .app-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--app-accent);
+        }
+
+        .app-title-group h1 {
+            font-size: 1.1rem;
+            margin: 0;
+            font-family: Georgia, serif;
+            letter-spacing: 0.2px;
+        }
+
+        .app-title-group span {
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .app-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .app-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--app-accent);
+        }
+
+        .app-btn-danger {
+            background: #dc2626;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .app-btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        /* Main Dashboard Shell */
+        .app-container {
+            max-width: 1200px;
+            width: 94%;
+            margin: 24px auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Quick-Access App Navigation Grid */
+        .app-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .app-nav-card {
+            background: var(--app-surface);
+            border: 1px solid var(--app-border);
+            border-radius: var(--app-radius);
+            padding: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .app-nav-card:hover {
+            border-color: var(--app-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(23, 59, 50, 0.08);
+        }
+
+        .app-nav-card.active {
+            background: var(--app-primary);
+            color: white;
+            border-color: var(--app-primary);
+            box-shadow: 0 4px 12px rgba(23, 59, 50, 0.2);
+        }
+
+        .app-nav-card.active .nav-icon {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .app-nav-card.active .nav-subtitle {
+            color: #cbd5e1;
+        }
+
+        .nav-icon-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .nav-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin: 4px 0 0 0;
+        }
+
+        .nav-subtitle {
+            font-size: 0.75rem;
+            color: var(--app-text-muted);
+            margin: 0;
+        }
+
+        /* Workspace Content Panel */
+        .app-workspace {
+            background: var(--app-surface);
+            border: 1px solid var(--app-border);
+            border-radius: var(--app-radius);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            padding: 32px;
+            min-height: 500px;
+        }
+
+        .portal-tab-content {
+            display: none;
+        }
+
+        .portal-tab-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modern Sub-Card Grid for Sections */
+        .draws-subnav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .draw-sub-card {
+            background: #f8fafc;
+            border: 1px solid var(--app-border);
+            border-radius: var(--app-radius);
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .draw-sub-card:hover {
+            border-color: var(--app-primary);
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(23, 59, 50, 0.06);
+        }
+
+        .draw-sub-card.active {
+            background: var(--app-primary);
+            color: white;
+            border-color: var(--app-primary);
+            box-shadow: 0 4px 12px rgba(23, 59, 50, 0.15);
+        }
+
+        .draw-sub-card.active .draw-card-subtitle {
+            color: #cbd5e1;
+        }
+
+        .draw-card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .draw-card-subtitle {
+            font-size: 0.78rem;
+            color: var(--app-text-muted);
+            margin: 0;
+        }
+
+        .draw-pane-content {
+            display: none;
+        }
+
+        .draw-pane-content.active {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        /* Placeholder Card Design */
+        .placeholder-card {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border: 2px dashed var(--app-border);
+            border-radius: var(--app-radius);
+            margin-top: 10px;
+        }
+        .placeholder-card span {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .placeholder-card h3 {
+            font-size: 1.2rem;
+            color: var(--app-primary);
+            margin: 0 0 8px 0;
+        }
+        .placeholder-card p {
+            color: var(--app-text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 0.8rem;
+            color: var(--app-text-muted);
+            border-top: 1px solid var(--app-border);
+            background: var(--app-surface);
+            margin-top: auto;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .app-header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .app-nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .app-workspace {
+                padding: 16px;
+            }
+            .draws-subnav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="app-body">
+
+    <!-- Top Command Header -->
+    <header class="app-header">
+        <a href="index.html" class="app-brand" aria-label="Goldenacre Bowling Club home">
+            <img src="logo.jpeg" alt="Logo" class="app-logo">
+            <div class="app-title-group">
+                <h1>Goldenacre Members Portal</h1>
+                <span><span>🔒</span> Secure Member Session</span>
+            </div>
         </a>
-        <a href="index.html" id="logout-btn" class="logout-btn">Log Out</a>
+        <div class="app-header-actions">
+            <a href="admin_login.html" class="app-btn-secondary">⚙️ Admin Portal</a>
+            <a href="index.html" id="logout-btn" class="app-btn-danger">Log Out</a>
+        </div>
     </header>
 
-    <div class="container">
+    <!-- Main App Container -->
+    <main class="app-container">
         
-        <!-- Tab Navigation Bar -->
-        <div class="tab-menu">
-            <button class="tab-button active" onclick="openTab(event, 'draws')">Club Ties & Draws</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'firsts')">1st 16</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'seconds')">2nd 16</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'eba-knockouts')">EBA Knockouts</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'upload-results')">Submit League Results</button>
-            <span class="tab-divider">|</span>
-            <button class="tab-button" onclick="openTab(event, 'downloads')">Downloads</button>
-        </div>
+        <!-- App Navigation Cards (Modern Dashboard Grid) -->
+        <nav class="app-nav-grid" aria-label="Portal Navigation">
+            <button class="app-nav-card active" onclick="switchPortalTab(event, 'draws')">
+                <div class="nav-icon-wrap"><span class="nav-icon">🏆</span></div>
+                <h3 class="nav-title">Club Draws</h3>
+                <p class="nav-subtitle">Ties & Tournaments</p>
+            </button>
 
-        <!-- TAB 1: Club Draws -->
-        <div id="draws" class="tab-content active">
-            <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 18px; text-align: center;">
-                The 2027 draw sheets will appear here once the draws have been made and published.
-            </p>
+            <button class="app-nav-card" onclick="switchPortalTab(event, 'firsts')">
+                <div class="nav-icon-wrap"><span class="nav-icon">🥇</span></div>
+                <h3 class="nav-title">1st XVI Team</h3>
+                <p class="nav-subtitle">Division 3 Selection</p>
+            </button>
 
-            <div class="draws-container">
-                <div id="draws-root"></div>
+            <button class="app-nav-card" onclick="switchPortalTab(event, 'seconds')">
+                <div class="nav-icon-wrap"><span class="nav-icon">🥈</span></div>
+                <h3 class="nav-title">2nd XVI Team</h3>
+                <p class="nav-subtitle">Division 2 Selection</p>
+            </button>
+
+            <button class="app-nav-card" onclick="switchPortalTab(event, 'eba-knockouts')">
+                <div class="nav-icon-wrap"><span class="nav-icon">⚔️</span></div>
+                <h3 class="nav-title">EBA Knockouts</h3>
+                <p class="nav-subtitle">Spring Brackets</p>
+            </button>
+
+            <button class="app-nav-card" onclick="switchPortalTab(event, 'upload-results')">
+                <div class="nav-icon-wrap"><span class="nav-icon">📝</span></div>
+                <h3 class="nav-title">Submit Results</h3>
+                <p class="nav-subtitle">EBA League Form</p>
+            </button>
+
+            <button class="app-nav-card" onclick="switchPortalTab(event, 'downloads')">
+                <div class="nav-icon-wrap"><span class="nav-icon">📁</span></div>
+                <h3 class="nav-title">Downloads</h3>
+                <p class="nav-subtitle">Club Docs & Minutes</p>
+            </button>
+        </nav>
+
+        <!-- Workspace Panel -->
+        <div class="app-workspace">
+            
+            <!-- TAB 1: Club Draws (With Modern Sub-Cards for Gents, Ladies, Senior Men) -->
+            <div id="draws" class="portal-tab-content active">
+                <h2 class="team-sheet-heading" style="margin-top:0;">Club Ties & Tournament Draws</h2>
+                <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                    Select a section below to view published competition draws and tie sheets.
+                </p>
+
+                <!-- Modern Sub-Card Navigation for Draws -->
+                <div class="draws-subnav-grid">
+                    <button class="draw-sub-card active" onclick="switchDrawCategory(event, 'draws-gents')">
+                        <span style="font-size: 1.2rem;">🏆</span>
+                        <h4 class="draw-card-title">Gents Draws</h4>
+                        <p class="draw-card-subtitle">Club ties & championships</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchDrawCategory(event, 'draws-ladies')">
+                        <span style="font-size: 1.2rem;">🌸</span>
+                        <h4 class="draw-card-title">Ladies Draws</h4>
+                        <p class="draw-card-subtitle">Competition brackets</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchDrawCategory(event, 'draws-seniors')">
+                        <span style="font-size: 1.2rem;">🎖️</span>
+                        <h4 class="draw-card-title">Senior Men Draws</h4>
+                        <p class="draw-card-subtitle">Senior ties & fixtures</p>
+                    </button>
+                </div>
+
+                <!-- Gents Draws Pane (Active Default) -->
+                <div id="draws-gents" class="draw-pane-content active">
+                    <div class="draws-container">
+                        <div id="draws-root"></div>
+                    </div>
+                </div>
+
+                <!-- Ladies Draws Pane (Placeholder) -->
+                <div id="draws-ladies" class="draw-pane-content">
+                    <div class="placeholder-card">
+                        <span>🌸</span>
+                        <h3>Ladies Draws Coming Soon</h3>
+                        <p>The 2027 ladies competition draw sheets will appear here once published.</p>
+                    </div>
+                </div>
+
+                <!-- Senior Men Draws Pane (Placeholder) -->
+                <div id="draws-seniors" class="draw-pane-content">
+                    <div class="placeholder-card">
+                        <span>🎖️</span>
+                        <h3>Senior Men Draws Coming Soon</h3>
+                        <p>The 2027 senior men competition draw sheets will appear here once published.</p>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- TAB 2: Gents Selection / Leagues -->
-        <div id="firsts" class="tab-content">
-            <h2 class="team-sheet-heading">1st sixteen Team sheet</h2>
-            <p class="team-sheet-intro">
-                Latest team sheets and rink selections for upcoming league matches.
-            </p>
-            <div id="firsts-team-sheet"></div>
-            <section class="league-table-section" aria-labelledby="league-table-heading">
-                <h2 id="league-table-heading">1st XVI — Division 3</h2>
-                <div class="league-table-scroll">
-                    <iframe
-                        class="league-table-frame"
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A26:L35"
-                        title="Edinburgh Bowling Association 1st XVI Division 3 table"
-                        loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
+            <!-- TAB 2: Gents Selection / Leagues (1st 16 with Modern Sub-Cards for Categories) -->
+            <div id="firsts" class="portal-tab-content">
+                <h2 class="team-sheet-heading" style="margin-top:0;">1st Sixteen Team & Matches</h2>
+                <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                    Access team sheets, division tables, and upcoming match fixtures.
+                </p>
+
+                <!-- Modern Sub-Card Navigation for 1st XVI -->
+                <div class="draws-subnav-grid">
+                    <button class="draw-sub-card active" onclick="switchFirstsCategory(event, 'firsts-sheets')">
+                        <span style="font-size: 1.2rem;">📋</span>
+                        <h4 class="draw-card-title">Team Sheets</h4>
+                        <p class="draw-card-subtitle">Rink selections</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchFirstsCategory(event, 'firsts-table')">
+                        <span style="font-size: 1.2rem;">📊</span>
+                        <h4 class="draw-card-title">Division Table</h4>
+                        <p class="draw-card-subtitle">Standings & points</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchFirstsCategory(event, 'firsts-fixtures')">
+                        <span style="font-size: 1.2rem;">📅</span>
+                        <h4 class="draw-card-title">Match Fixtures</h4>
+                        <p class="draw-card-subtitle">Weeks 1 to 14</p>
+                    </button>
                 </div>
-                <section class="league-fixtures-section" aria-labelledby="firsts-fixtures-heading">
-                    <h3 id="firsts-fixtures-heading">1st XVI Division 3 Fixtures</h3>
-                    <div class="league-fixture-period">
-                        <h4>Weeks 1–7</h4>
-                        <div class="league-table-scroll league-fixture-scroll">
+
+                <!-- Team Sheets Pane (Active Default) -->
+                <div id="firsts-sheets" class="firsts-pane-content active">
+                    <h2 class="team-sheet-heading">1st sixteen Team sheet</h2>
+                    <p class="team-sheet-intro">Latest team sheets and rink selections for upcoming league matches.</p>
+                    <div id="firsts-team-sheet"></div>
+                </div>
+
+                <!-- Division Table Pane -->
+                <div id="firsts-table" class="firsts-pane-content">
+                    <section class="league-table-section" aria-labelledby="league-table-heading" style="margin-top:0;">
+                        <h2 id="league-table-heading">1st XVI — Division 3</h2>
+                        <div class="league-table-scroll">
                             <iframe
-                                class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V2:AB60"
-                                title="1st XVI Division 3 fixtures, weeks 1 to 7"
+                                class="league-table-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A26:L35"
+                                title="Edinburgh Bowling Association 1st XVI Division 3 table"
                                 loading="lazy"
                                 referrerpolicy="strict-origin-when-cross-origin">
                             </iframe>
                         </div>
-                    </div>
-                    <details class="league-fixture-more">
-                        <summary>Show more fixtures (Weeks 8–14)</summary>
+                    </section>
+                </div>
+
+                <!-- Match Fixtures Pane -->
+                <div id="firsts-fixtures" class="firsts-pane-content">
+                    <section class="league-fixtures-section" aria-labelledby="firsts-fixtures-heading" style="margin-top:0;">
+                        <h3 id="firsts-fixtures-heading">1st XVI Division 3 Fixtures</h3>
                         <div class="league-fixture-period">
-                        <div class="league-table-scroll league-fixture-scroll">
-                            <iframe
-                                class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V65:AB123"
-                                title="1st XVI Division 3 fixtures, weeks 8 to 14"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin">
-                            </iframe>
+                            <h4>Weeks 1–7</h4>
+                            <div class="league-table-scroll league-fixture-scroll">
+                                <iframe
+                                    class="league-fixture-frame"
+                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V2:AB60"
+                                    title="1st XVI Division 3 fixtures, weeks 1 to 7"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin">
+                                </iframe>
+                            </div>
                         </div>
-                        </div>
-                    </details>
-                </section>
-            </section>
-        </div>
-
-        <!-- TAB 3: 2nd 16 -->
-        <div id="seconds" class="tab-content">
-            <h2 class="team-sheet-heading">2nd sixteen Team sheet</h2>
-            <p class="team-sheet-intro">
-                Latest team sheets and rink selections for upcoming league matches.
-            </p>
-            <div id="seconds-team-sheet"></div>
-            <section class="league-table-section" aria-labelledby="seconds-league-table-heading">
-                <h2 id="seconds-league-table-heading">2nd XVI — Division 2</h2>
-                <div class="league-table-scroll">
-                    <iframe
-                        class="league-table-frame"
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A76:L85"
-                        title="Edinburgh Bowling Association 2nd XVI Division 2 table"
-                        loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
+                        <details class="league-fixture-more">
+                            <summary>Show more fixtures (Weeks 8–14)</summary>
+                            <div class="league-fixture-period">
+                            <div class="league-table-scroll league-fixture-scroll">
+                                <iframe
+                                    class="league-fixture-frame"
+                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V65:AB123"
+                                    title="1st XVI Division 3 fixtures, weeks 8 to 14"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin">
+                                </iframe>
+                            </div>
+                            </div>
+                        </details>
+                    </section>
                 </div>
-                <section class="league-fixtures-section" aria-labelledby="seconds-fixtures-heading">
-                    <h3 id="seconds-fixtures-heading">2nd XVI Division 2 Fixtures</h3>
-                    <div class="league-fixture-period">
-                        <h4>Weeks 1–7</h4>
-                        <div class="league-table-scroll league-fixture-scroll">
+            </div>
+
+            <!-- TAB 3: 2nd 16 (With Modern Sub-Cards for Categories) -->
+            <div id="seconds" class="portal-tab-content">
+                <h2 class="team-sheet-heading" style="margin-top:0;">2nd Sixteen Team & Matches</h2>
+                <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                    Access team sheets, division tables, and upcoming match fixtures.
+                </p>
+
+                <!-- Modern Sub-Card Navigation for 2nd XVI -->
+                <div class="draws-subnav-grid">
+                    <button class="draw-sub-card active" onclick="switchSecondsCategory(event, 'seconds-sheets')">
+                        <span style="font-size: 1.2rem;">📋</span>
+                        <h4 class="draw-card-title">Team Sheets</h4>
+                        <p class="draw-card-subtitle">Rink selections</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchSecondsCategory(event, 'seconds-table')">
+                        <span style="font-size: 1.2rem;">📊</span>
+                        <h4 class="draw-card-title">Division Table</h4>
+                        <p class="draw-card-subtitle">Standings & points</p>
+                    </button>
+                    <button class="draw-sub-card" onclick="switchSecondsCategory(event, 'seconds-fixtures')">
+                        <span style="font-size: 1.2rem;">📅</span>
+                        <h4 class="draw-card-title">Match Fixtures</h4>
+                        <p class="draw-card-subtitle">Weeks 1 to 14</p>
+                    </button>
+                </div>
+
+                <!-- Team Sheets Pane (Active Default) -->
+                <div id="seconds-sheets" class="seconds-pane-content active">
+                    <h2 class="team-sheet-heading">2nd sixteen Team sheet</h2>
+                    <p class="team-sheet-intro">Latest team sheets and rink selections for upcoming league matches.</p>
+                    <div id="seconds-team-sheet"></div>
+                </div>
+
+                <!-- Division Table Pane -->
+                <div id="seconds-table" class="seconds-pane-content">
+                    <section class="league-table-section" aria-labelledby="seconds-league-table-heading" style="margin-top:0;">
+                        <h2 id="seconds-league-table-heading">2nd XVI — Division 2</h2>
+                        <div class="league-table-scroll">
                             <iframe
-                                class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L2:R60"
-                                title="2nd XVI Division 2 fixtures, weeks 1 to 7"
+                                class="league-table-frame"
+                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A76:L85"
+                                title="Edinburgh Bowling Association 2nd XVI Division 2 table"
                                 loading="lazy"
                                 referrerpolicy="strict-origin-when-cross-origin">
                             </iframe>
                         </div>
-                    </div>
-                    <details class="league-fixture-more">
-                        <summary>Show more fixtures (Weeks 8–14)</summary>
+                    </section>
+                </div>
+
+                <!-- Match Fixtures Pane -->
+                <div id="seconds-fixtures" class="seconds-pane-content">
+                    <section class="league-fixtures-section" aria-labelledby="seconds-fixtures-heading" style="margin-top:0;">
+                        <h3 id="seconds-fixtures-heading">2nd XVI Division 2 Fixtures</h3>
                         <div class="league-fixture-period">
-                        <div class="league-table-scroll league-fixture-scroll">
-                            <iframe
-                                class="league-fixture-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L65:R123"
-                                title="2nd XVI Division 2 fixtures, weeks 8 to 14"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin">
-                            </iframe>
+                            <h4>Weeks 1–7</h4>
+                            <div class="league-table-scroll league-fixture-scroll">
+                                <iframe
+                                    class="league-fixture-frame"
+                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L2:R60"
+                                    title="2nd XVI Division 2 fixtures, weeks 1 to 7"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin">
+                                </iframe>
+                            </div>
                         </div>
-                        </div>
-                    </details>
-                </section>
-            </section>
-        </div>
-
-        <!-- TAB 4: EBA Knockouts -->
-        <div id="eba-knockouts" class="tab-content">
-            <section class="external-content-section" aria-labelledby="eba-knockouts-heading">
-                <h2 id="eba-knockouts-heading">EBA Knockouts</h2>
-                <div class="knockout-tabs" role="tablist" aria-label="EBA Spring Knockouts">
-                    <button class="knockout-tab active" id="gents-sets-tab" role="tab" aria-selected="true" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Sets')">Gents Sets</button>
-                    <button class="knockout-tab" id="gents-aussie-pairs-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=1012375617&amp;range=B5:I58&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Aussie Pairs')">Gents Aussie Pairs</button>
-                    <button class="knockout-tab" id="fleming-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=898640902&amp;range=B5:I76&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Fleming')">Fleming</button>
+                        <details class="league-fixture-more">
+                            <summary>Show more fixtures (Weeks 8–14)</summary>
+                            <div class="league-fixture-period">
+                            <div class="league-table-scroll league-fixture-scroll">
+                                <iframe
+                                    class="league-fixture-frame"
+                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L65:R123"
+                                    title="2nd XVI Division 2 fixtures, weeks 8 to 14"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin">
+                                </iframe>
+                            </div>
+                            </div>
+                        </details>
+                    </section>
                 </div>
-                <div class="external-content-frame-wrap">
-                    <iframe
-                        class="external-content-frame"
-                        id="eba-knockout-frame"
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false"
-                        title="EBA Spring Knockouts — Gents Sets"
-                        loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
-                </div>
-            </section>
-        </div>
+            </div>
 
-        <!-- TAB 5: Downloads -->
-        <div id="downloads" class="tab-content">
-            <section class="downloads-section" aria-labelledby="downloads-heading">
-                <h2 id="downloads-heading">Club Downloads</h2>
-                <p class="downloads-intro">Club documents and meeting minutes will be available here to view or download.</p>
-
-                <section class="download-category" aria-labelledby="club-documents-heading">
-                    <h3 id="club-documents-heading">Club Documents</h3>
-                    <ul class="download-list">
-                        <li class="download-item">
-                            <a class="download-name" href="downloads/goldenacre-bowling-club-brochure.pdf" download>Membership Brochure (PDF)</a>
-                            <span class="download-status">Download</span>
-                        </li>
-                        <li class="download-item">
-                            <span class="download-name">Club Handbook</span>
-                            <span class="download-status">Not available yet</span>
-                        </li>
-                    </ul>
+            <!-- TAB 4: EBA Knockouts -->
+            <div id="eba-knockouts" class="portal-tab-content">
+                <section class="external-content-section" aria-labelledby="eba-knockouts-heading">
+                    <h2 id="eba-knockouts-heading">EBA Knockouts</h2>
+                    <div class="knockout-tabs" role="tablist" aria-label="EBA Spring Knockouts">
+                        <button class="knockout-tab active" id="gents-sets-tab" role="tab" aria-selected="true" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Sets')">Gents Sets</button>
+                        <button class="knockout-tab" id="gents-aussie-pairs-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=1012375617&amp;range=B5:I58&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Gents Aussie Pairs')">Gents Aussie Pairs</button>
+                        <button class="knockout-tab" id="fleming-tab" role="tab" aria-selected="false" aria-controls="eba-knockout-frame" onclick="openEbaKnockout(event, 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=898640902&amp;range=B5:I76&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false', 'Fleming')">Fleming</button>
+                    </div>
+                    <div class="external-content-frame-wrap">
+                        <iframe
+                            class="external-content-frame"
+                            id="eba-knockout-frame"
+                            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vScyOoWuzXwjOILsyuWrUJy-RWSXr5GzuVScbTHJD1ijwytY1DQnLT7Ahd_wyi5tooNVV9nsb61n27a/pubhtml?gid=845959565&amp;range=B5:I57&amp;single=true&amp;widget=false&amp;headers=false&amp;chrome=false"
+                            title="EBA Spring Knockouts — Gents Sets"
+                            loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
                 </section>
+            </div>
 
-                <section class="download-category" aria-labelledby="agm-minutes-heading">
-                    <h3 id="agm-minutes-heading">AGM Minutes</h3>
-                    <ul class="download-list">
-                        <li class="download-item">
-                            <span class="download-name">AGM Minutes</span>
-                            <span class="download-status">Not available yet</span>
-                        </li>
-                    </ul>
+            <!-- TAB 5: Upload Results -->
+            <div id="upload-results" class="portal-tab-content">
+                <section class="external-content-section">
+                    <p class="team-sheet-intro">Complete the EBA form below after your league match. Your submission is sent directly to the Edinburgh Bowling Association.</p>
+                    <div class="league-results-upload-frame-wrap">
+                        <iframe
+                            class="league-results-upload-frame"
+                            src="https://edinburghba.co.uk/upload/"
+                            title="Edinburgh Bowling Association league results submission form"
+                            loading="lazy"
+                            scrolling="no"
+                            referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
                 </section>
-            </section>
+            </div>
+
+            <!-- TAB 6: Downloads -->
+            <div id="downloads" class="portal-tab-content">
+                <section class="downloads-section" aria-labelledby="downloads-heading">
+                    <h2 id="downloads-heading">Club Downloads</h2>
+                    <p class="downloads-intro">Club documents and meeting minutes will be available here to view or download.</p>
+
+                    <section class="download-category" aria-labelledby="club-documents-heading">
+                        <h3 id="club-documents-heading">Club Documents</h3>
+                        <ul class="download-list">
+                            <li class="download-item">
+                                <a class="download-name" href="downloads/goldenacre-bowling-club-brochure.pdf" download>Membership Brochure (PDF)</a>
+                                <span class="download-status">Download</span>
+                            </li>
+                            <li class="download-item">
+                                <span class="download-name">Club Handbook</span>
+                                <span class="download-status">Not available yet</span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="download-category" aria-labelledby="agm-minutes-heading">
+                        <h3 id="agm-minutes-heading">AGM Minutes</h3>
+                        <ul class="download-list">
+                            <li class="download-item">
+                                <span class="download-name">AGM Minutes</span>
+                                <span class="download-status">Not available yet</span>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+
         </div>
+    </main>
 
-        <!-- TAB 6: Upload Results -->
-        <div id="upload-results" class="tab-content">
-            <section class="external-content-section">
-                <p class="team-sheet-intro">Complete the EBA form below after your league match. Your submission is sent directly to the Edinburgh Bowling Association.</p>
-                <div class="league-results-upload-frame-wrap">
-                    <iframe
-                        class="league-results-upload-frame"
-                        src="https://edinburghba.co.uk/upload/"
-                        title="Edinburgh Bowling Association league results submission form"
-                        loading="lazy"
-                        scrolling="no"
-                        referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
-                </div>
-            </section>
-        </div>
-
-    </div>
-
-    <footer>
+    <!-- Footer -->
+    <footer class="app-footer">
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
     </footer>
 
-    <!-- Tab & Knockout UI Scripts -->
+    <!-- Portal Navigation & Sub-Category Switching Scripts -->
     <script>
-    function openTab(evt, tabId) {
-        const contents = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < contents.length; i++) {
-            contents[i].classList.remove("active");
+    function switchPortalTab(evt, tabId) {
+        const panes = document.getElementsByClassName("portal-tab-content");
+        for (let i = 0; i < panes.length; i++) {
+            panes[i].classList.remove("active");
         }
 
-        const buttons = document.getElementsByClassName("tab-button");
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove("active");
+        const cards = document.getElementsByClassName("app-nav-card");
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].classList.remove("active");
         }
 
         document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function switchDrawCategory(evt, paneId) {
+        const panes = document.getElementsByClassName("draw-pane-content");
+        for (let i = 0; i < panes.length; i++) {
+            panes[i].classList.remove("active");
+        }
+
+        const subCards = document.querySelectorAll("#draws .draw-sub-card");
+        for (let i = 0; i < subCards.length; i++) {
+            subCards[i].classList.remove("active");
+        }
+
+        document.getElementById(paneId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function switchFirstsCategory(evt, paneId) {
+        const panes = document.getElementsByClassName("firsts-pane-content");
+        for (let i = 0; i < panes.length; i++) {
+            panes[i].classList.remove("active");
+        }
+
+        const subCards = document.querySelectorAll("#firsts .draw-sub-card");
+        for (let i = 0; i < subCards.length; i++) {
+            subCards[i].classList.remove("active");
+        }
+
+        document.getElementById(paneId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function switchSecondsCategory(evt, paneId) {
+        const panes = document.getElementsByClassName("seconds-pane-content");
+        for (let i = 0; i < panes.length; i++) {
+            panes[i].classList.remove("active");
+        }
+
+        const subCards = document.querySelectorAll("#seconds .draw-sub-card");
+        for (let i = 0; i < subCards.length; i++) {
+            subCards[i].classList.remove("active");
+        }
+
+        document.getElementById(paneId).classList.add("active");
         evt.currentTarget.classList.add("active");
     }
 
@@ -302,4 +825,3 @@
         }
     </script>
 </body>
-</html>
