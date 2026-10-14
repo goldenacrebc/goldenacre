@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldenacre Bowling Club - Member Login</title>
+    
+    <!-- Link your existing site stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="members_secure.css">
+    
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        .login-wrapper {
+            max-width: 420px;
+            margin: 80px auto;
+            padding: 0 15px;
+        }
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .login-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #111111;
+            font-size: 1.4rem;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: 2px solid #0369a1;
+            border-color: transparent;
+        }
+        .login-btn {
+            width: 100%;
+            background-color: #0369a1;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+        .login-btn:hover {
+            background-color: #0284c7;
+        }
+        #error-msg {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="members-header">
+        <h1>🔒 Goldenacre Members Area</h1>
+        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+            <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+        </a>
+        <a href="index.html" class="logout-btn">Home</a>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2>Club Sign In</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required placeholder="e.g. members or admin" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <button type="submit" id="submit-btn" class="login-btn">Log In</button>
+                <p id="error-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p style="text-align: center; color: #64748b; font-size: 0.85rem;">&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+    </footer>
+
+    <!-- Supabase Login Script -->
+    <script>
+        const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+        const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+        
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const loginForm = document.getElementById('login-form');
+        const errorElement = document.getElementById('error-msg');
+        const submitBtn = document.getElementById('submit-btn');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const userInput = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            errorElement.style.color = '#0369a1';
+            errorElement.innerText = "Connecting to server...";
+            submitBtn.disabled = true;
+
+            const fakeEmail = `${userInput}@goldenacre.local`;
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+                    email: fakeEmail, 
+                    password: password 
+                });
+                
+                if (error) {
+                    console.error('Supabase Auth Error:', error);
+                    errorElement.style.color = '#dc2626';
+                    errorElement.innerText = error.message === "Invalid login credentials" 
+                        ? "Invalid username or password." 
+                        : error.message;
+                    submitBtn.disabled = false;
+                } else {
+                    errorElement.style.color = '#16a34a';
+                    errorElement.innerText = "Login successful! Redirecting...";
+                    window.location.href = '_hidden_members_secure.html';
+                }
+            } catch (err) {
+                console.error('Unexpected Script Error:', err);
+                errorElement.style.color = '#dc2626';
+                errorElement.innerText = "Connection failed.";
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

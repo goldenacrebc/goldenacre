@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldenacre Bowling Club - Admin Portal</title>
+    
+    <!-- Link your existing site stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="members_secure.css">
+    
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        .admin-wrapper {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+        .admin-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .admin-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #111111;
+            font-size: 1.4rem;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: 2px solid #0369a1;
+            border-color: transparent;
+        }
+        .submit-btn {
+            background-color: #0369a1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0284c7;
+        }
+        #status-msg {
+            margin-top: 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Header -->
+    <header class="members-header">
+        <h1>🛠️ Goldenacre Admin Portal</h1>
+        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+            <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+        </a>
+        <a href="index.html" id="logout-btn" class="logout-btn">Log Out</a>
+    </header>
+
+    <div class="admin-wrapper">
+        <div class="admin-card">
+            <h2>Publish News or Announcement</h2>
+            <form id="news-form">
+                <div class="form-group">
+                    <label for="news-title">Headline / Title</label>
+                    <input type="text" id="news-title" required placeholder="e.g. Opening Day Schedule Announced">
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-content">Update Details / Story</label>
+                    <textarea id="news-content" required placeholder="Write your club update here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="news-image">Attach Photo (Optional)</label>
+                    <input type="file" id="news-image" accept="image/*">
+                </div>
+
+                <button type="submit" id="publish-btn" class="submit-btn">Publish Update</button>
+                <p id="status-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 20px 0;">&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+    </footer>
+
+    <!-- Admin Script -->
+    <script>
+        const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+        const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // 1. Restrict page to logged-in admin/members
+        async function checkAdminAuth() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                window.location.replace('login.html');
+            }
+        }
+        checkAdminAuth();
+
+        // 2. Handle form submission (Upload Image + Save to Database)
+        const newsForm = document.getElementById('news-form');
+        const statusMsg = document.getElementById('status-msg');
+        const publishBtn = document.getElementById('publish-btn');
+
+        newsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('news-title').value.trim();
+            const content = document.getElementById('news-content').value.trim();
+            const imageFile = document.getElementById('news-image').files[0];
+
+            statusMsg.style.color = '#0369a1';
+            statusMsg.innerText = "Publishing update...";
+            publishBtn.disabled = true;
+
+            let imageUrl = null;
+
+            try {
+                // If a photo was selected, upload it to Supabase Storage first
+                if (imageFile) {
+                    const fileName = `${Date.now()}-${imageFile.name}`;
+                    const { data: uploadData, error: uploadError } = await supabase.storage
+                        .from('club-photos')
+                        .upload(fileName, imageFile);
+
+                    if (uploadError) throw uploadError;
+
+                    // Get public URL for the uploaded image
+                    const { data: publicUrlData } = supabase.storage
+                        .from('club-photos')
+                        getPublicUrl(fileName);
+                    
+                    // Fallback URL generator if helper format varies
+                    imageUrl = `https://xprnfaadcqlxeamoywjs.supabase.co/storage/v1/object/public/club-photos/${fileName}`;
+                }
+
+                // Insert the news record into the database table
+                const { error: dbError } = await supabase
+                    .from('news_posts')
+                    .insert([{ title, content, image_url: imageUrl }]);
+
+                if (dbError) throw dbError;
+
+                statusMsg.style.color = '#16a34a';
+                statusMsg.innerText = "Successfully published!";
+                newsForm.reset();
+                publishBtn.disabled = false;
+
+            } catch (err) {
+                console.error("Publishing error:", err);
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerText = "Error publishing: " + err.message;
+                publishBtn.disabled = false;
+            }
+        });
+
+        // 3. Logout handler
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await supabase.auth.signOut();
+                window.location.replace('index.html');
+            });
+        }
+    </script>
+</body>
+</html>

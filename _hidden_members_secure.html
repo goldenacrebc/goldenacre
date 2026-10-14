@@ -8,26 +8,23 @@
     <!-- External stylesheet for Draws component & global styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="members_secure.css">
+    
     <!-- Competition labels and published Google Sheets links for the draw tabs -->
     <script src="fixtures/draw-sheets.js" defer></script>
     <script src="fixtures/modals.js" defer></script>
     <script src="fixtures/team-sheets.js" defer></script>
     <script src="draws.js" defer></script>
     <script src="js/team-sheets.js" defer></script>
-
-    <style>
-        
-    </style>
 </head>
 <body>
 
     <!-- Private Header -->
     <header class="members-header">
         <h1>🔒 Goldenacre Members Area</h1>
-        <a href="###" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
             <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
         </a>
-        <a href="index.html" class="logout-btn">Log Out</a>
+        <a href="index.html" id="logout-btn" class="logout-btn">Log Out</a>
     </header>
 
     <div class="container">
@@ -53,13 +50,12 @@
                 The 2027 draw sheets will appear here once the draws have been made and published.
             </p>
 
-            <!-- Target root container dynamically loaded by draws.js -->
             <div class="draws-container">
                 <div id="draws-root"></div>
             </div>
         </div>
 
-        <!-- TAB 1: Gents Selection / Leagues -->
+        <!-- TAB 2: Gents Selection / Leagues -->
         <div id="firsts" class="tab-content">
             <h2 class="team-sheet-heading">1st sixteen Team sheet</h2>
             <p class="team-sheet-intro">
@@ -109,7 +105,7 @@
             </section>
         </div>
 
-        <!-- TAB 3: 2nd 16-->
+        <!-- TAB 3: 2nd 16 -->
         <div id="seconds" class="tab-content">
             <h2 class="team-sheet-heading">2nd sixteen Team sheet</h2>
             <p class="team-sheet-intro">
@@ -159,6 +155,7 @@
             </section>
         </div>
 
+        <!-- TAB 4: EBA Knockouts -->
         <div id="eba-knockouts" class="tab-content">
             <section class="external-content-section" aria-labelledby="eba-knockouts-heading">
                 <h2 id="eba-knockouts-heading">EBA Knockouts</h2>
@@ -180,6 +177,7 @@
             </section>
         </div>
 
+        <!-- TAB 5: Downloads -->
         <div id="downloads" class="tab-content">
             <section class="downloads-section" aria-labelledby="downloads-heading">
                 <h2 id="downloads-heading">Club Downloads</h2>
@@ -211,6 +209,7 @@
             </section>
         </div>
 
+        <!-- TAB 6: Upload Results -->
         <div id="upload-results" class="tab-content">
             <section class="external-content-section">
                 <p class="team-sheet-intro">Complete the EBA form below after your league match. Your submission is sent directly to the Edinburgh Bowling Association.</p>
@@ -233,7 +232,7 @@
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
     </footer>
 
-    <!-- Script to handle main tab switching -->
+    <!-- Tab & Knockout UI Scripts -->
     <script>
     function openTab(evt, tabId) {
         const contents = document.getElementsByClassName("tab-content");
@@ -264,5 +263,43 @@
     }
     </script>
 
+    <!-- Supabase Security & Logout Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+        const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Force server check on load and reloads
+        async function protectPage() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                window.location.replace('login.html');
+            }
+        }
+
+        protectPage();
+
+        // Handle browser back/forward cache history states
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                protectPage();
+            }
+        });
+
+        // Logout handler: signs out and sends user back to home page index.html
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await supabase.auth.signOut();
+                } catch (err) {
+                    console.error("Sign out error:", err);
+                }
+                window.location.replace('index.html');
+            });
+        }
+    </script>
 </body>
 </html>
