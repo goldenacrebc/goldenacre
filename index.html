@@ -531,12 +531,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         internalGrid.innerHTML = '';
         externalGrid.innerHTML = '';
 
+        // List of hardcoded modal slugs that use their own external script handlers
+        const hardcodedModals = ['honours-list', 'championship', 'ladies-championship', 'junior-championship', 'steele', 'ebapairs'];
+
         newsItems.filter(item => item.tag === 'latest').forEach(item => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
 
-            // If it's an admin-published post, trigger the global dynamic modal popup with photo inclusion
-            if (item.modal && item.modal.startsWith('admin-')) {
+            // If it has a modal and it's NOT in the hardcoded list, trigger the global dynamic popup (with photo support)
+            if (item.modal && !hardcodedModals.includes(item.modal)) {
                 article.onclick = () => {
                     const modalTitle = document.getElementById('modal-title');
                     const modalBody = document.getElementById('modal-body');
@@ -559,7 +562,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                 };
             } else if (item.modal) {
-                // Otherwise, use original hardcoded modals (Championships, Steele, etc.)
+                // Otherwise, use original hardcoded modals
                 article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
             }
 
