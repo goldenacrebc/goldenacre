@@ -1,4 +1,4 @@
-// sw.js - Complete Service Worker with 2-Hour Advance Timing and Persistent Memory
+// sw.js - Complete Service Worker with Live Cache-Busting and 2-Hour Advance Timing
 
 const CACHE_NAME = 'goldenacre-notification-memory-v1';
 
@@ -32,7 +32,7 @@ self.addEventListener('fetch', (event) => {
     return; 
 });
 
-// Helper function to convert time strings like "7:30 pm" or "19:30" into total minutes from midnight
+// Helper function to convert time strings like "1:00 pm" or "19:30" into total minutes from midnight
 function parseTimeToMinutes(timeStr) {
     if (!timeStr) return null;
     let cleanStr = timeStr.trim().toLowerCase();
@@ -70,10 +70,11 @@ async function checkForUpcomingMatches() {
         let currentTotalMinutes = (now.getHours() * 60) + now.getMinutes();
 
         let allCombinedItems = [];
+        let cacheBuster = '?t=' + Date.now();
 
-        // 1. Fetch match fixtures JSON file
+        // 1. Fetch match fixtures JSON file with cache-buster to prevent GitHub Pages stale caching
         try {
-            const fixturesResponse = await fetch('/fixtures.json', { cache: 'no-store' });
+            const fixturesResponse = await fetch('/fixtures.json' + cacheBuster, { cache: 'no-store' });
             const fixtures = await fixturesResponse.json();
             for (const f of fixtures) {
                 allCombinedItems.push(f);
@@ -82,9 +83,9 @@ async function checkForUpcomingMatches() {
             console.log("No fixtures.json file found or failed to parse.");
         }
 
-        // 2. Fetch club events JSON file
+        // 2. Fetch club events JSON file with cache-buster
         try {
-            const eventsResponse = await fetch('/events.json', { cache: 'no-store' });
+            const eventsResponse = await fetch('/events.json' + cacheBuster, { cache: 'no-store' });
             const events = await eventsResponse.json();
             for (const ev of events) {
                 allCombinedItems.push(ev);
