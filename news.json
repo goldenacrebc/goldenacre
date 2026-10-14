@@ -1,34 +1,5 @@
 [
   {
-    "title": "last test",
-    "description": "last test",
-    "category": "external",
-    "tag": "latest",
-    "image": "logo.jpeg",
-    "modal": "last-test"
-  },
-  {
-    "title": "yet onther test",
-    "description": "Testing again",
-    "category": "external",
-    "tag": "latest",
-    "image": "photos/1792006475237-IMG-20240421-WA0008-(1).jpg"
-  },
-  {
-    "title": "testing admin functions",
-    "description": "The admin finctuon is to upload photos and news this is a test",
-    "category": "internal",
-    "tag": "latest",
-    "image": "photos/1792006221498-facebook.png"
-  },
-  {
-    "title": "test",
-    "description": "test file",
-    "category": "internal",
-    "tag": "latest",
-    "image": "logo.jpeg"
-  },
-  {
     "title": "test",
     "description": "test",
     "category": "internal",
