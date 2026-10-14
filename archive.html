@@ -49,60 +49,22 @@
     </section>
 
     <main id="news" class="content-section archive-page">
-        <h1>News Archive</h1>
-        <div class="news-category-group">
-            <h2 class="news-category-heading">Internal Club News</h2>
-            <div class="news-grid-2col">
-                <article class="news-block">
-                    <div class="news-media">
-                        <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="news-img">
-                    </div>
-                    <div class="news-body">
-                        <span class="news-badge badge-internal">Internal</span>
-                        <h3>Gents Triples Winners</h3>
-                        <p>Congratulations to George Lamb, Daniel Taylor and Billy Taylor winning the club triples.</p>
-                    </div>
-                </article>
-            </div>
+    <h1>News Archive</h1>
+    
+    <div class="news-category-group">
+        <h2 class="news-category-heading">Internal Club News</h2>
+        <div id="archive-internal-grid" class="news-grid-2col">
+            <!-- Dynamically loaded via script -->
         </div>
+    </div>
 
-        <div class="news-category-group">
-            <h2 class="news-category-heading">External Competitions</h2>
-            <div class="news-grid-2col">
-                <article class="news-block">
-                    <div class="news-media">
-                        <img src="photos/eba_logo.png" alt="Edinburgh Bowling Association" class="news-img">
-                    </div>
-                    <div class="news-body">
-                        <span class="news-badge badge-external">External</span>
-                        <h3>U16 Willie Wood Trophy</h3>
-                        <p>Congratulations to Daniel Kidd reaching the Final for the 2nd year in a row.</p>
-                    </div>
-                </article>
-                <article class="news-block">
-                    <div class="news-media">
-                        <img src="photos/eba_logo.png" alt="Edinburgh Bowling Association" class="news-img">
-                    </div>
-                    <div class="news-body">
-                        <span class="news-badge badge-external">External</span>
-                        <h3>Tait Trophy - Good Luck Malcolm!</h3>
-                        <p>Good luck to Malcolm Thomson playing in the Tait trophy on Friday 4th September. First round is against Parkside. The game will be played at Queensberry 6.15pm start.</p>
-                    </div>
-                </article>
-                <article class="news-block">
-                    <div class="news-media">
-                        <img src="photos/eba_logo.png" alt="Edinburgh Bowling Association" class="news-img">
-                    </div>
-                    <div class="news-body">
-                        <span class="news-badge badge-external">External</span>
-                        <h3>1st 16 Promoted to Division 2</h3>
-                        <p>Congratulations to the 1st 16 getting promotion back into division 2 finishing runners up this season in Division 3.</p>
-                    </div>
-                </article>
-            </div>
+    <div class="news-category-group">
+        <h2 class="news-category-heading">External Competitions</h2>
+        <div id="archive-external-grid" class="news-grid-2col">
+            <!-- Dynamically loaded via script -->
         </div>
-
-    </main>
+    </div>
+</main>
 
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
@@ -111,5 +73,45 @@
         </p>
     </footer>
     <script src="contact-form.js" defer></script>
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const res = await fetch('news.json?t=' + Date.now());
+        const newsItems = await res.json();
+
+        const internalGrid = document.getElementById('archive-internal-grid');
+        const externalGrid = document.getElementById('archive-external-grid');
+
+        if (!internalGrid || !externalGrid) return;
+
+        internalGrid.innerHTML = '';
+        externalGrid.innerHTML = '';
+
+        newsItems.filter(item => item.tag === 'archived').forEach(item => {
+            const article = document.createElement('article');
+            article.className = "news-block";
+
+            article.innerHTML = `
+                <div class="news-media">
+                    <img src="${item.image}" alt="${item.title}" class="news-img">
+                </div>
+                <div class="news-body">
+                    <span class="news-badge badge-${item.category}">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                </div>
+            `;
+
+            if (item.category === 'internal') {
+                internalGrid.appendChild(article);
+            } else {
+                externalGrid.appendChild(article);
+            }
+        });
+    } catch (err) {
+        console.error("Failed to load news.json", err);
+    }
+});
+</script>
 </body>
 </html>

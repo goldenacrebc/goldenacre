@@ -96,92 +96,19 @@
     <h2>Latest Club News</h2>
     <p class="home-section-intro">Catch up on club results, competition highlights and news from our members.</p>
 
+    <!-- Internal Club News Container -->
     <div class="news-category-group">
         <h3 class="news-category-heading">Internal Club News</h3>
-        <div class="news-grid-2col">
-        <article class="news-block clickable" onclick="openNewsModal('honours-list')">
-            <div class="news-media">
-                <img src="logo.jpeg" alt="GA" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-internal">Internal</span>
-                <h3>2026 Internal competition Winners</h3>
-                <p>Congratulations to all our internal competition winners</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-        
-        <!-- Item : Gents Championship -->
-        <article class="news-block clickable" onclick="openNewsModal('championship')">
-            <div class="news-media">
-                <img src="photos/MT.jpg" alt="Malcolm Thomson" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-internal">Internal</span>
-                <h3>Gents Championship Winner</h3>
-                <p>Congratulations to Malcolm Thomson, winner of the Gents Championship.</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-
-        <!-- Item : Ladies Championship -->
-        <article class="news-block clickable" onclick="openNewsModal('ladies-championship')">
-            <div class="news-media">
-                <img src="photos/RR.png" alt="Rita" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-internal">Internal</span>
-                <h3>Ladies Championship Winner</h3>
-                <p>Congratulations to Rita Reid winner of the Ladies Championship.</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-
-        <!-- Item 3: Junior Championship -->
-        <article class="news-block clickable" onclick="openNewsModal('junior-championship')">
-            <div class="news-media">
-                <img src="photos/DT.jpg" alt="Daniel Taylor" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-internal">Internal</span>
-                <h3>Junior Championship Winner</h3>
-                <p>Congratulations to Daniel Taylor, winner of the Junior Championship.</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-
+        <div id="latest-internal-grid" class="news-grid-2col">
+            <!-- Dynamically loaded via script -->
         </div>
     </div>
 
+    <!-- External Competitions Container -->
     <div class="news-category-group">
         <h3 class="news-category-heading">External Competitions</h3>
-        <div class="news-grid-2col">
-        <!-- Item 4: Steele Trophy -->
-        <article class="news-block clickable" onclick="openNewsModal('steele')">
-            <div class="news-media">
-                <img src="photos/RR_ST.jpg" alt="Rita" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-external">External</span>
-                <h3>Steele Trophy Winner</h3>
-                <p>Congratulations to Rita Reid winner of the Steele Trophy.</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-
-        <!-- Item 6: EBA Knockout Pairs -->
-        <article class="news-block clickable" onclick="openNewsModal('ebapairs')">
-            <div class="news-media">
-                <img src="photos/pairs.png" alt="Pairs" class="news-img">
-            </div>
-            <div class="news-body">
-                <span class="news-badge badge-external">External</span>
-                <h3>EBA Gents Knockout Pairs Winners</h3>
-                <p>Congratulations to Malcolm Thomson and Gary Robertson, winners of the EBA Gents knockout pairs.</p>
-                <span class="text-link">Read Details &rarr;</span>
-            </div>
-        </article>
-
+        <div id="latest-external-grid" class="news-grid-2col">
+            <!-- Dynamically loaded via script -->
         </div>
     </div>
 </section>
@@ -599,6 +526,50 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.matchMedia('(display-mode: standalone)').matches) {
         const installBanner = document.getElementById('pwa-install-trigger');
         if (installBanner) installBanner.style.display = 'none';
+    }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const res = await fetch('news.json?t=' + Date.now());
+        const newsItems = await res.json();
+
+        const internalGrid = document.getElementById('latest-internal-grid');
+        const externalGrid = document.getElementById('latest-external-grid');
+
+        if (!internalGrid || !externalGrid) return;
+
+        internalGrid.innerHTML = '';
+        externalGrid.innerHTML = '';
+
+        newsItems.filter(item => item.tag === 'latest').forEach(item => {
+            const article = document.createElement('article');
+            article.className = "news-block clickable";
+            if (item.modal) {
+                article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
+            }
+
+            article.innerHTML = `
+                <div class="news-media">
+                    <img src="${item.image}" alt="${item.title}" class="news-img">
+                </div>
+                <div class="news-body">
+                    <span class="news-badge badge-${item.category}">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                    ${item.modal ? '<span class="text-link">Read Details &rarr;</span>' : ''}
+                </div>
+            `;
+
+            if (item.category === 'internal') {
+                internalGrid.appendChild(article);
+            } else {
+                externalGrid.appendChild(article);
+            }
+        });
+    } catch (err) {
+        console.error("Failed to load news.json", err);
     }
 });
 </script>
