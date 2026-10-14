@@ -1,4 +1,4 @@
-// sw.js - Complete Service Worker with Persistent Memory and Fixed Notification Rules
+// sw.js - Complete Service Worker with 2-Hour Advance Timing and Persistent Memory
 
 const CACHE_NAME = 'goldenacre-notification-memory-v1';
 
@@ -32,17 +32,43 @@ self.addEventListener('fetch', (event) => {
     return; 
 });
 
-// BACKGROUND DATA ENGINE: Wakes up and checks BOTH fixtures.json and events.json on your server
+// Helper function to convert time strings like "7:30 pm" or "19:30" into total minutes from midnight
+function parseTimeToMinutes(timeStr) {
+    if (!timeStr) return null;
+    let cleanStr = timeStr.trim().toLowerCase();
+    let isPM = cleanStr.includes('pm');
+    let isAM = cleanStr.includes('am');
+    
+    cleanStr = cleanStr.replace('pm', '').replace('am', '').trim();
+    let parts = cleanStr.split(':');
+    if (parts.length < 2) return null;
+    
+    let hours = parseInt(parts[0], 10);
+    let minutes = parseInt(parts[1], 10);
+    
+    if (isNaN(hours) || isNaN(minutes)) return null;
+    
+    if (isPM && hours < 12) hours += 12;
+    if (isAM && hours === 12) hours = 0;
+    
+    return (hours * 60) + minutes;
+}
+
+// BACKGROUND DATA ENGINE: Checks fixtures and events for exactly 2 hours before start time
 async function checkForUpcomingMatches() {
     try {
-        let rawDateStr = new Date().toLocaleDateString('en-GB', {
+        let now = new Date();
+        
+        // Format current UK date as YYYY-MM-DD
+        let todayStr = now.toLocaleDateString('en-GB', {
             timeZone: 'Europe/London',
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
         }).split('/').reverse().join('-'); 
-        
-        const todayStr = rawDateStr;
+
+        let currentTotalMinutes = (now.getHours() * 60) + now.getMinutes();
+
         let allCombinedItems = [];
 
         // 1. Fetch match fixtures JSON file
@@ -67,7 +93,7 @@ async function checkForUpcomingMatches() {
             console.log("No events.json file found or failed to parse.");
         }
         
-        // Filter items: must match today's date, and notify must NOT be false
+        // Filter items scheduled for today where notify is not false
         const todaysEntries = allCombinedItems.filter(item => {
             if (item.date !== todayStr) return false;
             if (item.notify === false) return false;
@@ -82,6 +108,26 @@ async function checkForUpcomingMatches() {
         const notificationCache = await caches.open(CACHE_NAME);
 
         for (const item of todaysEntries) {
+            const matchMinutes = parseTimeToMinutes(item.time);
+            
+            // If it's an all-day event or has no valid time, notify immediately today
+            let shouldNotify = false;
+            if (matchMinutes === null) {
+                shouldNotify = true;
+            } else {
+                // Calculate time exactly 2 hours (120 minutes) before the fixture time
+                let notificationTargetMinutes = matchMinutes - 120;
+                
+                // Check if current time has reached or passed the 2-hour mark, but hasn't passed the event time yet
+                if (currentTotalMinutes >= notificationTargetMinutes && currentTotalMinutes <= matchMinutes) {
+                    shouldNotify = true;
+                }
+            }
+
+            if (!shouldNotify) {
+                continue;
+            }
+
             const title = item.title || "Goldenacre BC Alert";
             const teamInfo = item.team ? `(${item.team}) ` : "";
             const matchTime = item.time ? `at ${item.time}` : "Today";
