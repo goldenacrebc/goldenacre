@@ -535,8 +535,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
 
-            // Dynamic admin post modal handler fallback
-            if (item.modal && item.description && !document.getElementById(item.modal)) {
+            // Safely route modal clicks: Admin-generated posts use global dynamic modal, hardcoded use original scripts
+            if (item.modal && item.modal.startsWith('admin-')) {
                 article.onclick = () => {
                     const modalTitle = document.getElementById('modal-title');
                     const modalBody = document.getElementById('modal-body');
