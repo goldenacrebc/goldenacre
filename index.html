@@ -10,8 +10,7 @@
     <!-- PWA Meta Tags & Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <link rel="apple-touch-icon" href="photos/favicon.ico">
 
@@ -422,7 +421,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!reminderBtn) return;
 
-    // Helper function to update the button and status text layout based on active state
     function updateUI(isActivated) {
         if (isActivated) {
             reminderBtn.textContent = "🔕 Disable Match Reminders";
@@ -435,25 +433,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 1. Initial State Check on Page Load
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
         .then((reg) => {
             if (Notification.permission === "granted") {
-                // Check if our custom background task is actually registered
                 if ('periodicSync' in reg) {
                     reg.periodicSync.getTags().then((tags) => {
                         const isSubscribed = tags.includes('check-match-reminders');
                         updateUI(isSubscribed);
                         
-                        // If it's on, trigger a quick background parsing pass right away
                         if (isSubscribed && reg.active) {
                             reg.active.postMessage({ action: 'checkReminders' });
                         }
                     });
                 } else {
-                    // Fallback for browsers that don't support PeriodicSync natively (like standard desktop Chrome)
-                    // We read a local setting to remember if the user wanted it toggled on or off
                     const savedState = localStorage.getItem('matchRemindersEnabled') === 'true';
                     updateUI(savedState);
                     if (savedState && reg.active) {
@@ -473,14 +466,11 @@ document.addEventListener("DOMContentLoaded", () => {
         reminderBtn.disabled = true;
     }
 
-    // 2. Button Activation / Deactivation Click Event Listener
     reminderBtn.addEventListener("click", async () => {
         try {
-            // Check if we are currently turning it ON or OFF
             const isCurrentlyOn = reminderBtn.textContent.includes("Disable");
 
             if (isCurrentlyOn) {
-                // --- TURNING IT OFF ---
                 const reg = await navigator.serviceWorker.ready;
                 if ('periodicSync' in reg) {
                     try {
@@ -492,7 +482,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem('matchRemindersEnabled', 'false');
                 updateUI(false);
             } else {
-                // --- TURNING IT ON ---
                 const permission = await Notification.requestPermission();
                 
                 if (permission === "granted") {
@@ -501,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if ('periodicSync' in reg) {
                         try {
                             await reg.periodicSync.register('check-match-reminders', {
-                                minInterval: 12 * 60 * 60 * 1000 // Instructs device to poll fixtures.json every 12 hours
+                                minInterval: 12 * 60 * 60 * 1000
                             });
                         } catch (syncError) {
                             console.log("Periodic sync initialization delayed by browser policy.");
@@ -511,7 +500,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem('matchRemindersEnabled', 'true');
                     updateUI(true);
                     
-                    // Run immediate parsing scan right after turning on
                     if (reg.active) reg.active.postMessage({ action: 'checkReminders' });
                 } else {
                     if (statusText) statusText.textContent = "Notifications blocked. Please clear permissions in your browser bar.";
@@ -522,13 +510,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Handle PWA standalone display hook modes
     if (window.matchMedia('(display-mode: standalone)').matches) {
         const installBanner = document.getElementById('pwa-install-trigger');
         if (installBanner) installBanner.style.display = 'none';
     }
 });
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
     try {
@@ -546,7 +534,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         newsItems.filter(item => item.tag === 'latest').forEach(item => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
-            if (item.modal) {
+
+            // Dynamic admin post modal handler fallback
+            if (item.modal && item.description && !document.getElementById(item.modal)) {
+                article.onclick = () => {
+                    const modalTitle = document.getElementById('modal-title');
+                    const modalBody = document.getElementById('modal-body');
+                    const modalTag = document.getElementById('modal-tag');
+                    const globalModal = document.getElementById('global-modal');
+
+                    if (modalTitle) modalTitle.textContent = item.title;
+                    if (modalBody) modalBody.innerHTML = `<p>${item.description.replace(/\n/g, '<br>')}</p>`;
+                    if (modalTag) {
+                        modalTag.textContent = item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'News';
+                        modalTag.className = `news-tag badge-${item.category || 'internal'}`;
+                    }
+                    if (globalModal && typeof globalModal.showModal === 'function') {
+                        globalModal.showModal();
+                    }
+                };
+            } else if (item.modal) {
                 article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
             }
 
