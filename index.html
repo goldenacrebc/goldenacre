@@ -87,7 +87,7 @@
 </div>
 
 <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-    <strong>⚠️ Site is under construction:</strong> The site is still going through testing and development. Some features may not work as expected.</div>
+    <strong>⚠️ Site is under construction:</strong> The site is still going through testing and development. Some features may not work as expected.[cite: 2]</div>
 
     <!-- Latest News Section -->
 <section id="news" class="content-section">
@@ -139,7 +139,7 @@
     <h2 id="social">Upcoming Events</h2>
     <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and social evenings. Everyone is welcome.</p>
 <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-    <strong>⚠️ System Testing Notice:</strong> This is a test of the new events and fixtures system. Any entries listed here or in the calendar are for testing purposes only. Real club events will be added once testing is complete!
+    <strong>⚠️ System Testing Notice:</strong> This is a test of the new events and fixtures system. Any entries listed here or in the calendar are for testing purposes only. Real club events will be added once testing is complete![cite: 2]
 </div>    
     <!-- Push Notification Trigger Area -->
 <div class="reminder-action-panel">
@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
 
-            // Safely route modal clicks: Admin-generated posts use global dynamic modal, hardcoded use original scripts
+            // If it's an admin-published post, trigger the global dynamic modal popup
             if (item.modal && item.modal.startsWith('admin-')) {
                 article.onclick = () => {
                     const modalTitle = document.getElementById('modal-title');
@@ -554,6 +554,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                 };
             } else if (item.modal) {
+                // Otherwise, use original hardcoded modals (Championships, Steele, etc.)
                 article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
             }
 
