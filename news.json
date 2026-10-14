@@ -1,5 +1,12 @@
 [
   {
+    "title": "testing admin functions",
+    "description": "The admin finctuon is to upload photos and news this is a test",
+    "category": "internal",
+    "tag": "latest",
+    "image": "photos/1792006221498-facebook.png"
+  },
+  {
     "title": "test",
     "description": "test file",
     "category": "internal",
