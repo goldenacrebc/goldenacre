@@ -531,14 +531,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         internalGrid.innerHTML = '';
         externalGrid.innerHTML = '';
 
-        // List of hardcoded modal slugs that use their own external script handlers
         const hardcodedModals = ['honours-list', 'championship', 'ladies-championship', 'junior-championship', 'steele', 'ebapairs'];
 
         newsItems.filter(item => item.tag === 'latest').forEach(item => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
 
-            // If it has a modal and it's NOT in the hardcoded list, trigger the global dynamic popup (with photo support)
             if (item.modal && !hardcodedModals.includes(item.modal)) {
                 article.onclick = () => {
                     const modalTitle = document.getElementById('modal-title');
@@ -547,22 +545,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const globalModal = document.getElementById('global-modal');
 
                     if (modalTitle) modalTitle.textContent = item.title;
+                    
                     if (modalBody) {
                         let imgHtml = item.image && item.image !== 'logo.jpeg' 
                             ? `<div style="text-align:center; margin-bottom:15px;"><img src="${item.image}" alt="${item.title}" style="max-width:100%; max-height:280px; border-radius:6px;"></div>` 
                             : '';
                         modalBody.innerHTML = imgHtml + `<p>${item.description.replace(/\n/g, '<br>')}</p>`;
                     }
+
                     if (modalTag) {
-                        modalTag.textContent = item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'News';
-                        modalTag.className = `news-tag badge-${item.category || 'internal'}`;
+                        const cat = item.category || 'internal';
+                        modalTag.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+                        modalTag.className = `news-tag badge-${cat}`;
                     }
+
                     if (globalModal && typeof globalModal.showModal === 'function') {
                         globalModal.showModal();
                     }
                 };
             } else if (item.modal) {
-                // Otherwise, use original hardcoded modals
                 article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
             }
 
