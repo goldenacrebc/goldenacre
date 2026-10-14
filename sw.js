@@ -1,4 +1,6 @@
-// sw.js - Complete Service Worker with Duplicate Prevention
+// sw.js - Complete Service Worker with Persistent Daily Memory
+
+const CACHE_NAME = 'goldenacre-notification-memory-v1';
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();
@@ -73,18 +75,19 @@ async function checkForUpcomingMatches() {
             return;
         }
 
-        // Fetch currently active notifications in the user's tray to prevent duplicates on reload[cite: 10]
-        const activeNotifications = await self.registration.getNotifications();
-        const activeTags = activeNotifications.map(n => n.tag);
+        // Open our secure background storage memory
+        const notificationCache = await caches.open(CACHE_NAME);
 
         for (const item of todaysEntries) {
             const title = item.title || "Goldenacre BC Alert";
             const teamInfo = item.team ? `(${item.team}) ` : "";
             const matchTime = item.time ? `at ${item.time}` : "Today";
-            const notificationTag = `match-${item.date}-${item.time || 'all-day'}`;
+            const notificationKey = `/notified-${item.date}-${item.time || 'all-day'}`;
             
-            // Skip showing this notification if it's already active in the tray[cite: 10]
-            if (activeTags.includes(notificationTag)) {
+            // Check if we already logged this notification in storage today
+            const alreadyNotified = await notificationCache.match(notificationKey);
+            if (alreadyNotified) {
+                // Skip it—even if you cleared it from your phone tray, it won't repeat!
                 continue;
             }
 
@@ -92,13 +95,16 @@ async function checkForUpcomingMatches() {
                 body: `${teamInfo}Playing/Happening ${matchTime}. ${item.description || ''}`.trim(),
                 icon: 'logo.jpeg',
                 badge: 'logo.jpeg',
-                tag: notificationTag,
+                tag: notificationKey,
                 data: {
                     dateOfArrival: Date.now()
                 }
             };
 
             await self.registration.showNotification(title, options);
+
+            // Save a record in our background storage so it never triggers again today
+            await notificationCache.put(notificationKey, new Response('sent'));
         }
     } catch (err) {
         console.error("Background match checking synchronization failed:", err);
