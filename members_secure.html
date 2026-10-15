@@ -283,11 +283,15 @@
             margin: 0;
         }
 
-        .draw-pane-content {
+        .draw-pane-content,
+        .firsts-pane-content,
+        .seconds-pane-content {
             display: none;
         }
 
-        .draw-pane-content.active {
+        .draw-pane-content.active,
+        .firsts-pane-content.active,
+        .seconds-pane-content.active {
             display: block;
             animation: fadeIn 0.2s ease-in-out;
         }
@@ -348,6 +352,55 @@
             .draws-subnav-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* ==========================================================================
+           COMPACT MOBILE-FRIENDLY GENTS DRAW TABS & EBA KNOCKOUTS TABS
+           ========================================================================== */
+        #draws-root .draws-tabs,
+        #draws-root [role="tablist"],
+        .draws-container .tab-menu,
+        .knockout-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        #draws-root button,
+        #draws-root .tab-btn,
+        #draws-root .draws-tab,
+        .knockout-tab {
+            background: #f8fafc;
+            border: 1px solid var(--app-border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--app-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1 1 auto;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        #draws-root button:hover,
+        #draws-root .tab-btn:hover,
+        #draws-root .draws-tab:hover,
+        .knockout-tab:hover {
+            border-color: var(--app-primary);
+            background: #ffffff;
+        }
+
+        #draws-root button.active,
+        #draws-root .tab-btn.active,
+        #draws-root .draws-tab.active,
+        .knockout-tab.active {
+            background: var(--app-primary);
+            color: white;
+            border-color: var(--app-primary);
+            box-shadow: 0 2px 6px rgba(23, 59, 50, 0.15);
         }
     </style>
 </head>
@@ -465,7 +518,7 @@
                 </div>
             </div>
 
-            <!-- TAB 2: Gents Selection / Leagues (1st 16 with Modern Sub-Cards for Categories) -->
+            <!-- TAB 2: 1st XVI Team & Matches -->
             <div id="firsts" class="portal-tab-content">
                 <h2 class="team-sheet-heading" style="margin-top:0;">1st Sixteen Team & Matches</h2>
                 <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
@@ -548,7 +601,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: 2nd 16 (With Modern Sub-Cards for Categories) -->
+            <!-- TAB 3: 2nd XVI Team & Matches -->
             <div id="seconds" class="portal-tab-content">
                 <h2 class="team-sheet-heading" style="margin-top:0;">2nd Sixteen Team & Matches</h2>
                 <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
@@ -825,3 +878,4 @@
         }
     </script>
 </body>
+</html>
