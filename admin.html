@@ -207,10 +207,6 @@
             gap: 16px;
         }
 
-        .form-grid.full-width {
-            grid-template-columns: 1fr;
-        }
-
         .form-group-custom {
             margin-bottom: 20px;
         }
@@ -531,8 +527,8 @@
                 <p class="card-subtitle">Tips for publishing updates effectively on goldenacre.co.uk.</p>
                 
                 <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
-                    <li><strong>Club News:</strong> Posts directly to the home page under Internal News or External Competitions[cite: 5].</li>
-                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for social roll-ups, country dancing, and winter pool[cite: 5].</li>
+                    <li><strong>Club News:</strong> Posts directly to the home page under Internal News or External Competitions.</li>
+                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for social roll-ups, country dancing, and winter pool.</li>
                     <li><strong>Image Uploads:</strong> Photos are saved directly into the repository's <code>photos/</code> folder and optimized for mobile devices.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
@@ -658,18 +654,27 @@
 
             statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = "Connecting to repository...";
+            statusMsg.innerText = "Authenticating with secure vault...";
             publishBtn.disabled = true;
 
             let imageUrl = "logo.jpeg";
 
             try {
+                // Fetch the GitHub token securely from Supabase settings table
+                const { data: tokenData, error: tokenError } = await supabaseClient
+                    .from('settings')
+                    .select('value')
+                    .eq('key', 'github_token')
+                    .single();
+
+                if (tokenError || !tokenData) {
+                    throw new Error("Could not retrieve GitHub token from secure storage. Check Supabase RLS policy.");
+                }
+
+                const githubToken = tokenData.value;
                 const owner = "goldenacrebc";
                 const repo = "goldenacre";
                 const branch = "main";
-                
-                // Replace string with your valid GitHub Personal Access Token when committing via GitHub GUI
-                const githubToken = "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";
 
                 // Upload photo to repository photos/ folder if attached
                 if (imageFile) {
