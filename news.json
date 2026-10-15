@@ -1,5 +1,13 @@
 [
   {
+    "title": "testing admin functions",
+    "description": "test",
+    "category": "internal",
+    "tag": "latest",
+    "image": "logo.jpeg",
+    "modal": "testing-admin-functions"
+  },
+  {
     "title": "test",
     "description": "test",
     "category": "internal",
