@@ -637,10 +637,11 @@
         const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 1. Restrict page to logged-in admin/members
+        // 1. Restrict page to logged-in admin only (Locked to admin@goldenacre.local)
         async function checkAdminAuth() {
             const { data: { user }, error } = await supabaseClient.auth.getUser();
-            if (error || !user) {
+            if (error || !user || user.email !== 'admin@goldenacre.local') {
+                await supabaseClient.auth.signOut();
                 window.location.replace('admin_login.html');
             }
         }
