@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goldenacre Bowling Club - Admin Portal</title>
     
-    <!-- Link your site stylesheets -->
+    <!-- Link site stylesheets -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="members_secure.css">
     
@@ -13,139 +13,536 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        .admin-wrapper {
-            max-width: 520px;
-            margin: 40px auto;
-            padding: 0 15px;
+        :root {
+            --brand-green: #173b32;
+            --brand-green-hover: #0f2721;
+            --brand-gold: #ffcc00;
+            --brand-gold-soft: #fff8df;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
         }
-        .admin-card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+
+        body {
+            background-color: var(--bg-light);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
         }
-        .admin-card h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #111111;
+
+        .admin-header-custom {
+            background-color: var(--brand-green);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .admin-header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-header-title h1 {
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+            margin: 0;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-badge {
+            height: 42px;
+            width: auto;
+            border-radius: 50%;
+            border: 2px solid var(--brand-gold);
+        }
+
+        .logout-btn-custom {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .logout-btn-custom:hover {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .admin-dashboard-container {
+            max-width: 820px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+
+        /* Top Welcome Banner */
+        .admin-welcome-banner {
+            background: linear-gradient(135deg, var(--brand-green) 0%, #0d231e 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border-left: 6px solid var(--brand-gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .admin-welcome-banner h2 {
+            margin: 0 0 6px 0;
+            font-family: Georgia, serif;
             font-size: 1.4rem;
+        }
+
+        .admin-welcome-banner p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .stats-badge-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stat-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 14px;
+            border-radius: 8px;
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.15);
         }
-        .form-group {
-            margin-bottom: 18px;
+
+        .stat-badge span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--brand-gold);
+            text-transform: uppercase;
+            font-weight: 700;
         }
-        .form-group label {
+
+        .stat-badge strong {
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        /* Navigation Tabs */
+        .dashboard-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--brand-green);
+        }
+
+        .tab-btn.active {
+            color: var(--brand-green);
+            border-bottom-color: var(--brand-green);
+            font-weight: 700;
+        }
+
+        /* Form Card */
+        .admin-card-custom {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-card-custom h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            color: var(--brand-green);
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+        }
+
+        .card-subtitle {
+            margin-top: 0;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid.full-width {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group-custom {
+            margin-bottom: 20px;
+        }
+
+        .form-group-custom label {
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
-            color: #334155;
+            font-size: 0.88rem;
+            color: var(--text-dark);
         }
-        .form-group input[type="text"],
-        .form-group textarea,
-        .form-group input[type="file"],
-        .form-group select {
+
+        .form-group-custom input[type="text"],
+        .form-group-custom textarea,
+        .form-group-custom select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 11px 14px;
             border: 1px solid #cbd5e1;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 0.95rem;
             box-sizing: border-box;
             font-family: inherit;
+            background-color: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .form-group textarea {
-            min-height: 120px;
+
+        .form-group-custom textarea {
+            min-height: 130px;
             resize: vertical;
         }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline: 2px solid #0369a1;
-            border-color: transparent;
+
+        .form-group-custom input:focus, 
+        .form-group-custom textarea:focus, 
+        .form-group-custom select:focus {
+            outline: none;
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(23, 59, 50, 0.12);
         }
-        .submit-btn {
-            background-color: #0369a1;
+
+        /* Image Upload Box */
+        .image-upload-wrapper {
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .image-upload-wrapper:hover {
+            border-color: var(--brand-green);
+            background-color: var(--brand-gold-soft);
+        }
+
+        .image-upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .upload-text {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        #image-preview-container {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        #image-preview-container img {
+            max-height: 140px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .submit-btn-custom {
+            background-color: var(--brand-green);
             color: white;
             border: none;
             width: 100%;
-            padding: 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.95rem;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.2s ease, transform 0.1s ease;
             margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .submit-btn:hover {
-            background-color: #0284c7;
+
+        .submit-btn-custom:hover {
+            background-color: var(--brand-green-hover);
         }
-        .submit-btn:disabled {
+
+        .submit-btn-custom:active {
+            transform: scale(0.99);
+        }
+
+        .submit-btn-custom:disabled {
             background-color: #94a3b8;
             cursor: not-allowed;
+            transform: none;
         }
-        #status-msg {
-            margin-top: 14px;
+
+        #status-msg-custom {
+            margin-top: 16px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             font-weight: 600;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        /* Modules Grid for Future Features */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .module-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--brand-green);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .module-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .module-card h4 {
+            margin: 0 0 6px 0;
+            color: var(--brand-green);
+        }
+
+        .module-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0 0 12px 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-header-title h1 {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Admin Header -->
-    <header class="members-header">
-        <h1>🔒 Goldenacre Admin Portal</h1>
-        <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
-            <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
-        </a>
-        <a href="index.html" id="logout-btn" class="logout-btn">Log Out</a>
+    <header class="admin-header-custom">
+        <div class="admin-header-title">
+            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+            </a>
+            <h1>🔒 Goldenacre Admin Portal</h1>
+        </div>
+        <div class="header-actions">
+            <a href="index.html" id="logout-btn" class="logout-btn-custom">Log Out</a>
+        </div>
     </header>
 
-    <div class="admin-wrapper">
-        <div class="admin-card">
-            <h2>Publish News or Announcement</h2>
-            <form id="news-form">
-                <div class="form-group">
-                    <label for="target-file">Select Target Section</label>
-                    <select id="target-file">
-                        <option value="news.json">Club News (news.json)</option>
-                        <option value="events.json">Social Events (events.json)</option>
-                        <option value="fixtures.json">Fixtures (fixtures.json)</option>
-                    </select>
+    <div class="admin-dashboard-container">
+        
+        <!-- Welcome Summary Banner -->
+        <div class="admin-welcome-banner">
+            <div>
+                <h2>Committee Management</h2>
+                <p>Publish news, social events and league fixture announcements live to the website.</p>
+            </div>
+            <div class="stats-badge-group">
+                <div class="stat-badge">
+                    <span>Target</span>
+                    <strong id="active-target-label">news.json</strong>
                 </div>
-
-                <!-- Category selector (only applies when news.json is selected) -->
-                <div class="form-group" id="news-category-group">
-                    <label for="news-category">News Category</label>
-                    <select id="news-category">
-                        <option value="internal">Internal Club News</option>
-                        <option value="external">External Competitions</option>
-                    </select>
+                <div class="stat-badge">
+                    <span>Status</span>
+                    <strong style="color: #4ade80;">Online</strong>
                 </div>
-
-                <div class="form-group">
-                    <label for="news-title">Headline / Title</label>
-                    <input type="text" id="news-title" required placeholder="e.g. Opening Day Schedule Announced">
-                </div>
-                
-                <div class="form-group">
-                    <label for="news-content">Update Details / Story</label>
-                    <textarea id="news-content" required placeholder="Write your club update here..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="news-image">Attach Photo (Optional)</label>
-                    <input type="file" id="news-image" accept="image/*">
-                </div>
-
-                <button type="submit" id="publish-btn" class="submit-btn">Publish Update</button>
-                <p id="status-msg"></p>
-            </form>
+            </div>
         </div>
+
+        <!-- Dashboard Tabs -->
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" onclick="switchTab('publish-tab')">📢 Publish Update</button>
+            <button class="tab-btn" onclick="switchTab('features-tab')">⚡ Future Modules</button>
+            <button class="tab-btn" onclick="switchTab('guide-tab')">📖 Admin Guide</button>
+        </div>
+
+        <!-- TAB 1: Publish Content Form -->
+        <div id="publish-tab" class="tab-content active">
+            <div class="admin-card-custom">
+                <h3>Publish News or Announcement</h3>
+                <p class="card-subtitle">Updates committed here will instantly show up on the main website feeds.</p>
+
+                <form id="news-form">
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="target-file">Select Target Section</label>
+                            <select id="target-file">
+                                <option value="news.json">Club News (news.json)</option>
+                                <option value="events.json">Social Events (events.json)</option>
+                                <option value="fixtures.json">Fixtures (fixtures.json)</option>
+                            </select>
+                        </div>
+
+                        <!-- Category selector (only applies when news.json is selected) -->
+                        <div class="form-group-custom" id="news-category-group">
+                            <label for="news-category">News Category</label>
+                            <select id="news-category">
+                                <option value="internal">Internal Club News</option>
+                                <option value="external">External Competitions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label for="news-title" id="title-label">Headline / Title</label>
+                        <input type="text" id="news-title" required placeholder="e.g. Opening Day Schedule Announced">
+                    </div>
+                    
+                    <div class="form-group-custom">
+                        <label for="news-content" id="content-label">Update Details / Story</label>
+                        <textarea id="news-content" required placeholder="Write your club update here..."></textarea>
+                    </div>
+
+                    <!-- Custom Photo Upload Container -->
+                    <div class="form-group-custom">
+                        <label>Attach Photo (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="upload-filename-text">Click or drag an image file here to attach</p>
+                            <input type="file" id="news-image" accept="image/*">
+                        </div>
+                        <div id="image-preview-container">
+                            <img id="image-preview" src="" alt="Photo Preview">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="publish-btn" class="submit-btn-custom">Publish Update Live</button>
+                    <p id="status-msg-custom"></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: Future Quick Action Modules -->
+        <div id="features-tab" class="tab-content">
+            <div class="admin-card-custom">
+                <h3>Quick Management Modules</h3>
+                <p class="card-subtitle">Future portal tools planned for Goldenacre Bowling Club admins.</p>
+                
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <span class="module-icon">🏆</span>
+                        <h4>Honours Boards</h4>
+                        <p>Manage club competition winners and annual honours lists.</p>
+                        <span style="font-size:0.75rem; color:#94a3b8; font-weight:bold;">COMING SOON</span>
+                    </div>
+                    <div class="module-card">
+                        <span class="module-icon">📅</span>
+                        <h4>Calendar Manager</h4>
+                        <p>Add and edit match fixtures directly on the events schedule.</p>
+                        <span style="font-size:0.75rem; color:#94a3b8; font-weight:bold;">COMING SOON</span>
+                    </div>
+                    <div class="module-card">
+                        <span class="module-icon">👥</span>
+                        <h4>Member List</h4>
+                        <p>View registered members and manage security access logins.</p>
+                        <span style="font-size:0.75rem; color:#94a3b8; font-weight:bold;">COMING SOON</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Admin Guide -->
+        <div id="guide-tab" class="tab-content">
+            <div class="admin-card-custom">
+                <h3>Committee Publishing Guide</h3>
+                <p class="card-subtitle">Tips for publishing updates effectively on goldenacre.co.uk.</p>
+                
+                <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
+                    <li><strong>Club News:</strong> Posts directly to the home page under Internal News or External Competitions[cite: 5].</li>
+                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for social roll-ups, country dancing, and winter pool[cite: 5].</li>
+                    <li><strong>Image Uploads:</strong> Photos are saved directly into the repository's <code>photos/</code> folder and optimized for mobile devices.</li>
+                    <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        <p style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 20px 0;">&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+        <p style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 25px 0;">&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
     </footer>
 
     <!-- Admin Script -->
@@ -163,19 +560,64 @@
         }
         checkAdminAuth();
 
-        // Show/hide category dropdown depending on target file selection
+        // Switch Dashboard Tabs
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Form elements
         const targetFileSelect = document.getElementById('target-file');
         const categoryGroup = document.getElementById('news-category-group');
+        const activeTargetLabel = document.getElementById('active-target-label');
+        const titleLabel = document.getElementById('title-label');
+        const contentLabel = document.getElementById('content-label');
 
         targetFileSelect.addEventListener('change', () => {
-            if (targetFileSelect.value === 'news.json') {
+            const selected = targetFileSelect.value;
+            activeTargetLabel.innerText = selected;
+
+            if (selected === 'news.json') {
                 categoryGroup.style.display = 'block';
+                titleLabel.innerText = "Headline / Title";
+                contentLabel.innerText = "Update Details / Story";
+            } else if (selected === 'events.json') {
+                categoryGroup.style.display = 'none';
+                titleLabel.innerText = "Event Name";
+                contentLabel.innerText = "Event Details & Schedule";
             } else {
                 categoryGroup.style.display = 'none';
+                titleLabel.innerText = "Fixture Title / Opponent";
+                contentLabel.innerText = "Match Notes / Location Info";
             }
         });
 
-        // Helper to convert uploaded file to clean base64 string
+        // Photo Preview Handler
+        const imageInput = document.getElementById('news-image');
+        const uploadText = document.getElementById('upload-filename-text');
+        const previewContainer = document.getElementById('image-preview-container');
+        const previewImg = document.getElementById('image-preview');
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                uploadText.innerText = `Selected: ${file.name}`;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadText.innerText = "Click or drag an image file here to attach";
+                previewContainer.style.display = 'none';
+            }
+        });
+
+        // Base64 File Helpers
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -200,9 +642,9 @@
             return btoa(binString);
         }
 
-        // 2. Handle form submission
+        // 2. Handle Form Submission
         const newsForm = document.getElementById('news-form');
-        const statusMsg = document.getElementById('status-msg');
+        const statusMsg = document.getElementById('status-msg-custom');
         const publishBtn = document.getElementById('publish-btn');
 
         newsForm.addEventListener('submit', async (e) => {
@@ -212,8 +654,9 @@
             const category = document.getElementById('news-category').value;
             const title = document.getElementById('news-title').value.trim();
             const content = document.getElementById('news-content').value.trim();
-            const imageFile = document.getElementById('news-image').files[0];
+            const imageFile = imageInput.files[0];
 
+            statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
             statusMsg.innerText = "Connecting to repository...";
             publishBtn.disabled = true;
@@ -224,12 +667,13 @@
                 const owner = "goldenacrebc";
                 const repo = "goldenacre";
                 const branch = "main";
-                // PASTE YOUR TOKEN HERE FOR LOCAL TESTING IF NEEDED:
-                const githubToken = "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";
+                
+                // Replace string with your valid GitHub Personal Access Token when committing via GitHub GUI
+                const githubToken = "PASTE_YOUR_ACTIVE_TOKEN_HERE";
 
                 // Upload photo to repository photos/ folder if attached
                 if (imageFile) {
-                    statusMsg.innerText = "Uploading photo to GitHub...";
+                    statusMsg.innerText = "Uploading photo to GitHub repository...";
                     const fileName = `${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
                     const photoPath = `photos/${fileName}`;
                     const photoBase64 = await fileToBase64(imageFile);
@@ -252,7 +696,7 @@
                     imageUrl = photoPath;
                 }
 
-                statusMsg.innerText = "Fetching current file data...";
+                statusMsg.innerText = "Fetching current section data...";
                 const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${targetFile}`;
                 const getRes = await fetch(fileUrl, {
                     headers: { "Authorization": `token ${githubToken}` }
@@ -324,21 +768,25 @@
                     throw new Error(errJson.message || `Failed to commit changes (${commitRes.status})`);
                 }
 
+                statusMsg.style.backgroundColor = '#dcfce7';
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = "Successfully published! Please allow 1-2 mins for site to update.";
+                statusMsg.innerText = "Successfully published live! Please allow 1-2 mins for site feeds to refresh.";
                 newsForm.reset();
+                previewContainer.style.display = 'none';
+                uploadText.innerText = "Click or drag an image file here to attach";
                 categoryGroup.style.display = 'block';
                 publishBtn.disabled = false;
 
             } catch (err) {
                 console.error("Publishing error:", err);
+                statusMsg.style.backgroundColor = '#fee2e2';
                 statusMsg.style.color = '#dc2626';
                 statusMsg.innerText = "Error: " + err.message;
                 publishBtn.disabled = false;
             }
         });
 
-        // 3. Logout handler
+        // Logout Handler
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async (e) => {
