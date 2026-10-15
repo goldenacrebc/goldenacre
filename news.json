@@ -8,6 +8,14 @@
     "modal": "testing-admin-functions"
   },
   {
+    "title": "testing admin functions",
+    "description": "test",
+    "category": "internal",
+    "tag": "latest",
+    "image": "logo.jpeg",
+    "modal": "testing-admin-functions"
+  },
+  {
     "title": "yet onther test",
     "description": "testing",
     "category": "internal",
