@@ -4,6 +4,14 @@
     "description": "test",
     "category": "internal",
     "tag": "latest",
+    "image": "photos/1792071086720-IMG-20240421-WA0008-(1).jpg",
+    "modal": "testing-admin-functions"
+  },
+  {
+    "title": "testing admin functions",
+    "description": "test",
+    "category": "internal",
+    "tag": "latest",
     "image": "logo.jpeg",
     "modal": "testing-admin-functions"
   },
