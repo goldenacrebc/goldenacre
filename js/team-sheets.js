@@ -7,6 +7,8 @@ function addTextElement(parent, tagName, className, text) {
 }
 
 function renderTeamSheet(root, team) {
+    root.innerHTML = ""; // Clear existing content
+
     const fixture = document.createElement("p");
     fixture.className = "team-fixture";
     fixture.append(document.createTextNode(team.opponent));
@@ -43,7 +45,7 @@ function renderTeamSheet(root, team) {
             const row = document.createElement("li");
             row.className = "rink-row";
             addTextElement(row, "span", "rink-position", label);
-            addTextElement(row, "span", "rink-player", players[key]);
+            addTextElement(row, "span", "rink-player", players[key] || "");
             list.append(row);
         });
 
@@ -54,22 +56,30 @@ function renderTeamSheet(root, team) {
     root.append(rinks);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const roots = [
-        ["firsts-team-sheet", "firsts"],
-        ["seconds-team-sheet", "seconds"]
-    ];
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch('team-sheets.json');
+        if (!response.ok) throw new Error("Could not load team-sheets.json");
+        const teamSheetsData = await response.json();
 
-    roots.forEach(([rootId, teamId]) => {
-        const root = document.getElementById(rootId);
-        if (!root) return;
+        const roots = [
+            ["firsts-team-sheet", "firsts"],
+            ["seconds-team-sheet", "seconds"]
+        ];
 
-        const team = window.teamSheets?.[teamId];
-        if (!team) {
-            console.error(`Missing team sheet data for "${teamId}".`);
-            return;
-        }
+        roots.forEach(([rootId, teamId]) => {
+            const root = document.getElementById(rootId);
+            if (!root) return;
 
-        renderTeamSheet(root, team);
-    });
+            const team = teamSheetsData?.[teamId];
+            if (!team) {
+                console.error(`Missing team sheet data for "${teamId}".`);
+                return;
+            }
+
+            renderTeamSheet(root, team);
+        });
+    } catch (err) {
+        console.error("Error loading team sheets:", err);
+    }
 });
