@@ -1,22 +1,62 @@
 {
   "firsts": {
-    "opponent": "vs Edinburgh BC",
+    "opponent": "test team",
     "venue": "home",
     "rinks": [
-      { "lead": "Player A", "second": "Player B", "third": "Player C", "skip": "Player D" },
-      { "lead": "Player E", "second": "Player F", "third": "Player G", "skip": "Player H" },
-      { "lead": "Player I", "second": "Player J", "third": "Player K", "skip": "Player L" },
-      { "lead": "Player M", "second": "Player N", "third": "Player O", "skip": "Player P" }
+      {
+        "lead": "a.test",
+        "second": "b.test",
+        "third": "c.test",
+        "skip": "d.test"
+      },
+      {
+        "lead": "a.test",
+        "second": "a.test",
+        "third": "a.test",
+        "skip": "a.test"
+      },
+      {
+        "lead": "a.test",
+        "second": "a.test",
+        "third": "a.test",
+        "skip": "a.test"
+      },
+      {
+        "lead": "a.test",
+        "second": "a.test",
+        "third": "a.test",
+        "skip": "a.test"
+      }
     ]
   },
   "seconds": {
     "opponent": "vs Gorgie Mills",
     "venue": "away",
     "rinks": [
-      { "lead": "Player 1", "second": "Player 2", "third": "Player 3", "skip": "Player 4" },
-      { "lead": "Player 5", "second": "Player 6", "third": "Player 7", "skip": "Player 8" },
-      { "lead": "Player 9", "second": "Player 10", "third": "Player 11", "skip": "Player 12" },
-      { "lead": "Player 13", "second": "Player 14", "third": "Player 15", "skip": "Player 16" }
+      {
+        "lead": "Player 1",
+        "second": "Player 2",
+        "third": "Player 3",
+        "skip": "Player 4"
+      },
+      {
+        "lead": "Player 5",
+        "second": "Player 6",
+        "third": "Player 7",
+        "skip": "Player 8"
+      },
+      {
+        "lead": "Player 9",
+        "second": "Player 10",
+        "third": "Player 11",
+        "skip": "Player 12"
+      },
+      {
+        "lead": "Player 13",
+        "second": "Player 14",
+        "third": "Player 15",
+        "skip": "Player 16"
+      }
     ]
   }
 }
