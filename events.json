@@ -1,5 +1,13 @@
 [
-{
+  {
+    "date": "2026-10-15",
+    "title": "Test",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "Test",
+    "notify": true
+  },
+  {
     "date": "2026-10-15",
     "title": "Pool League",
     "time": "1:00 pm",
@@ -39,7 +47,7 @@
     "description": "Pool League Week 5.",
     "notify": true
   },
-{
+  {
     "date": "2026-12-12",
     "title": "Christmas Party",
     "time": "7:00 pm",
@@ -47,13 +55,13 @@
     "description": "The Goldenacre Christmas party.",
     "notify": true
   },
- {
+  {
     "date": "2026-12-25",
     "title": "Christmas Day",
     "time": "All Day",
     "location": "",
     "description": "Happy Christmas from Everyone at Goldenacre Bowling Club.",
-    "notify": true  
+    "notify": true
   },
   {
     "date": "2027-01-01",
@@ -61,6 +69,6 @@
     "time": "All Day",
     "location": "",
     "description": "Happy New Year from Everyone at Goldenacre.",
-    "notify": true 
+    "notify": true
   }
 ]
