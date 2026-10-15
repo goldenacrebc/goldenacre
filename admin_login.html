@@ -117,7 +117,6 @@
             const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
             const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
             
-            // Renamed to 'supabaseClient' to avoid naming conflicts with the global CDN script
             const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
             const form = document.getElementById('admin-login-form');
@@ -155,11 +154,23 @@
                             ? "Invalid username or password." 
                             : error.message;
                         submitBtn.disabled = false;
-                    } else {
-                        errorMsg.style.color = '#16a34a';
-                        errorMsg.innerText = "Success! Redirecting...";
-                        window.location.replace('admin.html');
+                        return;
+                    } 
+
+                    // 🔒 GATEKEEPER CHECK: Ensure only the admin account can enter
+                    if (data.user.email !== 'admin@goldenacre.local') {
+                        errorMsg.style.color = '#dc2626';
+                        errorMsg.innerText = "Access Denied: Committee admins only.";
+                        await supabaseClient.auth.signOut(); // Log them out immediately
+                        submitBtn.disabled = false;
+                        return;
                     }
+
+                    // If it IS the admin account, let them through
+                    errorMsg.style.color = '#16a34a';
+                    errorMsg.innerText = "Success! Redirecting...";
+                    window.location.replace('admin.html');
+
                 } catch (err) {
                     console.error("Unexpected error:", err);
                     errorMsg.style.color = '#dc2626';
