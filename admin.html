@@ -383,6 +383,20 @@
             display: block;
         }
 
+        /* Team Sheet Builder Grid */
+        .rink-builder-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .rink-builder-box h4 {
+            margin: 0 0 10px 0;
+            color: var(--brand-green);
+            font-size: 0.95rem;
+        }
+
         @media (max-width: 600px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -414,7 +428,7 @@
         <div class="admin-welcome-banner">
             <div>
                 <h2>Committee Management</h2>
-                <p>Publish news, social events and league fixture announcements live to the website.</p>
+                <p>Publish news, social events, fixtures, and Friday team sheets live to the website.</p>
             </div>
             <div class="stats-badge-group">
                 <div class="stat-badge">
@@ -438,8 +452,8 @@
         <!-- TAB 1: Publish Content Form -->
         <div id="publish-tab" class="tab-content active">
             <div class="admin-card-custom">
-                <h3>Publish News or Announcement</h3>
-                <p class="card-subtitle">Updates committed here will instantly show up on the main website feeds.</p>
+                <h3>Publish News or Team Sheet</h3>
+                <p class="card-subtitle">Updates committed here will instantly show up on the website feeds.</p>
 
                 <form id="news-form">
                     <div class="form-grid">
@@ -449,6 +463,7 @@
                                 <option value="news.json">Club News (news.json)</option>
                                 <option value="events.json">Social Events (events.json)</option>
                                 <option value="fixtures.json">Fixtures (fixtures.json)</option>
+                                <option value="team-sheets.json">Team Sheets (team-sheets.json)</option>
                             </select>
                         </div>
 
@@ -460,28 +475,103 @@
                                 <option value="external">External Competitions</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group-custom">
-                        <label for="news-title" id="title-label">Headline / Title</label>
-                        <input type="text" id="news-title" required placeholder="e.g. Opening Day Schedule Announced">
-                    </div>
-                    
-                    <div class="form-group-custom">
-                        <label for="news-content" id="content-label">Update Details / Story</label>
-                        <textarea id="news-content" required placeholder="Write your club update here..."></textarea>
-                    </div>
-
-                    <!-- Custom Photo Upload Container -->
-                    <div class="form-group-custom">
-                        <label>Attach Photo (Optional)</label>
-                        <div class="image-upload-wrapper">
-                            <span class="upload-icon">📸</span>
-                            <p class="upload-text" id="upload-filename-text">Click or drag an image file here to attach</p>
-                            <input type="file" id="news-image" accept="image/*">
+                        <!-- Team selector (only applies when team-sheets.json is selected) -->
+                        <div class="form-group-custom" id="team-select-group" style="display:none;">
+                            <label for="team-target">Select Team Sheet</label>
+                            <select id="team-target">
+                                <option value="firsts">1st XVI Team Sheet</option>
+                                <option value="seconds">2nd XVI Team Sheet</option>
+                            </select>
                         </div>
-                        <div id="image-preview-container">
-                            <img id="image-preview" src="" alt="Photo Preview">
+                    </div>
+
+                    <!-- Standard Fields for News/Events/Fixtures -->
+                    <div id="standard-fields">
+                        <div class="form-group-custom">
+                            <label for="news-title" id="title-label">Headline / Title</label>
+                            <input type="text" id="news-title" placeholder="e.g. Opening Day Schedule Announced">
+                        </div>
+                        
+                        <div class="form-group-custom">
+                            <label for="news-content" id="content-label">Update Details / Story</label>
+                            <textarea id="news-content" placeholder="Write your club update here..."></textarea>
+                        </div>
+
+                        <!-- Custom Photo Upload Container -->
+                        <div class="form-group-custom" id="photo-upload-container">
+                            <label>Attach Photo (Optional)</label>
+                            <div class="image-upload-wrapper">
+                                <span class="upload-icon">📸</span>
+                                <p class="upload-text" id="upload-filename-text">Click or drag an image file here to attach</p>
+                                <input type="file" id="news-image" accept="image/*">
+                            </div>
+                            <div id="image-preview-container">
+                                <img id="image-preview" src="" alt="Photo Preview">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Team Sheet Rinks Form (Hidden by default) -->
+                    <div id="team-sheet-fields" style="display:none;">
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="team-opponent">Opponent (e.g. vs Edinburgh BC)</label>
+                                <input type="text" id="team-opponent" placeholder="vs Team Name">
+                            </div>
+                            <div class="form-group-custom">
+                                <label for="team-venue">Venue</label>
+                                <select id="team-venue">
+                                    <option value="home">Home</option>
+                                    <option value="away">Away</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h4 style="color:var(--brand-green); margin-bottom: 12px; font-family:Georgia, serif;">Rink Selections (4 Rinks)</h4>
+                        
+                        <!-- Rink 1 -->
+                        <div class="rink-builder-box">
+                            <h4>Rink 1</h4>
+                            <div class="form-grid">
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="0" data-pos="lead"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="0" data-pos="second"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="0" data-pos="third"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="0" data-pos="skip"></div>
+                            </div>
+                        </div>
+
+                        <!-- Rink 2 -->
+                        <div class="rink-builder-box">
+                            <h4>Rink 2</h4>
+                            <div class="form-grid">
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="1" data-pos="lead"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="1" data-pos="second"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="1" data-pos="third"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="1" data-pos="skip"></div>
+                            </div>
+                        </div>
+
+                        <!-- Rink 3 -->
+                        <div class="rink-builder-box">
+                            <h4>Rink 3</h4>
+                            <div class="form-grid">
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="2" data-pos="lead"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="2" data-pos="second"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="2" data-pos="third"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="2" data-pos="skip"></div>
+                            </div>
+                        </div>
+
+                        <!-- Rink 4 -->
+                        <div class="rink-builder-box">
+                            <h4>Rink 4</h4>
+                            <div class="form-grid">
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="3" data-pos="lead"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="3" data-pos="second"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="3" data-pos="third"></div>
+                                <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="3" data-pos="skip"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -527,9 +617,9 @@
                 <p class="card-subtitle">Tips for publishing updates effectively on goldenacre.co.uk.</p>
                 
                 <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
+                    <li><strong>Team Sheets:</strong> Select <code>team-sheets.json</code> every Friday night, choose 1st or 2nd XVI, fill in the opponent, venue, and rink player names, and hit publish.</li>
                     <li><strong>Club News:</strong> Posts directly to the home page under Internal News or External Competitions.</li>
-                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for social roll-ups, country dancing, and winter pool.</li>
-                    <li><strong>Image Uploads:</strong> Photos are saved directly into the repository's <code>photos/</code> folder and optimized for mobile devices.</li>
+                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for social roll-ups and events.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>
@@ -568,26 +658,46 @@
         // Form elements
         const targetFileSelect = document.getElementById('target-file');
         const categoryGroup = document.getElementById('news-category-group');
+        const teamSelectGroup = document.getElementById('team-select-group');
+        const standardFields = document.getElementById('standard-fields');
+        const teamSheetFields = document.getElementById('team-sheet-fields');
         const activeTargetLabel = document.getElementById('active-target-label');
         const titleLabel = document.getElementById('title-label');
         const contentLabel = document.getElementById('content-label');
+        const newsTitleInput = document.getElementById('news-title');
+        const newsContentInput = document.getElementById('news-content');
 
         targetFileSelect.addEventListener('change', () => {
             const selected = targetFileSelect.value;
             activeTargetLabel.innerText = selected;
 
-            if (selected === 'news.json') {
-                categoryGroup.style.display = 'block';
-                titleLabel.innerText = "Headline / Title";
-                contentLabel.innerText = "Update Details / Story";
-            } else if (selected === 'events.json') {
+            if (selected === 'team-sheets.json') {
                 categoryGroup.style.display = 'none';
-                titleLabel.innerText = "Event Name";
-                contentLabel.innerText = "Event Details & Schedule";
+                teamSelectGroup.style.display = 'block';
+                standardFields.style.display = 'none';
+                teamSheetFields.style.display = 'block';
+                newsTitleInput.removeAttribute('required');
+                newsContentInput.removeAttribute('required');
             } else {
-                categoryGroup.style.display = 'none';
-                titleLabel.innerText = "Fixture Title / Opponent";
-                contentLabel.innerText = "Match Notes / Location Info";
+                teamSelectGroup.style.display = 'none';
+                standardFields.style.display = 'block';
+                teamSheetFields.style.display = 'none';
+                newsTitleInput.setAttribute('required', 'true');
+                newsContentInput.setAttribute('required', 'true');
+
+                if (selected === 'news.json') {
+                    categoryGroup.style.display = 'block';
+                    titleLabel.innerText = "Headline / Title";
+                    contentLabel.innerText = "Update Details / Story";
+                } else if (selected === 'events.json') {
+                    categoryGroup.style.display = 'none';
+                    titleLabel.innerText = "Event Name";
+                    contentLabel.innerText = "Event Details & Schedule";
+                } else {
+                    categoryGroup.style.display = 'none';
+                    titleLabel.innerText = "Fixture Title / Opponent";
+                    contentLabel.innerText = "Match Notes / Location Info";
+                }
             }
         });
 
@@ -647,17 +757,10 @@
             e.preventDefault();
 
             const targetFile = targetFileSelect.value;
-            const category = document.getElementById('news-category').value;
-            const title = document.getElementById('news-title').value.trim();
-            const content = document.getElementById('news-content').value.trim();
-            const imageFile = imageInput.files[0];
-
             statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
             statusMsg.innerText = "Authenticating with secure vault...";
             publishBtn.disabled = true;
-
-            let imageUrl = "logo.jpeg";
 
             try {
                 // Fetch the GitHub token securely from Supabase settings table
@@ -676,8 +779,11 @@
                 const repo = "goldenacre";
                 const branch = "main";
 
-                // Upload photo to repository photos/ folder if attached
-                if (imageFile) {
+                let imageUrl = "logo.jpeg";
+                const imageFile = imageInput.files[0];
+
+                // Upload photo if attached and submitting news
+                if (imageFile && targetFile === 'news.json') {
                     statusMsg.innerText = "Uploading photo to GitHub repository...";
                     const fileName = `${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
                     const photoPath = `photos/${fileName}`;
@@ -701,7 +807,7 @@
                     imageUrl = photoPath;
                 }
 
-                statusMsg.innerText = "Fetching current section data...";
+                statusMsg.innerText = "Fetching current file data...";
                 const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${targetFile}`;
                 const getRes = await fetch(fileUrl, {
                     headers: { "Authorization": `token ${githubToken}` }
@@ -713,43 +819,72 @@
                 }
                 
                 const fileData = await getRes.json();
-                const existingContent = JSON.parse(decodeBase64Utf8(fileData.content));
+                let existingContent = JSON.parse(decodeBase64Utf8(fileData.content));
 
-                // Build new entry based on file type and selected category
-                let newEntry = {};
-                if (targetFile === 'news.json') {
-                    const modalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                    
-                    newEntry = {
-                        title: title,
-                        description: content,
-                        category: category, 
-                        tag: "latest",
-                        image: imageUrl,
-                        modal: modalSlug
+                let commitMessage = "";
+
+                if (targetFile === 'team-sheets.json') {
+                    const teamKey = document.getElementById('team-target').value;
+                    const opponent = document.getElementById('team-opponent').value.trim();
+                    const venue = document.getElementById('team-venue').value;
+
+                    // Build rinks array from inputs
+                    const rinks = [0, 1, 2, 3].map(rinkIdx => {
+                        const lead = document.querySelector(`.rink-input[data-rink="${rinkIdx}"][data-pos="lead"]`).value.trim();
+                        const second = document.querySelector(`.rink-input[data-rink="${rinkIdx}"][data-pos="second"]`).value.trim();
+                        const third = document.querySelector(`.rink-input[data-rink="${rinkIdx}"][data-pos="third"]`).value.trim();
+                        const skip = document.querySelector(`.rink-input[data-rink="${rinkIdx}"][data-pos="skip"]`).value.trim();
+                        return { lead, second, third, skip };
+                    });
+
+                    existingContent[teamKey] = {
+                        opponent: opponent,
+                        venue: venue,
+                        rinks: rinks
                     };
-                } else if (targetFile === 'events.json') {
-                    newEntry = {
-                        date: new Date().toISOString().split('T')[0],
-                        title: title,
-                        time: "7:00 pm",
-                        location: "Goldenacre Bowling club",
-                        description: content,
-                        notify: true
-                    };
+
+                    commitMessage = `Admin portal update: updated ${teamKey} team sheet`;
                 } else {
-                    newEntry = {
-                        date: new Date().toISOString().split('T')[0],
-                        team: "1st 16",
-                        title: title,
-                        time: "19:30 pm",
-                        location: "Goldenacre",
-                        description: content,
-                        notify: true
-                    };
-                }
+                    const title = newsTitleInput.value.trim();
+                    const content = newsContentInput.value.trim();
 
-                existingContent.unshift(newEntry);
+                    let newEntry = {};
+                    if (targetFile === 'news.json') {
+                        const category = document.getElementById('news-category').value;
+                        const modalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                        
+                        newEntry = {
+                            title: title,
+                            description: content,
+                            category: category, 
+                            tag: "latest",
+                            image: imageUrl,
+                            modal: modalSlug
+                        };
+                    } else if (targetFile === 'events.json') {
+                        newEntry = {
+                            date: new Date().toISOString().split('T')[0],
+                            title: title,
+                            time: "7:00 pm",
+                            location: "Goldenacre Bowling club",
+                            description: content,
+                            notify: true
+                        };
+                    } else {
+                        newEntry = {
+                            date: new Date().toISOString().split('T')[0],
+                            team: "1st 16",
+                            title: title,
+                            time: "19:30 pm",
+                            location: "Goldenacre",
+                            description: content,
+                            notify: true
+                        };
+                    }
+
+                    existingContent.unshift(newEntry);
+                    commitMessage = `Admin portal update: added ${title}`;
+                }
 
                 statusMsg.innerText = "Committing update to GitHub...";
                 const updatedContentBase64 = encodeUtf8Base64(JSON.stringify(existingContent, null, 2));
@@ -761,7 +896,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        message: `Admin portal update: added ${title}`,
+                        message: commitMessage,
                         content: updatedContentBase64,
                         sha: fileData.sha,
                         branch: branch
@@ -780,6 +915,9 @@
                 previewContainer.style.display = 'none';
                 uploadText.innerText = "Click or drag an image file here to attach";
                 categoryGroup.style.display = 'block';
+                teamSelectGroup.style.display = 'none';
+                standardFields.style.display = 'block';
+                teamSheetFields.style.display = 'none';
                 publishBtn.disabled = false;
 
             } catch (err) {
