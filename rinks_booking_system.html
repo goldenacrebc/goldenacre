@@ -12,6 +12,9 @@
     <meta name="apple-mobile-web-app-title" content="Rinks Diary">
     <link rel="apple-touch-icon" href="photos/favicon.ico">
 
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --brand-green: #173b32;
@@ -247,6 +250,24 @@
             margin-bottom: 10px;
         }
 
+        .portal-back-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .portal-back-btn:hover {
+            background-color: var(--brand-gold);
+            color: var(--brand-green);
+            border-color: var(--brand-gold);
+        }
+
         @media (max-width: 850px) {
             .capacity-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -299,28 +320,11 @@
                 padding-top: 0;
             }
         }
-    .portal-back-btn {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            transition: all 0.2s ease;
-        }
-
-        .portal-back-btn:hover {
-            background-color: var(--brand-gold);
-            color: var(--brand-green);
-            border-color: var(--brand-gold);
-        }
     </style>
 </head>
 <body>
 
-    <<header>
+    <header>
         <h1>🏆 Goldenacre BC</h1>
         <a href="members_secure.html" class="portal-back-btn">← Back to Members Portal</a>
     </header>
@@ -431,6 +435,11 @@
     </div>
 
     <script>
+        // Initialize Supabase Client
+const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const singlesCompetitions = [
             "Gents Championship",
             "Senior Gents Championship",
@@ -490,13 +499,22 @@
 
         async function fetchAppData() {
             try {
-                const res = await fetch('/bookings.json?' + new Date().getTime());
-                appData = await res.json();
+                const { data: matches, error: matchError } = await _supabase.from('matches').select('*');
+                const { data: bookings, error: bookingError } = await _supabase.from('daily_bookings').select('*');
+
+                if (matchError || bookingError) throw (matchError || bookingError);
+
+                appData.matches = matches || [];
+                appData.daily_bookings = {};
+                (bookings || []).forEach(b => {
+                    appData.daily_bookings[b.date] = b.count;
+                });
+
                 renderCapacityCards();
                 renderScheduleTable();
                 checkSlotAvailability();
             } catch (err) {
-                console.error("Failed to load bookings data", err);
+                console.error("Failed to load bookings from Supabase", err);
             }
         }
 
@@ -591,28 +609,37 @@
                 markerVal = "TBC";
             }
 
+            const dateVal = dateInput.value;
+            const currentCount = appData.daily_bookings[dateVal] || 0;
+
+            if (currentCount >= 6) {
+                document.getElementById('form-status').style.color = '#dc2626';
+                document.getElementById('form-status').innerText = `❌ Error: Daily capacity reached.`;
+                return;
+            }
+
             const payload = {
-                competition: compVal,
+                date: dateVal,
+                time: document.getElementById('time-slot').value,
+                comp: compVal,
                 round: document.getElementById('round').value,
-                player_a: document.getElementById('player-a').value,
-                player_b: document.getElementById('player-b').value,
+                p1: document.getElementById('player-a').value,
+                p2: document.getElementById('player-b').value,
                 marker: markerVal,
-                date: dateInput.value,
-                time: document.getElementById('time-slot').value
+                rink: null
             };
 
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
+            const { error: insertError } = await _supabase.from('matches').insert([payload]);
             const statusEl = document.getElementById('form-status');
 
-            if (result.success) {
+            if (!insertError) {
+                await _supabase.from('daily_bookings').upsert({
+                    date: dateVal,
+                    count: currentCount + 1
+                });
+
                 statusEl.style.color = '#16a34a';
-                statusEl.innerText = "✅ Success! Tie registered and saved to JSON.";
+                statusEl.innerText = "✅ Success! Tie registered and saved to Supabase.";
                 
                 if (markerField) markerField.value = "";
 
@@ -621,35 +648,46 @@
                 await fetchAppData();
             } else {
                 statusEl.style.color = '#dc2626';
-                statusEl.innerText = `❌ Error: ${result.error}`;
+                statusEl.innerText = `❌ Error: ${insertError.message}`;
             }
         }
 
         async function cancelTie(date, p1, p2) {
             if (!confirm(`Are you sure you want to cancel the match between ${p1} and ${p2}?`)) return;
 
-            const response = await fetch('/api/delete', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ date, p1, p2 })
-            });
+            const { error } = await _supabase.from('matches').delete().match({ date: date, p1: p1, p2: p2 });
 
-            if (response.ok) {
+            if (!error) {
+                const currentCount = appData.daily_bookings[date] || 1;
+                await _supabase.from('daily_bookings').upsert({
+                    date: date,
+                    count: Math.max(0, currentCount - 1)
+                });
                 await fetchAppData();
             }
         }
 
         async function simulateDraw() {
-            const response = await fetch('/api/draw', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ date: currentFilterDate })
+            const { data: matches } = await _supabase.from('matches').select('*').eq('date', currentFilterDate);
+            
+            let availableRinks = [1, 2, 3, 4, 5, 6];
+            matches.forEach(m => {
+                if (m.rink && availableRinks.includes(m.rink)) {
+                    availableRinks = availableRinks.filter(r => r !== m.rink);
+                }
             });
 
-            if (response.ok) {
-                document.getElementById('admin-status').innerText = "✨ Rink draw completed!";
-                await fetchAppData();
+            for (let m of matches) {
+                if (m.rink === null && availableRinks.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * availableRinks.length);
+                    const chosenRink = availableRinks.splice(randomIndex, 1)[0];
+                    
+                    await _supabase.from('matches').update({ rink: chosenRink }).eq('id', m.id);
+                }
             }
+
+            document.getElementById('admin-status').innerText = "✨ Rink draw completed!";
+            await fetchAppData();
         }
 
         toggleMarkerField();
