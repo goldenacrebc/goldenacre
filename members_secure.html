@@ -11,7 +11,7 @@
     
     <!-- Competition labels and published Google Sheets links for the draw tabs -->
     <script src="fixtures/draw-sheets.js" defer></script>
-    <script src="fixtures/modals.js" defer></script>
+   <!-- <script src="fixtures/modals.js" defer></script> -->
     <script src="fixtures/team-sheets.js" defer></script>
     <script src="draws.js" defer></script>
     <script src="js/team-sheets.js" defer></script>
@@ -417,6 +417,7 @@
         </a>
         <div class="app-header-actions">
             <a href="admin_login.html" class="app-btn-secondary">⚙️ Admin Portal</a>
+            <a href="rinks_booking_system.html" class="app-btn-secondary">📅 Rinks Booking</a>
             <a href="index.html" id="logout-btn" class="app-btn-danger">Log Out</a>
         </div>
     </header>
@@ -455,6 +456,11 @@
                 <h3 class="nav-title">Submit Results</h3>
                 <p class="nav-subtitle">EBA League Form</p>
             </button>
+            <button class="app-nav-card" onclick="window.location.href='rinks_booking_system.html'">
+    <div class="nav-icon-wrap"><span class="nav-icon">📅</span></div>
+    <h3 class="nav-title">Rinks Booking</h3>
+    <p class="nav-subtitle">Ties & Rink Diary</p>
+</button>
 
             <button class="app-nav-card" onclick="switchPortalTab(event, 'downloads')">
                 <div class="nav-icon-wrap"><span class="nav-icon">📁</span></div>
@@ -542,6 +548,7 @@
                         <h4 class="draw-card-title">Match Fixtures</h4>
                         <p class="draw-card-subtitle">Weeks 1 to 14</p>
                     </button>
+                    
                 </div>
 
                 <!-- Team Sheets Pane (Active Default) -->
