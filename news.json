@@ -1,5 +1,13 @@
 [
   {
+    "title": "Final test",
+    "description": "The site is almost complete for now",
+    "category": "external",
+    "tag": "latest",
+    "image": "photos/1792178132269-IMG-20240421-WA0013.jpg",
+    "modal": "final-test"
+  },
+  {
     "title": "testing admin functions",
     "description": "test",
     "category": "external",
