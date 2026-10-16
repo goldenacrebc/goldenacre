@@ -87,6 +87,12 @@
             gap: 10px;
         }
 
+        .admin-btn-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -332,10 +338,13 @@
     <div class="container">
 
         <div class="card admin-card">
-            <h3 style="margin-bottom: 6px; border: none; padding: 0;">⚡ Admin: Match Day Rink Draw</h3>
+            <h3 style="margin-bottom: 6px; border: none; padding: 0;">⚡ Admin: Match Day Management</h3>
             <div class="admin-content">
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Assign random available rinks for the selected active day's pending matches.</p>
-                <button class="btn btn-gold" style="padding: 10px 16px; font-size: 0.9rem;" onclick="simulateDraw()">🎲 Run Rink Draw</button>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Run random rink draws or block-book the green for club events/fixtures.</p>
+                <div class="admin-btn-grid">
+                    <button class="btn btn-gold" style="padding: 10px 16px; font-size: 0.9rem; flex: 1;" onclick="simulateDraw()">🎲 Run Rink Draw</button>
+                    <button class="btn" style="padding: 10px 16px; font-size: 0.9rem; background-color: #b45309; flex: 1;" onclick="blockBookTimeSlot()">🔒 Block Book Time Slot</button>
+                </div>
                 <p id="admin-status" style="margin: 0; font-weight: 600; font-size: 0.82rem; color: #15803d;"></p>
             </div>
         </div>
@@ -436,9 +445,9 @@
 
     <script>
         // Initialize Supabase Client
-const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         const singlesCompetitions = [
             "Gents Championship",
@@ -687,6 +696,43 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             }
 
             document.getElementById('admin-status').innerText = "✨ Rink draw completed!";
+            await fetchAppData();
+        }
+
+        async function blockBookTimeSlot() {
+            const eventName = prompt("Enter event name (e.g., Senior Men / Men's League / EBA Fixture):", "Men's League");
+            if (!eventName) return;
+
+            const timeSlot = prompt("Enter time slot (e.g., 14:00 - 17:00 or 18:30 - 22:00):", "18:30 - 22:00");
+            if (!timeSlot) return;
+
+            const dateVal = currentFilterDate;
+            
+            const blockInserts = [1, 2, 3, 4, 5, 6].map(rinkNum => ({
+                date: dateVal,
+                time: timeSlot,
+                comp: eventName,
+                round: "Reserved Slot",
+                p1: "CLUB GREEN RESERVED",
+                p2: eventName,
+                marker: "N/A",
+                rink: rinkNum
+            }));
+
+            const { error: insertError } = await _supabase.from('matches').insert(blockInserts);
+
+            if (insertError) {
+                alert("Error blocking time slot: " + insertError.message);
+                return;
+            }
+
+            const currentCount = appData.daily_bookings[dateVal] || 0;
+            await _supabase.from('daily_bookings').upsert({
+                date: dateVal,
+                count: Math.min(6, currentCount + 6)
+            });
+
+            document.getElementById('admin-status').innerText = `🔒 Block booked ${eventName} (${timeSlot}) for all rinks!`;
             await fetchAppData();
         }
 
