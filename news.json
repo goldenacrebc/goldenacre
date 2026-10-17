@@ -3,7 +3,7 @@
     "title": "Final test",
     "description": "The site is almost complete for now",
     "category": "external",
-    "tag": "latest",
+    "tag": "archive",
     "image": "photos/1792178132269-IMG-20240421-WA0013.jpg",
     "modal": "final-test"
   },
@@ -11,7 +11,7 @@
     "title": "testing admin functions",
     "description": "test",
     "category": "external",
-    "tag": "latest",
+    "tag": "archive",
     "image": "photos/1792177681748-IMG-20260725-WA0030.jpg",
     "modal": "testing-admin-functions"
   },
@@ -19,7 +19,7 @@
     "title": "test",
     "description": "test",
     "category": "internal",
-    "tag": "latest",
+    "tag": "archive",
     "image": "logo.jpeg",
     "modal": "test"
   },
@@ -27,7 +27,7 @@
     "title": "test2",
     "description": "test2",
     "category": "internal",
-    "tag": "latest",
+    "tag": "archive",
     "image": "photos/1792077625816-IMG-20240421-WA0015.jpg",
     "modal": "test2"
   },
