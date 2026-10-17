@@ -358,7 +358,7 @@
         <div class="card">
             <h3>Register a Competition Tie</h3>
             <div class="notice-banner">
-                ℹ️ <strong>Green Rules:</strong> Available 7 days a week (10:00 AM – 9:00 PM). Bookings are restricted within 1 hour of any league/EBA block booking[cite: 1]. Rinks 2–6 are available for regular ties[cite: 1].
+                ℹ️ <strong>Green Rules:</strong> Available 7 days a week (10:00 AM – 9:00 PM). Bookings are restricted within 1 hour of any league/EBA block booking. Rinks 2–6 are available for regular ties.
             </div>
 
             <form onsubmit="handleRegister(event)">
@@ -412,7 +412,7 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="time-slot">Time Slot</label>
-                        <input type="text" id="time-slot" placeholder="e.g. 18:30" value="18:30" required onchange="checkSlotAvailability()">
+                        <input type="text" id="time-slot" placeholder="e.g. 14:00" value="14:00" required onchange="checkSlotAvailability()">
                     </div>
                     <div class="form-group" style="display: flex; align-items: flex-end;"></div>
                 </div>
@@ -444,7 +444,6 @@
     </div>
 
     <script>
-        // Initialize Supabase Client
         const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -558,15 +557,15 @@
                 return;
             }
 
-            // Group block bookings by comp name and time so they show as 1 clean summary row instead of 6 separate lines
+            // Deduplicate block bookings so they show as 1 clean summary row
             const processedList = [];
-            const blockMap = new Map();
+            const blockMap = new Set();
 
             filteredMatches.forEach(m => {
                 if (m.p1 === "CLUB GREEN RESERVED") {
                     const key = `${m.comp}_${m.time}`;
                     if (!blockMap.has(key)) {
-                        blockMap.set(key, m);
+                        blockMap.add(key);
                         processedList.push(m);
                     }
                 } else {
@@ -644,30 +643,32 @@
 
             const reqMinutes = timeToMinutes(timeVal);
 
-            const openMinutes = 10 * 60; // 10:00
-            const closeMinutes = 21 * 60; // 21:00 (9 PM)
+            // 10:00 AM to 9:00 PM operational window
+            const openMinutes = 10 * 60; 
+            const closeMinutes = 21 * 60; 
             if (reqMinutes < openMinutes || reqMinutes > closeMinutes) {
                 statusEl.style.color = '#dc2626';
-                statusEl.innerText = `❌ Error: Green is only available between 10:00 AM and 9:00 PM[cite: 1].`;
+                statusEl.innerText = `❌ Error: Green is only available between 10:00 AM and 9:00 PM.`;
                 return false;
             }
 
-            const dayMatches = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
-            for (let block of dayMatches) {
+            // Check against block bookings on this date
+            const dayBlocks = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
+            for (let block of dayBlocks) {
                 const times = block.time.split('-');
                 const blockStart = timeToMinutes(times[0]);
                 const blockEnd = times.length > 1 ? timeToMinutes(times[1]) : blockStart + 180;
 
-                const buffer = 60; // 1 hour buffer rule
+                const buffer = 60; // 1-hour buffer rule
                 if (reqMinutes >= (blockStart - buffer) && reqMinutes <= (blockEnd + buffer)) {
                     statusEl.style.color = '#dc2626';
-                    statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time})[cite: 1].`;
+                    statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time}).`;
                     return false;
                 }
             }
 
             statusEl.style.color = '#15803d';
-            statusEl.innerText = `🟢 Time slot is available. Rinks 2-6 open for booking[cite: 1].`;
+            statusEl.innerText = `🟢 Time slot is available. Rinks 2-6 open for booking.`;
             return true;
         }
 
@@ -734,7 +735,7 @@
 
             let error;
             if (p1 === "CLUB GREEN RESERVED") {
-                // Delete all rinks matching this block booking event & time slot
+                // Delete all rink rows tied to this specific block booking
                 const { error: blockError } = await _supabase.from('matches')
                     .delete()
                     .eq('date', date)
@@ -793,7 +794,7 @@
                 }
             }
 
-            document.getElementById('admin-status').innerText = "✨ Rink draw completed (Rinks 2–6 assigned, Rink 1 kept free)[cite: 1]!";
+            document.getElementById('admin-status').innerText = "✨ Rink draw completed (Rinks 2–6 assigned, Rink 1 kept free)!";
             await fetchAppData();
         }
 
