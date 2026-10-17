@@ -428,7 +428,7 @@
         <!-- TAB 1: Current Modules -->
         <div id="modules-tab" class="tab-content active">
             
-            <!-- Cards Grid for 4 Modules -->
+            <!-- Cards Grid for Modules -->
             <div class="modules-grid" style="margin-bottom: 24px;">
                 
                 <!-- Card 1: Internal News -->
@@ -469,6 +469,16 @@
                         <p>Submit Friday team sheets for 1st and 2nd XVI matches across 4 rinks.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('teams-card')">Open Publisher</button>
+                </div>
+
+                <!-- Card 5: Archive News -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📦</span>
+                        <h4>Archive News</h4>
+                        <p>Move older active news articles into the archive status.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open Archivist</button>
                 </div>
 
             </div>
@@ -637,6 +647,19 @@
                 </form>
             </div>
 
+            <!-- FORM CARD 5: Archive News Manager -->
+            <div id="archive-news-card" class="admin-card-custom">
+                <h3>📦 Archive Old News Articles</h3>
+                <p class="card-subtitle">Select active news articles to change their tag to 'archive'.</p>
+
+                <div id="archive-list-container" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
+                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading current news items...</p>
+                </div>
+
+                <button type="button" class="submit-btn-custom" id="btn-execute-archive">Move Selected to Archive</button>
+                <p class="status-msg-custom" id="status-archive"></p>
+            </div>
+
         </div>
 
         <!-- TAB 2: Future Quick Action Modules -->
@@ -684,6 +707,7 @@
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events:</strong> Automatically updates the social calendar feed for upcoming club events.</li>
+                    <li><strong>Archive News:</strong> Open the Archivist module, check the articles you wish to retire, and click to update tags in `news.json`.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>
@@ -729,6 +753,15 @@
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
+
+        // Hook into toggleCard to load the archive checklist dynamically when opened
+        const originalToggleCard = toggleCard;
+        window.toggleCard = function(cardId) {
+            originalToggleCard(cardId);
+            if (cardId === 'archive-news-card') {
+                loadArchiveList();
+            }
+        };
 
         function setupImagePreview(inputId, textId, boxId, imgId) {
             const input = document.getElementById(inputId);
@@ -776,6 +809,127 @@
             const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
             return btoa(binString);
         }
+
+        // Load news items into Archive checklist UI
+        async function loadArchiveList() {
+            const container = document.getElementById('archive-list-container');
+            container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Fetching news items...</p>`;
+
+            try {
+                const { data: tokenData, error: tokenError } = await supabaseClient
+                    .from('settings').select('value').eq('key', 'github_token').single();
+                if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+                const owner = "goldenacrebc";
+                const repo = "goldenacre";
+                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/news.json`;
+
+                const getRes = await fetch(fileUrl, {
+                    headers: { "Authorization": `token ${tokenData.value}` }
+                });
+                if (!getRes.ok) throw new Error("Failed to fetch news.json");
+
+                const fileData = await getRes.json();
+                const newsItems = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                if (newsItems.length === 0) {
+                    container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No news articles found.</p>`;
+                    return;
+                }
+
+                let html = '';
+                newsItems.forEach((item, index) => {
+                    const isArchived = item.tag === 'archive';
+                    html += `
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
+                            <div>
+                                <strong>${item.title}</strong> <span style="font-size: 0.75rem; background: ${isArchived ? '#cbd5e1' : '#dcfce7'}; color: ${isArchived ? '#334155' : '#16a34a'}; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">${item.tag || 'latest'}</span>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${item.category || 'general'}</div>
+                            </div>
+                            <label style="cursor: pointer; font-size: 0.85rem; font-weight: 600;">
+                                <input type="checkbox" class="archive-checkbox" data-index="${index}" ${isArchived ? 'checked disabled' : ''}> ${isArchived ? 'Archived' : 'Archive'}
+                            </label>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+
+            } catch (err) {
+                container.innerHTML = `<p style="color: #dc2626; text-align: center; margin: 20px 0;">Error loading news: ${err.message}</p>`;
+            }
+        }
+
+        // Execute archiving of selected articles
+        document.getElementById('btn-execute-archive').addEventListener('click', async () => {
+            const statusMsg = document.getElementById('status-archive');
+            const btn = document.getElementById('btn-execute-archive');
+
+            statusMsg.style.backgroundColor = '#e0f2fe';
+            statusMsg.style.color = '#0369a1';
+            statusMsg.innerText = "Processing archive updates...";
+            btn.disabled = true;
+
+            try {
+                const checkboxes = document.querySelectorAll('.archive-checkbox:checked:not(:disabled)');
+                if (checkboxes.length === 0) {
+                    throw new Error("Please select at least one article to archive.");
+                }
+
+                const selectedIndices = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-index')));
+
+                const { data: tokenData, error: tokenError } = await supabaseClient
+                    .from('settings').select('value').eq('key', 'github_token').single();
+                if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+                const owner = "goldenacrebc";
+                const repo = "goldenacre";
+                const branch = "main";
+                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/news.json`;
+
+                const getRes = await fetch(fileUrl, {
+                    headers: { "Authorization": `token ${tokenData.value}` }
+                });
+                if (!getRes.ok) throw new Error("Failed to fetch news.json for updating.");
+
+                const fileData = await getRes.json();
+                let newsItems = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                // Update tags for selected items
+                selectedIndices.forEach(idx => {
+                    if (newsItems[idx]) {
+                        newsItems[idx].tag = 'archive';
+                    }
+                });
+
+                const commitRes = await fetch(fileUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${tokenData.value}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: `Admin portal: archived ${selectedIndices.length} news item(s)`,
+                        content: encodeUtf8Base64(JSON.stringify(newsItems, null, 2)),
+                        sha: fileData.sha,
+                        branch: branch
+                    })
+                });
+
+                if (!commitRes.ok) throw new Error("Failed to commit archive updates to GitHub.");
+
+                statusMsg.style.backgroundColor = '#dcfce7';
+                statusMsg.style.color = '#16a34a';
+                statusMsg.innerText = "Successfully archived selected articles! Refreshing list...";
+                btn.disabled = false;
+                loadArchiveList();
+
+            } catch (err) {
+                statusMsg.style.backgroundColor = '#fee2e2';
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerText = "Error: " + err.message;
+                btn.disabled = false;
+            }
+        });
 
         document.querySelectorAll('.btn-publish').forEach(btn => {
             btn.addEventListener('click', async (e) => {
