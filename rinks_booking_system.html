@@ -149,6 +149,12 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
             margin-top: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .capacity-grid.extended {
+            grid-template-columns: repeat(7, 1fr);
         }
 
         .capacity-card {
@@ -254,6 +260,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .portal-back-btn {
@@ -271,6 +279,22 @@
         .portal-back-btn:hover {
             background-color: var(--brand-gold);
             color: var(--brand-green);
+            border-color: var(--brand-gold);
+        }
+
+        .view-toggle-btn {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--brand-green);
+        }
+
+        .view-toggle-btn:hover {
+            background: var(--brand-gold-soft);
             border-color: var(--brand-gold);
         }
 
@@ -350,8 +374,13 @@
         </div>
 
         <div class="card">
-            <h3>🟢 Weekly Green Capacity (7-Day Rolling View)</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Clicking any day below updates the schedule view and sets the booking form date.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h3 id="capacity-title" style="margin: 0; border: none; padding: 0;">🟢 Weekly Green Capacity (7-Day Rolling View)</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin: 4px 0 0 0;">Clicking any day below updates the schedule view and sets the booking form date.</p>
+                </div>
+                <button class="view-toggle-btn" id="toggle-view-btn" onclick="toggleFutureView()">🔮 View 14 Days Ahead</button>
+            </div>
             <div class="capacity-grid" id="capacity-grid"></div>
         </div>
 
@@ -472,11 +501,13 @@
             }
         }
 
-        function generateCurrentWeek() {
+        let daysToDisplay = 7; // Default rolling view
+
+        function generateDaysRange(numDays) {
             const days = [];
             const today = new Date();
             
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < numDays; i++) {
                 const d = new Date(today);
                 d.setDate(today.getDate() + i);
                 
@@ -485,7 +516,7 @@
                 const dayNum = String(d.getDate()).padStart(2, '0');
                 const dateStr = `${year}-${month}-${dayNum}`;
                 
-                const options = { weekday: 'short', day: 'numeric' };
+                const options = { weekday: 'short', day: 'numeric', month: 'short' };
                 let label = d.toLocaleDateString('en-GB', options);
                 if (i === 0) {
                     label += " (Today)";
@@ -496,17 +527,35 @@
             return days;
         }
 
-        const weekDays = generateCurrentWeek();
+        let weekDays = generateDaysRange(daysToDisplay);
         let appData = { matches: [] };
         
         let currentFilterDate = weekDays[0].date;
         const dateInput = document.getElementById('play-date');
         
-        dateInput.min = weekDays[0].date;
         dateInput.value = currentFilterDate;
+
+        function toggleFutureView() {
+            const btn = document.getElementById('toggle-view-btn');
+            const titleEl = document.getElementById('capacity-title');
+            
+            if (daysToDisplay === 7) {
+                daysToDisplay = 14;
+                btn.innerText = "📅 Back to 7-Day Rolling View";
+                titleEl.innerText = "🟢 Green Capacity (14-Day Extended View)";
+            } else {
+                daysToDisplay = 7;
+                btn.innerText = "🔮 View 14 Days Ahead";
+                titleEl.innerText = "🟢 Weekly Green Capacity (7-Day Rolling View)";
+            }
+
+            weekDays = generateDaysRange(daysToDisplay);
+            renderCapacityCards();
+        }
 
         async function fetchAppData() {
             try {
+                // Fetch matches far enough ahead to support both 7 and 14 days
                 const { data: matches, error: matchError } = await _supabase.from('matches').select('*');
                 if (matchError) throw matchError;
 
@@ -704,8 +753,12 @@
                 
                 if (markerField) markerField.value = "";
 
-                const targetDayObj = weekDays.find(d => d.date === payload.date);
-                filterSchedule(payload.date, targetDayObj ? targetDayObj.label : payload.date);
+                // If booked date is beyond current view, safely include it or check
+                let targetDayObj = weekDays.find(d => d.date === payload.date);
+                if (!targetDayObj) {
+                    targetDayObj = { date: payload.date, label: payload.date };
+                }
+                filterSchedule(payload.date, targetDayObj.label);
                 await fetchAppData();
             } else {
                 statusEl.style.color = '#dc2626';
@@ -718,7 +771,6 @@
 
             let idsToDelete = [];
             if (p1 === "CLUB GREEN RESERVED") {
-                // Split comma-separated IDs for the block booking rinks
                 idsToDelete = idParam.toString().split(',').map(id => parseInt(id.trim(), 10));
             } else {
                 idsToDelete = [parseInt(idParam, 10)];
@@ -742,7 +794,7 @@
             let availableRinks = [2, 3, 4, 5, 6];
             matches.forEach(m => {
                 if (m.rink && availableRinks.includes(m.rink)) {
-                    availableRink = availableRinks.filter(r => r !== m.rink);
+                    availableRinks = availableRinks.filter(r => r !== m.rink);
                 }
             });
 
