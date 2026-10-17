@@ -712,16 +712,35 @@
 
             let error;
             if (p1 === "CLUB GREEN RESERVED") {
-                const { error: blockError } = await _supabase.from('matches')
-                    .delete()
+                // Fetch all unique row IDs for this exact block booking across all rinks
+                const { data: matchingBlocks, error: fetchError } = await _supabase
+                    .from('matches')
+                    .select('id')
                     .eq('date', date)
                     .eq('time', time)
                     .eq('comp', comp)
                     .eq('p1', 'CLUB GREEN RESERVED');
-                
-                error = blockError;
+
+                if (fetchError) {
+                    alert("Error finding block booking: " + fetchError.message);
+                    return;
+                }
+
+                if (matchingBlocks && matchingBlocks.length > 0) {
+                    const idsToDelete = matchingBlocks.map(row => row.id);
+
+                    // Delete all matching rows cleanly using their unique IDs
+                    const { error: deleteError } = await _supabase
+                        .from('matches')
+                        .delete()
+                        .in('id', idsToDelete);
+
+                    error = deleteError;
+                }
             } else {
-                const { error: matchError } = await _supabase.from('matches')
+                // Delete individual match tie by its unique row ID
+                const { error: matchError } = await _supabase
+                    .from('matches')
                     .delete()
                     .eq('id', id);
                 
