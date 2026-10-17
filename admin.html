@@ -471,12 +471,12 @@
                     <button class="module-action-btn" onclick="toggleCard('teams-card')">Open Publisher</button>
                 </div>
 
-                <!-- Card 5: Archive News -->
+                <!-- Card 5: Archive / Un-Archive Manager -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">📦</span>
-                        <h4>Archive News</h4>
-                        <p>Move older active news articles into the archive status.</p>
+                        <h4>News Archivist</h4>
+                        <p>Archive old articles or restore mistakenly archived articles back to latest.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open Archivist</button>
                 </div>
@@ -647,16 +647,16 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 5: Archive News Manager -->
+            <!-- FORM CARD 5: Archive & Un-Archive News Manager -->
             <div id="archive-news-card" class="admin-card-custom">
-                <h3>📦 Archive Old News Articles</h3>
-                <p class="card-subtitle">Select active news articles to change their tag to 'archive'.</p>
+                <h3>📦 News Archivist & Restorer</h3>
+                <p class="card-subtitle">Check articles to archive them, or uncheck archived articles to restore them to live status.</p>
 
-                <div id="archive-list-container" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
-                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading current news items...</p>
+                <div id="archive-list-container" style="margin-bottom: 20px; max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
+                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading news articles...</p>
                 </div>
 
-                <button type="button" class="submit-btn-custom" id="btn-execute-archive">Move Selected to Archive</button>
+                <button type="button" class="submit-btn-custom" id="btn-execute-archive">Save Archive Changes Live</button>
                 <p class="status-msg-custom" id="status-archive"></p>
             </div>
 
@@ -707,7 +707,7 @@
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events:</strong> Automatically updates the social calendar feed for upcoming club events.</li>
-                    <li><strong>Archive News:</strong> Open the Archivist module, check the articles you wish to retire, and click to update tags in `news.json`.</li>
+                    <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>
@@ -754,7 +754,7 @@
             }
         }
 
-        // Hook into toggleCard to load the archive checklist dynamically when opened
+        // Hook into toggleCard to load the archive list dynamically when opened
         const originalToggleCard = toggleCard;
         window.toggleCard = function(cardId) {
             originalToggleCard(cardId);
@@ -810,7 +810,7 @@
             return btoa(binString);
         }
 
-        // Load news items into Archive checklist UI
+        // Load news items into Archive/Un-archive checklist UI
         async function loadArchiveList() {
             const container = document.getElementById('archive-list-container');
             container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Fetching news items...</p>`;
@@ -839,15 +839,20 @@
 
                 let html = '';
                 newsItems.forEach((item, index) => {
-                    const isArchived = item.tag === 'archive';
+                    const tag = (item.tag || '').toLowerCase();
+                    const isArchived = tag === 'archive' || tag === 'archived';
                     html += `
                         <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
                             <div>
-                                <strong>${item.title}</strong> <span style="font-size: 0.75rem; background: ${isArchived ? '#cbd5e1' : '#dcfce7'}; color: ${isArchived ? '#334155' : '#16a34a'}; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">${item.tag || 'latest'}</span>
+                                <strong>${item.title}</strong> 
+                                <span style="font-size: 0.75rem; background: ${isArchived ? '#cbd5e1' : '#dcfce7'}; color: ${isArchived ? '#334155' : '#16a34a'}; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">
+                                    ${item.tag || 'latest'}
+                                </span>
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">${item.category || 'general'}</div>
                             </div>
-                            <label style="cursor: pointer; font-size: 0.85rem; font-weight: 600;">
-                                <input type="checkbox" class="archive-checkbox" data-index="${index}" ${isArchived ? 'checked disabled' : ''}> ${isArchived ? 'Archived' : 'Archive'}
+                            <label style="cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <input type="checkbox" class="archive-checkbox" data-index="${index}" ${isArchived ? 'checked' : ''}> 
+                                ${isArchived ? '<span style="color:#b91c1c;">Archived (Uncheck to Restore)</span>' : 'Archive'}
                             </label>
                         </div>
                     `;
@@ -859,24 +864,17 @@
             }
         }
 
-        // Execute archiving of selected articles
+        // Execute archiving / un-archiving of articles based on checkbox state
         document.getElementById('btn-execute-archive').addEventListener('click', async () => {
             const statusMsg = document.getElementById('status-archive');
             const btn = document.getElementById('btn-execute-archive');
 
             statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = "Processing archive updates...";
+            statusMsg.innerText = "Processing archive status changes...";
             btn.disabled = true;
 
             try {
-                const checkboxes = document.querySelectorAll('.archive-checkbox:checked:not(:disabled)');
-                if (checkboxes.length === 0) {
-                    throw new Error("Please select at least one article to archive.");
-                }
-
-                const selectedIndices = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-index')));
-
                 const { data: tokenData, error: tokenError } = await supabaseClient
                     .from('settings').select('value').eq('key', 'github_token').single();
                 if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
@@ -894,10 +892,19 @@
                 const fileData = await getRes.json();
                 let newsItems = JSON.parse(decodeBase64Utf8(fileData.content));
 
-                // Update tags for selected items
-                selectedIndices.forEach(idx => {
+                // Loop through all checkboxes to determine checked (archive) vs unchecked (restore to latest)
+                const checkboxes = document.querySelectorAll('.archive-checkbox');
+                let updatedCount = 0;
+
+                checkboxes.forEach(cb => {
+                    const idx = parseInt(cb.getAttribute('data-index'));
                     if (newsItems[idx]) {
-                        newsItems[idx].tag = 'archive';
+                        if (cb.checked) {
+                            newsItems[idx].tag = 'archive';
+                        } else {
+                            newsItems[idx].tag = 'latest';
+                        }
+                        updatedCount++;
                     }
                 });
 
@@ -908,18 +915,18 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        message: `Admin portal: archived ${selectedIndices.length} news item(s)`,
+                        message: `Admin portal: updated archive statuses for news feed`,
                         content: encodeUtf8Base64(JSON.stringify(newsItems, null, 2)),
                         sha: fileData.sha,
                         branch: branch
                     })
                 });
 
-                if (!commitRes.ok) throw new Error("Failed to commit archive updates to GitHub.");
+                if (!commitRes.ok) throw new Error("Failed to commit archive/restore updates to GitHub.");
 
                 statusMsg.style.backgroundColor = '#dcfce7';
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = "Successfully archived selected articles! Refreshing list...";
+                statusMsg.innerText = "Successfully updated live news statuses! Refreshing list...";
                 btn.disabled = false;
                 loadArchiveList();
 
