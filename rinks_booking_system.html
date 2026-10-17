@@ -340,7 +340,7 @@
         <div class="card admin-card">
             <h3 style="margin-bottom: 6px; border: none; padding: 0;">⚡ Admin: Match Day Management</h3>
             <div class="admin-content">
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Run random rink draws or block-book the green for club events/fixtures.</p>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Run random rink draws (Rinks 2–6) or block-book league/EBA time slots.</p>
                 <div class="admin-btn-grid">
                     <button class="btn btn-gold" style="padding: 10px 16px; font-size: 0.9rem; flex: 1;" onclick="simulateDraw()">🎲 Run Rink Draw</button>
                     <button class="btn" style="padding: 10px 16px; font-size: 0.9rem; background-color: #b45309; flex: 1;" onclick="blockBookTimeSlot()">🔒 Block Book Time Slot</button>
@@ -358,7 +358,7 @@
         <div class="card">
             <h3>Register a Competition Tie</h3>
             <div class="notice-banner">
-                ℹ️ <strong>Rules:</strong> Restrictions removed. You can book freely for any current or future date.
+                ℹ️ <strong>Green Rules:</strong> Available 7 days a week (10:00 AM – 9:00 PM). Bookings are restricted within 1 hour of any league/EBA block booking[cite: 1]. Rinks 2–6 are available for regular ties[cite: 1].
             </div>
 
             <form onsubmit="handleRegister(event)">
@@ -411,8 +411,8 @@
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="time-slot">Time Slot (Free-form)</label>
-                        <input type="text" id="time-slot" placeholder="e.g. 18:30 or 2:00 PM" value="18:30" required>
+                        <label for="time-slot">Time Slot</label>
+                        <input type="text" id="time-slot" placeholder="e.g. 18:30" value="18:30" required onchange="checkSlotAvailability()">
                     </div>
                     <div class="form-group" style="display: flex; align-items: flex-end;"></div>
                 </div>
@@ -558,22 +558,51 @@
                 return;
             }
 
-            filteredMatches.forEach((m) => {
+            // Group block bookings by comp name and time so they show as 1 clean summary row instead of 6 separate lines
+            const processedList = [];
+            const blockMap = new Map();
+
+            filteredMatches.forEach(m => {
+                if (m.p1 === "CLUB GREEN RESERVED") {
+                    const key = `${m.comp}_${m.time}`;
+                    if (!blockMap.has(key)) {
+                        blockMap.set(key, m);
+                        processedList.push(m);
+                    }
+                } else {
+                    processedList.push(m);
+                }
+            });
+
+            processedList.forEach((m) => {
                 const dayObj = weekDays.find(d => d.date === m.date);
                 const dateLabel = dayObj ? dayObj.label : m.date;
-                const rinkDisplay = m.rink !== null 
-                    ? `<span class="badge-rink">Rink ${m.rink}</span>` 
-                    : `<span class="badge-pending">Awaiting Draw</span>`;
-
-                const isSingles = isSinglesComp(m.comp);
-                let markerDisplay = '<span style="color:var(--text-muted); font-size: 0.8rem;">N/A</span>';
                 
-                if (isSingles) {
-                    const storedMarker = m.marker ? m.marker.trim() : "";
-                    if (storedMarker !== "" && storedMarker !== "TBC") {
-                        markerDisplay = `<span class="badge-marker">🎯 ${storedMarker}</span>`;
-                    } else {
-                        markerDisplay = `<span class="badge-pending" style="background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">TBC</span>`;
+                let rinkDisplay = "";
+                let matchupDisplay = "";
+                let markerDisplay = "";
+
+                if (m.p1 === "CLUB GREEN RESERVED") {
+                    rinkDisplay = `<span class="badge-rink" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;">All Rinks (1–6)</span>`;
+                    matchupDisplay = `<strong>Full Green Block Booking</strong>`;
+                    markerDisplay = `<span class="badge-marker" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;">Reserved Block</span>`;
+                } else {
+                    rinkDisplay = m.rink !== null 
+                        ? `<span class="badge-rink">Rink ${m.rink}</span>` 
+                        : `<span class="badge-pending">Awaiting Draw</span>`;
+                    
+                    matchupDisplay = `<strong>${m.p1}</strong> vs <strong>${m.p2}</strong>`;
+
+                    const isSingles = isSinglesComp(m.comp);
+                    markerDisplay = '<span style="color:var(--text-muted); font-size: 0.8rem;">N/A</span>';
+                    
+                    if (isSingles) {
+                        const storedMarker = m.marker ? m.marker.trim() : "";
+                        if (storedMarker !== "" && storedMarker !== "TBC") {
+                            markerDisplay = `<span class="badge-marker">🎯 ${storedMarker}</span>`;
+                        } else {
+                            markerDisplay = `<span class="badge-pending" style="background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">TBC</span>`;
+                        }
                     }
                 }
 
@@ -581,10 +610,10 @@
                 tr.innerHTML = `
                     <td>${dateLabel}<br><small style="color:var(--text-muted)">${m.time}</small></td>
                     <td>${m.comp}<br><small style="color:var(--text-muted)">${m.round}</small></td>
-                    <td><strong>${m.p1}</strong> vs <strong>${m.p2}</strong></td>
+                    <td>${matchupDisplay}</td>
                     <td>${markerDisplay}</td>
                     <td>${rinkDisplay}</td>
-                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelTie('${m.date}', '${m.p1}', '${m.p2}')">Cancel</button></td>
+                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelTie(${m.id}, '${m.date}', '${m.p1}', '${m.p2}', '${m.comp}', '${m.time}')">Cancel</button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -600,17 +629,56 @@
             checkSlotAvailability();
         }
 
+        function timeToMinutes(timeStr) {
+            if (!timeStr) return 0;
+            const clean = timeStr.trim().split(' ')[0];
+            const parts = clean.split(':');
+            if (parts.length < 2) return 0;
+            return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        }
+
         function checkSlotAvailability() {
             const dateVal = dateInput.value;
+            const timeVal = document.getElementById('time-slot').value;
             const statusEl = document.getElementById('form-status');
+
+            const reqMinutes = timeToMinutes(timeVal);
+
+            const openMinutes = 10 * 60; // 10:00
+            const closeMinutes = 21 * 60; // 21:00 (9 PM)
+            if (reqMinutes < openMinutes || reqMinutes > closeMinutes) {
+                statusEl.style.color = '#dc2626';
+                statusEl.innerText = `❌ Error: Green is only available between 10:00 AM and 9:00 PM[cite: 1].`;
+                return false;
+            }
+
+            const dayMatches = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
+            for (let block of dayMatches) {
+                const times = block.time.split('-');
+                const blockStart = timeToMinutes(times[0]);
+                const blockEnd = times.length > 1 ? timeToMinutes(times[1]) : blockStart + 180;
+
+                const buffer = 60; // 1 hour buffer rule
+                if (reqMinutes >= (blockStart - buffer) && reqMinutes <= (blockEnd + buffer)) {
+                    statusEl.style.color = '#dc2626';
+                    statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time})[cite: 1].`;
+                    return false;
+                }
+            }
+
             statusEl.style.color = '#15803d';
-            statusEl.innerText = `🟢 Ready to book for ${dateVal}.`;
+            statusEl.innerText = `🟢 Time slot is available. Rinks 2-6 open for booking[cite: 1].`;
+            return true;
         }
 
         async function handleRegister(e) {
             e.preventDefault();
-            const compVal = document.getElementById('competition').value;
             
+            if (!checkSlotAvailability()) {
+                return;
+            }
+
+            const compVal = document.getElementById('competition').value;
             const markerField = document.getElementById('marker');
             let markerVal = markerField ? markerField.value.trim() : "";
             
@@ -621,9 +689,9 @@
             const dateVal = dateInput.value;
             const currentCount = appData.daily_bookings[dateVal] || 0;
 
-            if (currentCount >= 6) {
+            if (currentCount >= 5) {
                 document.getElementById('form-status').style.color = '#dc2626';
-                document.getElementById('form-status').innerText = `❌ Error: Daily capacity reached.`;
+                document.getElementById('form-status').innerText = `❌ Error: Maximum daily ties reached for Rinks 2-6.`;
                 return;
             }
 
@@ -661,25 +729,55 @@
             }
         }
 
-        async function cancelTie(date, p1, p2) {
-            if (!confirm(`Are you sure you want to cancel the match between ${p1} and ${p2}?`)) return;
+        async function cancelTie(id, date, p1, p2, comp, time) {
+            if (!confirm(`Are you sure you want to cancel / remove this booking?`)) return;
 
-            const { error } = await _supabase.from('matches').delete().match({ date: date, p1: p1, p2: p2 });
+            let error;
+            if (p1 === "CLUB GREEN RESERVED") {
+                // Delete all rinks matching this block booking event & time slot
+                const { error: blockError } = await _supabase.from('matches')
+                    .delete()
+                    .eq('date', date)
+                    .eq('time', time)
+                    .eq('comp', comp)
+                    .eq('p1', 'CLUB GREEN RESERVED');
+                
+                error = blockError;
+
+                if (!error) {
+                    const currentCount = appData.daily_bookings[date] || 6;
+                    await _supabase.from('daily_bookings').upsert({
+                        date: date,
+                        count: Math.max(0, currentCount - 6)
+                    });
+                }
+            } else {
+                const { error: matchError } = await _supabase.from('matches')
+                    .delete()
+                    .eq('id', id);
+                
+                error = matchError;
+
+                if (!error) {
+                    const currentCount = appData.daily_bookings[date] || 1;
+                    await _supabase.from('daily_bookings').upsert({
+                        date: date,
+                        count: Math.max(0, currentCount - 1)
+                    });
+                }
+            }
 
             if (!error) {
-                const currentCount = appData.daily_bookings[date] || 1;
-                await _supabase.from('daily_bookings').upsert({
-                    date: date,
-                    count: Math.max(0, currentCount - 1)
-                });
                 await fetchAppData();
+            } else {
+                alert("Error canceling booking: " + error.message);
             }
         }
 
         async function simulateDraw() {
             const { data: matches } = await _supabase.from('matches').select('*').eq('date', currentFilterDate);
             
-            let availableRinks = [1, 2, 3, 4, 5, 6];
+            let availableRinks = [2, 3, 4, 5, 6];
             matches.forEach(m => {
                 if (m.rink && availableRinks.includes(m.rink)) {
                     availableRinks = availableRinks.filter(r => r !== m.rink);
@@ -695,18 +793,24 @@
                 }
             }
 
-            document.getElementById('admin-status').innerText = "✨ Rink draw completed!";
+            document.getElementById('admin-status').innerText = "✨ Rink draw completed (Rinks 2–6 assigned, Rink 1 kept free)[cite: 1]!";
             await fetchAppData();
         }
 
         async function blockBookTimeSlot() {
-            const eventName = prompt("Enter event name (e.g., Senior Men / Men's League / EBA Fixture):", "Men's League");
+            const eventName = prompt("Enter event name (e.g., Men's League, Senior League, Ladies League, EBA Tie):", "Men's League");
             if (!eventName) return;
 
-            const timeSlot = prompt("Enter time slot (e.g., 14:00 - 17:00 or 18:30 - 22:00):", "18:30 - 22:00");
+            const timeSlot = prompt("Enter time slot (e.g., 18:30 - 21:30):", "18:30 - 21:30");
             if (!timeSlot) return;
 
             const dateVal = currentFilterDate;
+
+            const existingBlock = appData.matches.find(m => m.date === dateVal && m.comp === eventName && m.time === timeSlot);
+            if (existingBlock) {
+                alert(`⚠️ Warning: ${eventName} for ${timeSlot} is already block-booked on this date!`);
+                return;
+            }
             
             const blockInserts = [1, 2, 3, 4, 5, 6].map(rinkNum => ({
                 date: dateVal,
@@ -732,7 +836,7 @@
                 count: Math.min(6, currentCount + 6)
             });
 
-            document.getElementById('admin-status').innerText = `🔒 Block booked ${eventName} (${timeSlot}) for all rinks!`;
+            document.getElementById('admin-status').innerText = `🔒 Block booked ${eventName} (${timeSlot}) for all rinks (1-hour buffer active)!`;
             await fetchAppData();
         }
 
