@@ -83,7 +83,7 @@
     "title": "EBA Gents Knockout Pairs Winners",
     "description": "Congratulations to Malcolm Thomson and Gary Robertson, winners of the EBA Gents knockout pairs.",
     "category": "external",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/pairs.png",
     "modal": "ebapairs"
   },
@@ -91,7 +91,7 @@
     "title": "Gents Triples Winners",
     "description": "Congratulations to George Lamb, Daniel Taylor and Billy Taylor winning the club triples.",
     "category": "internal",
-    "tag": "archived",
+    "tag": "latest",
     "image": "logo.jpeg"
   },
   {
@@ -112,7 +112,7 @@
     "title": "1st 16 Promoted to Division 2",
     "description": "Congratulations to the 1st 16 getting promotion back into division 2 finishing runners up this season in Division 3.",
     "category": "external",
-    "tag": "archived",
+    "tag": "archive",
     "image": "photos/eba_logo.png"
   }
 ]
