@@ -552,15 +552,16 @@
             }
 
             const processedList = [];
-            const blockMap = new Set();
+            const blockMap = new Map(); // Store block key -> array of matching IDs
 
             filteredMatches.forEach(m => {
                 if (m.p1 === "CLUB GREEN RESERVED") {
                     const key = `${m.comp}_${m.time}`;
                     if (!blockMap.has(key)) {
-                        blockMap.add(key);
+                        blockMap.set(key, []);
                         processedList.push(m);
                     }
+                    blockMap.get(key).push(m.id);
                 } else {
                     processedList.push(m);
                 }
@@ -573,11 +574,16 @@
                 let rinkDisplay = "";
                 let matchupDisplay = "";
                 let markerDisplay = "";
+                let cancelParam = m.id;
 
                 if (m.p1 === "CLUB GREEN RESERVED") {
                     rinkDisplay = `<span class="badge-rink" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;">All Rinks (1–6)</span>`;
                     matchupDisplay = `<strong>Full Green Block Booking</strong>`;
                     markerDisplay = `<span class="badge-marker" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;">Reserved Block</span>`;
+                    
+                    // Attach all matching IDs for this block so cancellation deletes all 6 rinks at once
+                    const key = `${m.comp}_${m.time}`;
+                    cancelParam = blockMap.get(key).join(',');
                 } else {
                     rinkDisplay = m.rink !== null 
                         ? `<span class="badge-rink">Rink ${m.rink}</span>` 
@@ -605,7 +611,7 @@
                     <td>${matchupDisplay}</td>
                     <td>${markerDisplay}</td>
                     <td>${rinkDisplay}</td>
-                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelBooking('${m.date}', '${m.comp}', '${m.time}', ${m.id}, '${m.p1}')">Cancel</button></td>
+                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelBooking('${cancelParam}', '${m.p1}')">Cancel</button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -707,45 +713,21 @@
             }
         }
 
-        async function cancelBooking(date, comp, time, id, p1) {
+        async function cancelBooking(idParam, p1) {
             if (!confirm(`Are you sure you want to cancel this booking?`)) return;
 
-            let error;
+            let idsToDelete = [];
             if (p1 === "CLUB GREEN RESERVED") {
-                // Fetch all unique row IDs for this exact block booking across all rinks
-                const { data: matchingBlocks, error: fetchError } = await _supabase
-                    .from('matches')
-                    .select('id')
-                    .eq('date', date)
-                    .eq('time', time)
-                    .eq('comp', comp)
-                    .eq('p1', 'CLUB GREEN RESERVED');
-
-                if (fetchError) {
-                    alert("Error finding block booking: " + fetchError.message);
-                    return;
-                }
-
-                if (matchingBlocks && matchingBlocks.length > 0) {
-                    const idsToDelete = matchingBlocks.map(row => row.id);
-
-                    // Delete all matching rows cleanly using their unique IDs
-                    const { error: deleteError } = await _supabase
-                        .from('matches')
-                        .delete()
-                        .in('id', idsToDelete);
-
-                    error = deleteError;
-                }
+                // Split comma-separated IDs for the block booking rinks
+                idsToDelete = idParam.toString().split(',').map(id => parseInt(id.trim(), 10));
             } else {
-                // Delete individual match tie by its unique row ID
-                const { error: matchError } = await _supabase
-                    .from('matches')
-                    .delete()
-                    .eq('id', id);
-                
-                error = matchError;
+                idsToDelete = [parseInt(idParam, 10)];
             }
+
+            const { error } = await _supabase
+                .from('matches')
+                .delete()
+                .in('id', idsToDelete);
 
             if (!error) {
                 await fetchAppData();
@@ -760,7 +742,7 @@
             let availableRinks = [2, 3, 4, 5, 6];
             matches.forEach(m => {
                 if (m.rink && availableRinks.includes(m.rink)) {
-                    availableRinks = availableRinks.filter(r => r !== m.rink);
+                    availableRink = availableRinks.filter(r => r !== m.rink);
                 }
             });
 
