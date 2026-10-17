@@ -35,7 +35,7 @@
     "title": "test",
     "description": "test",
     "category": "internal",
-    "tag": "latest",
+    "tag": "archive",
     "image": "logo.jpeg",
     "modal": "test"
   },
