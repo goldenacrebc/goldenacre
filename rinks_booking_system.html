@@ -557,7 +557,6 @@
                 return;
             }
 
-            // Deduplicate block bookings so they show as 1 clean summary row
             const processedList = [];
             const blockMap = new Set();
 
@@ -643,7 +642,6 @@
 
             const reqMinutes = timeToMinutes(timeVal);
 
-            // 10:00 AM to 9:00 PM operational window
             const openMinutes = 10 * 60; 
             const closeMinutes = 21 * 60; 
             if (reqMinutes < openMinutes || reqMinutes > closeMinutes) {
@@ -652,14 +650,13 @@
                 return false;
             }
 
-            // Check against block bookings on this date
             const dayBlocks = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
             for (let block of dayBlocks) {
                 const times = block.time.split('-');
                 const blockStart = timeToMinutes(times[0]);
                 const blockEnd = times.length > 1 ? timeToMinutes(times[1]) : blockStart + 180;
 
-                const buffer = 60; // 1-hour buffer rule
+                const buffer = 60; 
                 if (reqMinutes >= (blockStart - buffer) && reqMinutes <= (blockEnd + buffer)) {
                     statusEl.style.color = '#dc2626';
                     statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time}).`;
@@ -735,7 +732,6 @@
 
             let error;
             if (p1 === "CLUB GREEN RESERVED") {
-                // Delete all rink rows tied to this specific block booking
                 const { error: blockError } = await _supabase.from('matches')
                     .delete()
                     .eq('date', date)
