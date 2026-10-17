@@ -376,7 +376,7 @@
                             </optgroup>
                             <optgroup label="Pairs / Triples / Rinks (No Marker Required)">
                                 <option value="Pairs Trophy">Pairs Trophy</option>
-                                <option value="Triples Cup">Club Triples</option>
+                                <option value="Triples Cup">Triples Cup</option>
                                 <option value="Fours / Rinks League">Fours / Rinks League</option>
                             </optgroup>
                         </select>
@@ -525,7 +525,6 @@
             grid.innerHTML = '';
 
             weekDays.forEach(day => {
-                // Count individual ties or distinct block time slots on this day
                 const booked = appData.matches ? appData.matches.filter(m => m.date === day.date).length : 0;
                 const isSelected = currentFilterDate === day.date;
 
@@ -552,7 +551,6 @@
                 return;
             }
 
-            // Deduplicate block bookings so they show as 1 clean summary row
             const processedList = [];
             const blockMap = new Set();
 
@@ -638,7 +636,6 @@
 
             const reqMinutes = timeToMinutes(timeVal);
 
-            // 10:00 AM to 9:00 PM operational window
             const openMinutes = 10 * 60; 
             const closeMinutes = 21 * 60; 
             if (reqMinutes < openMinutes || reqMinutes > closeMinutes) {
@@ -647,14 +644,13 @@
                 return false;
             }
 
-            // Check against block bookings on this date (1-hour buffer restriction)
             const dayBlocks = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
             for (let block of dayBlocks) {
                 const times = block.time.split('-');
                 const blockStart = timeToMinutes(times[0]);
                 const blockEnd = times.length > 1 ? timeToMinutes(times[1]) : blockStart + 180;
 
-                const buffer = 60; // 1-hour buffer
+                const buffer = 60; 
                 if (reqMinutes >= (blockStart - buffer) && reqMinutes <= (blockEnd + buffer)) {
                     statusEl.style.color = '#dc2626';
                     statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time}).`;
@@ -716,19 +712,19 @@
 
             let error;
             if (p1 === "CLUB GREEN RESERVED") {
-                // Delete all rows for this specific block booking
                 const { error: blockError } = await _supabase.from('matches')
                     .delete()
                     .eq('date', date)
                     .eq('time', time)
                     .eq('comp', comp)
                     .eq('p1', 'CLUB GREEN RESERVED');
+                
                 error = blockError;
             } else {
-                // Delete individual match tie
                 const { error: matchError } = await _supabase.from('matches')
                     .delete()
                     .eq('id', id);
+                
                 error = matchError;
             }
 
