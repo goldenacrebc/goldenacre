@@ -358,7 +358,7 @@
         <div class="card">
             <h3>Register a Competition Tie</h3>
             <div class="notice-banner">
-                ℹ️ <strong>Green Rules:</strong> Available 7 days a week (10:00 AM – 9:00 PM). Bookings are restricted within 1 hour of any league/EBA block booking. Rinks 2–6 are available for regular ties.
+                ℹ️ <strong>Green Rules:</strong> Available 7 days a week (10:00 AM – 9:00 PM). Rinks 2–6 are available for ties at any time unless within 1 hour of a league/EBA block booking.
             </div>
 
             <form onsubmit="handleRegister(event)">
@@ -376,7 +376,7 @@
                             </optgroup>
                             <optgroup label="Pairs / Triples / Rinks (No Marker Required)">
                                 <option value="Pairs Trophy">Pairs Trophy</option>
-                                <option value="Triples Cup">Triples Cup</option>
+                                <option value="Triples Cup">Club Triples</option>
                                 <option value="Fours / Rinks League">Fours / Rinks League</option>
                             </optgroup>
                         </select>
@@ -497,7 +497,7 @@
         }
 
         const weekDays = generateCurrentWeek();
-        let appData = { daily_bookings: {}, matches: [] };
+        let appData = { matches: [] };
         
         let currentFilterDate = weekDays[0].date;
         const dateInput = document.getElementById('play-date');
@@ -508,15 +508,9 @@
         async function fetchAppData() {
             try {
                 const { data: matches, error: matchError } = await _supabase.from('matches').select('*');
-                const { data: bookings, error: bookingError } = await _supabase.from('daily_bookings').select('*');
-
-                if (matchError || bookingError) throw (matchError || bookingError);
+                if (matchError) throw matchError;
 
                 appData.matches = matches || [];
-                appData.daily_bookings = {};
-                (bookings || []).forEach(b => {
-                    appData.daily_bookings[b.date] = b.count;
-                });
 
                 renderCapacityCards();
                 renderScheduleTable();
@@ -531,6 +525,7 @@
             grid.innerHTML = '';
 
             weekDays.forEach(day => {
+                // Count individual ties or distinct block time slots on this day
                 const booked = appData.matches ? appData.matches.filter(m => m.date === day.date).length : 0;
                 const isSelected = currentFilterDate === day.date;
 
@@ -557,6 +552,7 @@
                 return;
             }
 
+            // Deduplicate block bookings so they show as 1 clean summary row
             const processedList = [];
             const blockMap = new Set();
 
@@ -611,7 +607,7 @@
                     <td>${matchupDisplay}</td>
                     <td>${markerDisplay}</td>
                     <td>${rinkDisplay}</td>
-                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelTie(${m.id}, '${m.date}', '${m.p1}', '${m.p2}', '${m.comp}', '${m.time}')">Cancel</button></td>
+                    <td><button class="btn" style="padding: 6px 10px; font-size: 0.75rem; background-color: #dc2626; width: auto;" onclick="cancelBooking('${m.date}', '${m.comp}', '${m.time}', ${m.id}, '${m.p1}')">Cancel</button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -642,6 +638,7 @@
 
             const reqMinutes = timeToMinutes(timeVal);
 
+            // 10:00 AM to 9:00 PM operational window
             const openMinutes = 10 * 60; 
             const closeMinutes = 21 * 60; 
             if (reqMinutes < openMinutes || reqMinutes > closeMinutes) {
@@ -650,13 +647,14 @@
                 return false;
             }
 
+            // Check against block bookings on this date (1-hour buffer restriction)
             const dayBlocks = appData.matches.filter(m => m.date === dateVal && m.p1 === "CLUB GREEN RESERVED");
             for (let block of dayBlocks) {
                 const times = block.time.split('-');
                 const blockStart = timeToMinutes(times[0]);
                 const blockEnd = times.length > 1 ? timeToMinutes(times[1]) : blockStart + 180;
 
-                const buffer = 60; 
+                const buffer = 60; // 1-hour buffer
                 if (reqMinutes >= (blockStart - buffer) && reqMinutes <= (blockEnd + buffer)) {
                     statusEl.style.color = '#dc2626';
                     statusEl.innerText = `❌ Error: Green is unavailable within 1 hour of a block booking (${block.comp}: ${block.time}).`;
@@ -684,17 +682,8 @@
                 markerVal = "TBC";
             }
 
-            const dateVal = dateInput.value;
-            const currentCount = appData.daily_bookings[dateVal] || 0;
-
-            if (currentCount >= 5) {
-                document.getElementById('form-status').style.color = '#dc2626';
-                document.getElementById('form-status').innerText = `❌ Error: Maximum daily ties reached for Rinks 2-6.`;
-                return;
-            }
-
             const payload = {
-                date: dateVal,
+                date: dateInput.value,
                 time: document.getElementById('time-slot').value,
                 comp: compVal,
                 round: document.getElementById('round').value,
@@ -708,11 +697,6 @@
             const statusEl = document.getElementById('form-status');
 
             if (!insertError) {
-                await _supabase.from('daily_bookings').upsert({
-                    date: dateVal,
-                    count: currentCount + 1
-                });
-
                 statusEl.style.color = '#16a34a';
                 statusEl.innerText = "✅ Success! Tie registered and saved to Supabase.";
                 
@@ -727,41 +711,25 @@
             }
         }
 
-        async function cancelTie(id, date, p1, p2, comp, time) {
-            if (!confirm(`Are you sure you want to cancel / remove this booking?`)) return;
+        async function cancelBooking(date, comp, time, id, p1) {
+            if (!confirm(`Are you sure you want to cancel this booking?`)) return;
 
             let error;
             if (p1 === "CLUB GREEN RESERVED") {
+                // Delete all rows for this specific block booking
                 const { error: blockError } = await _supabase.from('matches')
                     .delete()
                     .eq('date', date)
                     .eq('time', time)
                     .eq('comp', comp)
                     .eq('p1', 'CLUB GREEN RESERVED');
-                
                 error = blockError;
-
-                if (!error) {
-                    const currentCount = appData.daily_bookings[date] || 6;
-                    await _supabase.from('daily_bookings').upsert({
-                        date: date,
-                        count: Math.max(0, currentCount - 6)
-                    });
-                }
             } else {
+                // Delete individual match tie
                 const { error: matchError } = await _supabase.from('matches')
                     .delete()
                     .eq('id', id);
-                
                 error = matchError;
-
-                if (!error) {
-                    const currentCount = appData.daily_bookings[date] || 1;
-                    await _supabase.from('daily_bookings').upsert({
-                        date: date,
-                        count: Math.max(0, currentCount - 1)
-                    });
-                }
             }
 
             if (!error) {
@@ -790,12 +758,12 @@
                 }
             }
 
-            document.getElementById('admin-status').innerText = "✨ Rink draw completed (Rinks 2–6 assigned, Rink 1 kept free)!";
+            document.getElementById('admin-status').innerText = "✨ Rink draw completed (Rinks 2–6 assigned)!";
             await fetchAppData();
         }
 
         async function blockBookTimeSlot() {
-            const eventName = prompt("Enter event name (e.g., Men's League, Senior League, Ladies League, EBA Tie):", "Men's League");
+            const eventName = prompt("Enter league/EBA event name (e.g., Men's League, Senior League, Ladies League, EBA Tie):", "Men's League");
             if (!eventName) return;
 
             const timeSlot = prompt("Enter time slot (e.g., 18:30 - 21:30):", "18:30 - 21:30");
@@ -803,7 +771,7 @@
 
             const dateVal = currentFilterDate;
 
-            const existingBlock = appData.matches.find(m => m.date === dateVal && m.comp === eventName && m.time === timeSlot);
+            const existingBlock = appData.matches.find(m => m.date === dateVal && m.comp === eventName && m.time === timeSlot && m.p1 === "CLUB GREEN RESERVED");
             if (existingBlock) {
                 alert(`⚠️ Warning: ${eventName} for ${timeSlot} is already block-booked on this date!`);
                 return;
@@ -827,13 +795,7 @@
                 return;
             }
 
-            const currentCount = appData.daily_bookings[dateVal] || 0;
-            await _supabase.from('daily_bookings').upsert({
-                date: dateVal,
-                count: Math.min(6, currentCount + 6)
-            });
-
-            document.getElementById('admin-status').innerText = `🔒 Block booked ${eventName} (${timeSlot}) for all rinks (1-hour buffer active)!`;
+            document.getElementById('admin-status').innerText = `🔒 Block booked ${eventName} (${timeSlot}) successfully (1-hour buffer active)!`;
             await fetchAppData();
         }
 
