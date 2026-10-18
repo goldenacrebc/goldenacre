@@ -6,6 +6,20 @@
     <title>Join Us | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: { light: '#a6deff', DEFAULT: '#70c1ed', dark: '#4fa8dc' },
+                        gold: { light: '#ffe066', DEFAULT: '#ffcc00', dark: '#e6b800' },
+                        navy: { light: '#1b2a4a', DEFAULT: '#0a192f', dark: '#050c18' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="site-page join-us-page">
     <header>
@@ -94,78 +108,145 @@
             <img src="photos/theacre.jpg" alt="The green and clubhouse at Goldenacre Bowling Club">
         </section>
 
-        <section class="membership-prices">
-            <div class="membership-section-heading">
+        <!-- Compact Membership Section with Special Tag & Zero Bottom Margin -->
+        <section class="membership-prices" style="margin-bottom: 0; padding-bottom: 0;">
+            <div class="membership-section-heading" style="margin-bottom: 1.5rem;">
                 <p class="membership-kicker">Choose your way to join</p>
                 <h2>Membership at a glance</h2>
                 <p>Play in league fixtures and club competitions, enjoy the social side of Goldenacre, or discover bowls as a junior. Choose the membership that suits you — and the way you want to be part of the club.</p>
             </div>
-            <div class="membership-grid compact-membership-grid">
-                <article class="membership-price-card">
-                    <h3>Adult bowling</h3>
-                    <div class="adult-price-box">
-                        <div class="price-split">
-                            <div class="price-item">
-                                <span class="price-num">£50<span class="price-cycle">&nbsp;/ year</span></span>
-                                <span class="price-label">New member</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-num">£200<span class="price-cycle">&nbsp;/ year</span></span>
-                                <span class="price-label">Existing member</span>
-                            </div>
+            
+            <!-- Compact 4-Card Responsive Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4">
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left relative">
+                    <div class="absolute -top-3 right-3 bg-gold text-navy text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+                        Special Offer
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">New</h3>
+                        <div class="text-xl font-black text-navy mb-2">£50 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Introductory membership rate for new adult members.</p>
+                    </div>
+                    <a href="#contact-section" onclick="selectOption('New')" class="w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none">Ask about New &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Full</h3>
+                        <div class="text-xl font-black text-navy mb-2">£200 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Full adult playing rights, league fixtures, and club competitions.</p>
+                    </div>
+                    <a href="#contact-section" onclick="selectOption('Full')" class="w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none">Ask about Full &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Ladies</h3>
+                        <div class="text-xl font-black text-navy mb-2">£200 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Dedicated ladies section fixtures, competitions, and events.</p>
+                    </div>
+                    <a href="#contact-section" onclick="selectOption('Ladies')" class="w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none">Ask about Ladies &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Junior</h3>
+                        <div class="text-xl font-black text-navy mb-2">£5 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">A welcoming start in bowls, with coaching and support.</p>
+                    </div>
+                    <a href="#contact-section" onclick="selectOption('Junior')" class="w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none">Ask about Junior &rarr;</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Subdued, Much Smaller "Your Next Step" Section (Tucked directly underneath with minimal gap) -->
+        <section class="max-w-5xl mx-auto px-4 mt-2 mb-4 text-center">
+            <div class="bg-slate-100 rounded-xl p-4 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-left">
+                    <p class="text-xs font-bold uppercase tracking-widest text-sky-dark m-0">Your next step</p>
+                    <h3 class="text-base font-bold text-navy m-0">Come and see what we’re about</h3>
+                    <p class="text-xs text-slate-600 m-0">Drop us a line to ask a question or arrange a visit.</p>
+                </div>
+                <a class="px-4 py-2 bg-navy text-white font-bold text-xs rounded-lg hover:bg-navy-light transition whitespace-nowrap text-decoration-none" href="#contact-section" onclick="selectOption('Book a Try Bowls session')">Book Try Bowls Session</a>
+            </div>
+        </section>
+
+        <!-- Form & Contact Section -->
+        <section id="contact-section" class="bg-white rounded-2xl shadow-lg border border-slate-200/80 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10 max-w-5xl mx-auto">
+            <div class="space-y-4 text-left">
+                <span class="text-xs font-bold uppercase tracking-widest text-sky-dark">Get In Touch</span>
+                <h2 class="text-3xl font-extrabold text-navy">Visit Goldenacre BC</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    We are conveniently located in Northern Edinburgh with easy public transport links and ample parking.
+                </p>
+
+                <div class="space-y-4 text-sm text-navy pt-2">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-sky/20 text-navy flex items-center justify-center flex-shrink-0 font-bold">📍</div>
+                        <div>
+                            <p class="font-bold">Address</p>
+                            <p class="text-slate-600 text-xs sm:text-sm">Goldenacre Bowling Club, 36A Warriston Gardens, Edinburgh EH3 5NE</p>
                         </div>
                     </div>
-                    <p>For adults who want to play bowls and enjoy the club.</p>
-                    <a class="enquire-text contact-form-trigger" href="#contact-form-dialog" data-enquiry="Adult Membership Enquiry">Ask about adult membership &rarr;</a>
-                </article>
 
-                <article class="membership-price-card">
-                    <h3>Junior</h3>
-                    <div class="price">£5 <span>/ year</span></div>
-                    <p>A welcoming start in bowls, with coaching and support.</p>
-                    <a class="enquire-text contact-form-trigger" href="#contact-form-dialog" data-enquiry="Junior Membership Enquiry">Ask about junior membership &rarr;</a>
-                </article>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-sky/20 text-navy flex items-center justify-center flex-shrink-0 font-bold">✉️</div>
+                        <div>
+                            <p class="font-bold">Email</p>
+                            <p class="text-slate-600 text-xs sm:text-sm">goldenacrebc@hotmail.com</p>
+                        </div>
+                    </div>
 
-                <article class="membership-price-card">
-                    <h3>Social</h3>
-                    <div class="price">£25 <span>/ year</span></div>
-                    <p>Enjoy the clubhouse and social side of Goldenacre.</p>
-                    <a class="enquire-text contact-form-trigger" href="#contact-form-dialog" data-enquiry="Social Membership Enquiry">Ask about social membership &rarr;</a>
-                </article>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-sky/20 text-navy flex items-center justify-center flex-shrink-0 font-bold">📞</div>
+                        <div>
+                            <p class="font-bold">Phone</p>
+                            <a href="tel:01315524206" class="text-sky-dark font-medium text-xs sm:text-sm hover:underline">0131 552 4206</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
 
-        <section class="membership-visit">
-            <div>
-                <p class="membership-kicker">Your next step</p>
-                <h2>Come and see what we’re about</h2>
-                <p>Drop us a line to ask a question or arrange a visit. We can tell you about membership, coaching, league bowls and what’s happening at the club.</p>
-            </div>
-   <!-- <a class="membership-hero-cta contact-form-trigger" href="#contact-form-dialog" data-enquiry="Visit and Membership Enquiry">Email Goldenacre</a> -->
-	   <a class="membership-hero-cta contact-form-trigger" href="#contact-form-dialog" data-enquiry="Book a Try Bowls session">Book Try bowls Session</a>
-        </section>
-
-        <section class="membership-contact" aria-label="Contact details">
-            <a href="https://maps.app.goo.gl/7t25LrRd8DpaP28S7" target="_blank" rel="noopener noreferrer" class="contact-detail-item" aria-label="Find Goldenacre Bowling Club in Warriston, Edinburgh">
-                <span class="detail-icon">📍</span>
-                <span>Warriston, Edinburgh</span>
-            </a>
-            <a href="tel:01315524206" class="contact-detail-item" aria-label="Call 0131 552 4206">
-                <span class="detail-icon">📞</span>
-                <span>0131 552 4206</span>
-            </a>
-            <a href="https://www.facebook.com/GoldenacreBC" target="_blank" rel="noopener noreferrer" class="contact-detail-item" aria-label="Goldenacre Bowling Club on Facebook">
-                <img src="facebook.png" alt="" class="fb-icon">
-                <span>Facebook</span>
-            </a>
+            <form action="https://formspree.io/f/mwlvozov" method="POST" class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200 text-left">
+                <h3 class="font-bold text-lg text-navy mb-2">Send us a message</h3>
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase mb-1">Your Name</label>
+                    <input type="text" name="name" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky focus:outline-none text-sm" placeholder="John Smith">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase mb-1">Email Address</label>
+                    <input type="email" name="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky focus:outline-none text-sm" placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase mb-1">Enquiry Subject</label>
+                    <input type="text" id="contact-subject" name="subject" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky focus:outline-none text-sm" placeholder="General Enquiry">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase mb-1">Message</label>
+                    <textarea name="message" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky focus:outline-none text-sm" placeholder="I'd like to enquire about..."></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-navy text-white font-bold rounded-xl hover:bg-navy-light transition shadow">
+                    Send Enquiry
+                </button>
+            </form>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-        <p class="footer-link">
-            <a class="contact-form-trigger" href="#contact-form-dialog" data-enquiry="General Enquiry">Send Us a Message</a>
-        </p>
     </footer>
-    <script src="contact-form.js" defer></script>
+
+    <script>
+        function selectOption(type) {
+            const subjectInput = document.getElementById('contact-subject');
+            if (subjectInput) {
+                if (type.includes('session')) {
+                    subjectInput.value = type;
+                } else {
+                    subjectInput.value = type + " Membership Enquiry";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
