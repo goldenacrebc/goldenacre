@@ -485,14 +485,14 @@
                     <button class="module-action-btn" onclick="toggleCard('teams-card')">Open Publisher</button>
                 </div>
 
-                <!-- Card 5: News Archive & Restore -->
+                <!-- Card 5: News Archivist & Restorer -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">📦</span>
-                        <h4>News Archive</h4>
+                        <h4>News Archivist</h4>
                         <p>Archive old articles or restore mistakenly archived articles back to latest.</p>
                     </div>
-                    <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open to  Archive</button>
+                    <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open Archivist</button>
                 </div>
 
                 <!-- Card 6: Calendar Manager -->
@@ -503,6 +503,16 @@
                         <p>Add, edit, or remove match fixtures and events from the calendar feed.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('calendar-manager-card')">Open Calendar Manager</button>
+                </div>
+
+                <!-- Card 7: Broadcast Push Notification Manager -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📢</span>
+                        <h4>Broadcast Alert Manager</h4>
+                        <p>Push an urgent banner notification or broadcast message live to the club website instantly.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('broadcast-card')">Open Broadcast Tool</button>
                 </div>
 
             </div>
@@ -671,9 +681,9 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 5: News Archive & Restorer -->
+            <!-- FORM CARD 5: News Archivist & Restorer -->
             <div id="archive-news-card" class="admin-card-custom">
-                <h3>📦 News Archive& Restore</h3>
+                <h3>📦 News Archivist & Restorer</h3>
                 <p class="card-subtitle">Check articles to archive them, or uncheck archived articles to restore them to live status.</p>
 
                 <div id="archive-list-container" style="margin-bottom: 20px; max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
@@ -742,6 +752,38 @@
                 </div>
             </div>
 
+            <!-- FORM CARD 7: Broadcast Notification Manager -->
+            <div id="broadcast-card" class="admin-card-custom">
+                <h3>📢 Broadcast Urgent Club Alert</h3>
+                <p class="card-subtitle">Publish an active notice banner across the website or manage existing alerts.</p>
+
+                <form id="form-broadcast">
+                    <div class="form-group-custom">
+                        <label for="broadcast-title">Alert Title</label>
+                        <input type="text" id="broadcast-title" placeholder="e.g. Green Closed Today Due to Weather" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="broadcast-message">Alert Message Details</label>
+                        <textarea id="broadcast-message" placeholder="Provide full details of the urgent notice..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn-custom" id="btn-publish-broadcast" style="background-color: #dc2626;">Publish Urgent Alert Live</button>
+                    <p class="status-msg-custom" id="status-broadcast"></p>
+                </form>
+
+                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 24px 0;">
+
+                <h4 style="color: var(--brand-green); font-family: Georgia, serif; margin-bottom: 8px;">Active & Past Broadcasts</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Deactivate or remove alerts to clear the banner from the live homepage:</p>
+                
+                <div id="broadcast-manage-list" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #f8fafc; margin-bottom: 16px;">
+                    <p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin: 10px 0;">Loading broadcasts...</p>
+                </div>
+
+                <button type="button" class="submit-btn-custom" id="btn-execute-broadcast-changes" style="background-color: #64748b;">Save Changes / Clear Selected</button>
+                <p class="status-msg-custom" id="status-broadcast-manage"></p>
+            </div>
+
         </div>
 
         <!-- TAB 2: Future Quick Action Modules -->
@@ -781,8 +823,9 @@
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events:</strong> Automatically updates the social calendar feed for upcoming club events.</li>
-                    <li><strong>Archive & Restore:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
+                    <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove test entries directly from `events.json`.</li>
+                    <li><strong>Broadcast Alert Manager:</strong> Push urgent banners instantly to the homepage or deactivate them when resolved.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>
@@ -833,6 +876,8 @@
                     loadArchiveList();
                 } else if (cardId === 'calendar-manager-card') {
                     switchCalSubTab('add');
+                } else if (cardId === 'broadcast-card') {
+                    loadBroadcastManageList();
                 }
             };
 
@@ -1248,6 +1293,204 @@
                     btn.disabled = false;
                 }
             });
+
+            // Broadcast Push Alert Form Handler
+            const broadcastForm = document.getElementById('form-broadcast');
+            if (broadcastForm) {
+                broadcastForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const statusMsg = document.getElementById('status-broadcast');
+                    const btn = document.getElementById('btn-publish-broadcast');
+
+                    statusMsg.style.backgroundColor = '#e0f2fe';
+                    statusMsg.style.color = '#0369a1';
+                    statusMsg.innerText = "Broadcasting alert live...";
+                    btn.disabled = true;
+
+                    try {
+                        const title = document.getElementById('broadcast-title').value.trim();
+                        const message = document.getElementById('broadcast-message').value.trim();
+
+                        const { data: tokenData, error: tokenError } = await supabaseClient
+                            .from('settings').select('value').eq('key', 'github_token').single();
+                        if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+                        const owner = "goldenacrebc";
+                        const repo = "goldenacre";
+                        const branch = "main";
+                        const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/notifications.json`;
+
+                        const getRes = await fetch(fileUrl, {
+                            headers: { "Authorization": `token ${tokenData.value}` }
+                        });
+                        if (!getRes.ok) throw new Error("Failed to fetch notifications.json");
+
+                        const fileData = await getRes.json();
+                        let alertsList = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                        alertsList.unshift({
+                            id: Date.now(),
+                            date: new Date().toISOString().split('T')[0],
+                            title: title,
+                            message: message,
+                            active: true
+                        });
+
+                        const commitRes = await fetch(fileUrl, {
+                            method: "PUT",
+                            headers: {
+                                "Authorization": `token ${tokenData.value}`,
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                message: `Admin portal: published urgent broadcast alert - ${title}`,
+                                content: encodeUtf8Base64(JSON.stringify(alertsList, null, 2)),
+                                sha: fileData.sha,
+                                branch: branch
+                            })
+                        });
+
+                        if (!commitRes.ok) throw new Error("Failed to commit broadcast to GitHub.");
+
+                        statusMsg.style.backgroundColor = '#dcfce7';
+                        statusMsg.style.color = '#16a34a';
+                        statusMsg.innerText = "Alert successfully broadcasted live!";
+                        broadcastForm.reset();
+                        btn.disabled = false;
+                        loadBroadcastManageList();
+
+                    } catch (err) {
+                        statusMsg.style.backgroundColor = '#fee2e2';
+                        statusMsg.style.color = '#dc2626';
+                        statusMsg.innerText = "Error: " + err.message;
+                        btn.disabled = false;
+                    }
+                });
+            }
+
+            // Load broadcasts into the manager checklist
+            async function loadBroadcastManageList() {
+                const container = document.getElementById('broadcast-manage-list');
+                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin: 10px 0;">Fetching alerts...</p>`;
+
+                try {
+                    const { data: tokenData, error: tokenError } = await supabaseClient
+                        .from('settings').select('value').eq('key', 'github_token').single();
+                    if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+                    const owner = "goldenacrebc";
+                    const repo = "goldenacre";
+                    const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/notifications.json`;
+
+                    const getRes = await fetch(fileUrl, {
+                        headers: { "Authorization": `token ${tokenData.value}` }
+                    });
+                    if (!getRes.ok) throw new Error("Failed to fetch notifications.json");
+
+                    const fileData = await getRes.json();
+                    const alertsList = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                    if (!alertsList || alertsList.length === 0) {
+                        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin: 10px 0;">No broadcasts found.</p>`;
+                        return;
+                    }
+
+                    let html = '';
+                    alertsList.forEach((alert, index) => {
+                        html += `
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 4px; border-radius: 4px; font-size: 0.85rem;">
+                                <div>
+                                    <strong>${alert.title}</strong> 
+                                    <span style="font-size: 0.7rem; background: ${alert.active ? '#fee2e2' : '#f1f5f9'}; color: ${alert.active ? '#991b1b' : '#64748b'}; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">
+                                        ${alert.active ? 'ACTIVE LIVE' : 'Inactive'}
+                                    </span>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">${alert.date}</div>
+                                </div>
+                                <label style="cursor: pointer; font-weight: 600; color: #dc2626; display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" class="broadcast-deactivate-checkbox" data-index="${index}"> Deactivate
+                                </label>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+
+                } catch (err) {
+                    container.innerHTML = `<p style="color: #dc2626; text-align: center; font-size: 0.85rem; margin: 10px 0;">Error: ${err.message}</p>`;
+                }
+            }
+
+            // Handle saving deactivations
+            const executeBroadcastBtn = document.getElementById('btn-execute-broadcast-changes');
+            if (executeBroadcastBtn) {
+                executeBroadcastBtn.addEventListener('click', async () => {
+                    const statusMsg = document.getElementById('status-broadcast-manage');
+                    const btn = document.getElementById('btn-execute-broadcast-changes');
+
+                    statusMsg.style.backgroundColor = '#e0f2fe';
+                    statusMsg.style.color = '#0369a1';
+                    statusMsg.innerText = "Updating broadcast statuses...";
+                    btn.disabled = true;
+
+                    try {
+                        const checkboxes = document.querySelectorAll('.broadcast-deactivate-checkbox:checked');
+                        if (checkboxes.length === 0) {
+                            throw new Error("Please select at least one alert to deactivate.");
+                        }
+
+                        const { data: tokenData, error: tokenError } = await supabaseClient
+                            .from('settings').select('value').eq('key', 'github_token').single();
+                        if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+                        const owner = "goldenacrebc";
+                        const repo = "goldenacre";
+                        const branch = "main";
+                        const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/notifications.json`;
+
+                        const getRes = await fetch(fileUrl, {
+                            headers: { "Authorization": `token ${tokenData.value}` }
+                        });
+                        if (!getRes.ok) throw new Error("Failed to fetch notifications.json");
+
+                        const fileData = await getRes.json();
+                        let alertsList = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                        checkboxes.forEach(cb => {
+                            const idx = parseInt(cb.getAttribute('data-index'));
+                            if (alertsList[idx]) {
+                                alertsList[idx].active = false;
+                            }
+                        });
+
+                        const commitRes = await fetch(fileUrl, {
+                            method: "PUT",
+                            headers: {
+                                "Authorization": `token ${tokenData.value}`,
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                message: `Admin portal: deactivated broadcast alert(s)`,
+                                content: encodeUtf8Base64(JSON.stringify(alertsList, null, 2)),
+                                sha: fileData.sha,
+                                branch: branch
+                            })
+                        });
+
+                        if (!commitRes.ok) throw new Error("Failed to commit changes to GitHub.");
+
+                        statusMsg.style.backgroundColor = '#dcfce7';
+                        statusMsg.style.color = '#16a34a';
+                        statusMsg.innerText = "Successfully deactivated! Banner will disappear shortly.";
+                        btn.disabled = false;
+                        loadBroadcastManageList();
+
+                    } catch (err) {
+                        statusMsg.style.backgroundColor = '#fee2e2';
+                        statusMsg.style.color = '#dc2626';
+                        statusMsg.innerText = "Error: " + err.message;
+                        btn.disabled = false;
+                    }
+                });
+            }
 
             document.querySelectorAll('.btn-publish').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
