@@ -4,13 +4,13 @@
     "date": "2026-10-18",
     "title": "Test",
     "message": "Test",
-    "active": true
+    "active": false
   },
   {
     "id": 1,
     "date": "2026-10-17",
     "title": "Welcome to Goldenacre Admin Alerts",
     "message": "Push notifications and urgent club broadcasts can now be managed directly from the admin portal.",
-    "active": true
+    "active": false
   }
 ]
