@@ -69,19 +69,6 @@
     </section>
 
 <main class="home-main">
-   
-   <!-- Dynamic Live Broadcast Alert Banner Container -->
-   <div id="live-broadcast-banner" style="display: none; background-color: #fee2e2; border: 2px solid #dc2626; color: #991b1b; padding: 16px; border-radius: 8px; margin-bottom: 24px; font-family: Georgia, serif; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-       <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-           <div>
-               <span style="background: #dc2626; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Urgent Club Alert</span>
-               <h3 id="banner-alert-title" style="margin: 8px 0 4px 0; font-size: 1.1rem; color: #7f1d1d;"></h3>
-               <p id="banner-alert-msg" style="margin: 0; font-size: 0.92rem; line-height: 1.4; color: #450a0a;"></p>
-           </div>
-           <button onclick="document.getElementById('live-broadcast-banner').style.display='none'" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #7f1d1d; font-weight: bold;" aria-label="Dismiss alert">&times;</button>
-       </div>
-   </div>
-
    <!-- Static App & Bookmark Instructions Card -->
 <div id="pwa-instruction-card" class="pwa-instruction-card">
     <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="Dismiss instructions">&times;</button>
@@ -137,15 +124,7 @@
                     <img src="photos/theacre.jpg" alt="Goldenacre Bowling Club" class="block-img">
                 </div>
                 <p>Established in 1942, Goldenacre Bowling Club is based in Warriston, Edinburgh. We welcome bowlers of all ages and abilities, whether you are new to the sport, enjoy playing socially or want to represent the club in competitions and league matches. Our friendly club has an active social calendar throughout the year, and new members are always welcome. if you are new why not come along to one of our <a href="try-bowls.html">Try Bowls sessions </a></p>
-                <!-- Compact Wrapped Try Bowls Callout Box -->
-                <div style="background-color: #fff8df; border: 1px solid #ffcc00; border-left: 5px solid #173b32; padding: 16px 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                    <h4 style="margin: 0 0 6px 0; color: #173b32; font-family: Georgia, serif; font-size: 1.05rem;">New to Bowls? Try a Free Session!</h4>
-                    <p style="margin: 0 0 12px 0; font-size: 0.88rem; color: #334155; line-height: 1.4;">We provide all equipment, bowls, and friendly coaching. No membership required—just bring a pair of flat-soled shoes or trainers!</p>
-                    <a href="try-bowls.html" style="background-color: #173b32; color: #ffffff; padding: 7px 14px; border-radius: 6px; text-decoration: none; font-size: 0.82rem; font-weight: bold; display: inline-block;">Learn More About Try Bowls &rarr;</a>
-                </div>
-                
                 <h4>Membership &amp; affiliations</h4>
-                
                 <p>We offer Gents, Ladies and Junior memberships. The club is affiliated to <a href="https://www.bowlsscotland.com/" target="_blank" rel="noopener noreferrer">Bowls Scotland</a>, <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Edinburgh Bowling Association</a> and Edinburgh Top Ten.</p>
                 <h4>Club facilities</h4>
                 <p>Our facilities include an outdoor bowling green for league matches, club competitions and social roll-ups; a clubhouse pool table with a fortnightly winter league; and a function hall for up to 80 people, available to hire for private events. Bar facilities are available on request. Please contact us to check hall availability.</p>
@@ -159,27 +138,38 @@
     <p class="home-section-kicker">On and off the green</p>
     <h2 id="social">Upcoming Events</h2>
     <p class="section-intro">When the green closes for winter, join us at the club for our fortnightly pool league, weekly country dancing, and social evenings. Everyone is welcome.</p>
-<div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-    <strong>⚠️ System Testing Notice:</strong> This is a test of the new events and fixtures system. Any entries listed here or in the calendar are for testing purposes only. Real club events will be added once testing is complete
-</div>    
+    
+    <div style="background-color: #fff8df; border: 1px solid #ffcc00; color: #173b32; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-family: Georgia, serif; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+        <strong>⚠️ System Testing Notice:</strong> This is a test of the new events and fixtures system. Any entries listed here or in the calendar are for testing purposes only. Real club events will be added once testing is complete
+    </div>    
+
     <!-- Push Notification Trigger Area -->
-<div class="reminder-action-panel">
-    <button id="push-bell-btn" class="btn-set-reminder" disabled>
-        🔔 Enable Match Reminders
-    </button>
-    <p id="reminder-status" class="reminder-status-text">
-        Checking notification settings...
-    </p>
+    <div class="reminder-action-panel">
+        <button id="push-bell-btn" class="btn-set-reminder" disabled>
+            🔔 Enable Match Reminders
+        </button>
+        <p id="reminder-status" class="reminder-status-text">
+            Checking notification settings...
+        </p>
+    </div>
+
+    <!-- Event Category Filter Bar -->
+<div class="events-filter-bar" style="display: flex; justify-content: center; gap: 10px; margin: 24px 0 16px 0; flex-wrap: wrap;">
+    <button class="event-filter-btn active" data-filter="all" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #173b32; background: #173b32; color: #fff; font-weight: 600; cursor: pointer; font-size: 0.85rem;">All Events</button>
+    <button class="event-filter-btn" data-filter="fixtures" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #173b32; background: #fff; color: #173b32; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Match Fixtures</button>
+    <button class="event-filter-btn" data-filter="social" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #173b32; background: #fff; color: #173b32; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Social Events</button>
+    <button class="event-filter-btn" data-filter="rollups" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #173b32; background: #fff; color: #173b32; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Roll-ups</button>
+    <button class="event-filter-btn" data-filter="coaching" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #173b32; background: #fff; color: #173b32; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Coaching</button>
 </div>
 
     <!-- Widget container -->
-    <div id="upcoming-events-widget" class="upcoming-events-list">
+    <div id="upcoming-events-widget" class="upcoming-events-grid">
         <p class="events-empty">Loading upcoming events...</p>
     </div>
 
 <div style="text-align: center; margin-top: 18px;">
     <a href="events.html" style="color: #173b32; font-family: Georgia, serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; border-bottom: 2px solid #ffcc00; padding-bottom: 2px; transition: color 0.2s ease;">
-        See All Upcoming League Fixtures & Events
+       Events Calendar &rarr; 
     </a>
 </div>
 </section>
@@ -541,6 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
     try {
+        // Cache-busting parameter added to fetch fresh news.json every time
         const res = await fetch('news.json?t=' + Date.now());
         const newsItems = await res.json();
 
@@ -555,7 +546,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         // List of hardcoded modal slugs that use their own external script handlers
         const hardcodedModals = ['honours-list', 'championship', 'ladies-championship', 'junior-championship', 'steele', 'ebapairs'];
 
-        newsItems.filter(item => item.tag === 'latest').forEach(item => {
+        // Filter out any item tagged as archive or archived (case-insensitive)
+        newsItems.filter(item => {
+            const tag = (item.tag || '').toLowerCase();
+            return tag !== 'archive' && tag !== 'archived';
+        }).forEach(item => {
             const article = document.createElement('article');
             article.className = "news-block clickable";
 
@@ -607,34 +602,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     } catch (err) {
         console.error("Failed to load news.json", err);
-    }
-});
-</script>
-
-<!-- Dynamic Live Broadcast Alert Banner Fetch Script -->
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const res = await fetch('notifications.json?t=' + Date.now());
-        if (!res.ok) return;
-        const alerts = await res.json();
-        
-        // Find the first alert that is marked active: true
-        const activeAlert = alerts.find(a => a.active === true);
-        
-        if (activeAlert) {
-            const banner = document.getElementById('live-broadcast-banner');
-            const titleEl = document.getElementById('banner-alert-title');
-            const msgEl = document.getElementById('banner-alert-msg');
-            
-            if (banner && titleEl && msgEl) {
-                titleEl.textContent = activeAlert.title;
-                msgEl.textContent = activeAlert.message;
-                banner.style.display = 'block';
-            }
-        }
-    } catch (e) {
-        console.log("No active alerts feed found.");
     }
 });
 </script>

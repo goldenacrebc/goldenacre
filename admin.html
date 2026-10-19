@@ -76,8 +76,8 @@
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🎉</span>
-                        <h4>Social Events</h4>
-                        <p>Publish social roll-ups, club nights, and upcoming calendar events.</p>
+                        <h4>Social Events & Activities</h4>
+                        <p>Publish roll-ups, coaching, club nights, and upcoming calendar events.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('events-card')">Open Publisher</button>
                 </div>
@@ -132,9 +132,20 @@
                     <button class="module-action-btn" onclick="toggleCard('sponsors-card')">Open Manager</button>
                 </div>
 
+                <!-- Card 9: Photo Gallery Manager -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📸</span>
+                        <h4>Photo Gallery Manager</h4>
+                        <p>Upload new photos straight to the live photo gallery categories.</p>
+                        <p>Coming Soon!</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('gallery-manager-card')">Open Manager</button>
+                </div>
+
             </div> <!-- End of modules-grid -->
 
-            <!-- FORM CARD: Sponsors Manager (Placed outside grid, just like other forms) -->
+            <!-- FORM CARD: Sponsors Manager -->
             <div id="sponsors-card" class="admin-card-custom">
                 <h3>🤝 Club Commercial Sponsors Manager</h3>
                 <p class="card-subtitle">Add a new commercial sponsor logo or remove existing ones from the website footer.</p>
@@ -236,16 +247,32 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 3: Social Events Form -->
+            <!-- FORM CARD 3: Social Events Form (Updated with Type & Gold Pill Tag support) -->
             <div id="events-card" class="admin-card-custom">
-                <h3>🎉 Publish Social Event</h3>
-                <p class="card-subtitle">Adds upcoming social activities and club events to the calendar feed.</p>
+                <h3>🎉 Publish Social Event or Activity</h3>
+                <p class="card-subtitle">Adds upcoming social activities, roll-ups, or coaching sessions to the calendar feed.</p>
 
                 <form id="form-events">
                     <div class="form-group-custom">
                         <label for="event-title">Event Name</label>
-                        <input type="text" id="event-title" placeholder="e.g. Summer BBQ & Roll-up" required>
+                        <input type="text" id="event-title" placeholder="e.g. Wednesday Roll-up" required>
                     </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="event-type">Event Category / Type</label>
+                            <select id="event-type" required>
+                                <option value="social">🎉 Social Event</option>
+                                <option value="rollups">🎯 Roll-up</option>
+                                <option value="coaching">📋 Coaching</option>
+                            </select>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="event-tag">Gold Pill Tag (Optional)</label>
+                            <input type="text" id="event-tag" placeholder="e.g. Popular, Free, Weekly">
+                        </div>
+                    </div>
+
                     <div class="form-grid">
                         <div class="form-group-custom">
                             <label for="event-time">Time</label>
@@ -443,6 +470,40 @@
                 <p class="status-msg-custom" id="status-broadcast-manage"></p>
             </div>
 
+            <!-- FORM CARD 8: Gallery Manager -->
+            <div id="gallery-manager-card" class="admin-card-custom">
+                <h3>📸 Photo Gallery Manager</h3>
+                <p class="card-subtitle">Upload new photos directly to the live club gallery categories.</p>
+                
+
+                <form id="form-gallery">
+                    <div class="form-group-custom">
+                        <label for="gallery-category">Gallery Category</label>
+                        <select id="gallery-category" required>
+                            <option value="green">On the Green</option>
+                            <option value="competition">Competitions</option>
+                        </select>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="gallery-caption">Photo Caption / Description</label>
+                        <input type="text" id="gallery-caption" placeholder="e.g. Club Championship Final 2026" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label>Select Photo Image (Required)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="gallery-upload-text">Click or drag image file here</p>
+                            <input type="file" id="gallery-image" accept="image/*" required>
+                        </div>
+                        <div class="image-preview-container" id="gallery-preview-box">
+                            <img id="gallery-preview-img" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn-custom" id="btn-publish-gallery">Upload & Add Photo Live</button>
+                    <p class="status-msg-custom" id="status-gallery"></p>
+                </form>
+            </div>
+
         </div>
 
         <!-- TAB 2: Future Quick Action Modules -->
@@ -454,27 +515,19 @@
                 <div class="modules-grid">
                     <div class="module-card">
                         <div>
-                            <span class="module-icon">📸</span>
-                            <h4>2. Photo Gallery Uploader</h4>
-                            <p>Upload new event photos straight to the live photo gallery.</p>
-                        </div>
-                        <span style="font-size:0.75rem; color:#d97706; font-weight:bold;">READY TO BUILD</span>
-                    </div>
-                    <div class="module-card">
-                        <div>
                             <span class="module-icon">📌</span>
-                            <h4>3. Quick Notice Board</h4>
+                            <h4>Quick Notice Board</h4>
                             <p>Publish minor announcements without cluttering main news.</p>
                         </div>
-                        <span style="font-size:0.75rem; color:#d97706; font-weight:bold;">READY TO BUILD</span>
+                        <span style="font-size:0.75rem; color:#d97706; font-weight:bold;">Coming Soon</span>
                     </div>
                     <div class="module-card">
                         <div>
                             <span class="module-icon">👥</span>
-                            <h4>4. Directory Manager</h4>
+                            <h4>Directory Manager</h4>
                             <p>Update committee office-bearers and contact numbers.</p>
                         </div>
-                        <span style="font-size:0.75rem; color:#d97706; font-weight:bold;">READY TO BUILD</span>
+                        <span style="font-size:0.75rem; color:#d97706; font-weight:bold;">Coming Soon</span>
                     </div>
                 </div>
             </div>
@@ -489,10 +542,10 @@
                 <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
-                    <li><strong>Social Events:</strong> Automatically updates the social calendar feed for upcoming club events.</li>
+                    <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
                     <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove test entries directly from `events.json`.</li>
-                    <li><strong>Broadcast Alert Manager: / <strong>Sponsors Manager:</strong> Manage footer commercial sponsors and urgent notices easily.</li>
+                    <li><strong>Broadcast Alert Manager & Sponsors Manager:</strong> Manage footer commercial sponsors and urgent notices easily.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>
