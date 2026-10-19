@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dividerStyle = idx > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;' : '';
 
                 return `
-                    <div style="${dividerStyle}">
+                    <div style="${dividerStyle} cursor: pointer;" onclick="openEventPopup('${encodeURIComponent(event.title)}', '${encodeURIComponent(event.time || '7:00 pm')}', '${encodeURIComponent(event.location || 'Goldenacre Bowling Club')}', '${encodeURIComponent(event.description || '')}')">
                         ${badgeHtml}
                         <h4 style="margin: 0 0 4px 0; font-family: Georgia, serif; font-size: 0.98rem; color: #173b32; line-height: 1.3;">${event.title}</h4>
                         <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 6px; display: flex; gap: 8px; flex-wrap: wrap;">
@@ -209,10 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span>📍 ${event.location || 'Goldenacre'}</span>
                         </div>
                         ${event.description ? `<p style="margin: 0 0 6px 0; font-size: 0.82rem; color: #334155; line-height: 1.35;">${event.description}</p>` : ''}
-                        <div>
-                            <a href="${icsUrl}" download="${safeFileTitle}.ics" style="font-size: 0.75rem; font-weight: 700; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                            <a href="${icsUrl}" download="${safeFileTitle}.ics" onclick="event.stopPropagation();" style="font-size: 0.75rem; font-weight: 700; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
                                 📅 Add to Calendar
                             </a>
+                            <span style="font-size: 0.75rem; color: #173b32; font-weight: 600;">View Details &rarr;</span>
                         </div>
                     </div>
                 `;
@@ -233,3 +234,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 });
+
+// Global handler to trigger popup modal when an event is clicked
+window.openEventPopup = function(title, time, location, description) {
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const modalTag = document.getElementById('modal-tag');
+    const globalModal = document.getElementById('global-modal');
+
+    if (modalTitle) modalTitle.textContent = decodeURIComponent(title);
+    if (modalBody) {
+        modalBody.innerHTML = `
+            <p style="margin-bottom: 10px;"><strong>🕒 Time:</strong> ${decodeURIComponent(time)}</p>
+            <p style="margin-bottom: 15px;"><strong>📍 Location:</strong> ${decodeURIComponent(location)}</p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;">
+            <p>${decodeURIComponent(description).replace(/\n/g, '<br>')}</p>
+        `;
+    }
+    if (modalTag) {
+        modalTag.textContent = 'Event Details';
+        modalTag.className = 'news-tag badge-internal';
+    }
+    if (globalModal && typeof globalModal.showModal === 'function') {
+        globalModal.showModal();
+    }
+};
