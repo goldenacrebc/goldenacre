@@ -148,11 +148,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (event.team === '2nd 16') {
                         badgeClass = 'tag-fixture-2nd';
                         labelText = '2nd 16 Fixture';
+                    } else if (event.team === 'Seniors') {
+                        labelText = 'Seniors Fixture';
+                    } else if (event.team === 'Ladies') {
+                        labelText = 'Ladies Fixture';
                     } else if (event.team) {
                         labelText = `${event.team} Fixture`;
                     }
 
-                    badgeHtml = `<span class="fixture-team-badge ${badgeClass}" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px;">🏆 ${labelText}</span>`;
+                    // Automatically extract club name slug from title (e.g. "Goldenacre vs Parkside" -> "parkside.png")
+                    let clubNameSlug = 'club-badge';
+                    if (event.title) {
+                        const parts = event.title.split(/vs\.?|-/i);
+                        const opponent = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+                        clubNameSlug = opponent.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    }
+                    const badgeFileUrl = `photos/${clubNameSlug}.png`;
+
+                    // Tries to load club badge image; hides itself and falls back to text badge if file doesn't exist
+                    badgeHtml = `
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                            <img src="${badgeFileUrl}" alt="" style="width: 20px; height: 20px; object-fit: contain; border-radius: 50%; display: none;" onload="this.style.display='inline-block'; this.nextElementSibling.style.display='none';">
+                            <span class="fixture-team-badge ${badgeClass}" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;">🏆 ${labelText}</span>
+                        </div>
+                    `;
                 } else if (event.type === 'rollups') {
                     badgeHtml = `<span class="fixture-team-badge" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6;">🎯 Roll-up</span>`;
                 } else if (event.type === 'coaching') {
@@ -235,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Global handler to trigger popup modal when an event is clicked
+// Global popup handler for index page events
 window.openEventPopup = function(title, time, location, description) {
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
