@@ -54,5 +54,25 @@
     "location": "",
     "description": "Happy New Year from Everyone at Goldenacre.",
     "notify": true
+  },
+  {
+    "date": "2026-10-20",
+    "title": "Test Event",
+    "time": "2:00 pm",
+    "location": "Goldenacre Bowling club",
+    "description": "Casual afternoon roll-up.",
+    "type": "rollups",
+    "tag": "Popular",
+    "notify": true
+  },
+  {
+    "date": "2026-10-22",
+    "title": "Test",
+    "time": "10:00 am",
+    "location": "Goldenacre Bowling club",
+    "description": "Free introductory coaching for new members.",
+    "type": "coaching",
+    "tag": "Free",
+    "notify": true
   }
 ]
