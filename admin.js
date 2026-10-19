@@ -916,6 +916,7 @@
                 let targetFile = "";
                 if (type === 'internal-news' || type === 'external-news') targetFile = 'news.json';
                 else if (type === 'events') targetFile = 'events.json';
+                else if (type === 'fixtures') targetFile = 'fixtures.json';
                 else if (type === 'teams') targetFile = 'team-sheets.json';
 
                 let imageUrl = "logo.jpeg";
@@ -1018,6 +1019,26 @@
 
                     existingContent.unshift(newEventObj);
                     commitMessage = `Admin portal update: added ${eventType} event ${title}`;
+                } else if (type === 'fixtures') {
+                    const team = document.getElementById('fixture-team').value;
+                    const date = document.getElementById('fixture-date').value;
+                    const title = document.getElementById('fixture-title').value.trim();
+                    const time = document.getElementById('fixture-time').value.trim();
+                    const location = document.getElementById('fixture-location').value.trim();
+                    const content = document.getElementById('fixture-desc').value.trim();
+
+                    existingContent.unshift({
+                        date: date,
+                        team: team,
+                        title: title,
+                        time: time,
+                        location: location,
+                        description: content || `${team} Match Fixture`,
+                        notify: true
+                    });
+
+                    existingContent.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    commitMessage = `Admin portal update: added ${team} fixture vs ${title} on ${date}`;
                 }
 
                 statusMsg.innerText = "Committing update to GitHub...";

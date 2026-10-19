@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="admin.css">
     
     <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <!-- Supabase script URL -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -49,80 +49,98 @@
         <!-- TAB 1: Current Modules -->
         <div id="modules-tab" class="tab-content active">
             
-            <!-- Cards Grid for Modules -->
+            <!-- SECTION 1: NEWS & ANNOUNCEMENTS -->
+            <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 20px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📰 News & Urgent Alerts</h3>
             <div class="modules-grid" style="margin-bottom: 24px;">
-                
-                <!-- Card 1: Internal News -->
+                <!-- Internal News -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🏠</span>
-                        <h4>Internal News</h4>
-                        <p>Post announcements and club updates for members.</p>
+                        <h4>Internal Club News</h4>
+                        <p>Post member announcements and club updates.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('internal-news-card')">Open Publisher</button>
                 </div>
 
-                <!-- Card 2: External Competitions -->
+                <!-- External Competitions -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🏆</span>
-                        <h4>External Competitions</h4>
-                        <p>Post updates regarding external matches and association fixtures.</p>
+                        <h4>External News</h4>
+                        <p>Post updates regarding external matches & trophies.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('external-news-card')">Open Publisher</button>
                 </div>
 
-                <!-- Card 3: Social Events -->
-                <div class="module-card">
-                    <div>
-                        <span class="module-icon">🎉</span>
-                        <h4>Social Events & Activities</h4>
-                        <p>Publish roll-ups, coaching, club nights, and upcoming calendar events.</p>
-                    </div>
-                    <button class="module-action-btn" onclick="toggleCard('events-card')">Open Publisher</button>
-                </div>
-
-                <!-- Card 4: Team Sheets -->
-                <div class="module-card">
-                    <div>
-                        <span class="module-icon">📋</span>
-                        <h4>Weekly Team Sheets</h4>
-                        <p>Submit Friday team sheets for 1st and 2nd XVI matches across 4 rinks.</p>
-                    </div>
-                    <button class="module-action-btn" onclick="toggleCard('teams-card')">Open Publisher</button>
-                </div>
-
-                <!-- Card 5: News Archiver & Restorer -->
-                <div class="module-card">
-                    <div>
-                        <span class="module-icon">📦</span>
-                        <h4>News Archive</h4>
-                        <p>Archive old articles or restore mistakenly archived articles back to latest.</p>
-                    </div>
-                    <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open Archive</button>
-                </div>
-
-                <!-- Card 6: Calendar Manager -->
-                <div class="module-card">
-                    <div>
-                        <span class="module-icon">📅</span>
-                        <h4>Calendar Manager</h4>
-                        <p>Add, edit, or remove match fixtures and events from the calendar feed.</p>
-                    </div>
-                    <button class="module-action-btn" onclick="toggleCard('calendar-manager-card')">Open Calendar Manager</button>
-                </div>
-
-                <!-- Card 7: Broadcast Push Notification Manager -->
+                <!-- Broadcast Alert -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">📢</span>
                         <h4>Broadcast Alert Manager</h4>
-                        <p>Push an urgent banner notification or broadcast message live to the club website instantly.</p>
+                        <p>Push an urgent banner notification live to the website.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('broadcast-card')">Open Broadcast Tool</button>
                 </div>
+            </div>
 
-                <!-- Card 8: Sponsors Manager Button Card -->
+            <!-- SECTION 2: CALENDAR & MATCH FIXTURES -->
+            <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 24px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📅 Calendar & Fixtures</h3>
+            <div class="modules-grid" style="margin-bottom: 24px;">
+                <!-- NEW: Match Fixtures Card -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">🏆</span>
+                        <h4>Match Fixtures</h4>
+                        <p>Publish 1st 16, 2nd 16, Seniors, or Ladies match fixtures.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('fixtures-card')">Open Publisher</button>
+                </div>
+
+                <!-- Social Events -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">🎉</span>
+                        <h4>Social Events & Activities</h4>
+                        <p>Publish roll-ups, coaching, club nights, and functions.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('events-card')">Open Publisher</button>
+                </div>
+
+                <!-- Calendar Manager -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📅</span>
+                        <h4>Calendar Manager</h4>
+                        <p>Edit or remove existing events and fixtures from the feed.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('calendar-manager-card')">Open Calendar Manager</button>
+                </div>
+            </div>
+
+            <!-- SECTION 3: CLUB ADMINISTRATION -->
+            <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 24px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📋 Club Administration</h3>
+            <div class="modules-grid" style="margin-bottom: 24px;">
+                <!-- Team Sheets -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📋</span>
+                        <h4>Weekly Team Sheets</h4>
+                        <p>Submit Friday team sheets for 1st and 2nd XVI matches.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('teams-card')">Open Publisher</button>
+                </div>
+
+                <!-- News Archivist -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📦</span>
+                        <h4>News Archivist</h4>
+                        <p>Archive old articles or restore them back to live status.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('archive-news-card')">Open Archivist</button>
+                </div>
+
+                <!-- Sponsors Manager -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🤝</span>
@@ -132,19 +150,64 @@
                     <button class="module-action-btn" onclick="toggleCard('sponsors-card')">Open Manager</button>
                 </div>
 
-                <!-- Card 9: Photo Gallery Manager -->
+                <!-- Photo Gallery Manager -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">📸</span>
                         <h4>Photo Gallery Manager</h4>
-                        <p>Upload new photos straight to the live photo gallery categories.</p>
-                        <p>Coming Soon!</p>
+                        <p>Upload new photos to the live gallery categories.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('gallery-manager-card')">Open Manager</button>
                 </div>
+            </div>
 
-            </div> <!-- End of modules-grid -->
+            <!-- FORM CARD: Match Fixtures (NEW MODULE) -->
+            <div id="fixtures-card" class="admin-card-custom">
+                <h3>🏆 Publish Team Match Fixture</h3>
+                <p class="card-subtitle">Adds upcoming league or cup fixtures to the calendar feed (saves to fixtures.json).</p>
 
+                <form id="form-fixtures">
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="fixture-team">Select Team / Squad</label>
+                            <select id="fixture-team" required>
+                                <option value="1st 16">1st 16</option>
+                                <option value="2nd 16">2nd 16</option>
+                                <option value="Seniors">Seniors</option>
+                                <option value="Ladies">Ladies</option>
+                            </select>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="fixture-date">Match Date</label>
+                            <input type="date" id="fixture-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label for="fixture-title">Fixture Title (e.g. Goldenacre vs Parkside)</label>
+                        <input type="text" id="fixture-title" placeholder="e.g. Goldenacre vs Parkside" required>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="fixture-time">Start Time</label>
+                            <input type="text" id="fixture-time" placeholder="e.g. 6:30 pm" value="6:30 pm" required>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="fixture-location">Venue / Location</label>
+                            <input type="text" id="fixture-location" placeholder="e.g. Goldenacre" value="Goldenacre" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label for="fixture-desc">Match Notes / Competition Details (Optional)</label>
+                        <textarea id="fixture-desc" placeholder="e.g. EBA League Division 2 Match"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="fixtures">Publish Fixture Live</button>
+                    <p class="status-msg-custom" id="status-fixtures"></p>
+                </form>
+            </div>
             <!-- FORM CARD: Sponsors Manager -->
             <div id="sponsors-card" class="admin-card-custom">
                 <h3>🤝 Club Commercial Sponsors Manager</h3>
@@ -367,9 +430,9 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 5: News Archive & Restorer -->
+            <!-- FORM CARD 5: News Archivist & Restorer -->
             <div id="archive-news-card" class="admin-card-custom">
-                <h3>📦 News Archive & Restorer</h3>
+                <h3>📦 News Archivist & Restorer</h3>
                 <p class="card-subtitle">Check articles to archive them, or uncheck archived articles to restore them to live status.</p>
 
                 <div id="archive-list-container" style="margin-bottom: 20px; max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
@@ -543,7 +606,7 @@
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
-                    <li><strong>Archive & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
+                    <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove test entries directly from `events.json`.</li>
                     <li><strong>Broadcast Alert Manager & Sponsors Manager:</strong> Manage footer commercial sponsors and urgent notices easily.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
