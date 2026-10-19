@@ -6,8 +6,13 @@
     <title>Events Calendar | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <script src="events.js" defer></script>
+    <script src="events.js?version=99" defer></script>
     <script src="fixtures.js"></script>
+    <script>
+  const script = document.createElement('script');
+  script.src = 'events.js?t=' + Date.now();
+  document.head.appendChild(script);
+</script>
 </head>
 <body class="site-page">
     <header>
