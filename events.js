@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.style.cssText = `${dividerStyle}`;
 
             if (event.isFixture) {
-                // Parse opponent name accurately from titles like "Goldenacre vs. Goldenacre"
+                // Parse opponent name accurately from titles like "Goldenacre vs. Parkside"
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
@@ -152,8 +152,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     opponentName = parts.length > 1 ? parts[1].trim() : event.title;
                     clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
-                const badgeFileUrl = `photos/${clubNameSlug}.png`;
-                const homeBadgeUrl = 'logo.jpeg';
+
+                // Updated folder path to bowling_badges/ with multi-extension cascading support
+                const badgeFolder = 'bowling_badges/'; // Ensure this folder exists and contains the badge images
+                const badgeFileUrl = `${badgeFolder}${clubNameSlug}.png`;
+                const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
+                const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
+                const fallbackWebp = `${badgeFolder}${clubNameSlug}.webp`;
+
+                const homeBadgeUrl = 'logo.jpeg'; // Update to the correct path for the home club badge if needed
                 const teamLabel = event.team ? `${event.team} Fixture` : 'Match Fixture';
                 const formattedDateStr = eventDateLabel.format(date);
 
@@ -173,7 +180,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                         <div style="font-weight: 800; font-size: 1rem; color: #64748b; font-style: italic;">VS</div>
                         <div style="text-align: center;">
-                            <img src="${badgeFileUrl}" alt="${opponentName}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="this.onerror=null; this.replaceWith(Object.assign(document.createElement('div'), {className:'club-badge-placeholder', innerText:'${initials}', style:'width:56px; height:56px; font-size:0.9rem; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#173b32; color:#ffcc00; font-weight:bold;'}))">
+                            <img src="${badgeFileUrl}" alt="${opponentName}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="
+                                if(this.src.endsWith('.png')) { this.src='${fallbackJpg}'; }
+                                else if(this.src.endsWith('.jpg')) { this.src='${fallbackJpeg}'; }
+                                else if(this.src.endsWith('.jpeg')) { this.src='${fallbackWebp}'; }
+                                else if(this.src.endsWith('.webp')) { 
+                                    this.onerror=null; 
+                                    this.replaceWith(Object.assign(document.createElement('div'), {className:'club-badge-placeholder', innerText:'${initials}', style:'width:56px; height:56px; font-size:0.9rem; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#173b32; color:#ffcc00; font-weight:bold;'}));
+                                }
+                            ">
                             <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">${opponentName}</div>
                         </div>
                     </div>
