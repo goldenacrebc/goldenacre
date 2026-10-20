@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     let cleanSlugTarget = opponentName
                         .replace(/\b(bc|bowling\s+club|club)\b/gi, '')
                         .trim();
-                    clubNameSlug = cleanSlugTarget.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    clubNameSlug = opponentName.replace(/[^a-zA-Z0-9]/g, '-');
                 }
 
                 const badgeFolder = 'club_badges/';
