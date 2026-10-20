@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     clubNameSlug = cleanSlugTarget.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
 
-                const badgeFolder = 'club_badges/';
+                const badgeFolder = 'bowling_badges/';
                 const badgeFileUrl = `${badgeFolder}${clubNameSlug}.png`;
                 const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
                 const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
