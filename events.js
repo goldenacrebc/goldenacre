@@ -144,23 +144,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.style.cssText = `${dividerStyle}`;
 
             if (event.isFixture) {
-                // Parse opponent name accurately from titles like "Goldenacre vs. Parkside"
+                // Parse opponent name and clean filename slug (stripping BC, Bowling Club, etc.)
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
                     const parts = event.title.split(/vs\.?|v\.?|-/i);
                     opponentName = parts.length > 1 ? parts[1].trim() : event.title;
-                    clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    
+                    let cleanSlugTarget = opponentName
+                        .replace(/\b(bc|bowling\s+club|club)\b/gi, '')
+                        .trim();
+                    clubNameSlug = cleanSlugTarget.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
 
-                // Updated folder path to bowling_badges/ with multi-extension cascading support
-                const badgeFolder = 'bowling_badges/'; // Ensure this folder exists and contains the badge images
+                const badgeFolder = 'bowling_badges/';
                 const badgeFileUrl = `${badgeFolder}${clubNameSlug}.png`;
                 const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
                 const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
                 const fallbackWebp = `${badgeFolder}${clubNameSlug}.webp`;
 
-                const homeBadgeUrl = 'logo.jpeg'; // Update to the correct path for the home club badge if needed
+                const homeBadgeUrl = 'logo.jpeg';
                 const teamLabel = event.team ? `${event.team} Fixture` : 'Match Fixture';
                 const formattedDateStr = eventDateLabel.format(date);
 
