@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const heading = document.getElementById('calendar-heading');
     const calendarGrid = document.getElementById('calendar-grid');
     const status = document.getElementById('events-status');
-    const upcomingList = document.getElementById('upcoming-events-widget');
     const detailDialog = document.getElementById('events-detail-dialog');
     const detailDate = document.getElementById('events-detail-date');
     const detailList = document.getElementById('events-detail-list');
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }).filter(Boolean);
 
-        // Parse fixtures
+        // Parse fixtures from fixtures.json
         const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -145,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.style.cssText = `${dividerStyle}`;
 
             if (event.isFixture) {
-                // Match Fixture Badge vs Badge Popup Format matching index page behavior
+                // Parse opponent name accurately from titles like "Goldenacre vs. Goldenacre"
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
@@ -190,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${event.description ? `<div style="font-size: 0.92rem; color: #334155; line-height: 1.5;"><p style="margin: 0 0 4px 0;"><strong>Details:</strong></p><p style="margin: 0;">${event.description.replace(/\n/g, '<br>')}</p></div>` : ''}
                 `;
             } else {
-                // Regular Event Popup Format (Roll-ups, Coaching, Social)
+                // Regular Event Popup Format
                 let badgeHtml = '';
                 if (event.type === 'rollups') {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6; text-transform: uppercase;">🎯 Roll-up</span></div>`;

@@ -6,13 +6,7 @@
     <title>Events Calendar | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <script src="events.js?version=99" defer></script>
-    <script src="fixtures.js"></script>
-    <script>
-  const script = document.createElement('script');
-  script.src = 'events.js?t=' + Date.now();
-  document.head.appendChild(script);
-</script>
+    <script src="events.js?version=100" defer></script>
 </head>
 <body class="site-page">
     <header>
@@ -40,7 +34,7 @@
                 <a href="associations.html">Associations</a>
             </div>
         </details>
-        <a href="members-protected.html" class="members-area-link">Members Area</a>
+        <a href="login.html" class="members-area-link">Members Area</a>
         <nav>
             <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
                 <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
@@ -70,8 +64,6 @@
             </div>
             <div class="calendar-grid" id="calendar-grid" aria-label="Events by day"></div>
         </section>
-
-        
     </main>
 
     <dialog class="events-detail-dialog" id="events-detail-dialog" aria-labelledby="events-detail-date">
