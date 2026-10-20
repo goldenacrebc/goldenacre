@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const heading = document.getElementById('calendar-heading');
     const calendarGrid = document.getElementById('calendar-grid');
     const status = document.getElementById('events-status');
-    const upcomingList = document.getElementById('upcoming-events-list');
+    const upcomingList = document.getElementById('upcoming-events-widget');
     const detailDialog = document.getElementById('events-detail-dialog');
     const detailDate = document.getElementById('events-detail-date');
     const detailList = document.getElementById('events-detail-list');
@@ -75,11 +75,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         allCalendarItems.sort((a, b) => a.date - b.date || a.title.localeCompare(b.title));
 
     } catch (error) {
-        status.textContent = `Events and fixtures could not be loaded: ${error.message}`;
-        status.classList.add('events-status-error');
+        if (status) {
+            status.textContent = `Events and fixtures could not be loaded: ${error.message}`;
+            status.classList.add('events-status-error');
+        }
     }
 
     function renderCalendar() {
+        if (!heading || !calendarGrid) return;
         heading.textContent = monthLabel.format(displayedMonth);
         calendarGrid.replaceChildren();
 
@@ -130,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showDayEvents(date, dayEvents) {
+        if (!detailDate || !detailList || !detailDialog) return;
         detailDate.textContent = eventDateLabel.format(date);
         detailList.replaceChildren();
 
@@ -141,12 +145,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.style.cssText = `${dividerStyle}`;
 
             if (event.isFixture) {
-                // Match Fixture Badge vs Badge Popup Format
+                // Match Fixture Badge vs Badge Popup Format matching index page behavior
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
-                    const parts = event.title.split(/vs\.?|-/i);
-                    opponentName = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+                    const parts = event.title.split(/vs\.?|v\.?|-/i);
+                    opponentName = parts.length > 1 ? parts[1].trim() : event.title;
                     clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
                 const badgeFileUrl = `photos/${clubNameSlug}.png`;
@@ -160,6 +164,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else if (event.team === 'Seniors') teamBadgeClass = 'tag-fixture-seniors';
                 else if (event.team === 'Ladies') teamBadgeClass = 'tag-fixture-ladies';
 
+                const initials = opponentName.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
+
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 12px; padding-top: 4px;">
                         <div style="text-align: center;">
@@ -168,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                         <div style="font-weight: 800; font-size: 1rem; color: #64748b; font-style: italic;">VS</div>
                         <div style="text-align: center;">
-                            <img src="${badgeFileUrl}" alt="${opponentName}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="this.style.display='none'">
+                            <img src="${badgeFileUrl}" alt="${opponentName}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="this.onerror=null; this.replaceWith(Object.assign(document.createElement('div'), {className:'club-badge-placeholder', innerText:'${initials}', style:'width:56px; height:56px; font-size:0.9rem; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#173b32; color:#ffcc00; font-weight:bold;'}))">
                             <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">${opponentName}</div>
                         </div>
                     </div>
@@ -209,68 +215,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         detailDialog.showModal();
-        closeDetailsButton.focus();
+        if (closeDetailsButton) closeDetailsButton.focus();
     }
 
-    function renderUpcomingEvents() {
-        if (!upcomingList) return;
-        upcomingList.replaceChildren();
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const upcoming = allCalendarItems.filter(event => event.date >= today);
+    const prevBtn = document.getElementById('previous-month');
+    const nextBtn = document.getElementById('next-month');
 
-        if (!upcoming.length) {
-            const emptyMessage = document.createElement('p');
-            emptyMessage.className = 'events-empty-message';
-            emptyMessage.textContent = 'There are no upcoming events listed just now.';
-            upcomingList.append(emptyMessage);
-            return;
-        }
-
-        upcoming.forEach(event => {
-            const card = document.createElement('article');
-            card.className = 'upcoming-event-card';
-
-            const date = document.createElement('p');
-            date.className = 'upcoming-event-date';
-            date.textContent = eventDateLabel.format(event.date);
-
-            const title = document.createElement('h3');
-            title.textContent = event.title;
-            card.append(date, title);
-
-            if (event.time || event.location) {
-                const details = document.createElement('p');
-                details.className = 'upcoming-event-details';
-                details.textContent = [event.time, event.location].filter(Boolean).join(' · ');
-                card.append(details);
-            }
-
-            if (event.description) {
-                const description = document.createElement('p');
-                description.textContent = event.description;
-                card.append(description);
-            }
-
-            upcomingList.append(card);
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
+            renderCalendar();
         });
     }
 
-    document.getElementById('previous-month').addEventListener('click', () => {
-        displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
-        renderCalendar();
-    });
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
+            renderCalendar();
+        });
+    }
 
-    document.getElementById('next-month').addEventListener('click', () => {
-        displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
-        renderCalendar();
-    });
-
-    closeDetailsButton.addEventListener('click', () => detailDialog.close());
-    detailDialog.addEventListener('click', event => {
-        if (event.target === detailDialog) detailDialog.close();
-    });
+    if (closeDetailsButton && detailDialog) {
+        closeDetailsButton.addEventListener('click', () => detailDialog.close());
+        detailDialog.addEventListener('click', event => {
+            if (event.target === detailDialog) detailDialog.close();
+        });
+    }
 
     renderCalendar();
-    renderUpcomingEvents();
 });

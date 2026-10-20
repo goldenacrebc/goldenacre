@@ -161,10 +161,10 @@
                 </div>
             </div>
 
-            <!-- FORM CARD: Match Fixtures (NEW MODULE) -->
+            <!-- FORM CARD: Match Fixtures -->
             <div id="fixtures-card" class="admin-card-custom">
                 <h3>🏆 Publish Team Match Fixture</h3>
-                <p class="card-subtitle">Adds upcoming league or cup fixtures to the calendar feed (saves to fixtures.json).</p>
+                <p class="card-subtitle">Adds upcoming league or cup fixtures to the calendar feed (saves to fixtures.json)[cite: 1].</p>
 
                 <form id="form-fixtures">
                     <div class="form-grid">
@@ -208,6 +208,7 @@
                     <p class="status-msg-custom" id="status-fixtures"></p>
                 </form>
             </div>
+
             <!-- FORM CARD: Sponsors Manager -->
             <div id="sponsors-card" class="admin-card-custom">
                 <h3>🤝 Club Commercial Sponsors Manager</h3>
@@ -310,7 +311,7 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 3: Social Events Form (Updated with Type & Gold Pill Tag support) -->
+            <!-- FORM CARD 3: Social Events Form -->
             <div id="events-card" class="admin-card-custom">
                 <h3>🎉 Publish Social Event or Activity</h3>
                 <p class="card-subtitle">Adds upcoming social activities, roll-ups, or coaching sessions to the calendar feed.</p>
@@ -443,25 +444,45 @@
                 <p class="status-msg-custom" id="status-archive"></p>
             </div>
 
-            <!-- FORM CARD 6: Calendar & Fixture Manager -->
+            <!-- FORM CARD 6: Calendar & Fixture Manager (UPDATED TO SUPPORT BOTH FIXTURES & EVENTS) -->
             <div id="calendar-manager-card" class="admin-card-custom">
                 <h3>📅 Calendar & Fixture Manager</h3>
-                <p class="card-subtitle">Add, edit, or remove match fixtures and events from the calendar feed.</p>
+                <p class="card-subtitle">Add, edit, or remove match fixtures (fixtures.json) and social events (events.json).</p>
 
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button type="button" class="tab-btn active" id="cal-subtab-add" onclick="switchCalSubTab('add')">➕ Add / Edit Event</button>
-                    <button type="button" class="tab-btn" id="cal-subtab-manage" onclick="switchCalSubTab('manage')">✏️ Manage Existing Events</button>
+                    <button type="button" class="tab-btn active" id="cal-subtab-add" onclick="switchCalSubTab('add')">➕ Add / Edit Entry</button>
+                    <button type="button" class="tab-btn" id="cal-subtab-manage" onclick="switchCalSubTab('manage')">✏️ Manage Existing Entries</button>
                 </div>
 
-                <!-- SUB-SECTION 1: Add / Edit Event Form -->
+                <!-- SUB-SECTION 1: Add / Edit Form -->
                 <div id="cal-section-add">
                     <form id="form-calendar-add">
                         <input type="hidden" id="cal-edit-index" value="">
+                        <input type="hidden" id="cal-edit-source" value="events">
                         
                         <div class="form-grid">
                             <div class="form-group-custom">
-                                <label for="cal-event-title">Event / Match Title</label>
-                                <input type="text" id="cal-event-title" placeholder="e.g. District Cup Match" required>
+                                <label for="cal-entry-type">Entry Type</label>
+                                <select id="cal-entry-type" onchange="toggleCalTeamField()">
+                                    <option value="events">🎉 Social Event / Activity (events.json)</option>
+                                    <option value="fixtures">🏆 Match Fixture (fixtures.json)</option>
+                                </select>
+                            </div>
+                            <div class="form-group-custom" id="cal-team-group" style="display: none;">
+                                <label for="cal-event-team">Select Team / Squad</label>
+                                <select id="cal-event-team">
+                                    <option value="1st 16">1st 16</option>
+                                    <option value="2nd 16">2nd 16</option>
+                                    <option value="Seniors">Seniors</option>
+                                    <option value="Ladies">Ladies</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="cal-event-title">Title / Opponent</label>
+                                <input type="text" id="cal-event-title" placeholder="e.g. Wednesday Roll-up or Goldenacre vs Parkside" required>
                             </div>
                             <div class="form-group-custom">
                                 <label for="cal-event-date">Date</label>
@@ -471,32 +492,32 @@
                         <div class="form-grid">
                             <div class="form-group-custom">
                                 <label for="cal-event-time">Time</label>
-                                <input type="text" id="cal-event-time" placeholder="e.g. 6:15 pm" value="7:00 pm" required>
+                                <input type="text" id="cal-event-time" placeholder="e.g. 6:30 pm" value="6:30 pm" required>
                             </div>
                             <div class="form-group-custom">
-                                <label for="cal-event-location">Location</label>
-                                <input type="text" id="cal-event-location" placeholder="e.g. Goldenacre Bowling Club" value="Goldenacre Bowling Club" required>
+                                <label for="cal-event-location">Location / Venue</label>
+                                <input type="text" id="cal-event-location" placeholder="e.g. Goldenacre" value="Goldenacre" required>
                             </div>
                         </div>
                         <div class="form-group-custom">
                             <label for="cal-event-desc">Description & Details</label>
-                            <textarea id="cal-event-desc" placeholder="Provide fixture or event details..." required></textarea>
+                            <textarea id="cal-event-desc" placeholder="Provide event or fixture details..."></textarea>
                         </div>
                         
-                        <button type="submit" class="submit-btn-custom" id="btn-publish-calendar">Publish Event to Calendar Live</button>
+                        <button type="submit" class="submit-btn-custom" id="btn-publish-calendar">Publish Entry Live</button>
                         <button type="button" class="submit-btn-custom" id="btn-cancel-cal-edit" style="background-color: #64748b; margin-top: 8px; display: none;" onclick="cancelCalendarEdit()">Cancel Edit</button>
                         
                         <p class="status-msg-custom" id="status-calendar-add"></p>
                     </form>
                 </div>
 
-                <!-- SUB-SECTION 2: Manage / Delete Existing Events -->
+                <!-- SUB-SECTION 2: Manage / Delete Existing Entries -->
                 <div id="cal-section-manage" style="display: none;">
-                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">Select events below to delete or click Edit to update them:</p>
-                    <div id="cal-manage-list-container" style="max-height: 280px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc; margin-bottom: 16px;">
-                        <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading events...</p>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">Select entries below to edit or delete:</p>
+                    <div id="cal-manage-list-container" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc; margin-bottom: 16px;">
+                        <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading entries...</p>
                     </div>
-                    <button type="button" class="submit-btn-custom" id="btn-execute-cal-delete" style="background-color: #dc2626;">Delete Selected Events</button>
+                    <button type="button" class="submit-btn-custom" id="btn-execute-cal-delete" style="background-color: #dc2626;">Delete Selected Entries</button>
                     <p class="status-msg-custom" id="status-calendar-manage"></p>
                 </div>
             </div>
@@ -607,7 +628,7 @@
                     <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
                     <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
-                    <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove test entries directly from `events.json`.</li>
+                    <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove entries directly from `events.json` and `fixtures.json`.</li>
                     <li><strong>Broadcast Alert Manager & Sponsors Manager:</strong> Manage footer commercial sponsors and urgent notices easily.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>

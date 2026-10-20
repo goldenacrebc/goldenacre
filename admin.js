@@ -236,68 +236,117 @@
     }
 
     let cachedEventsList = [];
+    let cachedFixturesList = [];
+
+    window.toggleCalTeamField = function() {
+        const typeSelect = document.getElementById('cal-entry-type');
+        const teamGroup = document.getElementById('cal-team-group');
+        if (typeSelect && teamGroup) {
+            teamGroup.style.display = typeSelect.value === 'fixtures' ? 'block' : 'none';
+        }
+    };
 
     async function loadCalendarManageList() {
         const container = document.getElementById('cal-manage-list-container');
         if (!container) return;
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Fetching events...</p>`;
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Fetching events and fixtures...</p>`;
 
         try {
             const { data: tokenData, error: tokenError } = await supabaseClient
                 .from('settings').select('value').eq('key', 'github_token').single();
             if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
 
+            const githubToken = tokenData.value;
             const owner = "goldenacrebc";
             const repo = "goldenacre";
-            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/events.json`;
 
-            const getRes = await fetch(fileUrl, {
-                headers: { "Authorization": `token ${tokenData.value}` }
-            });
-            if (!getRes.ok) throw new Error("Failed to fetch events.json");
+            const [resEvents, resFixtures] = await Promise.all([
+                fetch(`https://api.github.com/repos/${owner}/${repo}/contents/events.json`, { headers: { "Authorization": `token ${githubToken}` } }),
+                fetch(`https://api.github.com/repos/${owner}/${repo}/contents/fixtures.json`, { headers: { "Authorization": `token ${githubToken}` } })
+            ]);
 
-            const fileData = await getRes.json();
-            cachedEventsList = JSON.parse(decodeBase64Utf8(fileData.content));
+            cachedEventsList = resEvents.ok ? JSON.parse(decodeBase64Utf8((await resEvents.json()).content)) : [];
+            cachedFixturesList = resFixtures.ok ? JSON.parse(decodeBase64Utf8((await resFixtures.json()).content)) : [];
 
-            if (!cachedEventsList || cachedEventsList.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No events found in calendar.</p>`;
+            if ((!cachedEventsList || cachedEventsList.length === 0) && (!cachedFixturesList || cachedFixturesList.length === 0)) {
+                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No calendar items found.</p>`;
                 return;
             }
 
-            let html = '';
-            cachedEventsList.forEach((ev, index) => {
-                html += `
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
-                        <div>
-                            <strong>${ev.date}</strong> - ${ev.title} <span style="font-size: 0.75rem; color: var(--text-muted);">(${ev.time || 'All Day'})</span>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">${ev.location || 'Goldenacre'}</div>
+            let html = '<h5 style="margin: 0 0 8px 0; color: var(--brand-green);">🏆 Match Fixtures (fixtures.json)</h5>';
+            if (cachedFixturesList.length === 0) {
+                html += `<p style="font-size:0.8rem; color:var(--text-muted); margin-bottom: 12px;">No fixtures currently listed.</p>`;
+            } else {
+                cachedFixturesList.forEach((fix, index) => {
+                    html += `
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
+                            <div>
+                                <span style="font-size: 0.72rem; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">${fix.team || 'Fixture'}</span>
+                                <strong>${fix.date}</strong> - ${fix.title} <span style="font-size: 0.75rem; color: var(--text-muted);">(${fix.time || '6:30 pm'})</span>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${fix.location || 'Goldenacre'}</div>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <button type="button" onclick="startCalendarEdit(${index}, 'fixtures')" style="background-color: var(--brand-green); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Edit</button>
+                                <label style="cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #dc2626; display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" class="cal-delete-checkbox" data-source="fixtures" data-index="${index}"> Delete
+                                </label>
+                            </div>
                         </div>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <button type="button" onclick="startCalendarEdit(${index})" style="background-color: var(--brand-green); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Edit</button>
-                            <label style="cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #dc2626; display: flex; align-items: center; gap: 4px;">
-                                <input type="checkbox" class="cal-delete-checkbox" data-index="${index}"> Delete
-                            </label>
+                    `;
+                });
+            }
+
+            html += '<h5 style="margin: 16px 0 8px 0; color: var(--brand-green);">🎉 Social Events & Activities (events.json)</h5>';
+            if (cachedEventsList.length === 0) {
+                html += `<p style="font-size:0.8rem; color:var(--text-muted);">No social events currently listed.</p>`;
+            } else {
+                cachedEventsList.forEach((ev, index) => {
+                    html += `
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
+                            <div>
+                                <span style="font-size: 0.72rem; background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">${ev.type || 'Social'}</span>
+                                <strong>${ev.date}</strong> - ${ev.title} <span style="font-size: 0.75rem; color: var(--text-muted);">(${ev.time || 'All Day'})</span>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${ev.location || 'Goldenacre'}</div>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <button type="button" onclick="startCalendarEdit(${index}, 'events')" style="background-color: var(--brand-green); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Edit</button>
+                                <label style="cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #dc2626; display: flex; align-items: center; gap: 4px;">
+                                    <input type="checkbox" class="cal-delete-checkbox" data-source="events" data-index="${index}"> Delete
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
+
             container.innerHTML = html;
 
         } catch (err) {
-            container.innerHTML = `<p style="color: #dc2626; text-align: center; margin: 20px 0;">Error loading events: ${err.message}</p>`;
+            container.innerHTML = `<p style="color: #dc2626; text-align: center; margin: 20px 0;">Error loading entries: ${err.message}</p>`;
         }
     }
 
-    window.startCalendarEdit = function(index) {
-        const ev = cachedEventsList[index];
-        if (!ev) return;
+    window.startCalendarEdit = function(index, source) {
+        const list = source === 'fixtures' ? cachedFixturesList : cachedEventsList;
+        const item = list[index];
+        if (!item) return;
 
         document.getElementById('cal-edit-index').value = index;
-        document.getElementById('cal-event-title').value = ev.title || '';
-        document.getElementById('cal-event-date').value = ev.date || '';
-        document.getElementById('cal-event-time').value = ev.time || '';
-        document.getElementById('cal-event-location').value = ev.location || '';
-        document.getElementById('cal-event-desc').value = ev.description || '';
+        document.getElementById('cal-edit-source').value = source;
+        document.getElementById('cal-entry-type').value = source;
+        document.getElementById('cal-entry-type').disabled = true;
+
+        toggleCalTeamField();
+
+        if (source === 'fixtures') {
+            document.getElementById('cal-event-team').value = item.team || '1st 16';
+        }
+
+        document.getElementById('cal-event-title').value = item.title || '';
+        document.getElementById('cal-event-date').value = item.date || '';
+        document.getElementById('cal-event-time').value = item.time || '';
+        document.getElementById('cal-event-location').value = item.location || '';
+        document.getElementById('cal-event-desc').value = item.description || '';
 
         document.getElementById('btn-publish-calendar').textContent = "Save Changes Live";
         document.getElementById('btn-cancel-cal-edit').style.display = 'block';
@@ -308,7 +357,10 @@
     window.cancelCalendarEdit = function() {
         document.getElementById('form-calendar-add').reset();
         document.getElementById('cal-edit-index').value = '';
-        document.getElementById('btn-publish-calendar').textContent = "Publish Event to Calendar Live";
+        document.getElementById('cal-edit-source').value = 'events';
+        document.getElementById('cal-entry-type').disabled = false;
+        toggleCalTeamField();
+        document.getElementById('btn-publish-calendar').textContent = "Publish Entry Live";
         document.getElementById('btn-cancel-cal-edit').style.display = 'none';
         document.getElementById('status-calendar-add').textContent = '';
     };
@@ -321,10 +373,11 @@
             const btn = document.getElementById('btn-publish-calendar');
             const editIndexVal = document.getElementById('cal-edit-index').value;
             const isEditing = editIndexVal !== '';
+            const sourceType = document.getElementById('cal-entry-type').value;
 
             statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = isEditing ? "Saving event changes..." : "Publishing event to calendar...";
+            statusMsg.innerText = isEditing ? "Saving changes live..." : "Publishing entry live...";
             btn.disabled = true;
 
             try {
@@ -333,25 +386,28 @@
                 const time = document.getElementById('cal-event-time').value.trim();
                 const location = document.getElementById('cal-event-location').value.trim();
                 const description = document.getElementById('cal-event-desc').value.trim();
+                const team = document.getElementById('cal-event-team').value;
 
                 const { data: tokenData, error: tokenError } = await supabaseClient
                     .from('settings').select('value').eq('key', 'github_token').single();
                 if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
 
+                const githubToken = tokenData.value;
                 const owner = "goldenacrebc";
                 const repo = "goldenacre";
                 const branch = "main";
-                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/events.json`;
+                const targetFile = sourceType === 'fixtures' ? 'fixtures.json' : 'events.json';
+                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${targetFile}`;
 
                 const getRes = await fetch(fileUrl, {
-                    headers: { "Authorization": `token ${tokenData.value}` }
+                    headers: { "Authorization": `token ${githubToken}` }
                 });
-                if (!getRes.ok) throw new Error("Failed to fetch events.json");
+                if (!getRes.ok) throw new Error(`Failed to fetch ${targetFile}`);
 
                 const fileData = await getRes.json();
-                let eventsList = JSON.parse(decodeBase64Utf8(fileData.content));
+                let list = JSON.parse(decodeBase64Utf8(fileData.content));
 
-                const updatedEventObj = {
+                const updatedObj = {
                     date: date,
                     title: title,
                     time: time,
@@ -360,34 +416,38 @@
                     notify: true
                 };
 
-                if (isEditing) {
-                    const idx = parseInt(editIndexVal);
-                    eventsList[idx] = updatedEventObj;
-                } else {
-                    eventsList.push(updatedEventObj);
+                if (sourceType === 'fixtures') {
+                    updatedObj.team = team;
                 }
 
-                eventsList.sort((a, b) => new Date(a.date) - new Date(b.date));
+                if (isEditing) {
+                    const idx = parseInt(editIndexVal);
+                    list[idx] = updatedObj;
+                } else {
+                    list.push(updatedObj);
+                }
+
+                list.sort((a, b) => new Date(a.date) - new Date(b.date));
 
                 const commitRes = await fetch(fileUrl, {
                     method: "PUT",
                     headers: {
-                        "Authorization": `token ${tokenData.value}`,
+                        "Authorization": `token ${githubToken}`,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        message: isEditing ? `Admin portal: updated calendar event ${title}` : `Admin portal: added calendar event ${title} on ${date}`,
-                        content: encodeUtf8Base64(JSON.stringify(eventsList, null, 2)),
+                        message: isEditing ? `Admin portal: updated ${sourceType} entry ${title}` : `Admin portal: added ${sourceType} entry ${title} on ${date}`,
+                        content: encodeUtf8Base64(JSON.stringify(list, null, 2)),
                         sha: fileData.sha,
                         branch: branch
                     })
                 });
 
-                if (!commitRes.ok) throw new Error("Failed to commit event changes to GitHub.");
+                if (!commitRes.ok) throw new Error("Failed to commit changes to GitHub.");
 
                 statusMsg.style.backgroundColor = '#dcfce7';
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = isEditing ? "Successfully updated event live!" : "Successfully added event to calendar live!";
+                statusMsg.innerText = isEditing ? "Successfully updated entry live!" : "Successfully published entry live!";
                 
                 cancelCalendarEdit();
                 btn.disabled = false;
@@ -409,55 +469,61 @@
 
             statusMsg.style.backgroundColor = '#e0f2fe';
             statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = "Removing selected events...";
+            statusMsg.innerText = "Removing selected entries...";
             btn.disabled = true;
 
             try {
-                const checkboxes = document.querySelectorAll('.cal-delete-checkbox:checked');
-                if (checkboxes.length === 0) {
-                    throw new Error("Please select at least one event to delete.");
+                const checkedBoxes = document.querySelectorAll('.cal-delete-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    throw new Error("Please select at least one entry to delete.");
                 }
-
-                const deleteIndices = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-index')));
 
                 const { data: tokenData, error: tokenError } = await supabaseClient
                     .from('settings').select('value').eq('key', 'github_token').single();
                 if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
 
+                const githubToken = tokenData.value;
                 const owner = "goldenacrebc";
                 const repo = "goldenacre";
                 const branch = "main";
-                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/events.json`;
 
-                const getRes = await fetch(fileUrl, {
-                    headers: { "Authorization": `token ${tokenData.value}` }
-                });
-                if (!getRes.ok) throw new Error("Failed to fetch events.json");
-
-                const fileData = await getRes.json();
-                let eventsList = JSON.parse(decodeBase64Utf8(fileData.content));
-
-                eventsList = eventsList.filter((_, idx) => !deleteIndices.includes(idx));
-
-                const commitRes = await fetch(fileUrl, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${tokenData.value}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: `Admin portal: removed ${deleteIndices.length} calendar event(s)`,
-                        content: encodeUtf8Base64(JSON.stringify(eventsList, null, 2)),
-                        sha: fileData.sha,
-                        branch: branch
-                    })
+                const deletions = { events: [], fixtures: [] };
+                checkedBoxes.forEach(cb => {
+                    const src = cb.getAttribute('data-source');
+                    const idx = parseInt(cb.getAttribute('data-index'));
+                    deletions[src].push(idx);
                 });
 
-                if (!commitRes.ok) throw new Error("Failed to commit deletion to GitHub.");
+                for (const src of ['events', 'fixtures']) {
+                    if (deletions[src].length === 0) continue;
+
+                    const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${src}.json`;
+                    const getRes = await fetch(fileUrl, { headers: { "Authorization": `token ${githubToken}` } });
+                    if (!getRes.ok) continue;
+
+                    const fileData = await getRes.json();
+                    let list = JSON.parse(decodeBase64Utf8(fileData.content));
+
+                    list = list.filter((_, idx) => !deletions[src].includes(idx));
+
+                    await fetch(fileUrl, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `token ${githubToken}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            message: `Admin portal: removed ${deletions[src].length} ${src} entry/entries`,
+                            content: encodeUtf8Base64(JSON.stringify(list, null, 2)),
+                            sha: fileData.sha,
+                            branch: branch
+                        })
+                    });
+                }
 
                 statusMsg.style.backgroundColor = '#dcfce7';
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = "Successfully deleted selected events! Refreshing list...";
+                statusMsg.innerText = "Successfully deleted selected entries! Refreshing list...";
                 btn.disabled = false;
                 loadCalendarManageList();
 
@@ -883,7 +949,6 @@
             }
         });
     }
-    // --- END OF SPONSORS MANAGER ---
 
     document.querySelectorAll('.btn-publish').forEach(btn => {
         btn.addEventListener('click', async (e) => {
