@@ -67,4 +67,4 @@ For inquiries about the Goldenacre Bowling Club, please visit our website or con
 
 ---
 
-**Website**: [Goldenacre Bowling Club](https://goldenacrebc.github.io/goldenacre/)
+**Website**: [Goldenacre Bowling Club](https://goldenacrebc.co.uk)
