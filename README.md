@@ -2,7 +2,7 @@
 
 Welcome to the Goldenacre Bowling Club website repository! This is the official web presence for our bowling club.
 
-**Visit the live website**: [https://goldenacrebc.github.io/goldenacre/](https://goldenacrebc.github.io/goldenacre/)
+**Visit the live website**: [https://goldenacrebc.co.uk](https://goldenacrebc.co.uk/)
 
 ## About
 
