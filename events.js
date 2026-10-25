@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const detailDate = document.getElementById('events-detail-date');
     const detailList = document.getElementById('events-detail-list');
     const closeDetailsButton = document.getElementById('close-events-detail');
+    
+    // View Switcher Elements
+    const viewCalendarBtn = document.getElementById('view-calendar-btn');
+    const viewListBtn = document.getElementById('view-list-btn');
+    const calendarViewSection = document.getElementById('calendar-view-section');
+    const listViewSection = document.getElementById('list-view-section');
+    const agendaListContainer = document.getElementById('agenda-list-container');
+
     const monthLabel = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' });
     const eventDateLabel = new Intl.DateTimeFormat('en-GB', {
         weekday: 'long',
@@ -13,9 +21,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         month: 'long',
         year: 'numeric'
     });
+    const shortMonthFormat = new Intl.DateTimeFormat('en-GB', { month: 'short' });
+
     let allCalendarItems = [];
     let displayedMonth = new Date();
     displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
+    let currentView = 'calendar'; // 'calendar' or 'list'
 
     try {
         const cacheBuster = `?t=${Date.now()}`;
@@ -30,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (resEvents.ok) dataEvents = await resEvents.json();
         if (resFixtures.ok) dataFixtures = await resFixtures.json();
 
-        // Helper to parse YYYY-MM-DD cleanly as local midnight
         function parseLocalDate(dateString) {
             if (!dateString) return null;
             const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -38,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
         }
 
-        // Parse regular events
         const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -54,7 +63,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }).filter(Boolean);
 
-        // Parse fixtures from fixtures.json
         const parsedFixtures = (Array.isArray(dataFixtures) ? dataFixtures : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -80,9 +88,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function updateView() {
+        if (heading) heading.textContent = monthLabel.format(displayedMonth);
+
+        if (currentView === 'calendar') {
+            renderCalendar();
+        } else {
+            renderListView();
+        }
+    }
+
     function renderCalendar() {
-        if (!heading || !calendarGrid) return;
-        heading.textContent = monthLabel.format(displayedMonth);
+        if (!calendarGrid) return;
         calendarGrid.replaceChildren();
 
         const year = displayedMonth.getFullYear();
@@ -131,6 +148,77 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function renderListView() {
+        if (!agendaListContainer) return;
+        agendaListContainer.replaceChildren();
+
+        const year = displayedMonth.getFullYear();
+        const month = displayedMonth.getMonth();
+
+        // Filter events strictly for the currently selected month
+        const monthItems = allCalendarItems.filter(item => {
+            return item.date.getFullYear() === year && item.date.getMonth() === month;
+        });
+
+        if (monthItems.length === 0) {
+            agendaListContainer.innerHTML = `<p class="events-empty">No events or fixtures scheduled for ${monthLabel.format(displayedMonth)}.</p>`;
+            return;
+        }
+
+        monthItems.forEach(event => {
+            const card = document.createElement('div');
+            card.className = 'agenda-item-card';
+
+            const monthStr = shortMonthFormat.format(event.date).toUpperCase();
+            const dayNum = event.date.getDate();
+
+            let badgeHtml = `<span class="event-pill-tag" style="background:#e0f2fe; color:#0369a1;">Event</span>`;
+            if (event.isFixture) {
+                badgeHtml = `<span class="event-pill-tag" style="background:#f3e8ff; color:#6b21a8;">Fixture</span>`;
+            } else if (event.type === 'social') {
+                badgeHtml = `<span class="event-pill-tag" style="background:#fef3c7; color:#92400e;">Social</span>`;
+            }
+
+            card.innerHTML = `
+                ${badgeHtml}
+                <div class="event-date-badge">
+                    <span class="event-month">${monthStr}</span>
+                    <span class="event-day">${dayNum}</span>
+                </div>
+                <div class="event-details" style="position: relative; padding-top: 6px;">
+                    <h4>${event.title}</h4>
+                    <div class="event-meta">
+                        <span>📅 ${eventDateLabel.format(event.date)}</span>
+                        <span>🕒 ${event.time || '7:00 pm'}</span>
+                    </div>
+                    <p>${event.description || event.location}</p>
+                </div>
+            `;
+            agendaListContainer.append(card);
+        });
+    }
+
+    // Toggle Button Event Listeners
+    if (viewCalendarBtn && viewListBtn && calendarViewSection && listViewSection) {
+        viewCalendarBtn.addEventListener('click', () => {
+            currentView = 'calendar';
+            viewCalendarBtn.classList.add('active');
+            viewListBtn.classList.remove('active');
+            calendarViewSection.style.display = 'block';
+            listViewSection.style.display = 'none';
+            updateView();
+        });
+
+        viewListBtn.addEventListener('click', () => {
+            currentView = 'list';
+            viewListBtn.classList.add('active');
+            viewCalendarBtn.classList.remove('active');
+            listViewSection.style.display = 'block';
+            calendarViewSection.style.display = 'none';
+            updateView();
+        });
+    }
+
     function showDayEvents(date, dayEvents) {
         if (!detailDate || !detailList || !detailDialog) return;
         detailDate.textContent = eventDateLabel.format(date);
@@ -144,18 +232,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.style.cssText = `${dividerStyle}`;
 
             if (event.isFixture) {
-                // Parse opponent name and clean filename slug (stripping BC, Bowling Club, etc.)
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
                     const parts = event.title.split(/vs\.?|v\.?|-/i);
                     opponentName = parts.length > 1 ? parts[1].trim() : event.title;
-                    
-                    let cleanSlugTarget = opponentName
-                        .replace(/\b(bc|bowling\s+club|club)\b/gi, '')
-                        .trim();
-                    // Use cleanSlugTarget, make it lowercase, and slugify it
-                    clubNameSlug = cleanSlugTarget.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
 
                 const badgeFolder = 'bowling_badges/';
@@ -163,7 +245,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
                 const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
                 const fallbackWebp = `${badgeFolder}${clubNameSlug}.webp`;
-
                 const homeBadgeUrl = 'logo.jpeg';
                 const teamLabel = event.team ? `${event.team} Fixture` : 'Match Fixture';
                 const formattedDateStr = eventDateLabel.format(date);
@@ -171,8 +252,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let teamBadgeClass = 'tag-fixture-default';
                 if (event.team === '1st 16') teamBadgeClass = 'tag-fixture-1st';
                 else if (event.team === '2nd 16') teamBadgeClass = 'tag-fixture-2nd';
-                else if (event.team === 'Seniors') teamBadgeClass = 'tag-fixture-seniors';
-                else if (event.team === 'Ladies') teamBadgeClass = 'tag-fixture-ladies';
 
                 const initials = opponentName.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
 
@@ -208,7 +287,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${event.description ? `<div style="font-size: 0.92rem; color: #334155; line-height: 1.5;"><p style="margin: 0 0 4px 0;"><strong>Details:</strong></p><p style="margin: 0;">${event.description.replace(/\n/g, '<br>')}</p></div>` : ''}
                 `;
             } else {
-                // Regular Event Popup Format
                 let badgeHtml = '';
                 if (event.type === 'rollups') {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6; text-transform: uppercase;">🎯 Roll-up</span></div>`;
@@ -242,14 +320,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
             displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
-            renderCalendar();
+            updateView();
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
             displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
-            renderCalendar();
+            updateView();
         });
     }
 
@@ -260,5 +338,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    renderCalendar();
+    updateView();
 });

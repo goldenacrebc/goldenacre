@@ -6,7 +6,52 @@
     <title>Events Calendar | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <script src="events.js?version=100" defer></script>
+    <style>
+        /* View Toggle Switcher Styling */
+        .events-view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .events-view-btn {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .events-view-btn.active {
+            background: #173b32;
+            color: #ffcc00;
+            border-color: #173b32;
+        }
+        /* Agenda List View Layout */
+        .agenda-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .agenda-item-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            position: relative;
+        }
+    </style>
+    <script src="events.js?version=103" defer></script>
 </head>
 <body class="site-page">
     <header>
@@ -50,18 +95,34 @@
     </section>
 
     <main class="events-page">
+        <p class="events-demo-notice"><strong>Preview:</strong> The events shown are examples only, not confirmed club events. Replace them with real details in <code>events.json</code>.</p>
 
-        <section class="events-calendar-section" aria-labelledby="calendar-heading">
-            <div class="events-month-toolbar">
-                <button class="events-month-button" id="previous-month" type="button" aria-label="Show previous month">&larr; <span>Previous</span></button>
-                <h2 id="calendar-heading" aria-live="polite"></h2>
-                <button class="events-month-button" id="next-month" type="button" aria-label="Show next month"><span>Next</span> &rarr;</button>
-            </div>
-            <p class="events-status" id="events-status" role="status" aria-live="polite"></p>
+        <!-- Shared Month Navigation Toolbar -->
+        <div class="events-month-toolbar" style="margin-top: 20px;">
+            <button class="events-month-button" id="previous-month" type="button" aria-label="Show previous month">&larr; <span>Previous</span></button>
+            <h2 id="calendar-heading" aria-live="polite"></h2>
+            <button class="events-month-button" id="next-month" type="button" aria-label="Show next month"><span>Next</span> &rarr;</button>
+        </div>
+
+        <p class="events-status" id="events-status" role="status" aria-live="polite"></p>
+
+        <!-- View Switcher Toggle -->
+        <div class="events-view-toggle">
+            <button id="view-calendar-btn" class="events-view-btn active" type="button">📅 Calendar Grid</button>
+            <button id="view-list-btn" class="events-view-btn" type="button">📋 Monthly List View</button>
+        </div>
+
+        <!-- Calendar Grid View Section -->
+        <section class="events-calendar-section" id="calendar-view-section" aria-labelledby="calendar-heading">
             <div class="calendar-weekdays" aria-hidden="true">
                 <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
             </div>
             <div class="calendar-grid" id="calendar-grid" aria-label="Events by day"></div>
+        </section>
+
+        <!-- Agenda / List View Section (Hidden by default, filters by selected month) -->
+        <section class="events-calendar-section" id="list-view-section" style="display: none;" aria-labelledby="list-heading">
+            <div class="agenda-list-container" id="agenda-list-container"></div>
         </section>
     </main>
 
