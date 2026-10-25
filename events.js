@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 time: item.time || '',
                 location: item.location || 'Goldenacre Bowling Club',
                 description: item.description || '',
+                image: item.image || '',
                 isFixture: false,
                 type: item.type ? item.type.toLowerCase() : 'social'
             };
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 time: item.time || '',
                 location: item.location || 'Goldenacre Bowling Club',
                 description: item.description || '',
+                image: '',
                 isFixture: true,
                 type: 'fixtures'
             };
@@ -240,16 +242,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dividerStyle = idx > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;' : 'padding-bottom: 8px;';
             card.style.cssText = `${dividerStyle}`;
 
-            let eventImageUrl = '';
-            if (event.title.toLowerCase().includes('amanda jane')) {
-                eventImageUrl = 'photos/entertainment/amanda-jane.png';
-            } else if (event.title.toLowerCase().includes('paris')) {
-                eventImageUrl = 'photos/entertainment/paris.png';
+            // Check if act image exists directly or via matching act title
+            let resolvedImage = event.image;
+            const titleLower = event.title.toLowerCase();
+            if (!resolvedImage) {
+                if (titleLower.includes('amanda jane')) {
+                    resolvedImage = 'photos/entertainment/amanda-jane.png';
+                } else if (titleLower.includes('paris')) {
+                    resolvedImage = 'photos/entertainment/paris.png';
+                }
             }
 
-            const imageBannerHtml = eventImageUrl ? `
-                <div style="width: 100%; max-height: 180px; overflow: hidden; border-radius: 8px; background: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1;">
-                    <img src="${eventImageUrl}" alt="${event.title}" style="max-width: 100%; max-height: 180px; object-fit: contain; display: block;" onerror="this.parentElement.style.display='none'">
+            const imageBannerHtml = resolvedImage ? `
+                <div style="width: 100%; max-height: 180px; overflow: hidden; border-radius: 8px; background: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; padding: 4px;">
+                    <img src="${resolvedImage}" alt="${event.title}" style="max-width: 100%; max-height: 170px; object-fit: contain; display: block;" onerror="this.parentElement.style.display='none'">
                 </div>
             ` : '';
 
@@ -314,7 +320,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6; text-transform: uppercase;">🎯 Roll-up</span></div>`;
                 } else if (event.type === 'coaching') {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc; text-transform: uppercase;">📋 Coaching</span></div>`;
-                } else if (event.type === 'social' || event.title.toLowerCase().includes('amanda') || event.title.toLowerCase().includes('paris')) {
+                } else if (resolvedImage || titleLower.includes('party') || titleLower.includes('amanda') || titleLower.includes('paris') || titleLower.includes('entertainment')) {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; text-transform: uppercase;">🎤 Live Entertainment</span></div>`;
                 }
 
