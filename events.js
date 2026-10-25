@@ -315,16 +315,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 `;
             } else {
                 let badgeHtml = '';
-                const basePillStyle = 'display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px;';
+                const truePillStyle = 'display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px;';
 
                 if (event.type === 'rollups') {
-                    badgeHtml = `<div><span style="${basePillStyle} background: #e6f4ea; color: #137333; border: 1px solid #ceead6;">🎯 Roll-up</span></div>`;
+                    badgeHtml = `<div><span style="${truePillStyle} background: #e6f4ea; color: #137333; border: 1px solid #ceead6;">🎯 Roll-up</span></div>`;
                 } else if (event.type === 'coaching') {
-                    badgeHtml = `<div><span style="${basePillStyle} background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc;">📋 Coaching</span></div>`;
+                    badgeHtml = `<div><span style="${truePillStyle} background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc;">📋 Coaching</span></div>`;
                 } else if (titleLower.includes('pool')) {
-                    badgeHtml = `<div><span style="${basePillStyle} background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">🎱 Pool League</span></div>`;
-                } else if (resolvedImage || titleLower.includes('party') || titleLower.includes('amanda') || titleLower.includes('paris') || titleLower.includes('entertainment') || event.type === 'social') {
-                    badgeHtml = `<div><span style="${basePillStyle} background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">🎤 Live Entertainment</span></div>`;
+                    badgeHtml = `<div><span style="${truePillStyle} background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">🎱 Pool League</span></div>`;
+                } else if (resolvedImage || titleLower.includes('amanda') || titleLower.includes('paris')) {
+                    badgeHtml = `<div><span style="${truePillStyle} background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">🎤 Live Entertainment</span></div>`;
+                } else {
+                    // Guaranteed fallback pill for Christmas Day, New Year's Day, and standard events so it never shows raw unstyled text
+                    badgeHtml = `<div><span style="${truePillStyle} background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">📅 Event</span></div>`;
                 }
 
                 card.innerHTML = `
