@@ -242,7 +242,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dividerStyle = idx > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;' : 'padding-bottom: 8px;';
             card.style.cssText = `${dividerStyle}`;
 
-            // Check if act image exists directly or via matching act title
             let resolvedImage = event.image;
             const titleLower = event.title.toLowerCase();
             if (!resolvedImage) {
@@ -316,12 +315,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 `;
             } else {
                 let badgeHtml = '';
+                const basePillStyle = 'display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px;';
+
                 if (event.type === 'rollups') {
-                    badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6; text-transform: uppercase;">🎯 Roll-up</span></div>`;
+                    badgeHtml = `<div><span style="${basePillStyle} background: #e6f4ea; color: #137333; border: 1px solid #ceead6;">🎯 Roll-up</span></div>`;
                 } else if (event.type === 'coaching') {
-                    badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc; text-transform: uppercase;">📋 Coaching</span></div>`;
-                } else if (resolvedImage || titleLower.includes('party') || titleLower.includes('amanda') || titleLower.includes('paris') || titleLower.includes('entertainment')) {
-                    badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; text-transform: uppercase;">🎤 Live Entertainment</span></div>`;
+                    badgeHtml = `<div><span style="${basePillStyle} background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc;">📋 Coaching</span></div>`;
+                } else if (titleLower.includes('pool')) {
+                    badgeHtml = `<div><span style="${basePillStyle} background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">🎱 Pool League</span></div>`;
+                } else if (resolvedImage || titleLower.includes('party') || titleLower.includes('amanda') || titleLower.includes('paris') || titleLower.includes('entertainment') || event.type === 'social') {
+                    badgeHtml = `<div><span style="${basePillStyle} background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">🎤 Live Entertainment</span></div>`;
                 }
 
                 card.innerHTML = `
