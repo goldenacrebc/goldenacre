@@ -6,115 +6,40 @@
     <title>Club History | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <style>
-  .gh-timeline-container {
-    max-width: 100%;
-    margin: 20px auto;
-    font-family: inherit; /* Dynamically inherits your theme font */
-    box-sizing: border-box;
-  }
+  <style>
+  .gh-timeline-container { max-width: 100%; margin: 20px auto; font-family: inherit; box-sizing: border-box; }
   
-  /* Modern Compact Accordions */
-  .gh-timeline-container details {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-  
-  .gh-timeline-container details:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-  }
-  
-  /* Tap targets optimized for mobile fingers */
-  .gh-timeline-container summary {
-    padding: 16px 20px;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #1e293b;
-    cursor: pointer;
-    background-color: #f8fafc;
-    list-style: none;
-    position: relative;
-    user-select: none;
-  }
-  
-  /* Custom mobile-friendly drop arrow indicator */
-  .gh-timeline-container summary::-webkit-details-marker {
-    display: none;
-  }
-  .gh-timeline-container summary::after {
-    content: "＋";
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-weight: bold;
-    color: #64748b;
-    font-size: 1.1rem;
-  }
-  .gh-timeline-container details[open] summary::after {
-    content: "－";
-    color: #004085;
-  }
-  
-  .gh-timeline-container details[open] summary {
-    background-color: #f1f5f9;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  
-  /* Content formatting */
-  .gh-timeline-container .era-body {
-    padding: 20px;
-    color: #334155;
-    background-color: #ffffff;
-  }
-  .gh-timeline-container .era-intro {
-    margin-top: 0;
-    margin-bottom: 14px;
-    font-style: italic;
-    color: #64748b;
-  }
-  .gh-timeline-container ul {
-    margin: 0;
-    padding-left: 20px;
-  }
-  .gh-timeline-container li {
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-  .gh-timeline-container li:last-child {
-    margin-bottom: 0;
+  /* Spotlight Highlights Grid */
+  .history-spotlight { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 35px; }
+  .spotlight-card { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-left: 4px solid #004085; padding: 18px 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+  .spotlight-card h4 { margin: 0 0 6px 0; color: #004085; font-size: 1.05rem; }
+  .spotlight-card p { margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.5; }
+
+  /* Era Filter Tabs */
+  .history-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
+  .history-tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+  .history-tab-btn:hover, .history-tab-btn.active { background-color: #004085; color: #fff; border-color: #004085; }
+
+  /* Clean Timeline Cards */
+  .era-section { display: none; }
+  .era-section.active-era { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Compact Submission Box */
-  .gh-submit-box {
-    margin-top: 40px;
-    padding: 20px;
-    border: 2px dashed #cbd5e1;
-    border-radius: 8px;
-    background-color: #f8fafc;
-  }
-  .gh-submit-box h3 { margin-top: 0; color: #0f172a; font-size: 1.3rem; margin-bottom: 6px; }
-  .gh-submit-box p { margin: 0 0 16px 0; font-size: 0.9rem; color: #64748b; line-height: 1.5; }
-  .gh-form-row { margin-bottom: 12px; }
-  .gh-form-row label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.9rem; color: #334155; }
-  .gh-form-row input, .gh-form-row textarea { 
-    width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 0.95rem;
-  }
-  .gh-submit-btn {
-    background-color: #004085; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem;
-  }
-  .gh-submit-btn:hover { background-color: #002752; }
+  .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border-left: 5px solid #004085; }
+  .timeline-card h4 { margin: 0 0 6px 0; font-size: 1.25rem; color: #1e293b; font-weight: 700; }
+  .timeline-card .era-intro { margin: 0 0 16px 0; font-style: italic; color: #64748b; font-size: 0.95rem; }
+  .timeline-card ul { margin: 0; padding-left: 20px; }
+  .timeline-card li { margin-bottom: 10px; line-height: 1.65; color: #334155; }
+  .timeline-card li:last-child { margin-bottom: 0; }
 
-  /* Smooth stacking adjustments for small phones */
   @media (max-width: 480px) {
-    .gh-timeline-container summary { padding: 14px 15px; font-size: 1.05rem; }
-    .gh-timeline-container .era-body { padding: 15px; }
+    .timeline-card { padding: 16px; }
+    .history-tabs { gap: 6px; }
+    .history-tab-btn { font-size: 0.8rem; padding: 8px 12px; }
   }
 </style>
 </head>
@@ -162,108 +87,110 @@
 
     <main class="membership-page">
         <section class="membership-welcome">
-            <p class="membership-kicker">A work in progress</p>
-            <h2>Our story is being gathered</h2>
-            <p>Goldenacre Bowling Club was established in 1942. We’re collecting memories, photographs and records to tell the fuller story of the people and events that have shaped the club.</p>
-            <p>More details will be added as they become available.</p>
+            <p class="membership-kicker">Honours & Heritage</p>
+            <h2>Over Eight Decades of Bowling Excellence</h2>
+            <p>Founded in 1942, Goldenacre Bowling Club has built a rich tradition on and off the green. From national titles and historic city trophies to regional league triumphs, explore the milestones and players that have shaped our club history.</p>
         </section>
 
-        <section class="membership-opportunities" aria-labelledby="history-timeline-heading">
+        <!-- Spotlight Crown Jewels Cards -->
+        <section style="margin-top: 30px;" aria-labelledby="spotlight-heading">
+            <h3 id="spotlight-heading" style="font-size: 1.25rem; color: #0f172a; margin-bottom: 14px;">🏆 Club Crown Jewels</h3>
+            <div class="history-spotlight">
+                <div class="spotlight-card">
+                    <h4>National Singles Triumph (2006)</h4>
+                    <p>Billy Mellors claimed Goldenacre's highest-ever individual national title, winning the Bowls Scotland National Gents Singles Championship.</p>
+                </div>
+                <div class="spotlight-card">
+                    <h4>Historic Tait Trophy (2006)</h4>
+                    <p>At just 21 years old, Colin Hutchison won Scotland's oldest single-handed bowling trophy, leading into elite county and international representation.</p>
+                </div>
+                <div class="spotlight-card">
+                    <h4>County &amp; Regional Dominance</h4>
+                    <p>From Gary Robertson's 2025 EBA Set Singles and 2026 Pairs titles to Jim Hutchison's dual Over-55 Regional crowns on the #RoadToAyr.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="membership-opportunities" aria-labelledby="history-timeline-heading" style="margin-top: 40px;">
+            <h3 id="history-timeline-heading" style="font-size: 1.25rem; color: #0f172a; margin-bottom: 14px;">Decade-by-Decade Timeline</h3>
+            
+            <!-- Era Filter Buttons -->
+            <div class="history-tabs">
+                <button class="history-tab-btn active" onclick="switchEra('recent', this)">2020–2026</button>
+                <button class="history-tab-btn" onclick="switchEra('2010s', this)">2010–2019</button>
+                <button class="history-tab-btn" onclick="switchEra('2000s', this)">2000–2009</button>
+                <button class="history-tab-btn" onclick="switchEra('early', this)">1942–1999</button>
+            </div>
+
             <div class="gh-timeline-container">
 
-  <!-- 1942 — Club Founded -->
-  <details>
-    <summary>1942 — Club Founded</summary>
-    <div class="era-body">
-      <p class="era-intro">The origins of our home on the green.</p>
-      <ul>
-        <li>Goldenacre Bowling Club is officially established amidst World War II, forming a vital sporting hub for the local Edinburgh community.</li>
-      </ul>
-    </div>
-  </details>
+              <!-- 2020–2026 ERA -->
+              <div id="era-recent" class="era-section active-era">
+                <div class="timeline-card">
+                  <h4>2020–2026 — Recent Honours &amp; Hosting Spotlight</h4>
+                  <p class="era-intro">Recent history has seen Goldenacre excel on the local stage, send multi-time champions back to the national stage, and step into the spotlight as a regional host.</p>
+                  <ul>
+                    <li><strong>2026 — EBA County Championship Pairs Winners:</strong> Gary Robertson and Malcolm Thomson brought major county silverware to the club by capturing the Edinburgh Bowling Association (EBA) Pairs title.</li>
+                    <li><strong>2025 — EBA Set Singles Champion:</strong> <strong>Gary Robertson</strong> added an outstanding individual Edinburgh title to the club's honors by winning the EBA Set Singles Championship.</li>
+                    <li><strong>2026 — Steele Trophy Winner:</strong> Rita Reid added to the club's trophy cabinet by winning the regional Steele Trophy final.</li>
+                    <li><strong>2024 — Bowls Scotland Over 55s Regional Champion (Two-Time Winner):</strong> Jim Hutchison triumphed yet again in a brilliant regional singles campaign, defeating Dudley Bowling Club's G. Flight to secure his second modern pathway qualification to the national finals at Ayr.</li>
+                    <li><strong>2022 — National Host Venue:</strong> Goldenacre was selected by Bowls Scotland as the official host venue for the high-profile Ladies National Top 10 East Region Finals.</li>
+                  </ul>
+                </div>
+              </div>
 
-  <!-- 1943–1959 -->
-  <details>
-    <summary>1943–1959</summary>
-    <div class="era-body">
-      <p class="era-intro">The post-war growth years.</p>
-      <ul>
-        <li>Early members laid down the physical foundations of our green, clubhouse, and early tournament fixtures within Edinburgh.</li>
-      </ul>
-    </div>
-  </details>
+              <!-- 2010–2019 ERA -->
+              <div id="era-2010s" class="era-section">
+                <div class="timeline-card">
+                  <h4>2010–2019 — League Championships &amp; Individual Success</h4>
+                  <p class="era-intro">A golden decade defined by major league championships, team triumphs, and exceptional individual club paths.</p>
+                  <ul>
+                    <li><strong>2019 — EBL Division 3 Champions:</strong> The first team squad—captained by vital skip leadership from <strong>Chris Fallon</strong> and <strong>Ewan Fallon</strong>—captured the Edinburgh Bowling League Division 3 Championship title.</li>
+                    <li><strong>2019 — Tait Trophy Finalist:</strong> Following a brilliant run in the local pathways, Gents Club Champion <strong>Ewan Fallon</strong> proudly represented Goldenacre all the way to the EBA Tait Trophy Final at Parkside.</li>
+                    <li><strong>2019 — Bowls Scotland Over 55s Regional Champion:</strong> Jim Hutchison secured a monumental regional singles title, booking his place to fly the Goldenacre flag at the Senior National Finals on the #RoadToAyr.</li>
+                    <li><strong>2018 — Multi-Time Singles Kingpin:</strong> Multiple club championship titles were secured, cementing a legacy of 6-time club championship dominance.</li>
+                    <li><strong>2019 — EWBA Fours Champions:</strong> The ladies' team of Jean Summers, Sandra Kennedy, Margaret Elder, and Lorna Mackay captured the Edinburgh Women's Bowling Association (EWBA) Fours title.</li>
+                    <li><strong>2019 — District 14 Excellence:</strong> Jean Summers, Rita Reid, and Carol Hogg claimed the District 14 Ladies Triples Championship.</li>
+                    <li><strong>2019 — Club Championship Milestones:</strong> <strong>Ewan Fallon</strong> secured the Gents Club Championship in a memorable final against fellow club leader <strong>Colin Hutchison</strong>, alongside <strong>Paul McLaren</strong> capturing the 2-Bowl Championship and David Barclay taking the Gerrard Handicap.</li>
+                  </ul>
+                </div>
+              </div>
 
-  <!-- 1960–1979 -->
-  <details>
-    <summary>1960–1979</summary>
-    <div class="era-body">
-      <p class="era-intro">Expanding the fixture cards and membership.</p>
-      <ul>
-        <li>Club invitationals grew in prominence, bringing elite bowlers from across Midlothian to Goldenacre. Refurbishments to club amenities expanded our base.</li>
-      </ul>
-    </div>
-  </details>
+              <!-- 2000–2009 ERA -->
+              <div id="era-2000s" class="era-section">
+                <div class="timeline-card">
+                  <h4>2000–2009 — The Golden Era &amp; National Glory</h4>
+                  <p class="era-intro">A historic era for Goldenacre, defined by our highest-ever individual national victory and elite city-wide singles titles.</p>
+                  <ul>
+                    <li><strong>2006 — Scottish National Gents Singles Champion:</strong> In the club's ultimate men's national triumph, <strong>Billy Mellors</strong> proudly represented Goldenacre to win the prestigious Bowls Scotland National Gents Singles Championship, defeating Northfield's Craig England in the final. Billy stands as the club's sole Gents National Singles Champion at the highest tier of Scottish bowls.</li>
+                    <li><strong>2006 — EBA Tait Trophy Winner &amp; County/International Pathways:</strong> At just 21 years old, <strong>Colin Hutchison</strong> captured the historic Edinburgh Bowling Association (EBA) Tait Trophy, cementing his place in Edinburgh bowling history. Alongside city-wide titles and multi-time club championships, Colin achieved county and international recognition by representing the Scottish Under-25 and indoor international teams, later contributing to the sport nationally as Bowls Scotland's National Development Manager.</li>
+                    <li><strong>2004 — Victor Paris Singles Champion:</strong> Setting the stage for a decade of dominance, the city-wide crown was claimed via the Victor Paris Knockout Singles, showcasing Goldenacre's elite individual pedigree across Edinburgh.</li>
+                  </ul>
+                </div>
+              </div>
 
-  <!-- 1980–1999 -->
-  <details>
-    <summary>1980–1999</summary>
-    <div class="era-body">
-      <p class="era-intro">Strong regional representations.</p>
-      <ul>
-        <li>Goldenacre teams regularly surged up the local district tables. Internal club championships saw highly competitive battles on our home green.</li>
-      </ul>
-    </div>
-  </details>
+              <!-- 1942–1999 ERA -->
+              <div id="era-early" class="era-section">
+                <div class="timeline-card">
+                  <h4>1942–1959 — Foundation Years</h4>
+                  <p class="era-intro">The origins of our home on the green.</p>
+                  <ul>
+                    <li><strong>1942 — Club Founded:</strong> Goldenacre Bowling Club is officially established amidst World War II, forming a vital sporting hub for the local Edinburgh community.</li>
+                    <li><strong>1943–1959 — Post-War Growth:</strong> Early members laid down the physical foundations of our green, clubhouse, and early tournament fixtures within Edinburgh.</li>
+                  </ul>
+                </div>
 
-  <!-- 2000–2009 -->
-  <details>
-    <summary>2000–2009 — The Golden Year of 2006</summary>
-    <div class="era-body">
-      <p class="era-intro">A historic era for Goldenacre, defined by our highest-ever individual national victory and elite city-wide singles titles.</p>
-      <ul>
-        <li><strong>2006 — Scottish National Gents Singles Champion:</strong> In the club's ultimate men's national triumph, <strong>Billy Mellors</strong> proudly represented Goldenacre to win the prestigious Bowls Scotland National Gents Singles Championship, defeating Northfield's Craig England in the final. Billy stands as the club's sole Gents National Singles Champion at the highest tier of Scottish bowls.</li>
-        <li><strong>2006 — EBA Tait Trophy Winner:</strong> At just 21 years old, <strong>Colin Hutchison</strong> captured the historic Edinburgh Bowling Association (EBA) Tait Trophy. By winning the oldest single-handed bowling trophy in Scotland, Colin cemented his place in Edinburgh bowling history.</li>
-        <li><strong>2004 — Victor Paris Singles Champion:</strong> Setting the stage for his decade of dominance, Colin Hutchison claimed his first Victor Paris Knockout Singles crown, showcasing Goldenacre's elite individual pedigree across the city.</li>
-      </ul>
-    </div>
-  </details>
+                <div class="timeline-card">
+                  <h4>1960–1999 — Regional Expansion</h4>
+                  <p class="era-intro">Expanding the fixture cards, membership, and district presence.</p>
+                  <ul>
+                    <li><strong>1960–1979 — Invitational Prominence:</strong> Club invitationals grew, bringing elite bowlers from across Midlothian to Goldenacre. Refurbishments expanded amenities.</li>
+                    <li><strong>1980–1999 — District Progress:</strong> Goldenacre teams regularly surged up the local district tables with fierce internal club championships.</li>
+                  </ul>
+                </div>
+              </div>
 
-  <!-- 2010–2019 -->
-  <details>
-    <summary>2010–2019</summary>
-    <div class="era-body">
-      <p class="era-intro">A golden decade defined by major league championships, team triumphs, and exceptional individual club paths.</p>
-      <ul>
-        <li><strong>2019 — EBL Division 3 Champions:</strong> The first team squad—captained by vital contributions from skips Chris Fallon and Ewan Fallon—captured the Edinburgh Bowling League Division 3 Championship title.</li>
-        <li><strong>2019 — Tait Trophy Finalist:</strong> Following a brilliant run in the local pathways, Gents Club Champion Ewan Fallon proudly represented Goldenacre all the way to the EBA Tait Trophy Final at Parkside.</li>
-        <li><strong>2019 — Bowls Scotland Over 55s Regional Champion:</strong> Jim Hutchison secured a monumental regional singles title, booking his place to fly the Goldenacre flag at the Senior National Finals on the #RoadToAyr.</li>
-        <li><strong>2018 — Multi-Time Singles Kingpin:</strong> Colin Hutchison secured his second historic Victor Paris Knockout Singles Championship title, cementing his legacy as a 6-time club champion.</li>
-        <li><strong>2019 — EWBA Fours Champions:</strong> The ladies' team of Jean Summers, Sandra Kennedy, Margaret Elder, and Lorna Mackay captured the Edinburgh Women's Bowling Association (EWBA) Fours title.</li>
-        <li><strong>2019 — District 14 Excellence:</strong> Jean Summers, Rita Reid, and Carol Hogg claimed the District 14 Ladies Triples Championship.</li>
-        <li><strong>2019 — Club Championship Milestones:</strong> Ewan Fallon secured the Gents Club Championship in a memorable final against Colin Hutchison, alongside Paul McLaren (2-Bowl Champion) and David Barclay (Gerrard Handicap Champion).</li>
-      </ul>
-    </div>
-  </details>
-
-  <!-- 2020–2026 -->
-  <details>
-    <summary>2020–2026</summary>
-    <div class="era-body">
-      <p class="era-intro">Recent history has seen Goldenacre excel on the local stage, send multi-time champions back to the national stage, and step into the spotlight as a regional host.</p>
-      <ul>
-        <li><strong>2026 — EBA County Championship Pairs Winners:</strong> Gary Robertson and Malcolm Thomson brought major silverware to the club by capturing the Edinburgh Bowling Association (EBA) Pairs title.</li>
-        <li><strong>2026 — Steele Trophy Winner:</strong> Rita Reid added to the club's trophy cabinet by winning the regional Steele Trophy final.</li>
-        <li><strong>2025 - EBA set singles winner: </strong>Gary Robertson won the EBA set singles bring home his first major silverware to the club. </li>
-        <li><strong>2024 — Bowls Scotland Over 55s Regional Champion (Two-Time Winner):</strong> Jim Hutchison triumphed yet again in a brilliant regional singles campaign, defeating Dudley Bowling Club's G. Flight to secure his second modern pathway qualification to the national finals at Ayr.</li>
-        <li><strong>2022 — National Host Venue:</strong> Goldenacre was selected by Bowls Scotland as the official host venue for the high-profile Ladies National Top 10 East Region Finals.</li>
-      </ul>
-    </div>
-  </details>
-
-  
-
-</div>
-
+            </div>
         </section>
 
         <p class="club-history-back-link"><a class="membership-text-link" href="honours-boards.html">&larr; Back to the Honours Boards</a></p>
@@ -272,5 +199,18 @@
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
     </footer>
+
+    <!-- Tab Switching Script -->
+    <script>
+        function switchEra(eraId, btn) {
+            // Update active button state
+            document.querySelectorAll('.history-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Hide all sections and show selected
+            document.querySelectorAll('.era-section').forEach(sec => sec.classList.remove('active-era'));
+            document.getElementById('era-' + eraId).classList.add('active-era');
+        }
+    </script>
 </body>
 </html>
