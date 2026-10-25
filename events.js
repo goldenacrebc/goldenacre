@@ -155,7 +155,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const year = displayedMonth.getFullYear();
         const month = displayedMonth.getMonth();
 
-        // Filter events strictly for the currently selected month
         const monthItems = allCalendarItems.filter(item => {
             return item.date.getFullYear() === year && item.date.getMonth() === month;
         });
@@ -166,8 +165,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         monthItems.forEach(event => {
-            const card = document.createElement('div');
+            // Make each list card a clickable button opening the exact same popup as the calendar grid
+            const card = document.createElement('button');
+            card.type = 'button';
             card.className = 'agenda-item-card';
+            card.style.cssText = 'width: 100%; text-align: left; cursor: pointer; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; display: flex; gap: 16px; align-items: flex-start; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative; transition: transform 0.15s ease, border-color 0.15s ease;';
+            
+            card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-1px)'; card.style.borderColor = '#173b32'; });
+            card.addEventListener('mouseleave', () => { card.style.transform = 'none'; card.style.borderColor = '#e2e8f0'; });
+            
+            // Clicking the list card triggers the day's event popup dialog
+            card.addEventListener('click', () => {
+                const dayEvents = allCalendarItems.filter(e => e.date.getTime() === event.date.getTime());
+                showDayEvents(event.date, dayEvents);
+            });
 
             const monthStr = shortMonthFormat.format(event.date).toUpperCase();
             const dayNum = event.date.getDate();
