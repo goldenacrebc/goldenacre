@@ -33,12 +33,12 @@
   },
   {
     "date": "2026-12-12",
-    "title": "Live Entertainment",
+    "title": "Amanda Jane - Christmas Party",
     "time": "7:00 pm",
-    "location": "Goldenacre Bowling club",
-    "description": "Come along to the see Amanda-Jane sing live.",
-    "notify": true
-  },
+    "location": "Goldenacre Bowling Club",
+    "description": "The Goldenacre Christmas party featuring live entertainment.",
+    "image": "photos/entertainment/amanda-jane.png"
+},
   {
     "date": "2026-12-25",
     "title": "Christmas Day",
