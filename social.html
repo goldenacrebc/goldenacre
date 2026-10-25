@@ -6,6 +6,54 @@
     <title>Social Events | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Card media & badge overlay fixes */
+        .event-card-item {
+            flex-direction: column;
+            padding: 0;
+            position: relative;
+        }
+
+        .event-card-media {
+            width: 100%;
+            background-color: #0f172a; /* Dark background to frame vertical flyers cleanly */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 8px; /* Adds a clean border frame around the full poster */
+        }
+        
+        .event-card-media img {
+            width: 100%;
+            max-height: 380px; /* Adjust this if you want them taller or shorter */
+            object-fit: contain; /* Ensures the whole image is displayed without cropping */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card-item:hover .event-card-media img {
+            transform: scale(1.02);
+        }
+
+        .event-card-body {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Adjust pill badge layering & position for top edge alignment */
+        .event-pill-tag {
+            top: 10px;
+            right: 12px;
+            z-index: 10;
+        }
+    </style>
 </head>
 <body class="site-page">
     <header>
@@ -33,7 +81,7 @@
                 <a href="associations.html">Associations</a>
             </div>
         </details>
-        <a href="login.html" class="members-area-link">Members Area</a>
+        <a href="members-protected.html" class="members-area-link">Members Area</a>
         <nav>
             <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
                 <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
@@ -50,9 +98,74 @@
 
     <main class="content-section">
         <h1>Social Events</h1>
-        <p class="section-intro">Social events at Goldenacre Bowling Club.</p>
-        <h2>Page coming soon</h2>
-        <p>Our social events information will be available here soon.</p>
+        <p class="section-intro">Join us for live entertainment, social evenings, and special events at Goldenacre Bowling Club.</p>
+
+        <div id="upcoming-events-widget" class="upcoming-events-grid">
+            
+            <!-- Act 1: PARIS -->
+            <div class="event-card-item">
+                <span class="event-pill-tag">Live Entertainment</span>
+                <div class="event-card-media">
+                    <img src="photos/entertainment/paris.png" alt="PARIS - Live Vocalist">
+                </div>
+                <div class="event-card-body">
+                    <div class="event-date-badge">
+                        <span class="event-month">OCT</span>
+                        <span class="event-day">24</span>
+                    </div>
+                    <div class="event-details">
+                        <h4>PARIS</h4>
+                        <div class="event-meta">
+                            <span>Saturday, 24th October 2026</span>
+                        </div>
+                        <p>Presented in association with Emkay Entertainments Agency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Act 2: Amanda Jane -->
+            <div class="event-card-item">
+                <span class="event-pill-tag">Live Entertainment</span>
+                <div class="event-card-media">
+                    <img src="photos/entertainment/amanda-jane.png" alt="Amanda Jane - Live Vocalist">
+                </div>
+                <div class="event-card-body">
+                    <div class="event-date-badge">
+                        <span class="event-month">DEC</span>
+                        <span class="event-day">12</span>
+                    </div>
+                    <div class="event-details">
+                        <h4>Amanda Jane</h4>
+                        <div class="event-meta">
+                            <span>Saturday, 12th December 2026</span>
+                        </div>
+                        <p>Presented in association with Emkay Entertainments Agency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder Act -->
+            <div class="event-card-item" style="border-style: dashed; opacity: 0.9;">
+                <span class="event-pill-tag" style="background-color: #e2e8f0; color: #475569;">Coming Soon</span>
+                <div class="event-card-media" style="background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 2.5rem;">
+                    🎤
+                </div>
+                <div class="event-card-body">
+                    <div class="event-date-badge" style="background-color: #f1f5f9; border-color: #cbd5e1;">
+                        <span class="event-month" style="color: #64748b;">TBC</span>
+                        <span class="event-day" style="color: #64748b;">?</span>
+                    </div>
+                    <div class="event-details">
+                        <h4 style="color: #475569;">More Acts To Be Announced</h4>
+                        <div class="event-meta">
+                            <span>Dates &amp; Details Following Soon</span>
+                        </div>
+                        <p>We are continuously adding new entertainment to our social calendar. Check back soon for future act announcements!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </main>
 
     <footer>
