@@ -165,7 +165,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         monthItems.forEach(event => {
-            // Make each list card a clickable button opening the exact same popup as the calendar grid
             const card = document.createElement('button');
             card.type = 'button';
             card.className = 'agenda-item-card';
@@ -174,7 +173,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-1px)'; card.style.borderColor = '#173b32'; });
             card.addEventListener('mouseleave', () => { card.style.transform = 'none'; card.style.borderColor = '#e2e8f0'; });
             
-            // Clicking the list card triggers the day's event popup dialog
             card.addEventListener('click', () => {
                 const dayEvents = allCalendarItems.filter(e => e.date.getTime() === event.date.getTime());
                 showDayEvents(event.date, dayEvents);
@@ -242,6 +240,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dividerStyle = idx > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;' : 'padding-bottom: 8px;';
             card.style.cssText = `${dividerStyle}`;
 
+            let eventImageUrl = '';
+            if (event.title.toLowerCase().includes('amanda jane')) {
+                eventImageUrl = 'photos/entertainment/amanda-jane.png';
+            } else if (event.title.toLowerCase().includes('paris')) {
+                eventImageUrl = 'photos/entertainment/paris.png';
+            }
+
+            const imageBannerHtml = eventImageUrl ? `
+                <div style="width: 100%; max-height: 180px; overflow: hidden; border-radius: 8px; background: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1;">
+                    <img src="${eventImageUrl}" alt="${event.title}" style="max-width: 100%; max-height: 180px; object-fit: contain; display: block;" onerror="this.parentElement.style.display='none'">
+                </div>
+            ` : '';
+
             if (event.isFixture) {
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
@@ -303,12 +314,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e6f4ea; color: #137333; border: 1px solid #ceead6; text-transform: uppercase;">🎯 Roll-up</span></div>`;
                 } else if (event.type === 'coaching') {
                     badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #e8f0fe; color: #1a73e8; border: 1px solid #d2e3fc; text-transform: uppercase;">📋 Coaching</span></div>`;
-                } else if (event.type === 'social') {
-                    badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; text-transform: uppercase;">🎉 Social</span></div>`;
+                } else if (event.type === 'social' || event.title.toLowerCase().includes('amanda') || event.title.toLowerCase().includes('paris')) {
+                    badgeHtml = `<div style="margin-bottom: 8px;"><span style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; text-transform: uppercase;">🎤 Live Entertainment</span></div>`;
                 }
 
                 card.innerHTML = `
                     ${badgeHtml}
+                    ${imageBannerHtml}
                     <h3 style="font-family: Georgia, serif; font-size: 1.15rem; font-weight: 700; color: #173b32; margin: 0 0 10px 0;">${event.title}</h3>
                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 14px; font-size: 0.9rem; color: #334155;">
                         <p style="margin: 4px 0;"><strong>🕒 Time:</strong> ${event.time || '7:00 pm'}</p>
