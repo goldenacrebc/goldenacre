@@ -15,9 +15,9 @@
   .spotlight-card h4 { margin: 0 0 6px 0; color: #004085; font-size: 1.05rem; }
   .spotlight-card p { margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.5; }
 
-  /* Era Filter Tabs */
+  /* Era Filter Tabs - Mobile Friendly Wrap */
   .history-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
-  .history-tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+  .history-tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 10px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; flex: 1 1 auto; text-align: center; min-width: 110px; }
   .history-tab-btn:hover, .history-tab-btn.active { background-color: #004085; color: #fff; border-color: #004085; }
 
   /* Clean Timeline Cards */
@@ -29,17 +29,21 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border-left: 5px solid #004085; }
+  .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border-left: 5px solid #004085; overflow-wrap: break-word; word-break: break-word; }
   .timeline-card h4 { margin: 0 0 6px 0; font-size: 1.25rem; color: #1e293b; font-weight: 700; }
   .timeline-card .era-intro { margin: 0 0 16px 0; font-style: italic; color: #64748b; font-size: 0.95rem; }
   .timeline-card ul { margin: 0; padding-left: 20px; }
   .timeline-card li { margin-bottom: 10px; line-height: 1.65; color: #334155; }
   .timeline-card li:last-child { margin-bottom: 0; }
 
+  /* Mobile Responsive Tweaks */
   @media (max-width: 480px) {
-    .timeline-card { padding: 16px; }
+    .history-spotlight { grid-template-columns: 1fr; }
     .history-tabs { gap: 6px; }
-    .history-tab-btn { font-size: 0.8rem; padding: 8px 12px; }
+    .history-tab-btn { font-size: 0.85rem; padding: 10px 12px; min-width: calc(50% - 6px); flex: unset; }
+    .timeline-card { padding: 16px; }
+    .membership-hero { padding: 30px 15px; text-align: center; }
+    .membership-page { padding: 0 15px; }
   }
 </style>
 </head>
