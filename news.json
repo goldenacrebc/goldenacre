@@ -11,7 +11,7 @@
     "title": "Gents Championship Winner",
     "description": "Congratulations to Malcolm Thomson, winner of the Gents Championship.",
     "category": "internal",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/MT.jpg",
     "modal": "championship"
   },
@@ -19,7 +19,7 @@
     "title": "Ladies Championship Winner",
     "description": "Congratulations to Rita Reid winner of the Ladies Championship.",
     "category": "internal",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/RR.png",
     "modal": "ladies-championship"
   },
@@ -27,7 +27,7 @@
     "title": "Junior Championship Winner",
     "description": "Congratulations to Daniel Taylor, winner of the Junior Championship.",
     "category": "internal",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/DT.jpg",
     "modal": "junior-championship"
   },
@@ -35,7 +35,7 @@
     "title": "Steele Trophy Winner",
     "description": "Congratulations to Rita Reid winner of the Steele Trophy.",
     "category": "external",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/RR_ST.jpg",
     "modal": "steele"
   },
@@ -43,7 +43,7 @@
     "title": "EBA Gents Knockout Pairs Winners",
     "description": "Congratulations to Malcolm Thomson and Gary Robertson, winners of the EBA Gents knockout pairs.",
     "category": "external",
-    "tag": "archive",
+    "tag": "latest",
     "image": "photos/pairs.png",
     "modal": "ebapairs"
   },
