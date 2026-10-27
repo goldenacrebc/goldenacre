@@ -86,7 +86,7 @@
             <!-- SECTION 2: CALENDAR & MATCH FIXTURES -->
             <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 24px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📅 Calendar & Fixtures</h3>
             <div class="modules-grid" style="margin-bottom: 24px;">
-                <!-- NEW: Match Fixtures Card -->
+                <!-- Match Fixtures Card -->
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🏆</span>
@@ -159,12 +159,60 @@
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('gallery-manager-card')">Open Manager</button>
                 </div>
+
+                <!-- Honours Board Manager -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">🏆</span>
+                        <h4>Honours Board Manager</h4>
+                        <p>Update club champions and past winners by year.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('honours-manager-card')">Open Manager</button>
+                </div>
+            </div>
+
+            <!-- FORM CARD: Honours Board Manager -->
+            <div id="honours-manager-card" class="admin-card-custom">
+                <h3>🏆 Honours Board & Club Champions Manager</h3>
+                <p class="card-subtitle">Type any year and update winners stored in honours.json.</p>
+
+                <form id="form-honours">
+                    <div class="form-group-custom" style="max-width: 250px;">
+                        <label for="honours-year">Year (e.g. 2026)</label>
+                        <input type="text" id="honours-year" placeholder="2026" maxlength="4" required>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="honours-president">Club President</label>
+                            <input type="text" id="honours-president" placeholder="e.g. B. Taylor">
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="honours-gents">Gents Singles Champion</label>
+                            <input type="text" id="honours-gents" placeholder="e.g. M. Thomson">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="honours-ladies">Ladies Singles Champion</label>
+                            <input type="text" id="honours-ladies" placeholder="e.g. R. Reid">
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="honours-junior">Junior Champion</label>
+                            <input type="text" id="honours-junior" placeholder="e.g. D. Taylor">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn-custom" id="btn-publish-honours">Save / Update Honours Year Live</button>
+                    <p class="status-msg-custom" id="status-honours"></p>
+                </form>
             </div>
 
             <!-- FORM CARD: Match Fixtures -->
             <div id="fixtures-card" class="admin-card-custom">
                 <h3>🏆 Publish Team Match Fixture</h3>
-                <p class="card-subtitle">Adds upcoming league or cup fixtures to the calendar feed (saves to fixtures.json)[cite: 1].</p>
+                <p class="card-subtitle">Adds upcoming league or cup fixtures to the calendar feed (saves to fixtures.json).</p>
 
                 <form id="form-fixtures">
                     <div class="form-grid">
@@ -251,7 +299,7 @@
                 <p class="status-msg-custom" id="status-sponsor-manage"></p>
             </div>
 
-            <!-- FORM CARD 1: Internal News Form -->
+            <!-- FORM CARD: Internal News Form -->
             <div id="internal-news-card" class="admin-card-custom">
                 <h3>🏠 Publish Internal Club News</h3>
                 <p class="card-subtitle">Posts directly to the website under Internal Club News.</p>
@@ -281,7 +329,7 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 2: External Competitions Form -->
+            <!-- FORM CARD: External Competitions Form -->
             <div id="external-news-card" class="admin-card-custom">
                 <h3>🏆 Publish External Competition News</h3>
                 <p class="card-subtitle">Posts directly to the website under External Competitions.</p>
@@ -311,7 +359,7 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 3: Social Events Form -->
+            <!-- FORM CARD: Social Events Form -->
             <div id="events-card" class="admin-card-custom">
                 <h3>🎉 Publish Social Event or Activity</h3>
                 <p class="card-subtitle">Adds upcoming social activities, roll-ups, or coaching sessions to the calendar feed.</p>
@@ -356,7 +404,7 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 4: Weekly Team Sheets Form -->
+            <!-- FORM CARD: Weekly Team Sheets Form -->
             <div id="teams-card" class="admin-card-custom">
                 <h3>📋 Publish Weekly Team Sheet</h3>
                 <p class="card-subtitle">Configure 4 rinks of players for the upcoming Friday league fixture.</p>
@@ -431,7 +479,7 @@
                 </form>
             </div>
 
-            <!-- FORM CARD 5: News Archivist & Restorer -->
+            <!-- FORM CARD: News Archivist & Restorer -->
             <div id="archive-news-card" class="admin-card-custom">
                 <h3>📦 News Archivist & Restorer</h3>
                 <p class="card-subtitle">Check articles to archive them, or uncheck archived articles to restore them to live status.</p>
@@ -444,7 +492,7 @@
                 <p class="status-msg-custom" id="status-archive"></p>
             </div>
 
-            <!-- FORM CARD 6: Calendar & Fixture Manager (UPDATED TO SUPPORT BOTH FIXTURES & EVENTS) -->
+            <!-- FORM CARD: Calendar & Fixture Manager -->
             <div id="calendar-manager-card" class="admin-card-custom">
                 <h3>📅 Calendar & Fixture Manager</h3>
                 <p class="card-subtitle">Add, edit, or remove match fixtures (fixtures.json) and social events (events.json).</p>
@@ -517,12 +565,12 @@
                     <div id="cal-manage-list-container" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc; margin-bottom: 16px;">
                         <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading entries...</p>
                     </div>
-                    <button type="button" class="submit-btn-custom" id="btn-execute-cal-delete" style="background-color: #dc2626;">Delete Selected Entries</button>
+                    <button type="submit" class="submit-btn-custom" id="btn-execute-cal-delete" style="background-color: #dc2626;">Delete Selected Entries</button>
                     <p class="status-msg-custom" id="status-calendar-manage"></p>
                 </div>
             </div>
 
-            <!-- FORM CARD 7: Broadcast Notification Manager -->
+            <!-- FORM CARD: Broadcast Notification Manager -->
             <div id="broadcast-card" class="admin-card-custom">
                 <h3>📢 Broadcast Urgent Club Alert</h3>
                 <p class="card-subtitle">Publish an active notice banner across the website or manage existing alerts.</p>
@@ -554,11 +602,10 @@
                 <p class="status-msg-custom" id="status-broadcast-manage"></p>
             </div>
 
-            <!-- FORM CARD 8: Gallery Manager -->
+            <!-- FORM CARD: Gallery Manager -->
             <div id="gallery-manager-card" class="admin-card-custom">
                 <h3>📸 Photo Gallery Manager</h3>
                 <p class="card-subtitle">Upload new photos directly to the live club gallery categories.</p>
-                
 
                 <form id="form-gallery">
                     <div class="form-group-custom">
@@ -629,7 +676,7 @@
                     <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
                     <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove entries directly from `events.json` and `fixtures.json`.</li>
-                    <li><strong>Broadcast Alert Manager & Sponsors Manager:</strong> Manage footer commercial sponsors and urgent notices easily.</li>
+                    <li><strong>Honours Board Manager:</strong> Enter any 4-digit year, update club champions, and save changes live.</li>
                     <li><strong>Update Delay:</strong> Please allow 1 to 2 minutes for GitHub Pages to rebuild and render updates across browsers.</li>
                 </ul>
             </div>

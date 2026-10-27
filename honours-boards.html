@@ -6,6 +6,208 @@
     <title>Honours Boards | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .honours-board-wrapper {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+
+        .honours-intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .honours-intro .section-eyebrow {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #b45309;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .honours-intro h2 {
+            font-size: 2.5rem;
+            color: #173b32;
+            margin-bottom: 10px;
+            font-family: Georgia, serif;
+        }
+
+        .honours-intro p {
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .honours-board {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 12px rgba(23, 59, 50, 0.05);
+            color: #1a202c;
+        }
+
+        .board-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .board-header h3 {
+            font-family: Georgia, serif;
+            font-size: 1.6rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+            color: #173b32;
+        }
+
+        .board-header p {
+            color: #64748b;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* DESKTOP VIEW */
+        .desktop-board {
+            display: grid;
+            grid-template-columns: 80px repeat(4, 1fr);
+            gap: 1px;
+            background-color: #e2e8f0;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .desktop-board .th, .desktop-board .td {
+            background-color: #ffffff;
+            padding: 14px 16px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .desktop-board .th {
+            background-color: #f8fafc;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #173b32;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+
+        .desktop-board .year-col {
+            font-weight: 700;
+            background-color: #f8fafc;
+            color: #173b32;
+            border-right: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .desktop-board .td:not(.year-col) {
+            text-align: left;
+            padding-left: 20px;
+            color: #334155;
+        }
+
+        /* MOBILE VIEW */
+        .mobile-board {
+            display: none;
+        }
+
+        .decade-buttons-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .decade-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #173b32;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .decade-btn.active {
+            background: #173b32;
+            color: #ffcc00;
+            border-color: #173b32;
+        }
+
+        .decade-panel {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .decade-panel.active {
+            display: flex;
+        }
+
+        .mobile-year-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .mobile-year-title {
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #173b32;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+
+        .mobile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8fafc;
+            font-size: 0.9rem;
+        }
+
+        .mobile-row:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-label {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mobile-value {
+            color: #1e293b;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .tbd {
+            color: #94a3b8 !important;
+            font-style: italic;
+            font-weight: normal !important;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-board { display: none !important; }
+            .mobile-board { display: block !important; }
+        }
+    </style>
 </head>
 <body class="site-page">
     <header>
@@ -49,103 +251,131 @@
         </div>
     </section>
 
-    <main class="membership-page">
-        <section class="membership-welcome">
-            <p class="membership-kicker">Club competitions</p>
-            <h2>Club Championship winners</h2>
-            <p>Celebrating Goldenacre’s Men’s, Ladies’ and Junior champions. Further championship results will be added as records are gathered.</p>
-        </section>
+    <div class="honours-board-wrapper">
+      <div class="honours-intro">
+        <div class="section-eyebrow">Club Competitions</div>
+        <h2>Club Championship winners</h2>
+        <p>Celebrating Goldenacre's Men's, Ladies' and Junior champions. Further championship results will be added as records are gathered.</p>
+      </div>
 
-        <section class="membership-opportunities" aria-labelledby="honours-2026-heading">
-            <div class="membership-section-heading">
-                <p class="membership-kicker">Current season</p>
-                <h2 id="honours-2026-heading">2026 Champions</h2>
-            </div>
-            <div class="honours-board-grid">
-                <article class="honours-board-card">
-                    <h3>Men’s Champion</h3>
-                    <p class="honours-champion-name">Malcolm Thomson</p>
-                </article>
-                <article class="honours-board-card">
-                    <h3>Ladies’ Champion</h3>
-                    <p class="honours-champion-name">Rita Reid</p>
-                </article>
-                <article class="honours-board-card">
-                    <h3>Junior Champion</h3>
-                    <p class="honours-champion-name">Daniel Taylor</p>
-                </article>
-            </div>
-        </section>
+      <div class="honours-board">
+        <div class="board-header">
+          <h3>HONOURS BOARDS</h3>
+          <p>Goldenacre competition winners, gathered year by year</p>
+        </div>
 
-        <section class="membership-opportunities" aria-labelledby="honours-archive-heading">
-            <div class="membership-section-heading">
-                <p class="membership-kicker">Previous championship results</p>
-                <h2 id="honours-archive-heading">2020–2025 Champions</h2>
-            </div>
-            <div class="honours-board-grid">
-                <article class="honours-board-card honours-season-card">
-                    <h3>2025</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Gary Robertson</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-                <article class="honours-board-card honours-season-card honours-result-pending">
-                    <h3>2024</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-                <article class="honours-board-card honours-season-card honours-result-pending">
-                    <h3>2023</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-                <article class="honours-board-card honours-season-card honours-result-pending">
-                    <h3>2022</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-                <article class="honours-board-card honours-season-card honours-result-pending">
-                    <h3>2021</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-                <article class="honours-board-card honours-season-card honours-result-pending">
-                    <h3>2020</h3>
-                    <dl>
-                        <div><dt>Men’s Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Ladies’ Champion</dt><dd>Details to follow</dd></div>
-                        <div><dt>Junior Champion</dt><dd>Details to follow</dd></div>
-                    </dl>
-                </article>
-            </div>
-            <p class="honours-archive-note">Championship winners for these years will be added as records are gathered.</p>
-        </section>
+        <!-- DESKTOP BOARD CONTAINER -->
+        <div class="desktop-board" id="desktopBoardContainer">
+            <div class="th year-col">YEAR</div>
+            <div class="th">CLUB PRESIDENT</div>
+            <div class="th">GENTS SINGLES</div>
+            <div class="th">LADIES SINGLES</div>
+            <div class="th">JUNIOR CHAMPIONSHIP</div>
+        </div>
 
-        <section class="membership-visit">
-            <div>
-                <p class="membership-kicker">Club history • 1942–2026</p>
-                <h2>Explore our story through the years</h2>
-            </div>
-            <a class="membership-hero-cta" href="club-history.html">View history</a>
-        </section>
-    </main>
+        <!-- MOBILE BOARD CONTAINER -->
+        <div class="mobile-board">
+            <div class="decade-buttons-header" id="decadeButtonsContainer"></div>
+            <div id="decadePanelsContainer"></div>
+        </div>
 
-    <footer>
-        <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-    </footer>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="club-footer">
+    <div class="footer-credits">ESTABLISHED 1942 • GOLDENACRE BOWLING CLUB</div>
+    <div>© 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</div>
+  </footer>
+
+  <!-- AUTOMATED COMPACT ARRAY SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const response = await fetch('honours.json');
+        const data = await response.json();
+        const eras = data.eras;
+
+        const desktopContainer = document.getElementById('desktopBoardContainer');
+        const btnContainer = document.getElementById('decadeButtonsContainer');
+        const panelsContainer = document.getElementById('decadePanelsContainer');
+
+        let allYears = [];
+        Object.keys(eras).forEach(decade => {
+          eras[decade].forEach(row => {
+            allYears.push({
+              year: row[0],
+              president: row[1] || "Details to follow",
+              gents_singles: row[2] || "Details to follow",
+              ladies_singles: row[3] || "Details to follow",
+              junior_champ: row[4] || "Details to follow"
+            });
+          });
+        });
+        allYears.sort((a, b) => b.year - a.year);
+
+        // 1. Populate Desktop Table
+        allYears.forEach(item => {
+          desktopContainer.innerHTML += `
+            <div class="td year-col">${item.year}</div>
+            <div class="td ${item.president.includes('Details') ? 'tbd' : ''}">${item.president}</div>
+            <div class="td ${item.gents_singles.includes('Details') ? 'tbd' : ''}">${item.gents_singles}</div>
+            <div class="td ${item.ladies_singles.includes('Details') ? 'tbd' : ''}">${item.ladies_singles}</div>
+            <div class="td ${item.junior_champ.includes('Details') ? 'tbd' : ''}">${item.junior_champ}</div>
+          `;
+        });
+
+        // 2. Populate Mobile Decades
+        const sortedDecades = Object.keys(eras).sort().reverse();
+
+        sortedDecades.forEach((decade, index) => {
+          const isActive = index === 0 ? 'active' : '';
+
+          btnContainer.innerHTML += `
+            <button class="decade-btn ${isActive}" onclick="switchDecade(event, 'era-${decade}')">${decade}</button>
+          `;
+
+          const eraRows = eras[decade].map(row => ({
+            year: row[0],
+            president: row[1] || "Details to follow",
+            gents_singles: row[2] || "Details to follow",
+            ladies_singles: row[3] || "Details to follow",
+            junior_champ: row[4] || "Details to follow"
+          })).sort((a, b) => b.year - a.year);
+
+          let cardsHtml = '';
+          eraRows.forEach(item => {
+            cardsHtml += `
+              <div class="mobile-year-block">
+                  <div class="mobile-year-title">${item.year}</div>
+                  <div class="mobile-row"><span class="mobile-label">President</span><span class="mobile-value ${item.president.includes('Details') ? 'tbd' : ''}">${item.president}</span></div>
+                  <div class="mobile-row"><span class="mobile-label">Gents Singles</span><span class="mobile-value ${item.gents_singles.includes('Details') ? 'tbd' : ''}">${item.gents_singles}</span></div>
+                  <div class="mobile-row"><span class="mobile-label">Ladies Singles</span><span class="mobile-value ${item.ladies_singles.includes('Details') ? 'tbd' : ''}">${item.ladies_singles}</span></div>
+                  <div class="mobile-row"><span class="mobile-label">Junior Champ</span><span class="mobile-value ${item.junior_champ.includes('Details') ? 'tbd' : ''}">${item.junior_champ}</span></div>
+              </div>
+            `;
+          });
+
+          panelsContainer.innerHTML += `
+            <div id="era-${decade}" class="decade-panel ${isActive}">
+                ${cardsHtml}
+            </div>
+          `;
+        });
+
+      } catch (error) {
+        console.error("Error loading honours JSON data:", error);
+      }
+    });
+
+    function switchDecade(evt, eraId) {
+      document.querySelectorAll('.decade-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.decade-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(eraId).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+  </script>
+
 </body>
 </html>
