@@ -54,22 +54,8 @@
         {
           "name": "Semi Final",
           "deadline": "Play by August 10",
-          "matches": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            },
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ]
+          "matches": [],
+          "extra": []
         }
       ]
     },
