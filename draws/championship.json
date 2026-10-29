@@ -12,70 +12,34 @@
           "matches": [
             {
               "p1": "test",
-              "s1": "",
               "p2": "test",
+              "s1": "",
               "s2": "",
               "winner": null
             },
             {
               "p1": "TBD",
-              "s1": "21",
               "p2": "TBD",
+              "s1": "21",
               "s2": "20",
               "winner": 1
             },
             {
               "p1": "TBD",
-              "s1": "",
               "p2": "TBD",
+              "s1": "",
               "s2": "",
               "winner": null
             },
             {
               "p1": "TBD",
+              "p2": "TBD",
               "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            },
-            {
-              "p1": "TBD",
-              "s1": "4",
-              "p2": "TBD",
-              "s2": "21",
-              "winner": 2
-            }
-          ],
-          "extra": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            },
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            },
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            },
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
               "s2": "",
               "winner": null
             }
-          ]
+          ],
+          "extra": []
         },
         {
           "name": "1st Round",
