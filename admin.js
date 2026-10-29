@@ -1357,47 +1357,83 @@ window.loadDrawsMatches = function() {
     const { round } = flatRounds[roundIdx];
 
     const allMatches = [...(round.matches || []), ...(round.extra || [])];
-    if (allMatches.length === 0) {
-        editor.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No matches in this round.</p>';
-        return;
-    }
 
     const isExtra = (i) => i >= (round.matches || []).length;
 
-    let html = `<div style="display:flex;flex-direction:column;gap:10px;">`;
-    allMatches.forEach((match, i) => {
-        const tag = isExtra(i) ? ' <span style="font-size:0.7rem;color:#64748b;">(extra)</span>' : '';
-        html += `
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;" data-match-index="${i}">
-            <div style="font-size:0.78rem;font-weight:700;color:#64748b;margin-bottom:8px;">Match ${i + 1}${tag}</div>
+    function buildMatchRow(match, i, isNew = false) {
+        const tag = isExtra(i) && !isNew ? ' <span style="font-size:0.7rem;color:#64748b;">(extra)</span>' : '';
+        const newTag = isNew ? ' <span style="font-size:0.7rem;color:#16a34a;font-weight:700;">NEW</span>' : '';
+        return `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;" data-match-index="${i}" ${isNew ? 'data-new="true"' : ''}>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:0.78rem;font-weight:700;color:#64748b;">Match ${i + 1}${tag}${newTag}</span>
+                <button type="button" onclick="removeMatch(this);"
+                    style="background:#fee2e2;border:none;color:#dc2626;font-size:0.8rem;cursor:pointer;font-weight:700;padding:2px 8px;border-radius:4px;">− Remove</button>
+            </div>
             <div style="display:grid;grid-template-columns:1fr auto auto auto 1fr;gap:8px;align-items:center;">
-                <input type="text" class="dm-p1" placeholder="Player 1" value="${match.p1 !== 'TBD' ? match.p1 : ''}"
+                <input type="text" class="dm-p1" placeholder="Player 1" value="${match && match.p1 !== 'TBD' ? match.p1 : ''}"
                     style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;">
-                <input type="text" class="dm-s1" placeholder="Score" value="${match.s1 || ''}" maxlength="4"
+                <input type="text" class="dm-s1" placeholder="Score" value="${match ? (match.s1 || '') : ''}" maxlength="4"
                     style="width:52px;padding:6px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;text-align:center;">
                 <span style="font-size:0.75rem;color:#94a3b8;font-weight:600;">v</span>
-                <input type="text" class="dm-s2" placeholder="Score" value="${match.s2 || ''}" maxlength="4"
+                <input type="text" class="dm-s2" placeholder="Score" value="${match ? (match.s2 || '') : ''}" maxlength="4"
                     style="width:52px;padding:6px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;text-align:center;">
-                <input type="text" class="dm-p2" placeholder="Player 2" value="${match.p2 !== 'TBD' ? match.p2 : ''}"
+                <input type="text" class="dm-p2" placeholder="Player 2" value="${match && match.p2 !== 'TBD' ? match.p2 : ''}"
                     style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;">
             </div>
             <div style="display:flex;gap:16px;margin-top:8px;align-items:center;">
                 <span style="font-size:0.78rem;font-weight:600;color:#475569;">Winner:</span>
                 <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
-                    <input type="radio" class="dm-winner" name="winner-${i}" value="1" ${match.winner === 1 ? 'checked' : ''}> Player 1
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="1" ${match && match.winner === 1 ? 'checked' : ''}> Player 1
                 </label>
                 <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
-                    <input type="radio" class="dm-winner" name="winner-${i}" value="2" ${match.winner === 2 ? 'checked' : ''}> Player 2
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="2" ${match && match.winner === 2 ? 'checked' : ''}> Player 2
                 </label>
                 <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
-                    <input type="radio" class="dm-winner" name="winner-${i}" value="null" ${!match.winner ? 'checked' : ''}> Not played
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="null" ${!match || !match.winner ? 'checked' : ''}> Not played
                 </label>
             </div>
         </div>`;
-    });
-    html += '</div>';
+    }
+
+    let html = `<div id="dm-match-list" style="display:flex;flex-direction:column;gap:10px;">`;
+    if (allMatches.length === 0) {
+        html += `<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">No matches yet — add one below.</p>`;
+    } else {
+        allMatches.forEach((match, i) => { html += buildMatchRow(match, i); });
+    }
+    html += `</div>
+    <button type="button" id="btn-add-match"
+        style="margin-top:10px;width:100%;padding:8px;background:transparent;border:2px dashed #0369a1;border-radius:6px;color:#0369a1;font-size:0.82rem;font-weight:700;cursor:pointer;">
+        + Add Match
+    </button>`;
 
     editor.innerHTML = html;
+
+    document.getElementById('btn-add-match').addEventListener('click', () => {
+        const list = document.getElementById('dm-match-list');
+        const currentCount = list.querySelectorAll('[data-match-index]').length;
+        const div = document.createElement('div');
+        div.innerHTML = buildMatchRow(null, currentCount, true);
+        list.appendChild(div.firstElementChild);
+        renumberMatches();
+    });
+};
+
+window.removeMatch = function(btn) {
+    btn.closest('[data-match-index]').remove();
+    renumberMatches();
+};
+
+window.renumberMatches = function() {
+    const list = document.getElementById('dm-match-list');
+    if (!list) return;
+    list.querySelectorAll('[data-match-index]').forEach((div, i) => {
+        div.setAttribute('data-match-index', i);
+        const label = div.querySelector('span:first-child');
+        if (label) label.innerHTML = `Match ${i + 1}${div.dataset.new ? ' <span style="font-size:0.7rem;color:#16a34a;font-weight:700;">NEW</span>' : ''}`;
+        div.querySelectorAll('input[name^="winner-"]').forEach(r => r.name = `winner-${i}`);
+    });
 };
 
 const btnSaveDraws = document.getElementById('btn-save-draws');
@@ -1423,31 +1459,32 @@ if (btnSaveDraws) {
             const roundIdx = parseInt(document.getElementById('draws-round-select').value);
             const flatRounds = getFlatRounds(currentDrawData);
             const { rowIdx, roundIdx: rIdx, round } = flatRounds[roundIdx];
-            const allMatches = [...(round.matches || []), ...(round.extra || [])];
+            const existingMatches = [...(round.matches || []), ...(round.extra || [])];
             const matchDivs = document.querySelectorAll('#draws-match-editor [data-match-index]');
+            const allMatches = [];
 
             matchDivs.forEach(div => {
-                const i = parseInt(div.getAttribute('data-match-index'));
                 const p1Val = div.querySelector('.dm-p1').value.trim();
                 const p2Val = div.querySelector('.dm-p2').value.trim();
                 const s1Val = div.querySelector('.dm-s1').value.trim();
                 const s2Val = div.querySelector('.dm-s2').value.trim();
                 const winnerRadio = div.querySelector('.dm-winner:checked');
                 const winnerVal = winnerRadio ? winnerRadio.value : 'null';
+                const i = parseInt(div.getAttribute('data-match-index'));
+                const existing = existingMatches[i] || {};
 
-                allMatches[i].p1 = p1Val || 'TBD';
-                allMatches[i].p2 = p2Val || 'TBD';
-                allMatches[i].s1 = s1Val;
-                allMatches[i].s2 = s2Val;
-                allMatches[i].winner = winnerVal === 'null' ? null : parseInt(winnerVal);
+                allMatches.push({
+                    p1: p1Val || 'TBD',
+                    p2: p2Val || 'TBD',
+                    s1: s1Val,
+                    s2: s2Val,
+                    winner: winnerVal === 'null' ? null : parseInt(winnerVal)
+                });
             });
 
-            // Write back into the nested structure
-            const visibleCount = (currentDrawData.rows[rowIdx].rounds[rIdx].matches || []).length;
-            currentDrawData.rows[rowIdx].rounds[rIdx].matches = allMatches.slice(0, visibleCount);
-            if (currentDrawData.rows[rowIdx].rounds[rIdx].extra) {
-                currentDrawData.rows[rowIdx].rounds[rIdx].extra = allMatches.slice(visibleCount);
-            }
+            // Write back — all matches go into matches array, clear extra
+            currentDrawData.rows[rowIdx].rounds[rIdx].matches = allMatches;
+            currentDrawData.rows[rowIdx].rounds[rIdx].extra = [];
 
             // Commit to GitHub
             const { data: tokenData, error: tokenError } = await supabaseClient
