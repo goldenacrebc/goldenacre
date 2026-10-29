@@ -12,12 +12,13 @@
           "matches": [
             {
               "p1": "TBD",
-              "s1": "",
               "p2": "TBD",
+              "s1": "",
               "s2": "",
               "winner": null
             }
-          ]
+          ],
+          "extra": []
         }
       ]
     },
@@ -54,12 +55,6 @@
               "winner": null
             }
           ]
-        },
-        {
-          "name": "2nd Round",
-          "deadline": "To be confirmed",
-          "matches": [],
-          "extra": []
         }
       ]
     }
