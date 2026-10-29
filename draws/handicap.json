@@ -3,12 +3,24 @@
   "label": "Gerard Handicap",
   "active": false,
   "rows": [
-    {
+   {
       "tier": "tier-1",
       "rounds": [
         {
+          "name": "Prelim Round",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        },
+        {
           "name": "1st Round",
-          "deadline": "To be confirmed",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        },
+        {
+          "name": "2nd Round",
+          "deadline": "To be Confirmed",
           "matches": [],
           "extra": []
         }
@@ -18,17 +30,16 @@
       "tier": "tier-2",
       "rounds": [
         {
+          "name": "Quarter Final",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        },
+        {
           "name": "Semi Final",
-          "deadline": "To be confirmed",
-          "matches": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ]
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
         }
       ]
     },
@@ -37,16 +48,9 @@
       "rounds": [
         {
           "name": "Final",
-          "deadline": "To be confirmed",
-          "matches": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ]
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
         }
       ]
     }
