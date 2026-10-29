@@ -1,5 +1,13 @@
 [
   {
+    "title": "",
+    "description": "",
+    "category": "external",
+    "tag": "latest",
+    "image": "logo.jpeg",
+    "modal": ""
+  },
+  {
     "title": "2026 Internal competition Winners",
     "description": "Congratulations to all our internal competition winners",
     "category": "internal",
