@@ -6,7 +6,8 @@ const DRAW_FILES = [
   'draws/tomwilson.json',
   'draws/pairs.json',
   'draws/triples.json',
-  'draws/rinks.json'
+  'draws/rinks.json',
+  'draws/mixed-pairs.json'
 ];
 
 document.addEventListener('DOMContentLoaded', () => initDraws());
