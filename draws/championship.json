@@ -9,29 +9,7 @@
         {
           "name": "Prelim Round",
           "deadline": "Play by May 25",
-          "matches": [
-            {
-              "p1": "test",
-              "p2": "test",
-              "s1": "14",
-              "s2": "21",
-              "winner": 2
-            },
-            {
-              "p1": "TBD",
-              "p2": "TBD",
-              "s1": "21",
-              "s2": "20",
-              "winner": 1
-            },
-            {
-              "p1": "TBD",
-              "p2": "TBD",
-              "s1": "",
-              "s2": "",
-              "winner": null
-            }
-          ],
+          "matches": [],
           "extra": []
         },
         {
