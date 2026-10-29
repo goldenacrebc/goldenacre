@@ -9,15 +9,7 @@
         {
           "name": "1st Round",
           "deadline": "To be confirmed",
-          "matches": [
-            {
-              "p1": "TBD",
-              "p2": "TBD",
-              "s1": "21",
-              "s2": "20",
-              "winner": 1
-            }
-          ],
+          "matches": [],
           "extra": []
         }
       ]
