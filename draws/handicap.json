@@ -1,0 +1,43 @@
+{
+  "key": "handicap",
+  "label": "Gerard Handicap",
+  "active": false,
+  "rows": [
+    {
+      "tier": "tier-1",
+      "rounds": [
+        {
+          "name": "1st Round",
+          "deadline": "To be confirmed",
+          "matches": [
+            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+          ]
+        }
+      ]
+    },
+    {
+      "tier": "tier-2",
+      "rounds": [
+        {
+          "name": "Semi Final",
+          "deadline": "To be confirmed",
+          "matches": [
+            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+          ]
+        }
+      ]
+    },
+    {
+      "tier": "tier-3",
+      "rounds": [
+        {
+          "name": "Final",
+          "deadline": "To be confirmed",
+          "matches": [
+            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+          ]
+        }
+      ]
+    }
+  ]
+}
