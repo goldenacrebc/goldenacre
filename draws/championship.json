@@ -154,6 +154,12 @@
               "winner": null
             }
           ]
+        },
+        {
+          "name": "2nd Round",
+          "deadline": "Play by 22nd july",
+          "matches": [],
+          "extra": []
         }
       ]
     }
