@@ -8,12 +8,14 @@
     <!-- External stylesheets -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="members_secure.css">
-    
-    <!-- Competition labels and published Google Sheets links for the draw tabs -->
-    <script src="fixtures/draw-sheets.js" defer></script>
-   <!-- <script src="fixtures/modals.js" defer></script> -->
-    <script src="fixtures/team-sheets.js" defer></script>
+    <link rel="stylesheet" href="styles/competition-draws.css">
+
+    <!-- Draw renderer -->
     <script src="draws.js" defer></script>
+
+    <!-- Team sheets -->
+   <!-- <script src="fixtures/modals.js" defer></script>   -->
+    <script src="fixtures/team-sheets.js" defer></script>
     <script src="js/team-sheets.js" defer></script>
 
     <style>
@@ -503,6 +505,63 @@
                     <div class="draws-container">
                         <div id="draws-root"></div>
                     </div>
+
+                    <!-- ── Member Result Updater ─────────────────────── -->
+                    <div style="margin-top:32px;border-top:1px solid var(--app-border);padding-top:24px;">
+                        <h3 style="font-size:1rem;color:var(--app-primary);margin:0 0 4px 0;">📝 Update a Result</h3>
+                        <p style="font-size:0.85rem;color:var(--app-text-muted);margin:0 0 14px 0;">Pick a competition, then select your match.</p>
+
+                        <!-- Step 1: Competition pill buttons -->
+                        <div id="member-comp-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+
+                        <!-- Step 2: Match dropdown -->
+                        <div id="member-match-row" style="display:none;margin-bottom:14px;max-width:480px;">
+                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:5px;">Select match</label>
+                            <select id="member-match-select"
+                                style="width:100%;padding:10px 12px;border:1px solid var(--app-border);border-radius:8px;font-size:0.88rem;background:#fff;">
+                                <option value="">&#8212; pick your match &#8212;</option>
+                            </select>
+                        </div>
+
+                        <!-- Step 3: Score panel -->
+                        <div id="member-score-panel" style="display:none;max-width:480px;">
+                            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:14px;">
+                                <div id="member-match-label" style="font-size:0.82rem;font-weight:600;color:#64748b;margin-bottom:12px;text-align:center;"></div>
+                                <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end;margin-bottom:14px;">
+                                    <div style="text-align:center;">
+                                        <div id="mp1-name" style="font-size:0.82rem;font-weight:700;color:#0369a1;margin-bottom:6px;overflow-wrap:anywhere;min-height:1.2em;"></div>
+                                        <input type="number" id="member-s1" min="0" max="99" placeholder="0"
+                                            style="width:100%;padding:12px 6px;border:2px solid #0369a1;border-radius:8px;font-size:1.4rem;font-weight:700;text-align:center;box-sizing:border-box;">
+                                    </div>
+                                    <div style="text-align:center;padding-bottom:10px;">
+                                        <span style="font-size:1rem;color:#94a3b8;font-weight:700;">v</span>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <div id="mp2-name" style="font-size:0.82rem;font-weight:700;color:#0369a1;margin-bottom:6px;overflow-wrap:anywhere;min-height:1.2em;"></div>
+                                        <input type="number" id="member-s2" min="0" max="99" placeholder="0"
+                                            style="width:100%;padding:12px 6px;border:2px solid #e2e8f0;border-radius:8px;font-size:1.4rem;font-weight:700;text-align:center;box-sizing:border-box;">
+                                    </div>
+                                </div>
+                                <div style="font-size:0.8rem;font-weight:600;color:#475569;margin-bottom:8px;">Winner</div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                                    <label id="winner-btn-1" style="display:flex;align-items:center;justify-content:center;padding:9px;border:2px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all 0.15s;">
+                                        <input type="radio" name="member-winner" value="1" style="display:none;"> Player 1
+                                    </label>
+                                    <label id="winner-btn-2" style="display:flex;align-items:center;justify-content:center;padding:9px;border:2px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all 0.15s;">
+                                        <input type="radio" name="member-winner" value="2" style="display:none;"> Player 2
+                                    </label>
+                                    <label id="winner-btn-none" style="display:flex;align-items:center;justify-content:center;padding:9px;border:2px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all 0.15s;">
+                                        <input type="radio" name="member-winner" value="null" checked style="display:none;"> Not yet
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" id="btn-member-save-draw"
+                                style="width:100%;background:var(--app-primary);color:white;border:none;padding:13px;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;">
+                                Save Result Live
+                            </button>
+                        </div>
+                        <p id="status-member-draws" style="font-size:0.85rem;margin-top:10px;padding:10px 14px;border-radius:8px;display:none;max-width:480px;"></p>
+                    </div>
                 </div>
 
                 <!-- Ladies Draws Pane (Placeholder) -->
@@ -885,4 +944,264 @@
         }
     </script>
 </body>
+
+<!-- ── Member Draw Result Updater ───────────────────────────────────────── -->
+<!-- ── Member Draw Result Updater ─────────────────────── -->
+<script>
+(function () {
+    const DRAW_FILES = {
+        championship: 'draws/championship.json',
+        '2bowl':      'draws/2bowl.json',
+        handicap:     'draws/handicap.json',
+        tomwilson:    'draws/tomwilson.json',
+        pairs:        'draws/pairs.json',
+        triples:      'draws/triples.json',
+        rinks:        'draws/rinks.json'
+    };
+
+    const COMP_LABELS = {
+        championship: 'Championship',
+        '2bowl':      "Men's 2 Bowl",
+        handicap:     'Gerard Handicap',
+        tomwilson:    'Tom Wilson',
+        pairs:        "Men's Pairs",
+        triples:      "Men's Triples",
+        rinks:        "Men's Rinks"
+    };
+
+    let loadedDraws = {};       // key -> draw JSON
+    let allMatchIndex = [];     // flat list of every match with meta
+    let activeCompKey = null;
+
+    function encodeUtf8Base64(str) {
+        const bytes = new TextEncoder().encode(str);
+        const binString = Array.from(bytes, b => String.fromCodePoint(b)).join('');
+        return btoa(binString);
+    }
+
+    function showStatus(type, msg) {
+        const el = document.getElementById('status-member-draws');
+        el.style.display = 'block';
+        el.style.backgroundColor = type === 'error' ? '#fee2e2' : type === 'ok' ? '#dcfce7' : '#e0f2fe';
+        el.style.color = type === 'error' ? '#dc2626' : type === 'ok' ? '#16a34a' : '#0369a1';
+        el.textContent = msg;
+    }
+
+    function styleWinnerButtons(selected) {
+        ['1', '2', 'null'].forEach(v => {
+            const id = v === 'null' ? 'winner-btn-none' : 'winner-btn-' + v;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const active = v === selected;
+            el.style.borderColor = active ? '#173b32' : '#e2e8f0';
+            el.style.background  = active ? '#173b32' : '#ffffff';
+            el.style.color       = active ? '#ffffff' : '#334155';
+        });
+    }
+
+    // ── Load all draws upfront ─────────────────────────────────────────────
+    async function loadAllDraws() {
+        const results = await Promise.all(
+            Object.entries(DRAW_FILES).map(async ([key, path]) => {
+                try {
+                    const res = await fetch(path + '?t=' + Date.now());
+                    if (!res.ok) return null;
+                    const data = await res.json();
+                    loadedDraws[key] = data;
+                    return key;
+                } catch { return null; }
+            })
+        );
+
+        // Build flat match index
+        allMatchIndex = [];
+        results.filter(Boolean).forEach(key => {
+            const data = loadedDraws[key];
+            (data.rows || []).forEach((row, ri) => {
+                (row.rounds || []).forEach((round, rj) => {
+                    const vis = round.matches || [];
+                    const ext = round.extra   || [];
+                    [...vis, ...ext].forEach((match, mi) => {
+                        const p1 = match.p1 && match.p1 !== 'TBD' ? match.p1 : 'Player 1';
+                        const p2 = match.p2 && match.p2 !== 'TBD' ? match.p2 : 'Player 2';
+                        allMatchIndex.push({
+                            compKey: key,
+                            ri, rj, mi,
+                            visCount: vis.length,
+                            roundName: round.name,
+                            label: p1 + ' v ' + p2 + ' (' + round.name + ')',
+                            match
+                        });
+                    });
+                });
+            });
+        });
+
+        buildCompButtons();
+    }
+
+    // ── Build competition pill buttons ─────────────────────────────────────
+    function buildCompButtons() {
+        const container = document.getElementById('member-comp-btns');
+        if (!container) return;
+        container.innerHTML = '';
+
+        Object.keys(DRAW_FILES).forEach(key => {
+            if (!loadedDraws[key]) return;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = COMP_LABELS[key];
+            btn.dataset.compKey = key;
+            btn.style.cssText = 'padding:8px 14px;border:2px solid var(--app-border);border-radius:20px;background:#fff;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.15s;color:#334155;';
+            btn.addEventListener('click', () => selectComp(key));
+            container.appendChild(btn);
+        });
+    }
+
+    function selectComp(key) {
+        activeCompKey = key;
+
+        // Highlight selected button
+        document.querySelectorAll('#member-comp-btns button').forEach(btn => {
+            const active = btn.dataset.compKey === key;
+            btn.style.borderColor = active ? '#173b32' : 'var(--app-border)';
+            btn.style.background  = active ? '#173b32' : '#ffffff';
+            btn.style.color       = active ? '#ffffff' : '#334155';
+        });
+
+        // Populate match dropdown with only this comp's matches
+        const select = document.getElementById('member-match-select');
+        const matches = allMatchIndex.filter(m => m.compKey === key);
+
+        select.innerHTML = '<option value="">&#8212; pick your match &#8212;</option>' +
+            matches.map((m, i) => {
+                // store the global index in allMatchIndex as value
+                const globalIdx = allMatchIndex.indexOf(m);
+                return '<option value="' + globalIdx + '">' + m.label + '</option>';
+            }).join('');
+
+        document.getElementById('member-match-row').style.display = 'block';
+        document.getElementById('member-score-panel').style.display = 'none';
+        document.getElementById('status-member-draws').style.display = 'none';
+    }
+
+    // ── Show score panel when match selected ──────────────────────────────
+    function onMatchSelect() {
+        const idx = parseInt(document.getElementById('member-match-select').value);
+        const panel = document.getElementById('member-score-panel');
+
+        if (isNaN(idx)) { panel.style.display = 'none'; return; }
+
+        const entry = allMatchIndex[idx];
+        const m = entry.match;
+        const p1 = m.p1 && m.p1 !== 'TBD' ? m.p1 : 'Player 1';
+        const p2 = m.p2 && m.p2 !== 'TBD' ? m.p2 : 'Player 2';
+
+        document.getElementById('mp1-name').textContent = p1;
+        document.getElementById('mp2-name').textContent = p2;
+        document.getElementById('member-match-label').textContent =
+            COMP_LABELS[entry.compKey] + ' · ' + entry.roundName;
+
+        document.getElementById('member-s1').value = m.s1 || '';
+        document.getElementById('member-s2').value = m.s2 || '';
+
+        const winVal = m.winner ? String(m.winner) : 'null';
+        const radio = document.querySelector('input[name="member-winner"][value="' + winVal + '"]');
+        if (radio) radio.checked = true;
+        styleWinnerButtons(winVal);
+
+        panel.style.display = 'block';
+        document.getElementById('status-member-draws').style.display = 'none';
+    }
+
+    // ── Save ───────────────────────────────────────────────────────────────
+    async function saveResult() {
+        const idx = parseInt(document.getElementById('member-match-select').value);
+        if (isNaN(idx)) { showStatus('error', 'Please select a match first.'); return; }
+
+        const saveBtn = document.getElementById('btn-member-save-draw');
+        showStatus('info', 'Saving result…');
+        saveBtn.disabled = true;
+
+        try {
+            const entry    = allMatchIndex[idx];
+            const drawData = loadedDraws[entry.compKey];
+            const round    = drawData.rows[entry.ri].rounds[entry.rj];
+            const vis      = round.matches || [];
+            const ext      = round.extra   || [];
+            const all      = [...vis, ...ext];
+
+            const s1 = document.getElementById('member-s1').value.trim();
+            const s2 = document.getElementById('member-s2').value.trim();
+            const wr = document.querySelector('input[name="member-winner"]:checked');
+            const winner = wr && wr.value !== 'null' ? parseInt(wr.value) : null;
+
+            all[entry.mi].s1     = s1;
+            all[entry.mi].s2     = s2;
+            all[entry.mi].winner = winner;
+
+            drawData.rows[entry.ri].rounds[entry.rj].matches = all.slice(0, entry.visCount);
+            if (round.extra) {
+                drawData.rows[entry.ri].rounds[entry.rj].extra = all.slice(entry.visCount);
+            }
+
+            const sc = window.supabase.createClient(
+                'https://xprnfaadcqlxeamoywjs.supabase.co',
+                'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea'
+            );
+            const { data: tokenData, error: tokenError } = await sc
+                .from('settings').select('value').eq('key', 'github_token').single();
+            if (tokenError || !tokenData) throw new Error('Could not retrieve GitHub token.');
+
+            const filePath = DRAW_FILES[entry.compKey];
+            const apiUrl = 'https://api.github.com/repos/goldenacrebc/goldenacre/contents/' + filePath;
+
+            const getRes = await fetch(apiUrl, { headers: { 'Authorization': 'token ' + tokenData.value } });
+            if (!getRes.ok) throw new Error('Could not read draw file (' + getRes.status + '). Has it been pushed to GitHub?');
+            const fileData = await getRes.json();
+
+            const putRes = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: { 'Authorization': 'token ' + tokenData.value, 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: 'Members portal: result update — ' + drawData.label + ' ' + entry.roundName,
+                    content: encodeUtf8Base64(JSON.stringify(drawData, null, 2)),
+                    sha: fileData.sha,
+                    branch: 'main'
+                })
+            });
+            if (!putRes.ok) throw new Error('Failed to save result to GitHub.');
+
+            showStatus('ok', '✓ Result saved! Reloading…');
+            saveBtn.disabled = false;
+            setTimeout(() => window.location.reload(), 1200);
+
+        } catch (err) {
+            showStatus('error', 'Error: ' + err.message);
+            document.getElementById('btn-member-save-draw').disabled = false;
+        }
+    }
+
+    // ── Init ───────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAllDraws();
+
+        document.getElementById('member-match-select')
+            ?.addEventListener('change', onMatchSelect);
+
+        document.getElementById('btn-member-save-draw')
+            ?.addEventListener('click', saveResult);
+
+        ['1', '2', 'null'].forEach(v => {
+            const id = v === 'null' ? 'winner-btn-none' : 'winner-btn-' + v;
+            document.getElementById(id)?.addEventListener('click', () => {
+                const r = document.querySelector('input[name="member-winner"][value="' + v + '"]');
+                if (r) { r.checked = true; styleWinnerButtons(v); }
+            });
+        });
+
+        styleWinnerButtons('null');
+    });
+}());
+</script>
 </html>

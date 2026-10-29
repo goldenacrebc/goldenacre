@@ -117,7 +117,20 @@
                 </div>
             </div>
 
-            <!-- SECTION 3: CLUB ADMINISTRATION -->
+            <!-- SECTION 3: COMPETITION DRAWS -->
+            <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 24px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">🏆 Competition Draws</h3>
+            <div class="modules-grid" style="margin-bottom: 24px;">
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">🏆</span>
+                        <h4>Draws Manager</h4>
+                        <p>Enter player names, update scores and mark match winners across all club competitions.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('draws-manager-card')">Open Draws Manager</button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: CLUB ADMINISTRATION -->
             <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 24px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📋 Club Administration</h3>
             <div class="modules-grid" style="margin-bottom: 24px;">
                 <!-- Team Sheets -->
@@ -169,6 +182,40 @@
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('honours-manager-card')">Open Manager</button>
                 </div>
+            </div>
+
+            <!-- FORM CARD: Draws Manager -->
+            <div id="draws-manager-card" class="admin-card-custom">
+                <h3>🏆 Competition Draws Manager</h3>
+                <p class="card-subtitle">Select a competition and round to update player names, scores, and match winners.</p>
+
+                <!-- Competition selector -->
+                <div class="form-grid" style="margin-bottom: 16px;">
+                    <div class="form-group-custom">
+                        <label for="draws-competition-select">Competition</label>
+                        <select id="draws-competition-select" onchange="loadDrawsRounds()">
+                            <option value="championship">Championship</option>
+                            <option value="2bowl">Men's 2 Bowl</option>
+                            <option value="handicap">Gerard Handicap</option>
+                            <option value="tomwilson">Tom Wilson</option>
+                            <option value="pairs">Men's Pairs</option>
+                            <option value="triples">Men's Triples</option>
+                            <option value="rinks">Men's Rinks</option>
+                        </select>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="draws-round-select">Round</label>
+                        <select id="draws-round-select" onchange="loadDrawsMatches()">
+                            <option value="">— select competition first —</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Match editor — rendered dynamically -->
+                <div id="draws-match-editor" style="margin-bottom: 16px;"></div>
+
+                <button type="button" class="submit-btn-custom" id="btn-save-draws">Save Draw Changes Live</button>
+                <p class="status-msg-custom" id="status-draws"></p>
             </div>
 
             <!-- FORM CARD: Honours Board Manager -->

@@ -1,78 +1,191 @@
-const SHOW_PUBLISHED_DRAW_SHEETS = false;
+// Competition draw files — order determines tab order
+const DRAW_FILES = [
+  'draws/championship.json',
+  'draws/2bowl.json',
+  'draws/handicap.json',
+  'draws/tomwilson.json',
+  'draws/pairs.json',
+  'draws/triples.json',
+  'draws/rinks.json'
+];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const root = document.getElementById('draws-root');
   if (!root) return;
 
-  const competitions = window.drawSheets || [];
-  const initialIndex = Math.max(0, competitions.findIndex(competition => competition.active));
+  // Load all draw JSON files in parallel
+  let competitions = [];
+  try {
+    const results = await Promise.all(
+      DRAW_FILES.map(f => fetch(f + '?t=' + Date.now()).then(r => r.ok ? r.json() : null))
+    );
+    competitions = results.filter(Boolean);
+  } catch (err) {
+    root.innerHTML = '<p class="draw-sheet-error">Could not load draw data.</p>';
+    return;
+  }
+
+  if (competitions.length === 0) {
+    root.innerHTML = '<p class="draw-sheet-pending">No draw data available yet.</p>';
+    return;
+  }
+
+  const initialIndex = Math.max(0, competitions.findIndex(c => c.active));
+
+  // ── Tab bar ────────────────────────────────────────────────────────────────
   const tabs = document.createElement('div');
   tabs.className = 'draws-tabs';
   tabs.setAttribute('role', 'group');
   tabs.setAttribute('aria-label', 'Club competition draws');
 
+  // ── Stage area ─────────────────────────────────────────────────────────────
   const stages = document.createElement('div');
   stages.className = 'draws-stages-wrapper';
 
+  // ── Render one competition ─────────────────────────────────────────────────
   function showCompetition(index) {
-    const competition = competitions[index];
-    if (!competition) return;
+    const comp = competitions[index];
+    if (!comp) return;
 
-    tabs.querySelectorAll('.tab-btn').forEach((tab, tabIndex) => {
-      const active = tabIndex === index;
-      tab.classList.toggle('active', active);
-      tab.setAttribute('aria-pressed', String(active));
+    tabs.querySelectorAll('.tab-btn').forEach((btn, i) => {
+      const active = i === index;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
     });
+
     stages.replaceChildren();
 
-    if (!SHOW_PUBLISHED_DRAW_SHEETS || !competition.embedUrl) {
-      const message = document.createElement('p');
-      message.className = 'draw-sheet-pending';
-      message.setAttribute('role', 'status');
-      message.textContent = `The 2027 ${competition.label} draw will appear here once it has been made and published to Google Sheets.`;
-      stages.append(message);
+    if (!comp.rows || comp.rows.length === 0) {
+      const msg = document.createElement('p');
+      msg.className = 'draw-sheet-pending';
+      msg.setAttribute('role', 'status');
+      msg.textContent = `The 2027 ${comp.label} draw will appear here once it has been made.`;
+      stages.append(msg);
       return;
     }
 
-    if (!URL.canParse(competition.embedUrl)) {
-      const message = document.createElement('p');
-      message.className = 'draw-sheet-error';
-      message.setAttribute('role', 'alert');
-      message.textContent = `The published Google Sheets link for ${competition.label} is invalid.`;
-      stages.append(message);
-      return;
-    }
-
-    const embedUrl = new URL(competition.embedUrl);
-    if (embedUrl.protocol !== 'https:' || embedUrl.hostname !== 'docs.google.com' || !embedUrl.pathname.startsWith('/spreadsheets/')) {
-      const message = document.createElement('p');
-      message.className = 'draw-sheet-error';
-      message.setAttribute('role', 'alert');
-      message.textContent = `The published Google Sheets link for ${competition.label} is invalid.`;
-      stages.append(message);
-      return;
-    }
-
-    const frame = document.createElement('iframe');
-    frame.className = 'draw-sheet-frame';
-    frame.src = embedUrl.href;
-    frame.title = `${competition.label} 2027 draw`;
-    frame.loading = 'lazy';
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    stages.append(frame);
+    comp.rows.forEach(row => {
+      const rowEl = document.createElement('div');
+      rowEl.className = `draws-row ${row.tier}`;
+      row.rounds.forEach(round => {
+        const isFinal = /^final$/i.test(round.name.trim());
+        rowEl.append(buildCard(round, isFinal));
+      });
+      stages.append(rowEl);
+    });
   }
 
-  competitions.forEach((competition, index) => {
-    const button = document.createElement('button');
-    button.className = 'tab-btn';
-    button.type = 'button';
-    button.textContent = competition.label;
-    button.addEventListener('click', () => showCompetition(index));
-    tabs.append(button);
+  // ── Build a single round card ──────────────────────────────────────────────
+  function buildCard(round, isFinal) {
+    const card = document.createElement('div');
+    card.className = 'draw-card' + (isFinal ? ' final-card' : '');
+
+    const header = document.createElement('div');
+    header.className = 'draw-card-header';
+
+    const title = document.createElement('h3');
+    title.textContent = round.name;
+
+    const badge = document.createElement('span');
+    badge.className = 'badge deadline';
+    badge.textContent = round.deadline || '';
+
+    header.append(title, badge);
+    card.append(header);
+
+    const allMatches = [...(round.matches || [])];
+    const extraMatches = round.extra || [];
+    const hasScores = allMatches.concat(extraMatches).some(m => m.s1 && m.s1 !== '');
+
+    const list = document.createElement('ul');
+    list.className = 'match-list';
+    list.setAttribute('role', 'list');
+
+    allMatches.forEach(m => list.append(buildMatchRow(m, false, hasScores)));
+    extraMatches.forEach(m => list.append(buildMatchRow(m, true, hasScores)));
+
+    card.append(list);
+
+    if (extraMatches.length > 0) {
+      const btn = document.createElement('button');
+      btn.className = 'toggle-more-btn';
+      btn.type = 'button';
+      const n = extraMatches.length;
+      btn.textContent = `Show ${n} more match${n > 1 ? 'es' : ''}`;
+      btn.addEventListener('click', () => {
+        const expanded = card.classList.toggle('expanded');
+        btn.textContent = expanded
+          ? 'Show fewer matches'
+          : `Show ${n} more match${n > 1 ? 'es' : ''}`;
+      });
+      card.append(btn);
+    }
+
+    return card;
+  }
+
+  // ── Build one match row ────────────────────────────────────────────────────
+  function buildMatchRow(match, isExtra, hasScores) {
+    const row = document.createElement('li');
+    row.className = 'match-row' +
+      (isExtra ? ' extra-match' : '') +
+      (hasScores ? '' : ' no-scores');
+    row.setAttribute('role', 'listitem');
+
+    const p1 = document.createElement('span');
+    p1.className = 'player player-left' + (match.winner === 1 ? ' winner' : '');
+    p1.textContent = match.p1 || 'TBD';
+    if (match.h1) {
+      const hcp = document.createElement('span');
+      hcp.className = 'handicap-value';
+      hcp.textContent = `hcp ${match.h1}`;
+      p1.append(hcp);
+    }
+
+    const vs = document.createElement('span');
+    vs.className = 'vs';
+    vs.textContent = 'v';
+
+    const p2 = document.createElement('span');
+    p2.className = 'player player-right' + (match.winner === 2 ? ' winner' : '');
+    p2.textContent = match.p2 || 'TBD';
+    if (match.h2) {
+      const hcp = document.createElement('span');
+      hcp.className = 'handicap-value';
+      hcp.textContent = `hcp ${match.h2}`;
+      p2.append(hcp);
+    }
+
+    if (hasScores) {
+      const s1 = document.createElement('span');
+      s1.className = 'score';
+      s1.textContent = match.s1 || '–';
+
+      const s2 = document.createElement('span');
+      s2.className = 'score';
+      s2.textContent = match.s2 || '–';
+
+      row.append(p1, s1, vs, s2, p2);
+    } else {
+      row.append(p1, vs, p2);
+    }
+
+    return row;
+  }
+
+  // ── Wire up tabs ───────────────────────────────────────────────────────────
+  competitions.forEach((comp, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.type = 'button';
+    btn.textContent = comp.label;
+    btn.addEventListener('click', () => showCompetition(index));
+    tabs.append(btn);
 
     if (index < competitions.length - 1) {
       const divider = document.createElement('span');
       divider.className = 'tab-divider';
+      divider.setAttribute('aria-hidden', 'true');
       divider.textContent = '|';
       tabs.append(divider);
     }
@@ -81,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const subtitle = document.createElement('p');
   subtitle.className = 'draws-subtitle';
   subtitle.textContent = 'Select a competition to view its draw.';
-  root.replaceChildren(subtitle, tabs, stages);
 
-  if (competitions.length) showCompetition(initialIndex);
+  root.replaceChildren(subtitle, tabs, stages);
+  showCompetition(initialIndex);
 });

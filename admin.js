@@ -1278,142 +1278,370 @@ if (honoursForm) {
     });
 }
 
-// --- GALLERY MANAGER FUNCTIONS ---
-const galleryForm = document.getElementById('form-gallery');
-if (galleryForm) {
-    galleryForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const statusMsg = document.getElementById('status-gallery');
-        const btn = document.getElementById('btn-publish-gallery');
+// =========================================================================
+// DRAWS MANAGER
+// =========================================================================
+(function () {
+    const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+    const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    function encodeUtf8Base64(str) {
+        const bytes = new TextEncoder().encode(str);
+        const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join('');
+        return btoa(binString);
+    }
+
+const DRAW_FILES = {
+    championship: 'draws/championship.json',
+    '2bowl':       'draws/2bowl.json',
+    handicap:      'draws/handicap.json',
+    tomwilson:     'draws/tomwilson.json',
+    pairs:         'draws/pairs.json',
+    triples:       'draws/triples.json',
+    rinks:         'draws/rinks.json'
+};
+
+// Holds the currently loaded draw data so we can mutate and re-save it
+let currentDrawData = null;
+let currentDrawFile = null;
+
+// Flatten all rounds out of the rows structure for the round selector
+function getFlatRounds(drawData) {
+    const rounds = [];
+    (drawData.rows || []).forEach((row, rowIdx) => {
+        (row.rounds || []).forEach((round, roundIdx) => {
+            rounds.push({ rowIdx, roundIdx, name: round.name, round });
+        });
+    });
+    return rounds;
+}
+
+window.loadDrawsRounds = async function() {
+    const comp = document.getElementById('draws-competition-select').value;
+    const roundSelect = document.getElementById('draws-round-select');
+    const editor = document.getElementById('draws-match-editor');
+    const statusMsg = document.getElementById('status-draws');
+
+    roundSelect.innerHTML = '<option value="">Loading...</option>';
+    editor.innerHTML = '';
+    statusMsg.innerText = '';
+    currentDrawData = null;
+    currentDrawFile = DRAW_FILES[comp];
+
+    try {
+        const res = await fetch(currentDrawFile + '?t=' + Date.now());
+        if (!res.ok) throw new Error('Could not load draw file.');
+        currentDrawData = await res.json();
+
+        const flatRounds = getFlatRounds(currentDrawData);
+        roundSelect.innerHTML = flatRounds.map((r, i) =>
+            `<option value="${i}">${r.name}</option>`
+        ).join('');
+
+        loadDrawsMatches();
+    } catch (err) {
+        roundSelect.innerHTML = '<option value="">Error loading</option>';
+        statusMsg.style.backgroundColor = '#fee2e2';
+        statusMsg.style.color = '#dc2626';
+        statusMsg.innerText = 'Error: ' + err.message;
+    }
+};
+
+window.loadDrawsMatches = function() {
+    const editor = document.getElementById('draws-match-editor');
+    const roundIdx = parseInt(document.getElementById('draws-round-select').value);
+    if (!currentDrawData || isNaN(roundIdx)) { editor.innerHTML = ''; return; }
+
+    const flatRounds = getFlatRounds(currentDrawData);
+    const { round } = flatRounds[roundIdx];
+
+    const allMatches = [...(round.matches || []), ...(round.extra || [])];
+    if (allMatches.length === 0) {
+        editor.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No matches in this round.</p>';
+        return;
+    }
+
+    const isExtra = (i) => i >= (round.matches || []).length;
+
+    let html = `<div style="display:flex;flex-direction:column;gap:10px;">`;
+    allMatches.forEach((match, i) => {
+        const tag = isExtra(i) ? ' <span style="font-size:0.7rem;color:#64748b;">(extra)</span>' : '';
+        html += `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;" data-match-index="${i}">
+            <div style="font-size:0.78rem;font-weight:700;color:#64748b;margin-bottom:8px;">Match ${i + 1}${tag}</div>
+            <div style="display:grid;grid-template-columns:1fr auto auto auto 1fr;gap:8px;align-items:center;">
+                <input type="text" class="dm-p1" placeholder="Player 1" value="${match.p1 !== 'TBD' ? match.p1 : ''}"
+                    style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;">
+                <input type="text" class="dm-s1" placeholder="Score" value="${match.s1 || ''}" maxlength="4"
+                    style="width:52px;padding:6px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;text-align:center;">
+                <span style="font-size:0.75rem;color:#94a3b8;font-weight:600;">v</span>
+                <input type="text" class="dm-s2" placeholder="Score" value="${match.s2 || ''}" maxlength="4"
+                    style="width:52px;padding:6px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;text-align:center;">
+                <input type="text" class="dm-p2" placeholder="Player 2" value="${match.p2 !== 'TBD' ? match.p2 : ''}"
+                    style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:4px;font-size:0.85rem;">
+            </div>
+            <div style="display:flex;gap:16px;margin-top:8px;align-items:center;">
+                <span style="font-size:0.78rem;font-weight:600;color:#475569;">Winner:</span>
+                <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="1" ${match.winner === 1 ? 'checked' : ''}> Player 1
+                </label>
+                <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="2" ${match.winner === 2 ? 'checked' : ''}> Player 2
+                </label>
+                <label style="font-size:0.82rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
+                    <input type="radio" class="dm-winner" name="winner-${i}" value="null" ${!match.winner ? 'checked' : ''}> Not played
+                </label>
+            </div>
+        </div>`;
+    });
+    html += '</div>';
+
+    editor.innerHTML = html;
+};
+
+const btnSaveDraws = document.getElementById('btn-save-draws');
+if (btnSaveDraws) {
+    btnSaveDraws.addEventListener('click', async () => {
+        const statusMsg = document.getElementById('status-draws');
+        const btn = document.getElementById('btn-save-draws');
+
+        if (!currentDrawData || !currentDrawFile) {
+            statusMsg.style.backgroundColor = '#fee2e2';
+            statusMsg.style.color = '#dc2626';
+            statusMsg.innerText = 'Please select a competition and round first.';
+            return;
+        }
 
         statusMsg.style.backgroundColor = '#e0f2fe';
         statusMsg.style.color = '#0369a1';
-        statusMsg.innerText = "Uploading photo to repository...";
+        statusMsg.innerText = 'Saving draw changes live...';
         btn.disabled = true;
 
         try {
-            const category = document.getElementById('gallery-category').value;
-            const caption = document.getElementById('gallery-caption').value.trim();
-            const imageFile = document.getElementById('gallery-image').files[0];
+            // Read current values from the editor back into currentDrawData
+            const roundIdx = parseInt(document.getElementById('draws-round-select').value);
+            const flatRounds = getFlatRounds(currentDrawData);
+            const { rowIdx, roundIdx: rIdx, round } = flatRounds[roundIdx];
+            const allMatches = [...(round.matches || []), ...(round.extra || [])];
+            const matchDivs = document.querySelectorAll('#draws-match-editor [data-match-index]');
 
-            const supabaseClient = window.supabase.createClient(
-                'https://xprnfaadcqlxeamoywjs.supabase.co',
-                'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea'
-            );
+            matchDivs.forEach(div => {
+                const i = parseInt(div.getAttribute('data-match-index'));
+                const p1Val = div.querySelector('.dm-p1').value.trim();
+                const p2Val = div.querySelector('.dm-p2').value.trim();
+                const s1Val = div.querySelector('.dm-s1').value.trim();
+                const s2Val = div.querySelector('.dm-s2').value.trim();
+                const winnerRadio = div.querySelector('.dm-winner:checked');
+                const winnerVal = winnerRadio ? winnerRadio.value : 'null';
 
+                allMatches[i].p1 = p1Val || 'TBD';
+                allMatches[i].p2 = p2Val || 'TBD';
+                allMatches[i].s1 = s1Val;
+                allMatches[i].s2 = s2Val;
+                allMatches[i].winner = winnerVal === 'null' ? null : parseInt(winnerVal);
+            });
+
+            // Write back into the nested structure
+            const visibleCount = (currentDrawData.rows[rowIdx].rounds[rIdx].matches || []).length;
+            currentDrawData.rows[rowIdx].rounds[rIdx].matches = allMatches.slice(0, visibleCount);
+            if (currentDrawData.rows[rowIdx].rounds[rIdx].extra) {
+                currentDrawData.rows[rowIdx].rounds[rIdx].extra = allMatches.slice(visibleCount);
+            }
+
+            // Commit to GitHub
             const { data: tokenData, error: tokenError } = await supabaseClient
                 .from('settings').select('value').eq('key', 'github_token').single();
-            if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+            if (tokenError || !tokenData) throw new Error('Could not retrieve GitHub token.');
 
-            const githubToken = tokenData.value;
-            const owner = "goldenacrebc";
-            const repo = "goldenacre";
-            const branch = "main";
+            const owner = 'goldenacrebc';
+            const repo = 'goldenacre';
+            const branch = 'main';
+            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${currentDrawFile}`;
 
-            const fileName = `gallery-${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
-            const photoPath = `photos/${fileName}`;
-            
-            function fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            const photoBase64 = await fileToBase64(imageFile);
-
-            const photoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${photoPath}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${githubToken}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: `Admin upload: added gallery photo ${fileName}`,
-                    content: photoBase64,
-                    branch: branch
-                })
-            });
-
-            if (!photoRes.ok) throw new Error("Failed to upload photo file to GitHub.");
-
-            statusMsg.innerText = "Updating gallery page code...";
-            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/gallery.html`;
             const getRes = await fetch(fileUrl, {
-                headers: { "Authorization": `token ${githubToken}` }
+                headers: { 'Authorization': `token ${tokenData.value}` }
             });
-            if (!getRes.ok) throw new Error("Failed to fetch gallery.html");
+            if (!getRes.ok) throw new Error('Failed to fetch draw file from GitHub.');
 
             const fileData = await getRes.json();
-            
-            function decodeBase64Utf8(base64Str) {
-                const binString = atob(base64Str.replace(/\s/g, ''));
-                const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
-                return new TextDecoder().decode(bytes);
-            }
-
-            function encodeUtf8Base64(str) {
-                const bytes = new TextEncoder().encode(str);
-                const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
-                return btoa(binString);
-            }
-
-            let htmlContent = decodeBase64Utf8(fileData.content);
-
-            const newCardHTML = `            <button class="gallery-card" type="button" data-category="${category}" data-full="${photoPath}" data-caption="${caption}">
-                <img src="${photoPath}" alt="${caption}" loading="lazy">
-                <span class="gallery-card-caption">${caption}</span>
-            </button>`;
-
-            if (category === 'green') {
-                const targetAnchor = '<section class="gallery-group" data-gallery-group="green">';
-                const insertionPoint = htmlContent.indexOf(targetAnchor);
-                if (insertionPoint !== -1) {
-                    const gridTarget = htmlContent.indexOf('<div class="gallery-grid">', insertionPoint);
-                    const insertIdx = htmlContent.indexOf('>', gridTarget) + 1;
-                    htmlContent = htmlContent.slice(0, insertIdx) + '\n' + newCardHTML + htmlContent.slice(insertIdx);
-                }
-            } else if (category === 'competition') {
-                const targetAnchor = '<h4 class="gallery-subheading">Internal Competitions</h4>';
-                const insertionPoint = htmlContent.indexOf(targetAnchor);
-                if (insertionPoint !== -1) {
-                    const gridTarget = htmlContent.indexOf('<div class="gallery-grid">', insertionPoint);
-                    const insertIdx = htmlContent.indexOf('>', gridTarget) + 1;
-                    htmlContent = htmlContent.slice(0, insertIdx) + '\n' + newCardHTML + htmlContent.slice(insertIdx);
-                }
-            }
 
             const commitRes = await fetch(fileUrl, {
-                method: "PUT",
+                method: 'PUT',
                 headers: {
-                    "Authorization": `token ${githubToken}`,
-                    "Content-Type": "application/json"
+                    'Authorization': `token ${tokenData.value}`,
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    message: `Admin portal: added new photo to gallery (${caption})`,
-                    content: encodeUtf8Base64(htmlContent),
+                    message: `Admin portal: updated ${currentDrawData.label} — ${flatRounds[roundIdx].name}`,
+                    content: encodeUtf8Base64(JSON.stringify(currentDrawData, null, 2)),
                     sha: fileData.sha,
                     branch: branch
                 })
             });
 
-            if (!commitRes.ok) throw new Error("Failed to commit gallery update to GitHub.");
+            if (!commitRes.ok) throw new Error('Failed to save draw changes to GitHub.');
 
             statusMsg.style.backgroundColor = '#dcfce7';
             statusMsg.style.color = '#16a34a';
-            statusMsg.innerText = "Photo successfully published live to gallery!";
-            galleryForm.reset();
-            document.getElementById('gallery-preview-box').style.display = 'none';
-            document.getElementById('gallery-upload-text').innerText = "Click or drag image file here";
+            statusMsg.innerText = `${currentDrawData.label} — ${flatRounds[roundIdx].name} saved live successfully!`;
             btn.disabled = false;
 
         } catch (err) {
             statusMsg.style.backgroundColor = '#fee2e2';
             statusMsg.style.color = '#dc2626';
-            statusMsg.innerText = "Error: " + err.message;
+            statusMsg.innerText = 'Error: ' + err.message;
             btn.disabled = false;
         }
     });
+}
+
+// Auto-load the first competition's rounds when the card opens
+const origToggleCard = window.toggleCard;
+window.toggleCard = function(cardId) {
+    origToggleCard(cardId);
+    if (cardId === 'draws-manager-card') {
+        loadDrawsRounds();
+    }
+};
+}());
+
+// --- GALLERY MANAGER FUNCTIONS ---
+const galleryForm = document.getElementById('form-gallery');
+if (galleryForm) {
+galleryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const statusMsg = document.getElementById('status-gallery');
+    const btn = document.getElementById('btn-publish-gallery');
+
+    statusMsg.style.backgroundColor = '#e0f2fe';
+    statusMsg.style.color = '#0369a1';
+    statusMsg.innerText = "Uploading photo to repository...";
+    btn.disabled = true;
+
+    try {
+        const category = document.getElementById('gallery-category').value;
+        const caption = document.getElementById('gallery-caption').value.trim();
+        const imageFile = document.getElementById('gallery-image').files[0];
+
+        const supabaseClient = window.supabase.createClient(
+            'https://xprnfaadcqlxeamoywjs.supabase.co',
+            'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea'
+        );
+
+        const { data: tokenData, error: tokenError } = await supabaseClient
+            .from('settings').select('value').eq('key', 'github_token').single();
+        if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
+
+        const githubToken = tokenData.value;
+        const owner = "goldenacrebc";
+        const repo = "goldenacre";
+        const branch = "main";
+
+        const fileName = `gallery-${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
+        const photoPath = `photos/${fileName}`;
+        
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        const photoBase64 = await fileToBase64(imageFile);
+
+        const photoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${photoPath}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `token ${githubToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: `Admin upload: added gallery photo ${fileName}`,
+                content: photoBase64,
+                branch: branch
+            })
+        });
+
+        if (!photoRes.ok) throw new Error("Failed to upload photo file to GitHub.");
+
+        statusMsg.innerText = "Updating gallery page code...";
+        const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/gallery.html`;
+        const getRes = await fetch(fileUrl, {
+            headers: { "Authorization": `token ${githubToken}` }
+        });
+        if (!getRes.ok) throw new Error("Failed to fetch gallery.html");
+
+        const fileData = await getRes.json();
+        
+        function decodeBase64Utf8(base64Str) {
+            const binString = atob(base64Str.replace(/\s/g, ''));
+            const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
+            return new TextDecoder().decode(bytes);
+        }
+
+        function encodeUtf8Base64(str) {
+            const bytes = new TextEncoder().encode(str);
+            const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
+            return btoa(binString);
+        }
+
+        let htmlContent = decodeBase64Utf8(fileData.content);
+
+        const newCardHTML = `            <button class="gallery-card" type="button" data-category="${category}" data-full="${photoPath}" data-caption="${caption}">
+            <img src="${photoPath}" alt="${caption}" loading="lazy">
+            <span class="gallery-card-caption">${caption}</span>
+        </button>`;
+
+        if (category === 'green') {
+            const targetAnchor = '<section class="gallery-group" data-gallery-group="green">';
+            const insertionPoint = htmlContent.indexOf(targetAnchor);
+            if (insertionPoint !== -1) {
+                const gridTarget = htmlContent.indexOf('<div class="gallery-grid">', insertionPoint);
+                const insertIdx = htmlContent.indexOf('>', gridTarget) + 1;
+                htmlContent = htmlContent.slice(0, insertIdx) + '\n' + newCardHTML + htmlContent.slice(insertIdx);
+            }
+        } else if (category === 'competition') {
+            const targetAnchor = '<h4 class="gallery-subheading">Internal Competitions</h4>';
+            const insertionPoint = htmlContent.indexOf(targetAnchor);
+            if (insertionPoint !== -1) {
+                const gridTarget = htmlContent.indexOf('<div class="gallery-grid">', insertionPoint);
+                const insertIdx = htmlContent.indexOf('>', gridTarget) + 1;
+                htmlContent = htmlContent.slice(0, insertIdx) + '\n' + newCardHTML + htmlContent.slice(insertIdx);
+            }
+        }
+
+        const commitRes = await fetch(fileUrl, {
+            method: "PUT",
+            headers: {
+                "Authorization": `token ${githubToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: `Admin portal: added new photo to gallery (${caption})`,
+                content: encodeUtf8Base64(htmlContent),
+                sha: fileData.sha,
+                branch: branch
+            })
+        });
+
+        if (!commitRes.ok) throw new Error("Failed to commit gallery update to GitHub.");
+
+        statusMsg.style.backgroundColor = '#dcfce7';
+        statusMsg.style.color = '#16a34a';
+        statusMsg.innerText = "Photo successfully published live to gallery!";
+        galleryForm.reset();
+        document.getElementById('gallery-preview-box').style.display = 'none';
+        document.getElementById('gallery-upload-text').innerText = "Click or drag image file here";
+        btn.disabled = false;
+
+    } catch (err) {
+        statusMsg.style.backgroundColor = '#fee2e2';
+        statusMsg.style.color = '#dc2626';
+        statusMsg.innerText = "Error: " + err.message;
+        btn.disabled = false;
+    }
+});
 }
