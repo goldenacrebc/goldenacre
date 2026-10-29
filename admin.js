@@ -1311,7 +1311,7 @@ function getFlatRounds(drawData) {
     const rounds = [];
     (drawData.rows || []).forEach((row, rowIdx) => {
         (row.rounds || []).forEach((round, roundIdx) => {
-            rounds.push({ rowIdx, roundIdx, name: round.name, round });
+            rounds.push({ rowIdx, roundIdx, ri: rowIdx, rj: roundIdx, name: round.name, round });
         });
     });
     return rounds;
@@ -1424,6 +1424,99 @@ window.removeMatch = function(btn) {
     btn.closest('[data-match-index]').remove();
     renumberMatches();
 };
+
+// ── Add a new round to the current competition ────────────────────────────
+window.addDrawRound = async function() {
+    const statusMsg = document.getElementById('status-draws');
+    const name = document.getElementById('new-round-name').value.trim();
+    const deadline = document.getElementById('new-round-deadline').value.trim();
+
+    if (!currentDrawData) {
+        statusMsg.style.backgroundColor = '#fee2e2';
+        statusMsg.style.color = '#dc2626';
+        statusMsg.innerText = 'Please select a competition first.';
+        return;
+    }
+    if (!name) {
+        statusMsg.style.backgroundColor = '#fee2e2';
+        statusMsg.style.color = '#dc2626';
+        statusMsg.innerText = 'Please enter a round name.';
+        return;
+    }
+
+    // Add to the last tier row (or create one if none exist)
+    const newRound = { name, deadline: deadline || 'To be confirmed', matches: [], extra: [] };
+    if (!currentDrawData.rows || currentDrawData.rows.length === 0) {
+        currentDrawData.rows = [{ tier: 'tier-1', rounds: [newRound] }];
+    } else {
+        currentDrawData.rows[currentDrawData.rows.length - 1].rounds.push(newRound);
+    }
+
+    await saveCurrentDrawData(`Added round "${name}" to ${currentDrawData.label}`);
+
+    document.getElementById('new-round-name').value = '';
+    document.getElementById('new-round-deadline').value = '';
+    loadDrawsRounds();
+};
+
+// ── Remove the currently selected round ──────────────────────────────────
+window.removeDrawRound = async function() {
+    const statusMsg = document.getElementById('status-draws');
+    const roundIdx = parseInt(document.getElementById('draws-round-select').value);
+
+    if (!currentDrawData || isNaN(roundIdx)) {
+        statusMsg.style.backgroundColor = '#fee2e2';
+        statusMsg.style.color = '#dc2626';
+        statusMsg.innerText = 'Please select a round to remove.';
+        return;
+    }
+
+    const flatRounds = getFlatRounds(currentDrawData);
+    const { ri, rj, name } = flatRounds[roundIdx];
+
+    if (!confirm(`Remove round "${name}"? This will delete all its matches. This cannot be undone.`)) return;
+
+    currentDrawData.rows[ri].rounds.splice(rj, 1);
+    // Remove empty tier rows
+    currentDrawData.rows = currentDrawData.rows.filter(r => r.rounds && r.rounds.length > 0);
+
+    await saveCurrentDrawData(`Removed round "${name}" from ${currentDrawData.label}`);
+    loadDrawsRounds();
+};
+
+// ── Shared save helper ────────────────────────────────────────────────────
+async function saveCurrentDrawData(commitMsg) {
+    const statusMsg = document.getElementById('status-draws');
+    statusMsg.style.backgroundColor = '#e0f2fe';
+    statusMsg.style.color = '#0369a1';
+    statusMsg.innerText = 'Saving…';
+
+    const { data: tokenData, error: tokenError } = await supabaseClient
+        .from('settings').select('value').eq('key', 'github_token').single();
+    if (tokenError || !tokenData) throw new Error('Could not retrieve GitHub token.');
+
+    const fileUrl = `https://api.github.com/repos/goldenacrebc/goldenacre/contents/${currentDrawFile}`;
+    const getRes = await fetch(fileUrl, { headers: { 'Authorization': `token ${tokenData.value}` } });
+    if (!getRes.ok) throw new Error(`Failed to fetch draw file (${getRes.status}).`);
+    const fileData = await getRes.json();
+
+    const putRes = await fetch(fileUrl, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${tokenData.value}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            message: `Admin portal: ${commitMsg}`,
+            content: encodeUtf8Base64(JSON.stringify(currentDrawData, null, 2)),
+            sha: fileData.sha,
+            branch: 'main'
+        })
+    });
+
+    if (!putRes.ok) throw new Error('Failed to save to GitHub.');
+
+    statusMsg.style.backgroundColor = '#dcfce7';
+    statusMsg.style.color = '#16a34a';
+    statusMsg.innerText = `✓ ${commitMsg} — saved live!`;
+}
 
 window.renumberMatches = function() {
     const list = document.getElementById('dm-match-list');
