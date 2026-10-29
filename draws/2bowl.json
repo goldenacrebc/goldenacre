@@ -10,7 +10,13 @@
           "name": "1st Round",
           "deadline": "To be confirmed",
           "matches": [
-            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
           ]
         }
       ]
@@ -22,7 +28,13 @@
           "name": "Semi Final",
           "deadline": "To be confirmed",
           "matches": [
-            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
           ]
         }
       ]
@@ -34,8 +46,20 @@
           "name": "Final",
           "deadline": "To be confirmed",
           "matches": [
-            { "p1": "TBD", "s1": "", "p2": "TBD", "s2": "", "winner": null }
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
           ]
+        },
+        {
+          "name": "2nd Round",
+          "deadline": "To be confirmed",
+          "matches": [],
+          "extra": []
         }
       ]
     }
