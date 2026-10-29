@@ -12,17 +12,17 @@
           "matches": [
             {
               "p1": "test",
-              "s1": "",
+              "s1": "21",
               "p2": "test",
-              "s2": "",
-              "winner": null
+              "s2": "21",
+              "winner": 1
             },
             {
               "p1": "TBD",
-              "s1": "21",
+              "s1": "",
               "p2": "TBD",
-              "s2": "20",
-              "winner": 1
+              "s2": "",
+              "winner": null
             },
             {
               "p1": "TBD",
