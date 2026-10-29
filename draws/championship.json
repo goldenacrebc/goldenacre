@@ -65,15 +65,8 @@
         {
           "name": "Final",
           "deadline": "Play by August 28",
-          "matches": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ]
+          "matches": [],
+          "extra": []
         }
       ]
     }
