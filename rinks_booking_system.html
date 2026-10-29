@@ -391,7 +391,7 @@
                 <div class="admin-btn-grid">
                     <button class="btn btn-gold" style="padding: 10px 16px; font-size: 0.9rem; flex: 1;" onclick="simulateDraw()">🎲 Run Rink Draw</button>
                     <button class="btn" style="padding: 10px 16px; font-size: 0.9rem; background-color: #b45309; flex: 1;" onclick="blockBookTimeSlot()">🔒 Block Book Time Slot</button>
-                    <button class="btn" style="padding: 10px 16px; font-size: 0.9rem; background-color: #dc2626; flex: 1;" onclick="closeGreen()">🔴 Close Green</button>
+                    <button class="btn" style="padding: 10px 16px; font-size: 0.9rem; background-color: #dc2626; flex: 1;" onclick="closeGreen()">🔴 Close Green Range</button>
                 </div>
                 <p id="admin-status" style="margin: 0; font-weight: 600; font-size: 0.82rem; color: #15803d;"></p>
             </div>
@@ -907,27 +907,61 @@
         }
 
         async function closeGreen() {
-            const reason = prompt("Enter reason for closure (e.g., Bad Weather, Heavy Rain, Maintenance):", "Bad Weather");
+            const reason = prompt("Enter reason for closure (e.g., Bad Weather, Heavy Rain, Maintenance):", "Maintenance");
             if (!reason) return;
 
-            const dateVal = currentFilterDate;
+            const startDateStr = prompt("Enter start date (YYYY-MM-DD):", currentFilterDate);
+            if (!startDateStr) return;
 
-            const existingClosure = appData.matches.find(m => m.date === dateVal && m.p1 === "GREEN CLOSED");
-            if (existingClosure) {
-                alert(`⚠️ Warning: The green is already marked as closed on this date!`);
+            const endDateStr = prompt("Enter end date (YYYY-MM-DD):", startDateStr);
+            if (!endDateStr) return;
+
+            const start = new Date(startDateStr);
+            const end = new Date(endDateStr);
+
+            if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+                alert("⚠️ Invalid date format. Please use YYYY-MM-DD.");
                 return;
             }
 
-            const closureInserts = [1, 2, 3, 4, 5, 6].map(rinkNum => ({
-                date: dateVal,
-                time: "All Day",
-                comp: reason,
-                round: "Green Closure",
-                p1: "GREEN CLOSED",
-                p2: reason,
-                marker: "N/A",
-                rink: rinkNum
-            }));
+            if (start > end) {
+                alert("⚠️ Start date cannot be after end date.");
+                return;
+            }
+
+            const closureInserts = [];
+            let current = new Date(start);
+
+            while (current <= end) {
+                const year = current.getFullYear();
+                const month = String(current.getMonth() + 1).padStart(2, '0');
+                const day = String(current.getDate()).padStart(2, '0');
+                const dateVal = `${year}-${month}-${day}`;
+
+                const isAlreadyClosed = appData.matches.some(m => m.date === dateVal && m.p1 === "GREEN CLOSED");
+
+                if (!isAlreadyClosed) {
+                    [1, 2, 3, 4, 5, 6].forEach(rinkNum => {
+                        closureInserts.push({
+                            date: dateVal,
+                            time: "All Day",
+                            comp: reason,
+                            round: "Green Closure",
+                            p1: "GREEN CLOSED",
+                            p2: reason,
+                            marker: "N/A",
+                            rink: rinkNum
+                        });
+                    });
+                }
+
+                current.setDate(current.getDate() + 1);
+            }
+
+            if (closureInserts.length === 0) {
+                alert("⚠️ The green is already closed for all dates in the selected range.");
+                return;
+            }
 
             const { error: insertError } = await _supabase.from('matches').insert(closureInserts);
 
@@ -936,7 +970,7 @@
                 return;
             }
 
-            document.getElementById('admin-status').innerText = `🔴 Green successfully closed for ${reason}!`;
+            document.getElementById('admin-status').innerText = `🔴 Green closed for '${reason}' from ${startDateStr} to ${endDateStr}!`;
             await fetchAppData();
         }
 
