@@ -14,6 +14,9 @@
 
     <link rel="apple-touch-icon" href="photos/favicon.ico">
 
+    <!-- Supabase JS Library for Green Status Check -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="modals/modal-championships.js" defer></script>
     <script src="modals/modal-external-competitions.js" defer></script>
     <script src="modals/modal-social-events.js" defer></script>
@@ -67,8 +70,18 @@
     </section>
 
 <main class="home-main">
+   <!-- Compact Green Status Notification Card -->
+<div id="index-green-status-card" style="display: flex; align-items: center; justify-content: flex-start; background: #ffffff; border: 1px solid #e2e8f0; max-width: 1100px; margin: 25px auto 0 auto; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); font-family: system-ui, sans-serif;">
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span style="font-weight: 700; font-size: 0.9rem; color: #173b32;">Outdoor Green Status:</span>
+        <div id="index-green-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;">
+            <span style="height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span> Green is Open
+        </div>
+    </div>
+</div>
+
    <!-- Static App & Bookmark Instructions Card -->
-<div id="pwa-instruction-card" class="pwa-instruction-card">
+<div id="pwa-instruction-card" class="pwa-instruction-card" style="margin-top: 20px;">
     <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="Dismiss instructions">&times;</button>
     <div class="pwa-card-header">
         <div class="pwa-item-icon">
@@ -85,8 +98,13 @@
 </div>
 
 <!-- New Members Welcome Promotional Banner -->
-<section style="position: relative; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('photos/your-new-photo.jpg') center/cover no-repeat; padding: 70px 20px; text-align: center; color: #ffffff; margin: 40px auto; max-width: 1100px; border-radius: 12px; border: 6px solid #ffffff; box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
+<section id="welcome-banner-section" style="position: relative; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('photos/your-new-photo.jpg') center/cover no-repeat; padding: 70px 20px; text-align: center; color: #ffffff; margin: 40px auto; max-width: 1100px; border-radius: 12px; border: 6px solid #ffffff; box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
     
+    <!-- Close / Dismiss Button -->
+    <button onclick="dismissWelcomeNotice()" aria-label="Dismiss notice" style="position: absolute; top: 12px; right: 16px; background: rgba(0,0,0,0.5); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 32px; height: 32px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.2s;">
+        &times;
+    </button>
+
     <!-- Club Badge in Bottom Left Corner -->
     <div style="position: absolute; bottom: 20px; left: 20px;">
         <img src="logo.jpeg" alt="Goldenacre BC" style="width: 75px; height: 75px; object-fit: contain; border-radius: 50%; background: #ffffff; padding: 4px; border: 2px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
@@ -301,6 +319,57 @@
         </div>
     </div>
 </dialog>
+
+<!-- Green Status Real-Time Check Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        try {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: matches } = await _supabase.from('matches').select('*').eq('date', todayStr);
+            
+            const isClosed = matches && matches.some(m => m.p1 === "GREEN CLOSED");
+            const badgeEl = document.getElementById('index-green-badge');
+
+            if (badgeEl) {
+                if (isClosed) {
+                    badgeEl.style.backgroundColor = '#fee2e2';
+                    badgeEl.style.color = '#991b1b';
+                    badgeEl.style.borderColor = '#fca5a5';
+                    badgeEl.innerHTML = `<span style="height: 8px; width: 8px; background-color: #ef4444; border-radius: 50%; display: inline-block;"></span> Green is Closed`;
+                } else {
+                    badgeEl.style.backgroundColor = '#dcfce7';
+                    badgeEl.style.color = '#15803d';
+                    badgeEl.style.borderColor = '#bbf7d0';
+                    badgeEl.innerHTML = `<span style="height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span> Green is Open`;
+                }
+            }
+        } catch (err) {
+            console.error("Could not load green status:", err);
+        }
+    });
+</script>
+
+<!-- New Members Welcome Banner Dismissal Handler -->
+<script>
+    function dismissWelcomeNotice() {
+        const banner = document.getElementById('welcome-banner-section');
+        if (banner) {
+            banner.style.display = 'none';
+            localStorage.setItem('goldenacre_welcome_dismissed', 'true');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('goldenacre_welcome_dismissed') === 'true') {
+            const banner = document.getElementById('welcome-banner-section');
+            if (banner) banner.style.display = 'none';
+        }
+    });
+</script>
 
 <!-- Cross-Platform Device Instruction Handler Script -->
 <script>
