@@ -1,0 +1,46 @@
+{
+  "key": "mixedpairs",
+  "label": "Mixed Pairs",
+  "active": false,
+  "rows": [
+   {
+      "tier": "tier-1",
+      "rounds": [
+        {
+          "name": "2nd Round",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        }
+      ]
+    },
+    {
+      "tier": "tier-2",
+      "rounds": [
+        {
+          "name": "Quarter Final",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        },
+        {
+          "name": "Semi Final",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        }
+      ]
+    },
+    {
+      "tier": "tier-3",
+      "rounds": [
+        {
+          "name": "Final",
+          "deadline": "To be Confirmed",
+          "matches": [],
+          "extra": []
+        }
+      ]
+    }
+  ]
+}
