@@ -68,19 +68,30 @@ async function initDraws() {
       return;
     }
 
+    // Flatten all rounds across all tiers to track progression between rounds
+    const allRounds = [];
+    comp.rows.forEach(row => {
+      if (row.rounds && Array.isArray(row.rounds)) {
+        allRounds.push(...row.rounds);
+      }
+    });
+
+    let globalRoundCounter = 0;
     comp.rows.forEach(row => {
       const rowEl = document.createElement('div');
       rowEl.className = `draws-row ${row.tier}`;
+      
       row.rounds.forEach(round => {
+        const currentRoundIdx = globalRoundCounter++;
         const isFinal = /^final$/i.test(round.name.trim());
-        rowEl.append(buildCard(round, isFinal));
+        rowEl.append(buildCard(round, isFinal, currentRoundIdx, allRounds));
       });
       stages.append(rowEl);
     });
   }
 
   // ── Build a single round card ──────────────────────────────────────────────
-  function buildCard(round, isFinal) {
+  function buildCard(round, isFinal, roundIdx, allRounds) {
     const card = document.createElement('div');
     card.className = 'draw-card' + (isFinal ? ' final-card' : '');
 
@@ -105,8 +116,12 @@ async function initDraws() {
     list.className = 'match-list';
     list.setAttribute('role', 'list');
 
-    allMatches.forEach(m => list.append(buildMatchRow(m, false, hasScores)));
-    extraMatches.forEach(m => list.append(buildMatchRow(m, true, hasScores)));
+    allMatches.forEach((m, matchIdx) => {
+      list.append(buildMatchRow(m, false, hasScores, roundIdx, matchIdx, allRounds));
+    });
+    extraMatches.forEach((m, matchIdx) => {
+      list.append(buildMatchRow(m, true, hasScores, roundIdx, allMatches.length + matchIdx, allRounds));
+    });
 
     card.append(list);
 
@@ -128,17 +143,36 @@ async function initDraws() {
     return card;
   }
 
-  // ── Build one match row ────────────────────────────────────────────────────
-  function buildMatchRow(match, isExtra, hasScores) {
+  // ── Build one match row with progression info ──────────────────────────────
+  function buildMatchRow(match, isExtra, hasScores, roundIdx, matchIdx, allRounds) {
     const row = document.createElement('li');
     row.className = 'match-row' +
       (isExtra ? ' extra-match' : '') +
       (hasScores ? '' : ' no-scores');
     row.setAttribute('role', 'listitem');
 
+    let p1Text = match.p1 || 'TBD';
+    let p2Text = match.p2 || 'TBD';
+
+    // Calculate feeder matches from the previous round for TBD slots
+    if (roundIdx > 0) {
+      const prevRound = allRounds[roundIdx - 1];
+      if (prevRound) {
+        const feedMatch1Idx = matchIdx * 2;
+        const feedMatch2Idx = matchIdx * 2 + 1;
+
+        if (!match.p1 || match.p1 === 'TBD') {
+          p1Text = `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
+        }
+        if (!match.p2 || match.p2 === 'TBD') {
+          p2Text = `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`;
+        }
+      }
+    }
+
     const p1 = document.createElement('span');
     p1.className = 'player player-left' + (match.winner === 1 ? ' winner' : '');
-    p1.textContent = match.p1 || 'TBD';
+    p1.textContent = p1Text;
     if (match.h1) {
       const hcp = document.createElement('span');
       hcp.className = 'handicap-value';
@@ -152,7 +186,7 @@ async function initDraws() {
 
     const p2 = document.createElement('span');
     p2.className = 'player player-right' + (match.winner === 2 ? ' winner' : '');
-    p2.textContent = match.p2 || 'TBD';
+    p2.textContent = p2Text;
     if (match.h2) {
       const hcp = document.createElement('span');
       hcp.className = 'handicap-value';
