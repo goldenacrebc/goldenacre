@@ -59,7 +59,15 @@
         {
           "name": "2nd Round",
           "deadline": "Play by 21 july",
-          "matches": [],
+          "matches": [
+            {
+              "p1": "TBD",
+              "p2": "TBD",
+              "s1": "",
+              "s2": "",
+              "winner": null
+            }
+          ],
           "extra": []
         }
       ]
