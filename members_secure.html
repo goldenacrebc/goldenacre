@@ -1172,9 +1172,23 @@
             });
             if (!putRes.ok) throw new Error('Failed to save result to GitHub.');
 
-            showStatus('ok', '✓ Result saved! Reloading…');
+            showStatus('ok', '\u2713 Result saved!');
             saveBtn.disabled = false;
-            setTimeout(() => window.location.reload(), 1200);
+
+            // Refresh data without full page reload
+            setTimeout(async () => {
+                delete loadedDraws[entry.compKey];
+                await loadAllDraws();
+                if (activeCompKey) selectComp(activeCompKey);
+                // Also refresh the draw cards renderer
+                const drawsRoot = document.getElementById('draws-root');
+                if (drawsRoot) {
+                    drawsRoot.innerHTML = '';
+                    // Re-trigger draws.js by dispatching DOMContentLoaded equivalent
+                    const evt = new Event('draws-refresh');
+                    document.dispatchEvent(evt);
+                }
+            }, 800);
 
         } catch (err) {
             showStatus('error', 'Error: ' + err.message);

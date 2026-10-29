@@ -9,7 +9,10 @@ const DRAW_FILES = [
   'draws/rinks.json'
 ];
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => initDraws());
+document.addEventListener('draws-refresh', () => initDraws());
+
+async function initDraws() {
   const root = document.getElementById('draws-root');
   if (!root) return;
 
@@ -197,4 +200,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   root.replaceChildren(subtitle, tabs, stages);
   showCompetition(initialIndex);
-});
+}
