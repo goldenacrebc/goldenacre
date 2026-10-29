@@ -1456,7 +1456,16 @@ window.addDrawRound = async function() {
 
     document.getElementById('new-round-name').value = '';
     document.getElementById('new-round-deadline').value = '';
-    loadDrawsRounds();
+
+    // Refresh the round dropdown from in-memory data (don't re-fetch — GitHub CDN may lag)
+    const roundSel = document.getElementById('draws-round-select');
+    const flatRounds = getFlatRounds(currentDrawData);
+    roundSel.innerHTML = flatRounds.map((r, i) =>
+        `<option value="${i}">${r.name}</option>`
+    ).join('');
+    // Select the newly added round
+    roundSel.value = String(flatRounds.length - 1);
+    loadDrawsMatches();
 };
 
 // ── Remove the currently selected round ──────────────────────────────────
@@ -1481,7 +1490,20 @@ window.removeDrawRound = async function() {
     currentDrawData.rows = currentDrawData.rows.filter(r => r.rounds && r.rounds.length > 0);
 
     await saveCurrentDrawData(`Removed round "${name}" from ${currentDrawData.label}`);
-    loadDrawsRounds();
+
+    // Refresh dropdown from in-memory data
+    const roundSel = document.getElementById('draws-round-select');
+    const remainingRounds = getFlatRounds(currentDrawData);
+    if (remainingRounds.length === 0) {
+        roundSel.innerHTML = '<option value="">— no rounds —</option>';
+        document.getElementById('draws-match-editor').innerHTML = '';
+    } else {
+        roundSel.innerHTML = remainingRounds.map((r, i) =>
+            `<option value="${i}">${r.name}</option>`
+        ).join('');
+        roundSel.value = '0';
+        loadDrawsMatches();
+    }
 };
 
 // ── Shared save helper ────────────────────────────────────────────────────
