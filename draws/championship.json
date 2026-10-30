@@ -9,7 +9,22 @@
         {
           "name": "Prelim Round",
           "deadline": "Play by May 25",
-          "matches": [],
+          "matches": [
+            {
+              "p1": "Bill Lee",
+              "p2": "Lee Taylor",
+              "s1": "",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "Billy Taylor",
+              "p2": "George Lamb",
+              "s1": "",
+              "s2": "",
+              "winner": null
+            }
+          ],
           "extra": []
         },
         {
