@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "date": "2026-10-31",
+    "team": "1st 16",
+    "title": "goldenacre v dean",
+    "time": "6:30 pm",
+    "location": "Goldenacre",
+    "description": "Test",
+    "notify": true
+  }
+]
