@@ -220,6 +220,21 @@ async function initDraws() {
 
     card.append(list);
 
+    if (allMatches.length > 16) {
+      const collapsedRows = Array.from(list.children).slice(8);
+      collapsedRows.forEach(row => row.classList.add('desktop-collapsed-match'));
+
+      const btn = document.createElement('button');
+      btn.className = 'toggle-round-games-btn';
+      btn.type = 'button';
+      btn.textContent = `Show ${allMatches.length - 8} more games`;
+      btn.addEventListener('click', () => {
+        const expanded = card.classList.toggle('show-all-round-games');
+        btn.textContent = expanded ? 'Show fewer games' : `Show ${allMatches.length - 8} more games`;
+      });
+      card.append(btn);
+    }
+
     if (extraMatches.length > 0) {
       const btn = document.createElement('button');
       btn.className = 'toggle-more-btn';
