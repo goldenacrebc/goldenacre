@@ -76,6 +76,7 @@ async function initDraws() {
       }
     });
 
+    const renderedRounds = [];
     let globalRoundCounter = 0;
     comp.rows.forEach(row => {
       const rowEl = document.createElement('div');
@@ -84,10 +85,104 @@ async function initDraws() {
       row.rounds.forEach(round => {
         const currentRoundIdx = globalRoundCounter++;
         const isFinal = /^final$/i.test(round.name.trim());
-        rowEl.append(buildCard(round, isFinal, currentRoundIdx, allRounds));
+        const card = buildCard(round, isFinal, currentRoundIdx, allRounds);
+        const matchCount = (round.matches || []).length + (round.extra || []).length;
+        if (matchCount > 16) card.classList.add('large-round-card');
+        renderedRounds.push({ round, card, row: rowEl });
+        rowEl.append(card);
       });
       stages.append(rowEl);
     });
+
+    buildMobileRoundNavigation(stages, renderedRounds);
+  }
+
+  // On phones, show one round at a time and page through large draws.
+  function buildMobileRoundNavigation(stages, rounds) {
+    const controls = document.createElement('div');
+    controls.className = 'mobile-round-nav';
+
+    const roundLabel = document.createElement('label');
+    roundLabel.className = 'mobile-round-label';
+    roundLabel.htmlFor = 'mobile-round-select';
+    roundLabel.textContent = 'Round';
+
+    const roundSelect = document.createElement('select');
+    roundSelect.className = 'mobile-round-select';
+    roundSelect.id = 'mobile-round-select';
+    rounds.forEach(({ round }, index) => {
+      roundSelect.add(new Option(round.name, String(index)));
+    });
+
+    const pageControls = document.createElement('div');
+    pageControls.className = 'mobile-game-pages';
+
+    const previousButton = document.createElement('button');
+    previousButton.type = 'button';
+    previousButton.textContent = 'Previous games';
+
+    const pageLabel = document.createElement('span');
+    pageLabel.className = 'mobile-game-page-label';
+    pageLabel.setAttribute('aria-live', 'polite');
+
+    const nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.textContent = 'Next games';
+
+    pageControls.append(previousButton, pageLabel, nextButton);
+    controls.append(roundLabel, roundSelect, pageControls);
+    stages.prepend(controls);
+    stages.classList.add('mobile-round-view');
+
+    const gamesPerPage = 8;
+    let selectedRoundIndex = 0;
+    let pageIndex = 0;
+
+    function updateView() {
+      const selected = rounds[selectedRoundIndex];
+      if (!selected) return;
+
+      rounds.forEach(({ card, row }, index) => {
+        const isSelected = index === selectedRoundIndex;
+        card.classList.toggle('mobile-round-active', isSelected);
+        row.classList.toggle('mobile-round-active-row', isSelected);
+      });
+
+      const matchRows = Array.from(selected.card.querySelectorAll('.match-list > .match-row:not(.extra-match)'));
+      const pageCount = Math.max(1, Math.ceil(matchRows.length / gamesPerPage));
+      pageIndex = Math.min(pageIndex, pageCount - 1);
+      const firstGameIndex = pageIndex * gamesPerPage;
+      matchRows.forEach((matchRow, index) => {
+        matchRow.classList.toggle('mobile-page-hidden', index < firstGameIndex || index >= firstGameIndex + gamesPerPage);
+      });
+
+      if (matchRows.length > gamesPerPage) {
+        const first = firstGameIndex + 1;
+        const last = Math.min(firstGameIndex + gamesPerPage, matchRows.length);
+        pageLabel.textContent = `Games ${first}–${last} of ${matchRows.length}`;
+        pageControls.hidden = false;
+        previousButton.disabled = pageIndex === 0;
+        nextButton.disabled = pageIndex >= pageCount - 1;
+      } else {
+        pageLabel.textContent = matchRows.length ? `${matchRows.length} game${matchRows.length === 1 ? '' : 's'}` : 'No games';
+        pageControls.hidden = true;
+      }
+    }
+
+    roundSelect.addEventListener('change', () => {
+      selectedRoundIndex = Number(roundSelect.value);
+      pageIndex = 0;
+      updateView();
+    });
+    previousButton.addEventListener('click', () => {
+      if (pageIndex > 0) { pageIndex -= 1; updateView(); }
+    });
+    nextButton.addEventListener('click', () => {
+      pageIndex += 1;
+      updateView();
+    });
+
+    updateView();
   }
 
   // ── Build a single round card ──────────────────────────────────────────────
