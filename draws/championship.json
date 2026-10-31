@@ -12,10 +12,10 @@
           "matches": [
             {
               "p1": "TEST Player 01",
-              "s1": "",
+              "s1": "21",
               "p2": "TEST Player 02",
-              "s2": "",
-              "winner": null,
+              "s2": "18",
+              "winner": 1,
               "advanceTo": {
                 "round": "1st Round",
                 "match": 0,
@@ -53,7 +53,7 @@
           "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TBD",
+              "p1": "TEST Player 01",
               "s1": "",
               "p2": "TEST Player 07",
               "s2": "",
