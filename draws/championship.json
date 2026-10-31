@@ -36,10 +36,10 @@
             },
             {
               "p1": "TEST Player 05",
-              "s1": "",
+              "s1": "7",
               "p2": "TEST Player 06",
-              "s2": "",
-              "winner": null,
+              "s2": "21",
+              "winner": 2,
               "advanceTo": {
                 "round": "Last 64",
                 "match": 2,
@@ -69,7 +69,7 @@
               "advanceFrom1": "Winner of Prelim Round (Match 2)"
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 06",
               "s1": "",
               "p2": "TEST Player 09",
               "s2": "",
