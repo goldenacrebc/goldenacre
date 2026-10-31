@@ -509,21 +509,30 @@
                     <!-- ── Member Result Updater ─────────────────────── -->
                     <div style="margin-top:32px;border-top:1px solid var(--app-border);padding-top:24px;">
                         <h3 style="font-size:1rem;color:var(--app-primary);margin:0 0 4px 0;">📝 Update a Result</h3>
-                        <p style="font-size:0.85rem;color:var(--app-text-muted);margin:0 0 14px 0;">Pick a competition, then select your match.</p>
+                        <p style="font-size:0.85rem;color:var(--app-text-muted);margin:0 0 14px 0;">Pick a competition, round, and game.</p>
 
                         <!-- Step 1: Competition pill buttons -->
                         <div id="member-comp-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
 
-                        <!-- Step 2: Match dropdown -->
+                        <!-- Step 2: Round dropdown -->
+                        <div id="member-round-row" style="display:none;margin-bottom:14px;max-width:480px;">
+                            <label for="member-round-select" style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:5px;">Select round</label>
+                            <select id="member-round-select"
+                                style="width:100%;padding:10px 12px;border:1px solid var(--app-border);border-radius:8px;font-size:0.88rem;background:#fff;">
+                                <option value="">&#8212; pick a round &#8212;</option>
+                            </select>
+                        </div>
+
+                        <!-- Step 3: Match dropdown -->
                         <div id="member-match-row" style="display:none;margin-bottom:14px;max-width:480px;">
-                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:5px;">Select match</label>
+                            <label for="member-match-select" style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:5px;">Select game</label>
                             <select id="member-match-select"
                                 style="width:100%;padding:10px 12px;border:1px solid var(--app-border);border-radius:8px;font-size:0.88rem;background:#fff;">
                                 <option value="">&#8212; pick your match &#8212;</option>
                             </select>
                         </div>
 
-                        <!-- Step 3: Score panel -->
+                        <!-- Step 4: Score panel -->
                         <div id="member-score-panel" style="display:none;max-width:480px;">
                             <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:14px;">
                                 <div id="member-match-label" style="font-size:0.82rem;font-weight:600;color:#64748b;margin-bottom:12px;text-align:center;"></div>
@@ -1069,20 +1078,44 @@
             btn.style.color       = active ? '#ffffff' : '#334155';
         });
 
-        // Populate match dropdown with only this comp's matches
-        const select = document.getElementById('member-match-select');
-        const matches = allMatchIndex.filter(m => m.compKey === key);
+        const drawData = loadedDraws[key];
+        const roundSelect = document.getElementById('member-round-select');
+        const rounds = [];
+        (drawData.rows || []).forEach((row, ri) => {
+            (row.rounds || []).forEach((round, rj) => {
+                rounds.push({ ri, rj, name: round.name });
+            });
+        });
 
-        select.innerHTML = '<option value="">&#8212; pick your match &#8212;</option>' +
-            matches.map((m, i) => {
-                // store the global index in allMatchIndex as value
-                const globalIdx = allMatchIndex.indexOf(m);
-                return '<option value="' + globalIdx + '">' + m.label + '</option>';
-            }).join('');
-
-        document.getElementById('member-match-row').style.display = 'block';
+        roundSelect.replaceChildren(new Option('— pick a round —', ''));
+        rounds.forEach(round => roundSelect.add(new Option(round.name, round.ri + ':' + round.rj)));
+        document.getElementById('member-round-row').style.display = 'block';
+        document.getElementById('member-match-row').style.display = 'none';
         document.getElementById('member-score-panel').style.display = 'none';
         document.getElementById('status-member-draws').style.display = 'none';
+    }
+
+    function selectRound() {
+        const roundKey = document.getElementById('member-round-select').value;
+        const matchSelect = document.getElementById('member-match-select');
+        const matchRow = document.getElementById('member-match-row');
+        const panel = document.getElementById('member-score-panel');
+        panel.style.display = 'none';
+        matchSelect.replaceChildren(new Option('— pick a game —', ''));
+        if (!roundKey || !activeCompKey) {
+            matchRow.style.display = 'none';
+            return;
+        }
+
+        const [ri, rj] = roundKey.split(':').map(Number);
+        const matches = allMatchIndex.filter(m => m.compKey === activeCompKey && m.ri === ri && m.rj === rj);
+        matches.forEach(entry => {
+            const globalIdx = allMatchIndex.indexOf(entry);
+            const p1 = entry.match.p1 && entry.match.p1 !== 'TBD' ? entry.match.p1 : 'Player 1';
+            const p2 = entry.match.p2 && entry.match.p2 !== 'TBD' ? entry.match.p2 : 'Player 2';
+            matchSelect.add(new Option('Game ' + (entry.mi + 1) + ': ' + p1 + ' v ' + p2, globalIdx));
+        });
+        matchRow.style.display = 'block';
     }
 
     // ── Show score panel when match selected ──────────────────────────────
@@ -1224,6 +1257,9 @@
 
         document.getElementById('member-match-select')
             ?.addEventListener('change', onMatchSelect);
+
+        document.getElementById('member-round-select')
+            ?.addEventListener('change', selectRound);
 
         document.getElementById('btn-member-save-draw')
             ?.addEventListener('click', saveResult);
