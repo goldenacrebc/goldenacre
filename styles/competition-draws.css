@@ -242,6 +242,20 @@
     border-color: #0369a1;
 }
 
+/* Mobile round picker and game paging */
+.mobile-round-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .draw-card.large-round-card .match-list {
+        max-height: min(68vh, 720px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-right: 4px;
+    }
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .draws-row {
@@ -249,6 +263,87 @@
         align-items: center;
         gap: 12px;
         margin-bottom: 12px;
+    }
+
+    .mobile-round-nav {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 8px 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+    }
+
+    .mobile-round-label {
+        color: #475569;
+        font-size: 0.82rem;
+        font-weight: 700;
+    }
+
+    .mobile-round-select {
+        width: 100%;
+        min-width: 0;
+        padding: 9px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #fff;
+        color: #173b32;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .mobile-game-pages {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .mobile-game-pages[hidden] {
+        display: none;
+    }
+
+    .mobile-game-pages button {
+        padding: 7px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #f8fafc;
+        color: #0369a1;
+        font-size: 0.76rem;
+        font-weight: 700;
+    }
+
+    .mobile-game-pages button:disabled {
+        opacity: 0.45;
+    }
+
+    .mobile-game-page-label {
+        color: #475569;
+        font-size: 0.76rem;
+        font-weight: 600;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .draws-stages-wrapper.mobile-round-view > .draws-row {
+        display: none;
+    }
+
+    .draws-stages-wrapper.mobile-round-view > .draws-row.mobile-round-active-row {
+        display: flex;
+    }
+
+    .draws-stages-wrapper.mobile-round-view .draw-card:not(.mobile-round-active) {
+        display: none;
+    }
+
+    .match-row.mobile-page-hidden {
+        display: none !important;
     }
 
     .tier-1 .draw-card,
