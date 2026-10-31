@@ -242,17 +242,32 @@
     border-color: #0369a1;
 }
 
+.toggle-round-games-btn {
+    display: none;
+    width: 100%;
+    margin-top: 8px;
+    padding: 7px 10px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 5px;
+    background: #fff;
+    color: #0369a1;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 /* Mobile round picker and game paging */
 .mobile-round-nav {
     display: none;
 }
 
 @media (min-width: 769px) {
-    .draw-card.large-round-card .match-list {
-        max-height: min(68vh, 720px);
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        padding-right: 4px;
+    .toggle-round-games-btn {
+        display: block;
+    }
+
+    .draw-card.large-round-card:not(.show-all-round-games) .desktop-collapsed-match {
+        display: none !important;
     }
 }
 
@@ -305,6 +320,10 @@
     }
 
     .mobile-game-pages[hidden] {
+        display: none;
+    }
+
+    .toggle-round-games-btn {
         display: none;
     }
 
