@@ -14,7 +14,7 @@
               "p1": "TEST Player 01",
               "s1": "21",
               "p2": "TEST Player 02",
-              "s2": "20",
+              "s2": "19",
               "winner": 1,
               "advanceTo": {
                 "round": "Last 64",
@@ -24,10 +24,10 @@
             },
             {
               "p1": "TEST Player 03",
-              "s1": "21",
+              "s1": "20",
               "p2": "TEST Player 04",
-              "s2": "10",
-              "winner": 1,
+              "s2": "21",
+              "winner": 2,
               "advanceTo": {
                 "round": "Last 64",
                 "match": 1,
@@ -36,10 +36,10 @@
             },
             {
               "p1": "TEST Player 05",
-              "s1": "7",
+              "s1": "",
               "p2": "TEST Player 06",
-              "s2": "21",
-              "winner": 2,
+              "s2": "",
+              "winner": null,
               "advanceTo": {
                 "round": "Last 64",
                 "match": 2,
@@ -61,7 +61,7 @@
               "advanceFrom1": "Winner of Prelim Round (Match 1)"
             },
             {
-              "p1": "TEST Player 03",
+              "p1": "TEST Player 04",
               "s1": "",
               "p2": "TEST Player 08",
               "s2": "",
@@ -69,7 +69,7 @@
               "advanceFrom1": "Winner of Prelim Round (Match 2)"
             },
             {
-              "p1": "TEST Player 06",
+              "p1": "TBD",
               "s1": "",
               "p2": "TEST Player 09",
               "s2": "",
