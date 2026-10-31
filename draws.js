@@ -142,10 +142,13 @@ async function initDraws() {
       const selected = rounds[selectedRoundIndex];
       if (!selected) return;
 
-      rounds.forEach(({ card, row }, index) => {
+      rounds.forEach(({ card }, index) => {
         const isSelected = index === selectedRoundIndex;
         card.classList.toggle('mobile-round-active', isSelected);
-        row.classList.toggle('mobile-round-active-row', isSelected);
+      });
+      const activeRow = selected.row;
+      [...new Set(rounds.map(entry => entry.row))].forEach(row => {
+        row.classList.toggle('mobile-round-active-row', row === activeRow);
       });
 
       const matchRows = Array.from(selected.card.querySelectorAll('.match-list > .match-row:not(.extra-match)'));
