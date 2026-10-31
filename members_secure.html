@@ -956,8 +956,7 @@
         tomwilson:    'draws/tomwilson.json',
         pairs:        'draws/pairs.json',
         triples:      'draws/triples.json',
-        rinks:        'draws/rinks.json',
-        mixedpairs:   'draws/mixed-pairs.json'
+        rinks:        'draws/rinks.json'
     };
 
     const COMP_LABELS = {
@@ -967,8 +966,7 @@
         tomwilson:    'Tom Wilson',
         pairs:        "Men's Pairs",
         triples:      "Men's Triples",
-        rinks:        "Men's Rinks",
-        mixedpairs:   "Mixed Pairs"
+        rinks:        "Men's Rinks"
     };
 
     let loadedDraws = {};       // key -> draw JSON
@@ -1132,6 +1130,7 @@
             const vis      = round.matches || [];
             const ext      = round.extra   || [];
             const all      = [...vis, ...ext];
+            const previousWinner = all[entry.mi].winner;
 
             const s1 = document.getElementById('member-s1').value.trim();
             const s2 = document.getElementById('member-s2').value.trim();
@@ -1141,6 +1140,24 @@
             all[entry.mi].s1     = s1;
             all[entry.mi].s2     = s2;
             all[entry.mi].winner = winner;
+
+            // Feed this match's winner into the matching slot in the next round.
+            const orderedRounds = drawData.rows.flatMap(row => row.rounds || []);
+            const currentRoundIndex = orderedRounds.indexOf(round);
+            const nextRound = orderedRounds[currentRoundIndex + 1];
+            const nextMatches = nextRound ? [...(nextRound.matches || []), ...(nextRound.extra || [])] : [];
+            const nextMatch = nextMatches[Math.floor(entry.mi / 2)];
+            const nextSlot = entry.mi % 2 === 0 ? 'p1' : 'p2';
+            const oldAdvancingPlayer = previousWinner === 1 ? all[entry.mi].p1 :
+                previousWinner === 2 ? all[entry.mi].p2 : null;
+            const advancingPlayer = winner === 1 ? all[entry.mi].p1 :
+                winner === 2 ? all[entry.mi].p2 : null;
+
+            if (nextMatch && (nextMatch[nextSlot] === 'TBD' ||
+                    nextMatch[nextSlot] === oldAdvancingPlayer ||
+                    nextMatch[nextSlot] === advancingPlayer)) {
+                nextMatch[nextSlot] = advancingPlayer || 'TBD';
+            }
 
             drawData.rows[entry.ri].rounds[entry.rj].matches = all.slice(0, entry.visCount);
             if (round.extra) {
