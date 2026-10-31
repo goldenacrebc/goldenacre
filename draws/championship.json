@@ -9,20 +9,131 @@
         {
           "name": "Prelim Round",
           "deadline": "Play by May 25",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TEST: Player A",
+              "s1": "21",
+              "p2": "TEST: Player B",
+              "s2": "20",
+              "winner": 1
+            },
+            {
+              "p1": "TEST: Player C",
+              "s1": "",
+              "p2": "TEST: Player D",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ],
+          "extra": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         },
         {
           "name": "1st Round",
           "deadline": "Play by June 12",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TEST: Player A",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ],
+          "extra": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         },
         {
           "name": "2nd Round",
           "deadline": "Play by July 2",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ],
+          "extra": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         }
       ]
     },
@@ -32,14 +143,42 @@
         {
           "name": "Quarter Final",
           "deadline": "Play by July 22",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         },
         {
           "name": "Semi Final",
           "deadline": "Play by August 10",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         }
       ]
     },
@@ -49,8 +188,15 @@
         {
           "name": "Final",
           "deadline": "Play by August 28",
-          "matches": [],
-          "extra": []
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
         }
       ]
     }
