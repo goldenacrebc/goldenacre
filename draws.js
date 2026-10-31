@@ -87,7 +87,7 @@ async function initDraws() {
         const isFinal = /^final$/i.test(round.name.trim());
         const card = buildCard(round, isFinal, currentRoundIdx, allRounds);
         const matchCount = (round.matches || []).length + (round.extra || []).length;
-        if (matchCount > 16) card.classList.add('large-round-card');
+        if (matchCount > 8) card.classList.add('large-round-card');
         renderedRounds.push({ round, card, row: rowEl });
         rowEl.append(card);
       });
@@ -223,7 +223,7 @@ async function initDraws() {
 
     card.append(list);
 
-    if (allMatches.length > 16) {
+    if (allMatches.length > 8) {
       const collapsedRows = Array.from(list.children).slice(8);
       collapsedRows.forEach(row => row.classList.add('desktop-collapsed-match'));
 
