@@ -83,10 +83,10 @@
           "matches": [
             {
               "p1": "TEST: Player A",
-              "s1": "",
+              "s1": "21",
               "p2": "TEST: Player D",
-              "s2": "",
-              "winner": null
+              "s2": "2",
+              "winner": 1
             }
           ],
           "extra": [
@@ -104,7 +104,7 @@
           "deadline": "Play by July 2",
           "matches": [
             {
-              "p1": "TBD",
+              "p1": "TEST: Player A",
               "s1": "",
               "p2": "TBD",
               "s2": "",
