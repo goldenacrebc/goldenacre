@@ -430,6 +430,17 @@
     justify-content: center;
 }
 
+.association-logo-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.association-logo-column .event-pill-tag {
+    position: static;
+}
+
 .sponsor-profile-logo img,
 .association-profile-logo img {
     display: block;
