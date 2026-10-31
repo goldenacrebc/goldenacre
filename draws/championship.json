@@ -12,12 +12,12 @@
           "matches": [
             {
               "p1": "TEST Player 01",
-              "s1": "21",
+              "s1": "",
               "p2": "TEST Player 02",
-              "s2": "18",
-              "winner": 1,
+              "s2": "",
+              "winner": null,
               "advanceTo": {
-                "round": "1st Round",
+                "round": "Last 64",
                 "match": 0,
                 "slot": "p1"
               }
@@ -29,7 +29,7 @@
               "s2": "",
               "winner": null,
               "advanceTo": {
-                "round": "1st Round",
+                "round": "Last 64",
                 "match": 1,
                 "slot": "p1"
               }
@@ -41,7 +41,7 @@
               "s2": "",
               "winner": null,
               "advanceTo": {
-                "round": "1st Round",
+                "round": "Last 64",
                 "match": 2,
                 "slot": "p1"
               }
@@ -49,20 +49,15 @@
           ]
         },
         {
-          "name": "1st Round",
+          "name": "Last 64",
           "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TEST Player 01",
+              "p1": "TBD",
               "s1": "",
               "p2": "TEST Player 07",
               "s2": "",
               "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 0,
-                "slot": "p1"
-              },
               "advanceFrom1": "Winner of Prelim Round (Match 1)"
             },
             {
@@ -71,11 +66,6 @@
               "p2": "TEST Player 08",
               "s2": "",
               "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 1,
-                "slot": "p1"
-              },
               "advanceFrom1": "Winner of Prelim Round (Match 2)"
             },
             {
@@ -84,11 +74,6 @@
               "p2": "TEST Player 09",
               "s2": "",
               "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 2,
-                "slot": "p1"
-              },
               "advanceFrom1": "Winner of Prelim Round (Match 3)"
             },
             {
@@ -96,336 +81,208 @@
               "s1": "",
               "p2": "TEST Player 11",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 3,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 12",
               "s1": "",
               "p2": "TEST Player 13",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 4,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 14",
               "s1": "",
               "p2": "TEST Player 15",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 5,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 16",
               "s1": "",
               "p2": "TEST Player 17",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 6,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 18",
               "s1": "",
               "p2": "TEST Player 19",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 7,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 20",
               "s1": "",
               "p2": "TEST Player 21",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 8,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 22",
               "s1": "",
               "p2": "TEST Player 23",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 9,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 24",
               "s1": "",
               "p2": "TEST Player 25",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 10,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 26",
               "s1": "",
               "p2": "TEST Player 27",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 11,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 28",
               "s1": "",
               "p2": "TEST Player 29",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Second Round",
-                "match": 12,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 30",
               "s1": "",
               "p2": "TEST Player 31",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 0,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 32",
               "s1": "",
               "p2": "TEST Player 33",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 1,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
               "p1": "TEST Player 34",
               "s1": "",
               "p2": "TEST Player 35",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 2,
-                "slot": "p1"
-              }
-            }
-          ]
-        },
-        {
-          "name": "2nd Round",
-          "deadline": "Test draw",
-          "matches": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 36",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 0,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 1)"
+              "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 36",
               "s1": "",
               "p2": "TEST Player 37",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 1,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 2)"
+              "winner": null
             },
             {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 38",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 2,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 3)"
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 38",
               "s1": "",
               "p2": "TEST Player 39",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 3,
-                "slot": "p1"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 4)"
+              "winner": null
             },
             {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 40",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 3,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 5)"
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 40",
               "s1": "",
               "p2": "TEST Player 41",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 4,
-                "slot": "p1"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 6)"
+              "winner": null
             },
             {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 42",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 4,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 7)"
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 42",
               "s1": "",
               "p2": "TEST Player 43",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 5,
-                "slot": "p1"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 8)"
+              "winner": null
             },
             {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 44",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 5,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 9)"
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 44",
               "s1": "",
               "p2": "TEST Player 45",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 6,
-                "slot": "p1"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 10)"
+              "winner": null
             },
             {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TEST Player 46",
-              "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 6,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 11)"
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 46",
               "s1": "",
               "p2": "TEST Player 47",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 7,
-                "slot": "p1"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 12)"
+              "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 48",
               "s1": "",
-              "p2": "TEST Player 48",
+              "p2": "TEST Player 49",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Third Round",
-                "match": 7,
-                "slot": "p2"
-              },
-              "advanceFrom1": "Winner of 1st Round (Match 13)"
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 50",
+              "s1": "",
+              "p2": "TEST Player 51",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 52",
+              "s1": "",
+              "p2": "TEST Player 53",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 54",
+              "s1": "",
+              "p2": "TEST Player 55",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 56",
+              "s1": "",
+              "p2": "TEST Player 57",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 58",
+              "s1": "",
+              "p2": "TEST Player 59",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 60",
+              "s1": "",
+              "p2": "TEST Player 61",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 62",
+              "s1": "",
+              "p2": "TEST Player 63",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 64",
+              "s1": "",
+              "p2": "TEST Player 65",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 66",
+              "s1": "",
+              "p2": "TEST Player 67",
+              "s2": "",
+              "winner": null
             }
           ]
         },
         {
-          "name": "3rd Round",
+          "name": "Last 32",
           "deadline": "Test draw",
           "matches": [
             {
@@ -433,72 +290,174 @@
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 1st Round (Match 14)",
-              "advanceFrom2": "Winner of 2nd Round (Match 1)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 1st Round (Match 15)",
-              "advanceFrom2": "Winner of 2nd Round (Match 2)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 1st Round (Match 16)",
-              "advanceFrom2": "Winner of 2nd Round (Match 3)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 2nd Round (Match 4)",
-              "advanceFrom2": "Winner of 2nd Round (Match 5)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 2nd Round (Match 6)",
-              "advanceFrom2": "Winner of 2nd Round (Match 7)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 2nd Round (Match 8)",
-              "advanceFrom2": "Winner of 2nd Round (Match 9)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 2nd Round (Match 10)",
-              "advanceFrom2": "Winner of 2nd Round (Match 11)"
+              "winner": null
             },
             {
               "p1": "TBD",
               "s1": "",
               "p2": "TBD",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of 2nd Round (Match 12)",
-              "advanceFrom2": "Winner of 2nd Round (Match 13)"
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            }
+          ]
+        },
+        {
+          "name": "Last 16",
+          "deadline": "Test draw",
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
             }
           ]
         }
