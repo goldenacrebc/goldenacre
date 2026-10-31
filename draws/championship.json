@@ -7,104 +7,129 @@
       "tier": "tier-1",
       "rounds": [
         {
-          "name": "Prelim Round",
-          "deadline": "Play by May 25",
+          "name": "Prelim Round 1",
+          "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TEST: Player A",
-              "s1": "21",
-              "p2": "TEST: Player B",
-              "s2": "20",
-              "winner": 1
-            },
-            {
-              "p1": "TEST: Player C",
-              "s1": "20",
-              "p2": "TEST: Player D",
-              "s2": "21",
-              "winner": 2
-            },
-            {
-              "p1": "TBD",
+              "p1": "TEST Player 01",
               "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 02",
               "s2": "",
               "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 03",
               "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 04",
               "s2": "",
               "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 05",
               "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ],
-          "extra": [
-            {
-              "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 06",
               "s2": "",
               "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 07",
               "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 08",
               "s2": "",
               "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 09",
               "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 10",
               "s2": "",
               "winner": null
             },
             {
-              "p1": "TBD",
+              "p1": "TEST Player 11",
               "s1": "",
-              "p2": "TBD",
+              "p2": "TEST Player 12",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 13",
+              "s1": "",
+              "p2": "TEST Player 14",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 15",
+              "s1": "",
+              "p2": "TEST Player 16",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 17",
+              "s1": "",
+              "p2": "TEST Player 18",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 19",
+              "s1": "",
+              "p2": "TEST Player 20",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 21",
+              "s1": "",
+              "p2": "TEST Player 22",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 23",
+              "s1": "",
+              "p2": "TEST Player 24",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 25",
+              "s1": "",
+              "p2": "TEST Player 26",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 27",
+              "s1": "",
+              "p2": "TEST Player 28",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 29",
+              "s1": "",
+              "p2": "TEST Player 30",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 31",
+              "s1": "",
+              "p2": "TEST Player 32",
               "s2": "",
               "winner": null
             }
           ]
         },
         {
-          "name": "1st Round",
-          "deadline": "Play by June 12",
+          "name": "Prelim Round 2",
+          "deadline": "Test draw",
           "matches": [
-            {
-              "p1": "TEST: Player A",
-              "s1": "21",
-              "p2": "TEST: Player D",
-              "s2": "2",
-              "winner": 1
-            }
-          ],
-          "extra": [
             {
               "p1": "TBD",
-              "s1": "",
-              "p2": "TBD",
-              "s2": "",
-              "winner": null
-            }
-          ]
-        },
-        {
-          "name": "2nd Round",
-          "deadline": "Play by July 2",
-          "matches": [
-            {
-              "p1": "TEST: Player A",
               "s1": "",
               "p2": "TBD",
               "s2": "",
@@ -116,9 +141,153 @@
               "p2": "TBD",
               "s2": "",
               "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 33",
+              "s1": "",
+              "p2": "TEST Player 34",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 35",
+              "s1": "",
+              "p2": "TEST Player 36",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 37",
+              "s1": "",
+              "p2": "TEST Player 38",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 39",
+              "s1": "",
+              "p2": "TEST Player 40",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 41",
+              "s1": "",
+              "p2": "TEST Player 42",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 43",
+              "s1": "",
+              "p2": "TEST Player 44",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 45",
+              "s1": "",
+              "p2": "TEST Player 46",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TEST Player 47",
+              "s1": "",
+              "p2": "TEST Player 48",
+              "s2": "",
+              "winner": null
             }
-          ],
-          "extra": [
+          ]
+        },
+        {
+          "name": "Prelim Round 3",
+          "deadline": "Test draw",
+          "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
             {
               "p1": "TBD",
               "s1": "",
@@ -142,8 +311,22 @@
       "rounds": [
         {
           "name": "Quarter Final",
-          "deadline": "Play by July 22",
+          "deadline": "Test draw",
           "matches": [
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
+            {
+              "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null
+            },
             {
               "p1": "TBD",
               "s1": "",
@@ -162,7 +345,7 @@
         },
         {
           "name": "Semi Final",
-          "deadline": "Play by August 10",
+          "deadline": "Test draw",
           "matches": [
             {
               "p1": "TBD",
@@ -187,7 +370,7 @@
       "rounds": [
         {
           "name": "Final",
-          "deadline": "Play by August 28",
+          "deadline": "Test draw",
           "matches": [
             {
               "p1": "TBD",
