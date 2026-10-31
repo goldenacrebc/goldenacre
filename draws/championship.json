@@ -22,7 +22,7 @@
               "s1": "20",
               "p2": "TEST: Player D",
               "s2": "21",
-              "winner": 1
+              "winner": 2
             },
             {
               "p1": "TBD",
@@ -84,7 +84,7 @@
             {
               "p1": "TEST: Player A",
               "s1": "",
-              "p2": "TEST: Player C",
+              "p2": "TEST: Player D",
               "s2": "",
               "winner": null
             }
