@@ -1141,13 +1141,16 @@
             all[entry.mi].s2     = s2;
             all[entry.mi].winner = winner;
 
-            // Feed this match's winner into the matching slot in the next round.
+            // Feed the winner into its configured slot, or use the standard bracket order.
             const orderedRounds = drawData.rows.flatMap(row => row.rounds || []);
             const currentRoundIndex = orderedRounds.indexOf(round);
-            const nextRound = orderedRounds[currentRoundIndex + 1];
+            const route = all[entry.mi].advanceTo;
+            const nextRound = route
+                ? orderedRounds.find(candidate => candidate.name === route.round)
+                : orderedRounds[currentRoundIndex + 1];
             const nextMatches = nextRound ? [...(nextRound.matches || []), ...(nextRound.extra || [])] : [];
-            const nextMatch = nextMatches[Math.floor(entry.mi / 2)];
-            const nextSlot = entry.mi % 2 === 0 ? 'p1' : 'p2';
+            const nextMatch = route ? nextMatches[route.match] : nextMatches[Math.floor(entry.mi / 2)];
+            const nextSlot = route ? route.slot : (entry.mi % 2 === 0 ? 'p1' : 'p2');
             const oldAdvancingPlayer = previousWinner === 1 ? all[entry.mi].p1 :
                 previousWinner === 2 ? all[entry.mi].p2 : null;
             const advancingPlayer = winner === 1 ? all[entry.mi].p1 :
