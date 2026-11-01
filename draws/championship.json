@@ -41,9 +41,9 @@
             {
               "p1": "Lee",
               "p2": "Gary",
-              "s1": "",
-              "s2": "",
-              "winner": null
+              "s1": "4",
+              "s2": "21",
+              "winner": 2
             },
             {
               "p1": "David",
@@ -270,7 +270,7 @@
           "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TBD",
+              "p1": "Gary",
               "s1": "",
               "p2": "TBD",
               "s2": "",
