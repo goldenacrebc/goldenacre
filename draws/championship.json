@@ -11,42 +11,28 @@
           "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TEST Player 01",
+              "p1": "Lee",
+              "p2": "Billy",
               "s1": "",
-              "p2": "TEST Player 02",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Last 64",
-                "match": 0,
-                "slot": "p1"
-              }
+              "winner": null
             },
             {
-              "p1": "TEST Player 03",
+              "p1": "Gary",
+              "p2": "George",
               "s1": "",
-              "p2": "TEST Player 04",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Last 64",
-                "match": 0,
-                "slot": "p2"
-              }
+              "winner": null
             },
             {
-              "p1": "TEST Player 05",
+              "p1": "Lenny",
+              "p2": "Alec",
               "s1": "",
-              "p2": "TEST Player 06",
               "s2": "",
-              "winner": null,
-              "advanceTo": {
-                "round": "Last 64",
-                "match": 1,
-                "slot": "p2"
-              }
+              "winner": null
             }
-          ]
+          ],
+          "extra": []
         },
         {
           "name": "Last 64",
