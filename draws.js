@@ -275,31 +275,51 @@ async function initDraws() {
         // matches can feed into non-sequential slots (for example, prelim
         // match 3 may feed Last 64 match 2), so bracket arithmetic gives the
         // wrong match number for those slots.
-        const routedMatches = (prevRound.matches || []).filter(feeder => feeder.advanceTo);
+        const previousMatches = prevRound.matches || [];
+        const routedMatches = previousMatches.filter(feeder => feeder.advanceTo);
         // Older draw data may number target matches from 1; newer data uses
         // zero-based array indexes. Detect the convention from a route to
         // match 0, then compare everything in zero-based indexes.
         const targetMatchOffset = routedMatches.some(feeder => feeder.advanceTo.match === 0) ? 0 : 1;
-        const feederForSlot = slot => (prevRound.matches || []).findIndex(feeder =>
+        const feederForSlot = slot => previousMatches.findIndex(feeder =>
           feeder.advanceTo &&
           feeder.advanceTo.round === round.name &&
           feeder.advanceTo.match - targetMatchOffset === matchIdx &&
           feeder.advanceTo.slot === slot
         );
-        const explicitFeeder1 = feederForSlot('p1');
-        const explicitFeeder2 = feederForSlot('p2');
+        const feederFor = slot => {
+          const explicit = feederForSlot(slot);
+          if (explicit >= 0) return explicit;
+
+          // The championship draw has three preliminary matches: the first
+          // two feed Last 64 match 1, and match 3 feeds Last 64 match 2, p2.
+          // Keep this known layout working for saved data that predates
+          // advanceTo metadata.
+          if (/^prelim(?:inary)? round$/i.test(prevRound.name) && previousMatches.length === 3 && round.name === 'Last 64') {
+            if (matchIdx === 0 && slot === 'p1') return 0;
+            if (matchIdx === 0 && slot === 'p2') return 1;
+            if (matchIdx === 1 && slot === 'p2') return 2;
+          }
+          return -1;
+        };
+        const explicitFeeder1 = feederFor('p1');
+        const explicitFeeder2 = feederFor('p2');
         const feedMatch1Idx = explicitFeeder1 >= 0 ? explicitFeeder1 : matchIdx * 2;
         const feedMatch2Idx = explicitFeeder2 >= 0 ? explicitFeeder2 : matchIdx * 2 + 1;
 
         if (!match.p1 || match.p1 === 'TBD') {
-          p1Text = explicitFeeder1 >= 0
+          const feeder = explicitFeeder1 >= 0 ? previousMatches[explicitFeeder1] : null;
+          const winnerName = feeder && (feeder.winner === 1 ? feeder.p1 : feeder.winner === 2 ? feeder.p2 : null);
+          p1Text = winnerName || (explicitFeeder1 >= 0
             ? `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`
-            : match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
+            : match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`);
         }
         if (!match.p2 || match.p2 === 'TBD') {
-          p2Text = explicitFeeder2 >= 0
+          const feeder = explicitFeeder2 >= 0 ? previousMatches[explicitFeeder2] : null;
+          const winnerName = feeder && (feeder.winner === 1 ? feeder.p1 : feeder.winner === 2 ? feeder.p2 : null);
+          p2Text = winnerName || (explicitFeeder2 >= 0
             ? `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`
-            : match.advanceFrom2 || `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`;
+            : match.advanceFrom2 || `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`);
         }
       }
     }
