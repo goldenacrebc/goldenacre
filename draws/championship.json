@@ -20,16 +20,16 @@
             {
               "p1": "Gary",
               "p2": "George",
-              "s1": "21",
-              "s2": "11",
-              "winner": 1
+              "s1": "",
+              "s2": "",
+              "winner": null
             },
             {
               "p1": "Lenny",
               "p2": "Alec",
-              "s1": "",
-              "s2": "",
-              "winner": null
+              "s1": "21",
+              "s2": "5",
+              "winner": 1
             }
           ],
           "extra": []
@@ -40,7 +40,7 @@
           "matches": [
             {
               "p1": "TBD",
-              "p2": "Gary",
+              "p2": "TBD",
               "s1": "",
               "s2": "",
               "winner": null
