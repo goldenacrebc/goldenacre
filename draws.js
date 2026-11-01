@@ -271,8 +271,22 @@ async function initDraws() {
     if (roundIdx > 0) {
       const prevRound = allRounds[roundIdx - 1];
       if (prevRound) {
-        const feedMatch1Idx = matchIdx * 2;
-        const feedMatch2Idx = matchIdx * 2 + 1;
+        // Prefer the explicit routing on the previous round. Preliminary
+        // matches can feed into non-sequential slots (for example, prelim
+        // match 3 may feed Last 64 match 2), so bracket arithmetic gives the
+        // wrong match number for those slots.
+        const feederForSlot = slot => (prevRound.matches || []).findIndex(feeder =>
+          feeder.advanceTo &&
+          feeder.advanceTo.round === round.name &&
+          feeder.advanceTo.match === matchIdx &&
+          feeder.advanceTo.slot === slot
+        );
+        const feedMatch1Idx = feederForSlot('p1') >= 0
+          ? feederForSlot('p1')
+          : matchIdx * 2;
+        const feedMatch2Idx = feederForSlot('p2') >= 0
+          ? feederForSlot('p2')
+          : matchIdx * 2 + 1;
 
         if (!match.p1 || match.p1 === 'TBD') {
           p1Text = match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
