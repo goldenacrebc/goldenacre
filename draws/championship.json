@@ -12,10 +12,10 @@
           "matches": [
             {
               "p1": "TEST Player 01",
-              "s1": "21",
+              "s1": "",
               "p2": "TEST Player 02",
-              "s2": "19",
-              "winner": 1,
+              "s2": "",
+              "winner": null,
               "advanceTo": {
                 "round": "Last 64",
                 "match": 0,
@@ -24,14 +24,14 @@
             },
             {
               "p1": "TEST Player 03",
-              "s1": "20",
+              "s1": "",
               "p2": "TEST Player 04",
-              "s2": "21",
-              "winner": 2,
+              "s2": "",
+              "winner": null,
               "advanceTo": {
                 "round": "Last 64",
-                "match": 1,
-                "slot": "p1"
+                "match": 0,
+                "slot": "p2"
               }
             },
             {
@@ -42,8 +42,8 @@
               "winner": null,
               "advanceTo": {
                 "round": "Last 64",
-                "match": 2,
-                "slot": "p1"
+                "match": 1,
+                "slot": "p2"
               }
             }
           ]
@@ -53,28 +53,28 @@
           "deadline": "Test draw",
           "matches": [
             {
-              "p1": "TEST Player 01",
-              "s1": "",
-              "p2": "TEST Player 07",
-              "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of Prelim Round (Match 1)"
-            },
-            {
-              "p1": "TEST Player 04",
-              "s1": "",
-              "p2": "TEST Player 08",
-              "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of Prelim Round (Match 2)"
-            },
-            {
               "p1": "TBD",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null,
+              "advanceFrom1": "Winner of Prelim Round (Match 1)",
+              "advanceFrom2": "Winner of Prelim Round (Match 2)"
+            },
+            {
+              "p1": "TEST Player 07",
+              "s1": "",
+              "p2": "TBD",
+              "s2": "",
+              "winner": null,
+              "advanceFrom2": "Winner of Prelim Round (Match 3)"
+            },
+            {
+              "p1": "TEST Player 08",
               "s1": "",
               "p2": "TEST Player 09",
               "s2": "",
-              "winner": null,
-              "advanceFrom1": "Winner of Prelim Round (Match 3)"
+              "winner": null
             },
             {
               "p1": "TEST Player 10",
