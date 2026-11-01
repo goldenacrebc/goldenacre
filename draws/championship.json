@@ -20,9 +20,9 @@
             {
               "p1": "Gary",
               "p2": "George",
-              "s1": "",
-              "s2": "",
-              "winner": null
+              "s1": "21",
+              "s2": "18",
+              "winner": 1
             },
             {
               "p1": "Lenny",
@@ -40,7 +40,7 @@
           "matches": [
             {
               "p1": "Lee",
-              "p2": "TBD",
+              "p2": "Gary",
               "s1": "",
               "s2": "",
               "winner": null
