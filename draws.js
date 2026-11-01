@@ -215,10 +215,10 @@ async function initDraws() {
     list.setAttribute('role', 'list');
 
     allMatches.forEach((m, matchIdx) => {
-      list.append(buildMatchRow(m, false, hasScores, roundIdx, matchIdx, allRounds));
+      list.append(buildMatchRow(m, false, hasScores, round, roundIdx, matchIdx, allRounds));
     });
     extraMatches.forEach((m, matchIdx) => {
-      list.append(buildMatchRow(m, true, hasScores, roundIdx, allMatches.length + matchIdx, allRounds));
+      list.append(buildMatchRow(m, true, hasScores, round, roundIdx, allMatches.length + matchIdx, allRounds));
     });
 
     card.append(list);
@@ -257,7 +257,7 @@ async function initDraws() {
   }
 
   // ── Build one match row with progression info ──────────────────────────────
-  function buildMatchRow(match, isExtra, hasScores, roundIdx, matchIdx, allRounds) {
+  function buildMatchRow(match, isExtra, hasScores, round, roundIdx, matchIdx, allRounds) {
     const row = document.createElement('li');
     row.className = 'match-row' +
       (isExtra ? ' extra-match' : '') +
@@ -281,12 +281,10 @@ async function initDraws() {
           feeder.advanceTo.match === matchIdx &&
           feeder.advanceTo.slot === slot
         );
-        const feedMatch1Idx = feederForSlot('p1') >= 0
-          ? feederForSlot('p1')
-          : matchIdx * 2;
-        const feedMatch2Idx = feederForSlot('p2') >= 0
-          ? feederForSlot('p2')
-          : matchIdx * 2 + 1;
+        const explicitFeeder1 = feederForSlot('p1');
+        const explicitFeeder2 = feederForSlot('p2');
+        const feedMatch1Idx = explicitFeeder1 >= 0 ? explicitFeeder1 : matchIdx * 2;
+        const feedMatch2Idx = explicitFeeder2 >= 0 ? explicitFeeder2 : matchIdx * 2 + 1;
 
         if (!match.p1 || match.p1 === 'TBD') {
           p1Text = match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
