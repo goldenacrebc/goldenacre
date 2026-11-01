@@ -58,8 +58,8 @@
               "p2": "TBD",
               "s2": "",
               "winner": null,
-              "advanceFrom1": "Winner of Prelim Round (Match 1)",
-              "advanceFrom2": "Winner of Prelim Round (Match 2)"
+              "advanceFrom1": "TEST Player 01 or TEST Player 02",
+              "advanceFrom2": "TEST Player 03 or TEST Player 04"
             },
             {
               "p1": "TEST Player 07",
@@ -67,7 +67,7 @@
               "p2": "TBD",
               "s2": "",
               "winner": null,
-              "advanceFrom2": "Winner of Prelim Round (Match 3)"
+              "advanceFrom2": "TEST Player 05 or TEST Player 06"
             },
             {
               "p1": "TEST Player 08",
