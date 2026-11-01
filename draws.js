@@ -275,10 +275,15 @@ async function initDraws() {
         // matches can feed into non-sequential slots (for example, prelim
         // match 3 may feed Last 64 match 2), so bracket arithmetic gives the
         // wrong match number for those slots.
+        const routedMatches = (prevRound.matches || []).filter(feeder => feeder.advanceTo);
+        // Older draw data may number target matches from 1; newer data uses
+        // zero-based array indexes. Detect the convention from a route to
+        // match 0, then compare everything in zero-based indexes.
+        const targetMatchOffset = routedMatches.some(feeder => feeder.advanceTo.match === 0) ? 0 : 1;
         const feederForSlot = slot => (prevRound.matches || []).findIndex(feeder =>
           feeder.advanceTo &&
           feeder.advanceTo.round === round.name &&
-          feeder.advanceTo.match === matchIdx &&
+          feeder.advanceTo.match - targetMatchOffset === matchIdx &&
           feeder.advanceTo.slot === slot
         );
         const explicitFeeder1 = feederForSlot('p1');

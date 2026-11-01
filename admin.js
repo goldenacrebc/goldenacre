@@ -1593,7 +1593,13 @@ if (btnSaveDraws) {
                     p2: p2Val || 'TBD',
                     s1: s1Val,
                     s2: s2Val,
-                    winner: winnerVal === 'null' ? null : parseInt(winnerVal)
+                    winner: winnerVal === 'null' ? null : parseInt(winnerVal),
+                    // Keep bracket routing when editing scores/results. If
+                    // this metadata is discarded, the draw renderer cannot
+                    // identify non-sequential feeder matches.
+                    ...(existing.advanceTo ? { advanceTo: existing.advanceTo } : {}),
+                    ...(existing.advanceFrom1 ? { advanceFrom1: existing.advanceFrom1 } : {}),
+                    ...(existing.advanceFrom2 ? { advanceFrom2: existing.advanceFrom2 } : {})
                 });
             });
 
