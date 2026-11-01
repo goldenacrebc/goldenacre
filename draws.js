@@ -287,10 +287,14 @@ async function initDraws() {
         const feedMatch2Idx = explicitFeeder2 >= 0 ? explicitFeeder2 : matchIdx * 2 + 1;
 
         if (!match.p1 || match.p1 === 'TBD') {
-          p1Text = match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
+          p1Text = explicitFeeder1 >= 0
+            ? `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`
+            : match.advanceFrom1 || `Winner of ${prevRound.name} (Match ${feedMatch1Idx + 1})`;
         }
         if (!match.p2 || match.p2 === 'TBD') {
-          p2Text = match.advanceFrom2 || `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`;
+          p2Text = explicitFeeder2 >= 0
+            ? `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`
+            : match.advanceFrom2 || `Winner of ${prevRound.name} (Match ${feedMatch2Idx + 1})`;
         }
       }
     }
