@@ -5,6 +5,7 @@
 @import url("styles/timelines.css");
 @import url("styles/modals.css");
 @import url("styles/competition-draws.css");
+@import url("styles/contact-page.css");
 
 /* 3-Column Layout */
 .timeline-grid-3col {
@@ -603,6 +604,7 @@ dialog.events-detail-dialog #events-detail-list {
         display: none !important;
     }
 }
+
 /* Static App & Bookmark Instruction Card Styling */
 .pwa-instruction-card {
     background-color: #fff8df;
@@ -682,6 +684,7 @@ kbd {
         padding: 12px 14px;
     }
 }
+
 .pwa-instruction-card {
     position: relative;
 }
@@ -702,6 +705,7 @@ kbd {
 .pwa-dismiss-btn:hover {
     opacity: 1;
 }
+
 /* Upcoming Events Modern Grid Layout */
 #upcoming-events-widget {
     display: grid;
@@ -783,6 +787,7 @@ kbd {
     color: #334155;
     line-height: 1.4;
 }
+
 /* ============================================================================
    UPCOMING EVENTS 2-COLUMN GRID & FILTER STYLING
    ============================================================================ */
@@ -907,6 +912,7 @@ kbd {
     z-index: 2;
     white-space: nowrap;
 }
+
 /* ============================================================================
    MOBILE MODAL AUTO-HEIGHT FIX (Hugs content strictly on vertical mobile)
    ============================================================================ */
