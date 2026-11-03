@@ -6,32 +6,31 @@
     <title>About &amp; Facilities | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky:  { light: '#a6deff', DEFAULT: '#70c1ed', dark: '#4fa8dc' },
+                        gold: { light: '#ffe066', DEFAULT: '#ffcc00', dark: '#e6b800' },
+                        navy: { light: '#1b2a4a', DEFAULT: '#0a192f', dark: '#050c18' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="nav-loader.js" defer></script>
 </head>
 <body class="site-page">
     <header>
         <details class="site-menu">
             <summary>Club Links</summary>
             <div class="site-menu-panel">
-                <a href="index.html">Home</a>
-                <a href="about.html">About &amp; Facilities</a>
-                <a href="index.html#news">Club News</a>
-                <a href="archive.html">News Archive</a>
-                <a href="gents.html">Gents</a>
-                <a href="ladies.html">Ladies</a>
-                <a href="juniors.html">Juniors</a>
-                <a href="seniors.html">Seniors</a>
-                <a href="events.html">Events Calendar</a>
-                <a href="social.html">Social Events</a>
-                <a href="try-bowls.html">Try Bowls</a>
-                <a href="contact.html">Join Us</a>
-                <a href="honours-boards.html">Honours Boards</a>
-                <a href="club-history.html">Club History</a>
-                <a href="sponsors.html">Sponsors</a>
-                <a href="gallery.html">Photo Gallery</a>
-                <a href="associations.html">Associations</a>
+                <!-- populated by nav-loader.js -->
             </div>
         </details>
-        <a href="login.html" class="members-area-link">Members Area</a>
+        <a href="members-protected.html" class="members-area-link">Members Area</a>
         <nav>
             <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
                 <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
@@ -89,6 +88,65 @@
             <p>The function hall accommodates up to 80 people and is available to hire for private events. Bar facilities are available on request. To check hall availability, <a href="mailto:goldenacrebc@hotmail.com">contact us</a>.</p>
             <p class="facility-notice"><strong>Please note:</strong> We do not provide catering or accept bookings for 18th or 21st birthday parties.</p>
         </div>
+        <!-- Join the club section -->
+        <section class="membership-prices" style="margin-top: 2.5rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+            <div class="membership-section-heading" style="margin-bottom: 1.5rem;">
+                <p class="membership-kicker">Ready to join?</p>
+                <h2>Membership at a glance</h2>
+                <p>Play in league fixtures and club competitions, enjoy the social side of Goldenacre, or discover bowls as a junior. Choose the membership that suits you — and the way you want to be part of the club.</p>
+                <div style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                    <a class="membership-brochure-download" href="downloads/membership_form.pdf" download style="font-size: 0.85rem;">Download membership form (PDF)</a>
+                    <a class="membership-brochure-download" href="downloads/goldenacre-bowling-club-brochure.pdf" download style="font-size: 0.85rem;">Download our brochure (PDF)</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4">
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left relative">
+                    <div class="absolute -top-3 right-3 bg-gold text-navy text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+                        Special Offer
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">New</h3>
+                        <div class="text-xl font-black text-navy mb-2">£50 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Introductory membership rate for new adult members.</p>
+                    </div>
+                    <a href="#contact-form-dialog" class="contact-form-trigger w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none" data-enquiry="New Membership Enquiry">Ask about New &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Full</h3>
+                        <div class="text-xl font-black text-navy mb-2">£200 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Full adult playing rights, league fixtures, and club competitions.</p>
+                    </div>
+                    <a href="#contact-form-dialog" class="contact-form-trigger w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none" data-enquiry="Full Membership Enquiry">Ask about Full &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Ladies</h3>
+                        <div class="text-xl font-black text-navy mb-2">£200 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">Dedicated ladies section fixtures, competitions, and events.</p>
+                    </div>
+                    <a href="#contact-form-dialog" class="contact-form-trigger w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none" data-enquiry="Ladies Membership Enquiry">Ask about Ladies &rarr;</a>
+                </article>
+
+                <article class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-sky transition text-left">
+                    <div>
+                        <h3 class="text-base font-bold text-navy mb-1">Junior</h3>
+                        <div class="text-xl font-black text-navy mb-2">£5 <span class="text-xs text-slate-500 font-normal">/ year</span></div>
+                        <p class="text-xs text-slate-600 mb-4">A welcoming start in bowls, with coaching and support.</p>
+                    </div>
+                    <a href="#contact-form-dialog" class="contact-form-trigger w-full text-center py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy-light transition block text-decoration-none" data-enquiry="Junior Membership Enquiry">Ask about Junior &rarr;</a>
+                </article>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem;">
+                <a href="index.html" style="color: #173b32; font-family: Georgia, serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; border-bottom: 2px solid #ffcc00; padding-bottom: 2px;">
+                    Full details &amp; contact form on our Join Us page &rarr;
+                </a>
+            </p>
+        </section>
     </main>
 
     <footer>
