@@ -1,0 +1,20 @@
+[
+  { "label": "Home / Join Us",         "href": "index.html" },
+  { "label": "About & Facilities",     "href": "about.html" },
+  { "label": "Latest News",            "href": "latest-news.html" },
+  { "label": "News Archive",           "href": "archive.html" },
+  { "label": "Gents",                  "href": "gents.html" },
+  { "label": "Ladies",                 "href": "ladies.html" },
+  { "label": "Juniors",                "href": "juniors.html" },
+  { "label": "Seniors",                "href": "seniors.html" },
+  { "label": "Weekly Schedule",        "href": "weekly-schedule.html" },
+  { "label": "Events Calendar",        "href": "events.html" },
+  { "label": "Social Events",          "href": "social.html" },
+  { "label": "Try Bowls",              "href": "try-bowls.html" },
+  { "label": "Contact Us",             "href": "contact-us.html" },
+  { "label": "Honours Boards",         "href": "honours-boards.html" },
+  { "label": "Club History",           "href": "club-history.html" },
+  { "label": "Sponsors",               "href": "sponsors.html" },
+  { "label": "Photo Gallery",          "href": "gallery.html" },
+  { "label": "Associations",           "href": "associations.html" }
+]
