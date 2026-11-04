@@ -507,7 +507,37 @@
         }
 
         if (bellBtn && statusText) {
+            const VAPID_PUBLIC_KEY = 'H-prIph2KO5an7k9ag9qLS9XDpwUse7fVXY58ZFJhA__u4PgXNjXjKjKAudn0wfZ-D33IbbAMJtb05G_x8BtnQ';
+            const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+
+            async function savePushSubscription() {
+                const reg = await navigator.serviceWorker.ready;
+                let sub = await reg.pushManager.getSubscription();
+                if (!sub) {
+                    sub = await reg.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: VAPID_PUBLIC_KEY
+                    });
+                }
+
+                const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { error } = await client.from('push_subscriptions').upsert({
+                    endpoint: sub.endpoint,
+                    subscription: JSON.stringify(sub)
+                }, { onConflict: 'endpoint' });
+                if (error) throw error;
+            }
+
             updateButtonState();
+
+            // Older versions enabled local reminders without saving the browser
+            // subscription. Re-save it whenever that already-enabled device returns.
+            if (Notification.permission === 'granted' && localStorage.getItem('match_reminders_active') === 'true') {
+                savePushSubscription().catch((pushErr) =>
+                    console.warn('Could not sync existing push subscription:', pushErr)
+                );
+            }
 
             bellBtn.addEventListener('click', async () => {
                 try {
@@ -527,21 +557,7 @@
 
                             // Register service worker and subscribe to push
                             try {
-                                const reg = await navigator.serviceWorker.ready;
-                                const VAPID_PUBLIC_KEY = 'H-prIph2KO5an7k9ag9qLS9XDpwUse7fVXY58ZFJhA__u4PgXNjXjKjKAudn0wfZ-D33IbbAMJtb05G_x8BtnQ';
-                                const sub = await reg.pushManager.subscribe({
-                                    userVisibleOnly: true,
-                                    applicationServerKey: VAPID_PUBLIC_KEY
-                                });
-
-                                // Save subscription to Supabase
-                                const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
-                                const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
-                                const _sup = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                                await _sup.from('push_subscriptions').upsert({
-                                    endpoint: sub.endpoint,
-                                    subscription: JSON.stringify(sub)
-                                }, { onConflict: 'endpoint' });
+                                await savePushSubscription();
 
                                 statusText.textContent = 'All set! You\'ll receive club push alerts on this device.';
                             } catch (pushErr) {

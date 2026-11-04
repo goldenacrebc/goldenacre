@@ -1823,9 +1823,10 @@ galleryForm.addEventListener('submit', async (e) => {
         const el = document.getElementById('push-subscriber-count');
         if (!el) return;
         try {
-            const { count, error } = await pushClient
-                .from('push_subscriptions')
-                .select('*', { count: 'exact', head: true });
+            // The subscriptions themselves are intentionally private under RLS.
+            // Use the count-only RPC instead of querying the table directly.
+            const { data: count, error } = await pushClient
+                .rpc('get_push_subscription_count');
             if (error) throw error;
             el.textContent = `📱 ${count || 0} device${count !== 1 ? 's' : ''} subscribed to push alerts.`;
         } catch (err) {
