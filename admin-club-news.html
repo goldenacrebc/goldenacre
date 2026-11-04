@@ -3,13 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=admin.html#modules-tab">
-    <title>Club News | Goldenacre Bowling Club</title>
-    <script>
-        window.location.replace('admin.html#modules-tab');
-    </script>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Publish Club News | Goldenacre Bowling Club</title>
+    <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="members_secure.css">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <p>Club news is managed from the admin dashboard. <a href="admin.html#modules-tab">Open the admin portal</a>.</p>
+    <header class="admin-header-custom">
+        <div class="admin-header-title">
+            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+            </a>
+            <h1>📰 Publish Club News</h1>
+        </div>
+        <div class="header-actions">
+            <a href="admin.html#modules-tab" class="header-nav-btn">← Admin Dashboard</a>
+            <a href="index.html" id="logout-btn" class="logout-btn-custom">Log Out</a>
+        </div>
+    </header>
+
+    <main class="admin-dashboard-container" id="club-news-admin" hidden>
+        <section class="admin-card-custom open" style="display:block">
+            <h2>Publish Club News</h2>
+            <p class="card-subtitle">Add a club announcement to the Club News section of the Latest News page.</p>
+
+            <form id="form-club-news">
+                <div class="form-group-custom">
+                    <label for="club-news-title">Headline / Title</label>
+                    <input type="text" id="club-news-title" placeholder="e.g. Clubhouse Opening Hours" required>
+                </div>
+                <div class="form-group-custom">
+                    <label for="club-news-content">Update Story / Details</label>
+                    <textarea id="club-news-content" placeholder="Write the club news details here..." required></textarea>
+                </div>
+                <div class="form-group-custom">
+                    <label for="club-image">Attach Photo (Optional)</label>
+                    <div class="image-upload-wrapper">
+                        <span class="upload-icon">📸</span>
+                        <p class="upload-text" id="club-upload-text">Click or drag an image file here to attach</p>
+                        <input type="file" id="club-image" accept="image/*">
+                    </div>
+                    <div class="image-preview-container" id="club-preview-box" style="display:none">
+                        <img id="club-preview-img" src="" alt="Selected club news photo preview">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn-custom" data-type="club-news">Publish Club News Live</button>
+                <p class="status-msg-custom" id="status-club-news" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        (async () => {
+            const client = window.supabase.createClient(
+                'https://xprnfaadcqlxeamoywjs.supabase.co',
+                'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea'
+            );
+            const { data: { user }, error } = await client.auth.getUser();
+            if (error || !user || user.email !== 'admin@goldenacre.local') {
+                await client.auth.signOut();
+                window.location.replace('admin_login.html');
+                return;
+            }
+            document.getElementById('club-news-admin').hidden = false;
+            document.getElementById('logout-btn').addEventListener('click', async event => {
+                event.preventDefault();
+                await client.auth.signOut();
+                window.location.replace('index.html');
+            });
+        })();
+    </script>
+    <script src="club-news-admin.js"></script>
 </body>
 </html>
