@@ -1859,10 +1859,14 @@ galleryForm.addEventListener('submit', async (e) => {
 
                 const sent = data?.sent ?? '?';
                 const failed = data?.failed ?? 0;
+                const removed = data?.removed ?? 0;
+                const details = Array.isArray(data?.errors) && data.errors.length
+                    ? ` — ${data.errors.join('; ')}`
+                    : '';
 
                 statusMsg.style.backgroundColor = '#dcfce7';
                 statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = `✅ Push sent to ${sent} device${sent !== 1 ? 's' : ''}${failed > 0 ? ` (${failed} failed/expired removed)` : ''}.`;
+                statusMsg.innerText = `✅ Push sent to ${sent} device${sent !== 1 ? 's' : ''}${failed > 0 ? ` (${failed} failed${removed ? `, ${removed} expired removed` : ''})` : ''}.${details}`;
                 formPushNotify.reset();
                 document.getElementById('push-url').value = '/index.html';
                 loadPushSubscriberCount();
