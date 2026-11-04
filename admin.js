@@ -1802,7 +1802,6 @@ galleryForm.addEventListener('submit', async (e) => {
         btn.disabled = false;
     }
 });
-}
 
     // =========================================================================
     // PUSH NOTIFICATIONS MODULE
@@ -1872,3 +1871,4 @@ galleryForm.addEventListener('submit', async (e) => {
             }
         });
     }
+}());
