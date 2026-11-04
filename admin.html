@@ -52,12 +52,12 @@
             <!-- SECTION 1: NEWS & ANNOUNCEMENTS -->
             <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 20px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📰 News & Urgent Alerts</h3>
             <div class="modules-grid" style="margin-bottom: 24px;">
-                <!-- Internal News -->
+                <!-- Internal Competitions -->
                 <div class="module-card">
                     <div>
-                        <span class="module-icon">🏠</span>
-                        <h4>Internal Club News</h4>
-                        <p>Post member announcements and club updates.</p>
+                        <span class="module-icon">🏆</span>
+                        <h4>Internal Competition News</h4>
+                        <p>Post updates about club competitions and results.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('internal-news-card')">Open Publisher</button>
                 </div>
@@ -66,10 +66,19 @@
                 <div class="module-card">
                     <div>
                         <span class="module-icon">🏆</span>
-                        <h4>External News</h4>
+                        <h4>External Competition News</h4>
                         <p>Post updates regarding external matches & trophies.</p>
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('external-news-card')">Open Publisher</button>
+                </div>
+
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">🏠</span>
+                        <h4>Club News</h4>
+                        <p>Post general club announcements and member updates.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('club-news-card')">Open Publisher</button>
                 </div>
 
                 <!-- Broadcast Alert -->
@@ -388,15 +397,15 @@
                 <p class="status-msg-custom" id="status-sponsor-manage"></p>
             </div>
 
-            <!-- FORM CARD: Internal News Form -->
+            <!-- FORM CARD: Internal Competitions Form -->
             <div id="internal-news-card" class="admin-card-custom">
-                <h3>🏠 Publish Internal Club News</h3>
-                <p class="card-subtitle">Posts directly to the website under Internal Club News.</p>
+                <h3>🏆 Publish Internal Competition News</h3>
+                <p class="card-subtitle">Posts directly to the website under Internal Competitions.</p>
 
                 <form id="form-internal-news">
                     <div class="form-group-custom">
                         <label for="internal-title">Headline / Title</label>
-                        <input type="text" id="internal-title" placeholder="e.g. Green Maintenance Notice" required>
+                        <input type="text" id="internal-title" placeholder="e.g. Club Championship Final" required>
                     </div>
                     <div class="form-group-custom">
                         <label for="internal-content">Update Story / Details</label>
@@ -413,7 +422,7 @@
                             <img id="internal-preview-img" src="" alt="Preview">
                         </div>
                     </div>
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="internal-news">Publish Internal News Live</button>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="internal-news">Publish Internal Competition News Live</button>
                     <p class="status-msg-custom" id="status-internal"></p>
                 </form>
             </div>
@@ -443,8 +452,37 @@
                             <img id="external-preview-img" src="" alt="Preview">
                         </div>
                     </div>
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="external-news">Publish External News Live</button>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="external-news">Publish External Competition News Live</button>
                     <p class="status-msg-custom" id="status-external"></p>
+                </form>
+            </div>
+
+            <div id="club-news-card" class="admin-card-custom">
+                <h3>🏠 Publish Club News</h3>
+                <p class="card-subtitle">Posts general club announcements and member updates under Club News.</p>
+
+                <form id="form-club-news">
+                    <div class="form-group-custom">
+                        <label for="club-title">Headline / Title</label>
+                        <input type="text" id="club-title" placeholder="e.g. Clubhouse Opening Hours" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="club-content">Update Story / Details</label>
+                        <textarea id="club-content" placeholder="Write club news here..." required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label>Attach Photo (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="club-upload-text">Click or drag an image file here to attach</p>
+                            <input type="file" id="club-image" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="club-preview-box">
+                            <img id="club-preview-img" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="club-news">Publish Club News Live</button>
+                    <p class="status-msg-custom" id="status-club"></p>
                 </form>
             </div>
 
@@ -805,7 +843,8 @@
                 
                 <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
-                    <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
+                    <li><strong>Competition News:</strong> Internal and external competition updates appear in their respective news feeds.</li>
+                    <li><strong>Club News:</strong> General club announcements and member updates appear in the Club News feed.</li>
                     <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
                     <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove entries directly from `events.json` and `fixtures.json`.</li>
