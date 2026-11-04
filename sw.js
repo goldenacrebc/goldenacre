@@ -185,8 +185,9 @@ self.addEventListener('push', (event) => {
             event.waitUntil(
                 self.registration.showNotification(data.title || 'Goldenacre BC', {
                     body: data.body || '',
-                    icon: 'logo.jpeg',
+                    icon: data.icon || '/logo.jpeg',
                     badge: 'logo.jpeg',
+                    ...(data.image ? { image: data.image } : {}),
                     tag: 'admin-push-' + Date.now(),
                     data: { url: data.url || '/index.html' }
                 })
