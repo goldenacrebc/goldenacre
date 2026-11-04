@@ -332,6 +332,14 @@
                         <textarea id="fixture-desc" placeholder="e.g. EBA League Division 2 Match"></textarea>
                     </div>
 
+                    <div class="form-group-custom">
+                        <label for="fixture-notify">Send scheduled push reminders?</label>
+                        <select id="fixture-notify">
+                            <option value="true" selected>Yes — send 4- and 2-hour reminders</option>
+                            <option value="false">No — do not send reminders</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="submit-btn-custom btn-publish" data-type="fixtures">Publish Fixture Live</button>
                     <p class="status-msg-custom" id="status-fixtures"></p>
                 </form>
@@ -478,6 +486,13 @@
                     <div class="form-group-custom">
                         <label for="event-desc">Event Details & Schedule</label>
                         <textarea id="event-desc" placeholder="Provide event details..." required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="event-notify">Send scheduled push reminders?</label>
+                        <select id="event-notify">
+                            <option value="true" selected>Yes — send 4- and 2-hour reminders</option>
+                            <option value="false">No — do not send reminders</option>
+                        </select>
                     </div>
                     <button type="submit" class="submit-btn-custom btn-publish" data-type="events">Publish Event Live</button>
                     <p class="status-msg-custom" id="status-events"></p>
@@ -630,6 +645,13 @@
                         <div class="form-group-custom">
                             <label for="cal-event-desc">Description & Details</label>
                             <textarea id="cal-event-desc" placeholder="Provide event or fixture details..."></textarea>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="cal-event-notify">Send scheduled push reminders?</label>
+                            <select id="cal-event-notify">
+                                <option value="true" selected>Yes — send 4- and 2-hour reminders</option>
+                                <option value="false">No — do not send reminders</option>
+                            </select>
                         </div>
                         
                         <button type="submit" class="submit-btn-custom" id="btn-publish-calendar">Publish Entry Live</button>

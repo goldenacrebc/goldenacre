@@ -283,7 +283,7 @@
                             <div>
                                 <span style="font-size: 0.72rem; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">${fix.team || 'Fixture'}</span>
                                 <strong>${fix.date}</strong> - ${fix.title} <span style="font-size: 0.75rem; color: var(--text-muted);">(${fix.time || '6:30 pm'})</span>
-                                <div style="font-size: 0.8rem; color: var(--text-muted);">${fix.location || 'Goldenacre'}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${fix.location || 'Goldenacre'} · ${fix.notify === false ? '🔕 Reminders off' : '🔔 Reminders on'}</div>
                             </div>
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <button type="button" onclick="startCalendarEdit(${index}, 'fixtures')" style="background-color: var(--brand-green); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Edit</button>
@@ -306,7 +306,7 @@
                             <div>
                                 <span style="font-size: 0.72rem; background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">${ev.type || 'Social'}</span>
                                 <strong>${ev.date}</strong> - ${ev.title} <span style="font-size: 0.75rem; color: var(--text-muted);">(${ev.time || 'All Day'})</span>
-                                <div style="font-size: 0.8rem; color: var(--text-muted);">${ev.location || 'Goldenacre'}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${ev.location || 'Goldenacre'} · ${ev.notify === false ? '🔕 Reminders off' : '🔔 Reminders on'}</div>
                             </div>
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <button type="button" onclick="startCalendarEdit(${index}, 'events')" style="background-color: var(--brand-green); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Edit</button>
@@ -347,6 +347,7 @@
         document.getElementById('cal-event-time').value = item.time || '';
         document.getElementById('cal-event-location').value = item.location || '';
         document.getElementById('cal-event-desc').value = item.description || '';
+        document.getElementById('cal-event-notify').value = item.notify === false ? 'false' : 'true';
 
         document.getElementById('btn-publish-calendar').textContent = "Save Changes Live";
         document.getElementById('btn-cancel-cal-edit').style.display = 'block';
@@ -387,6 +388,7 @@
                 const location = document.getElementById('cal-event-location').value.trim();
                 const description = document.getElementById('cal-event-desc').value.trim();
                 const team = document.getElementById('cal-event-team').value;
+                const notify = document.getElementById('cal-event-notify').value === 'true';
 
                 const { data: tokenData, error: tokenError } = await supabaseClient
                     .from('settings').select('value').eq('key', 'github_token').single();
@@ -413,7 +415,7 @@
                     time: time,
                     location: location,
                     description: description,
-                    notify: true
+                    notify: notify
                 };
 
                 if (sourceType === 'fixtures') {
@@ -1067,6 +1069,7 @@
                     const time = document.getElementById('event-time').value.trim();
                     const location = document.getElementById('event-location').value.trim();
                     const content = document.getElementById('event-desc').value.trim();
+                    const notify = document.getElementById('event-notify').value === 'true';
 
                     const newEventObj = {
                         date: new Date().toISOString().split('T')[0],
@@ -1075,7 +1078,7 @@
                         location: location,
                         description: content,
                         type: eventType,
-                        notify: true
+                        notify: notify
                     };
 
                     if (eventTag) {
@@ -1091,6 +1094,7 @@
                     const time = document.getElementById('fixture-time').value.trim();
                     const location = document.getElementById('fixture-location').value.trim();
                     const content = document.getElementById('fixture-desc').value.trim();
+                    const notify = document.getElementById('fixture-notify').value === 'true';
 
                     existingContent.unshift({
                         date: date,
@@ -1099,7 +1103,7 @@
                         time: time,
                         location: location,
                         description: content || `${team} Match Fixture`,
-                        notify: true
+                        notify: notify
                     });
 
                     existingContent.sort((a, b) => new Date(a.date) - new Date(b.date));
