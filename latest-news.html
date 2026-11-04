@@ -12,72 +12,40 @@
     <header>
         <details class="site-menu">
             <summary>Club Links</summary>
-            <div class="site-menu-panel">
-                <!-- populated by nav-loader.js -->
-            </div>
+            <div class="site-menu-panel"><!-- populated by nav-loader.js --></div>
         </details>
         <a href="members-protected.html" class="members-area-link">Members Area</a>
-        <nav>
-            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
-                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
-            </a>
-        </nav>
+        <nav><a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home"><img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge"></a></nav>
     </header>
 
-    <section class="hero">
-        <div class="site-hero-content">
-            <p class="hero-tagline">Bowling • Competition • Community</p>
-            <h1>Latest Club News</h1>
-        </div>
-    </section>
+    <section class="hero"><div class="site-hero-content"><p class="hero-tagline">Bowling • Competition • Community</p><h1>Latest Club News</h1></div></section>
 
     <main id="news" class="content-section">
         <p class="home-section-intro">Catch up on club results, competition highlights and news from our members.</p>
-
-        <!-- Internal Club News Container -->
         <div class="news-category-group">
             <h3 class="news-category-heading">Club News</h3>
-            <div id="latest-club-grid" class="news-grid-2col">
-                <!-- Dynamically loaded -->
-            </div>
+            <div id="latest-club-grid" class="news-grid-2col"><!-- Dynamically loaded --></div>
         </div>
-        <!-- Internal Club News Container -->
         <div class="news-category-group">
             <h3 class="news-category-heading">Internal Competitions</h3>
-            <div id="latest-internal-grid" class="news-grid-2col">
-                <!-- Dynamically loaded -->
-            </div>
+            <div id="latest-internal-grid" class="news-grid-2col"><!-- Dynamically loaded --></div>
         </div>
-
-        <!-- External Competitions Container -->
         <div class="news-category-group">
             <h3 class="news-category-heading">External Competitions</h3>
-            <div id="latest-external-grid" class="news-grid-2col">
-                <!-- Dynamically loaded -->
-            </div>
+            <div id="latest-external-grid" class="news-grid-2col"><!-- Dynamically loaded --></div>
         </div>
-
-        <div style="text-align: center; margin-top: 32px;">
-            <a href="archive.html" style="color: #173b32; font-family: Georgia, serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; border-bottom: 2px solid #ffcc00; padding-bottom: 2px;">
-                News Archive &rarr;
-            </a>
-        </div>
+        <div style="text-align:center;margin-top:32px"><a href="archive.html" style="color:#173b32;font-family:Georgia,serif;font-weight:700;font-size:.95rem;text-decoration:none;border-bottom:2px solid #ffcc00;padding-bottom:2px">News Archive &rarr;</a></div>
     </main>
 
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-        <p class="footer-link">
-            <a href="mailto:goldenacrebc@hotmail.com?&amp;subject=General%20Enquiry&amp;body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
-        </p>
+        <p class="footer-link"><a href="mailto:goldenacrebc@hotmail.com?&amp;subject=General%20Enquiry&amp;body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a></p>
     </footer>
 
     <dialog id="global-modal" class="news-modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeNewsModal()" aria-label="Close modal">&times;</button>
-            <div class="modal-header">
-                <span id="modal-tag" class="news-tag"></span>
-                <h2 id="modal-title"></h2>
-            </div>
+            <div class="modal-header"><span id="modal-tag" class="news-tag"></span><h2 id="modal-title"></h2></div>
             <div id="modal-body" class="modal-body"></div>
         </div>
     </dialog>
@@ -89,73 +57,87 @@
     <script src="modals/modal-membership.js" defer></script>
     <script src="modals/modal-controller.js" defer></script>
     <script src="script.js" defer></script>
-
-    <!-- News loader -->
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grids = {
+                club: document.getElementById('latest-club-grid'),
+                internal: document.getElementById('latest-internal-grid'),
+                external: document.getElementById('latest-external-grid')
+            };
+
+            function addText(parent, tag, className, value) {
+                const element = document.createElement(tag);
+                if (className) element.className = className;
+                element.textContent = value || '';
+                parent.appendChild(element);
+                return element;
+            }
+
             try {
-                const res = await fetch('news.json?t=' + Date.now());
-                const newsItems = await res.json();
-
-                const internalGrid = document.getElementById('latest-internal-grid');
-                const externalGrid = document.getElementById('latest-external-grid');
-                if (!internalGrid || !externalGrid) return;
-
-                internalGrid.innerHTML = '';
-                externalGrid.innerHTML = '';
-
+                const response = await fetch(`news.json?t=${Date.now()}`);
+                if (!response.ok) throw new Error(`News feed returned ${response.status}`);
+                const newsItems = await response.json();
+                Object.values(grids).forEach(grid => { if (grid) grid.replaceChildren(); });
                 const hardcodedModals = ['honours-list', 'championship', 'ladies-championship', 'junior-championship', 'steele', 'ebapairs'];
 
-                newsItems.filter(item => {
-                    const tag = (item.tag || '').toLowerCase();
-                    return tag !== 'archive' && tag !== 'archived';
-                }).forEach(item => {
-                    const article = document.createElement('article');
-                    article.className = "news-block clickable";
+                newsItems.filter(item => !['archive', 'archived'].includes(String(item.tag || '').toLowerCase()))
+                    .filter(item => item.title || item.description)
+                    .forEach(item => {
+                        const category = ['club', 'internal', 'external'].includes(item.category) ? item.category : 'external';
+                        const grid = grids[category];
+                        if (!grid) return;
 
-                    if (item.modal && !hardcodedModals.includes(item.modal)) {
-                        article.onclick = () => {
-                            const modalTitle  = document.getElementById('modal-title');
-                            const modalBody   = document.getElementById('modal-body');
-                            const modalTag    = document.getElementById('modal-tag');
-                            const globalModal = document.getElementById('global-modal');
-                            if (modalTitle) modalTitle.textContent = item.title;
-                            if (modalBody) {
-                                let imgHtml = item.image && item.image !== 'logo.jpeg'
-                                    ? `<div style="text-align:center; margin-bottom:15px;"><img src="${item.image}" alt="${item.title}" style="max-width:100%; max-height:280px; border-radius:6px;"></div>`
-                                    : '';
-                                modalBody.innerHTML = imgHtml + `<p>${item.description.replace(/\n/g, '<br>')}</p>`;
-                            }
-                            if (modalTag) {
-                                modalTag.textContent = item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'News';
-                                modalTag.className = `news-tag badge-${item.category || 'internal'}`;
-                            }
-                            if (globalModal && typeof globalModal.showModal === 'function') globalModal.showModal();
-                        };
-                    } else if (item.modal) {
-                        article.setAttribute('onclick', `openNewsModal('${item.modal}')`);
-                    }
+                        const article = document.createElement('article');
+                        article.className = 'news-block clickable';
+                        if (item.modal && !hardcodedModals.includes(item.modal)) {
+                            article.addEventListener('click', () => {
+                                const modal = document.getElementById('global-modal');
+                                const title = document.getElementById('modal-title');
+                                const body = document.getElementById('modal-body');
+                                const badge = document.getElementById('modal-tag');
+                                title.textContent = item.title || '';
+                                body.replaceChildren();
+                                if (item.image && item.image !== 'logo.jpeg') {
+                                    const image = document.createElement('img');
+                                    image.src = item.image;
+                                    image.alt = item.title || '';
+                                    image.style.cssText = 'display:block;max-width:100%;max-height:280px;margin:0 auto 15px;border-radius:6px';
+                                    body.appendChild(image);
+                                }
+                                const description = document.createElement('p');
+                                String(item.description || '').split('\n').forEach((line, index) => {
+                                    if (index) description.appendChild(document.createElement('br'));
+                                    description.appendChild(document.createTextNode(line));
+                                });
+                                body.appendChild(description);
+                                badge.textContent = category === 'club' ? 'Club News' : category[0].toUpperCase() + category.slice(1);
+                                badge.className = `news-tag badge-${category}`;
+                                if (modal?.showModal) modal.showModal();
+                            });
+                        } else if (item.modal && hardcodedModals.includes(item.modal)) {
+                            article.addEventListener('click', () => window.openNewsModal?.(item.modal));
+                        }
 
-                    article.innerHTML = `
-                        <div class="news-media">
-                            <img src="${item.image}" alt="${item.title}" class="news-img">
-                        </div>
-                        <div class="news-body">
-                            <span class="news-badge badge-${item.category}">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
-                            <h3>${item.title}</h3>
-                            <p>${item.description}</p>
-                            ${item.modal ? '<span class="text-link">Read Details &rarr;</span>' : ''}
-                        </div>
-                    `;
+                        const media = document.createElement('div');
+                        media.className = 'news-media';
+                        const image = document.createElement('img');
+                        image.src = item.image || 'logo.jpeg';
+                        image.alt = item.title || 'Club news';
+                        image.className = 'news-img';
+                        media.appendChild(image);
+                        article.appendChild(media);
 
-                    if (item.category === 'internal') {
-                        internalGrid.appendChild(article);
-                    } else {
-                        externalGrid.appendChild(article);
-                    }
-                });
-            } catch (err) {
-                console.error("Failed to load news.json", err);
+                        const content = document.createElement('div');
+                        content.className = 'news-body';
+                        const badge = addText(content, 'span', `news-badge badge-${category}`, category === 'club' ? 'Club News' : category[0].toUpperCase() + category.slice(1));
+                        addText(content, 'h3', '', item.title);
+                        addText(content, 'p', '', item.description);
+                        if (item.modal) addText(content, 'span', 'text-link', 'Read Details →');
+                        article.appendChild(content);
+                        grid.appendChild(article);
+                    });
+            } catch (error) {
+                console.error('Failed to load news.json', error);
             }
         });
     </script>

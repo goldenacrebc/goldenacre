@@ -10,91 +10,71 @@
 </head>
 <body class="site-page">
     <header>
-        <details class="site-menu">
-            <summary>Club Links</summary>
-            <div class="site-menu-panel">
-                <!-- populated by nav-loader.js -->
-            </div>
-        </details>
+        <details class="site-menu"><summary>Club Links</summary><div class="site-menu-panel"><!-- populated by nav-loader.js --></div></details>
         <a href="members-protected.html" class="members-area-link">Members Area</a>
-        <nav>
-            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
-                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
-            </a>
-        </nav>
+        <nav><a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home"><img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge"></a></nav>
     </header>
-
-    <section class="hero">
-        <div class="site-hero-content">
-            <p class="hero-tagline">Bowling • Competition • Community</p>
-            <h1>Goldenacre Bowling Club</h1>
-        </div>
-    </section>
+    <section class="hero"><div class="site-hero-content"><p class="hero-tagline">Bowling • Competition • Community</p><h1>Goldenacre Bowling Club</h1></div></section>
 
     <main id="news" class="content-section archive-page">
-    <h1>News Archive</h1>
-    
-    <div class="news-category-group">
-        <h2 class="news-category-heading">Internal Club News</h2>
-        <div id="archive-internal-grid" class="news-grid-2col">
-            <!-- Dynamically loaded via script -->
-        </div>
-    </div>
-
-    <div class="news-category-group">
-        <h2 class="news-category-heading">External Competitions</h2>
-        <div id="archive-external-grid" class="news-grid-2col">
-            <!-- Dynamically loaded via script -->
-        </div>
-    </div>
-</main>
+        <h1>News Archive</h1>
+        <div class="news-category-group"><h2 class="news-category-heading">Club News</h2><div id="archive-club-grid" class="news-grid-2col"></div></div>
+        <div class="news-category-group"><h2 class="news-category-heading">Internal Club News</h2><div id="archive-internal-grid" class="news-grid-2col"></div></div>
+        <div class="news-category-group"><h2 class="news-category-heading">External Competitions</h2><div id="archive-external-grid" class="news-grid-2col"></div></div>
+    </main>
 
     <footer>
         <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-        <p class="footer-link">
-            <a href="mailto:goldenacrebc@hotmail.com?&subject=General%20Enquiry&body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a>
-        </p>
+        <p class="footer-link"><a href="mailto:goldenacrebc@hotmail.com?&amp;subject=General%20Enquiry&amp;body=Hello%20Goldenacre%20Bowling%20Club,%0D%0A%0D%0AI%20would%20like%20to%20enquire%20about...">Send Us a Message</a></p>
     </footer>
     <script src="contact-form.js" defer></script>
     <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const res = await fetch('news.json?t=' + Date.now());
-        const newsItems = await res.json();
-
-        const internalGrid = document.getElementById('archive-internal-grid');
-        const externalGrid = document.getElementById('archive-external-grid');
-
-        if (!internalGrid || !externalGrid) return;
-
-        internalGrid.innerHTML = '';
-        externalGrid.innerHTML = '';
-
-        newsItems.filter(item => item.tag === 'archive' || item.tag === 'archived').forEach(item => {
-            const article = document.createElement('article');
-            article.className = "news-block";
-
-            article.innerHTML = `
-                <div class="news-media">
-                    <img src="${item.image}" alt="${item.title}" class="news-img">
-                </div>
-                <div class="news-body">
-                    <span class="news-badge badge-${item.category}">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                </div>
-            `;
-
-            if (item.category === 'internal') {
-                internalGrid.appendChild(article);
-            } else {
-                externalGrid.appendChild(article);
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grids = {
+                club: document.getElementById('archive-club-grid'),
+                internal: document.getElementById('archive-internal-grid'),
+                external: document.getElementById('archive-external-grid')
+            };
+            try {
+                const response = await fetch(`news.json?t=${Date.now()}`);
+                if (!response.ok) throw new Error(`News feed returned ${response.status}`);
+                const items = await response.json();
+                Object.values(grids).forEach(grid => { if (grid) grid.replaceChildren(); });
+                items.filter(item => ['archive', 'archived'].includes(String(item.tag || '').toLowerCase()))
+                    .filter(item => item.title || item.description)
+                    .forEach(item => {
+                        const category = ['club', 'internal', 'external'].includes(item.category) ? item.category : 'external';
+                        const grid = grids[category];
+                        if (!grid) return;
+                        const article = document.createElement('article');
+                        article.className = 'news-block';
+                        const media = document.createElement('div');
+                        media.className = 'news-media';
+                        const image = document.createElement('img');
+                        image.src = item.image || 'logo.jpeg';
+                        image.alt = item.title || 'Club news';
+                        image.className = 'news-img';
+                        media.appendChild(image);
+                        article.appendChild(media);
+                        const body = document.createElement('div');
+                        body.className = 'news-body';
+                        const badge = document.createElement('span');
+                        badge.className = `news-badge badge-${category}`;
+                        badge.textContent = category === 'club' ? 'Club News' : category[0].toUpperCase() + category.slice(1);
+                        body.appendChild(badge);
+                        const title = document.createElement('h3');
+                        title.textContent = item.title || '';
+                        body.appendChild(title);
+                        const description = document.createElement('p');
+                        description.textContent = item.description || '';
+                        body.appendChild(description);
+                        article.appendChild(body);
+                        grid.appendChild(article);
+                    });
+            } catch (error) {
+                console.error('Failed to load news.json', error);
             }
         });
-    } catch (err) {
-        console.error("Failed to load news.json", err);
-    }
-});
-</script>
+    </script>
 </body>
 </html>
