@@ -507,9 +507,17 @@
         }
 
         if (bellBtn && statusText) {
-            const VAPID_PUBLIC_KEY = 'H-prIph2KO5an7k9ag9qLS9XDpwUse7fVXY58ZFJhA__u4PgXNjXjKjKAudn0wfZ-D33IbbAMJtb05G_x8BtnQ';
+            const VAPID_PUBLIC_KEY = 'BOrl52apw7thH3baZGozphKJR6ogl1xi4s0HgVLpx6EJiI3daPkqI7jwdyFf556-RHMoYh4lykXSp7YPgIsBqRI';
             const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
             const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+
+            function vapidKeyToBytes(key) {
+                const padded = key.replace(/-/g, '+').replace(/_/g, '/').padEnd(
+                    key.length + (4 - key.length % 4) % 4, '='
+                );
+                const binary = atob(padded);
+                return Uint8Array.from(binary, (char) => char.charCodeAt(0));
+            }
 
             async function savePushSubscription() {
                 // Register here rather than relying on the legacy reminder script
@@ -520,7 +528,7 @@
                 if (!sub) {
                     sub = await reg.pushManager.subscribe({
                         userVisibleOnly: true,
-                        applicationServerKey: VAPID_PUBLIC_KEY
+                        applicationServerKey: vapidKeyToBytes(VAPID_PUBLIC_KEY)
                     });
                 }
 
