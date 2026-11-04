@@ -512,6 +512,9 @@
             const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
 
             async function savePushSubscription() {
+                // Register here rather than relying on the legacy reminder script
+                // below. This makes the subscription flow self-contained.
+                await navigator.serviceWorker.register('/sw.js');
                 const reg = await navigator.serviceWorker.ready;
                 let sub = await reg.pushManager.getSubscription();
                 if (!sub) {
@@ -534,9 +537,10 @@
             // Older versions enabled local reminders without saving the browser
             // subscription. Re-save it whenever that already-enabled device returns.
             if (Notification.permission === 'granted' && localStorage.getItem('match_reminders_active') === 'true') {
-                savePushSubscription().catch((pushErr) =>
-                    console.warn('Could not sync existing push subscription:', pushErr)
-                );
+                savePushSubscription().catch((pushErr) => {
+                    console.warn('Could not sync existing push subscription:', pushErr);
+                    statusText.textContent = `Push alerts could not be saved: ${pushErr.message || 'unknown error'}`;
+                });
             }
 
             bellBtn.addEventListener('click', async () => {
@@ -562,7 +566,8 @@
                                 statusText.textContent = 'All set! You\'ll receive club push alerts on this device.';
                             } catch (pushErr) {
                                 console.warn('Push subscription failed (will still use local reminders):', pushErr);
-                                statusText.textContent = 'Reminders active. Push alerts unavailable on this browser.';
+                                statusText.textContent = `Push alerts could not be saved: ${pushErr.message || 'unknown error'}`;
+                                bellBtn.disabled = false;
                             }
                         } else {
                             statusText.textContent = 'Permission denied in browser settings.';
@@ -578,50 +583,13 @@
         }
     </script>
 
-    <!-- Service Worker for Fixtures Reminders -->
+    <!-- Register the service worker for local fixture checks and push delivery. -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const reminderBtn = document.querySelector(".btn-set-reminder");
-            const statusText  = document.querySelector(".reminder-status-text");
-            if (!reminderBtn) return;
-
-            function updateUI(isActivated) {
-                if (isActivated) {
-                    reminderBtn.textContent = "🔕 Disable Match Reminders";
-                    reminderBtn.classList.add("active");
-                    if (statusText) statusText.textContent = "Reminders active! Your device will monitor fixtures.json automatically.";
-                } else {
-                    reminderBtn.textContent = "🔔 Enable Match Reminders";
-                    reminderBtn.classList.remove("active");
-                    if (statusText) statusText.textContent = "Match reminders are currently turned off on this device.";
-                }
-            }
-
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').then((reg) => {
-                    if (Notification.permission === "granted") {
-                        if ('periodicSync' in reg) {
-                            reg.periodicSync.getTags().then((tags) => {
-                                const isSubscribed = tags.includes('check-match-reminders');
-                                updateUI(isSubscribed);
-                                if (isSubscribed && reg.active) reg.active.postMessage({ action: 'checkReminders' });
-                            });
-                        } else {
-                            const savedState = localStorage.getItem('matchRemindersEnabled') === 'true';
-                            updateUI(savedState);
-                            if (savedState && reg.active) reg.active.postMessage({ action: 'checkReminders' });
-                        }
-                    } else if (Notification.permission === "default") {
-                        updateUI(false);
-                        if (statusText) statusText.textContent = "Click the button above to enable match reminders on this device.";
-                    } else {
-                        updateUI(false);
-                        if (statusText) statusText.textContent = "Notifications are blocked. Please reset your browser bar permissions to enable.";
-                    }
+                navigator.serviceWorker.register('/sw.js').catch((err) => {
+                    console.warn('Could not register service worker:', err);
                 });
-            } else {
-                if (statusText) statusText.textContent = "Notifications are not supported on this device or browser.";
-                reminderBtn.disabled = true;
             }
         });
     </script>
