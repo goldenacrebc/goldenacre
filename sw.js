@@ -10,19 +10,16 @@ self.addEventListener('activate', (e) => {
     return self.clients.claim();
 });
 
-// Redirects members straight back to the website dashboard when an alert card is clicked
+// Redirects members straight back to the website when an alert card is clicked
 self.addEventListener('notificationclick', (e) => {
     e.notification.close();
+    const targetUrl = (e.notification.data && e.notification.data.url) || '/index.html';
     e.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
             for (let client of windowClients) {
-                if (client.url.endsWith('/index.html') && 'focus' in client) {
-                    return client.focus();
-                }
+                if ('focus' in client) return client.focus();
             }
-            if (clients.openWindow) {
-                return clients.openWindow('/index.html');
-            }
+            if (clients.openWindow) return clients.openWindow(targetUrl);
         })
     );
 });
@@ -108,52 +105,57 @@ async function checkForUpcomingMatches() {
         // Open our secure background storage memory
         const notificationCache = await caches.open(CACHE_NAME);
 
+        // Reminder windows: fire at 4 hours before and again at 2 hours before
+        const REMINDERS = [
+            { minutesBefore: 240, label: '4hr',  prefix: '4 hours'  },
+            { minutesBefore: 120, label: '2hr',  prefix: '2 hours'  },
+        ];
+
         for (const item of todaysEntries) {
             const matchMinutes = parseTimeToMinutes(item.time);
-            
-            // If it's an all-day event or has no valid time, notify immediately today
-            let shouldNotify = false;
-            if (matchMinutes === null) {
-                shouldNotify = true;
-            } else {
-                // Calculate time exactly 2 hours (120 minutes) before the fixture time
-                let notificationTargetMinutes = matchMinutes - 120;
-                
-                // Check if current time has reached or passed the 2-hour mark, but hasn't passed the event time yet
-                if (currentTotalMinutes >= notificationTargetMinutes && currentTotalMinutes <= matchMinutes) {
-                    shouldNotify = true;
-                }
-            }
-
-            if (!shouldNotify) {
-                continue;
-            }
-
-            const title = item.title || "Goldenacre BC Alert";
+            const title    = item.title || "Goldenacre BC Alert";
             const teamInfo = item.team ? `(${item.team}) ` : "";
             const matchTime = item.time ? `at ${item.time}` : "Today";
-            const notificationKey = `/notified-${item.date}-${item.time || 'all-day'}-${item.title || 'alert'}`;
-            
-            // Check if we already logged this notification in storage today
-            const alreadyNotified = await notificationCache.match(notificationKey);
-            if (alreadyNotified) {
+
+            // All-day / no-time events: fire once, no reminder window
+            if (matchMinutes === null) {
+                const notificationKey = `/notified-${item.date}-all-day-${item.title || 'alert'}`;
+                const alreadyNotified = await notificationCache.match(notificationKey);
+                if (alreadyNotified) continue;
+
+                await self.registration.showNotification(title, {
+                    body: `${teamInfo}On today. ${item.description || ''}`.trim(),
+                    icon: 'logo.jpeg', badge: 'logo.jpeg',
+                    tag: notificationKey,
+                    data: { dateOfArrival: Date.now() }
+                });
+                await notificationCache.put(notificationKey, new Response('sent'));
                 continue;
             }
 
-            const options = {
-                body: `${teamInfo}Playing/Happening ${matchTime}. ${item.description || ''}`.trim(),
-                icon: 'logo.jpeg',
-                badge: 'logo.jpeg',
-                tag: notificationKey,
-                data: {
-                    dateOfArrival: Date.now()
+            // Timed events: check each reminder window independently
+            for (const reminder of REMINDERS) {
+                const windowStart = matchMinutes - reminder.minutesBefore;
+                // Fire if we're within a 30-minute window of the reminder time
+                // and the event hasn't started yet
+                if (
+                    currentTotalMinutes >= windowStart &&
+                    currentTotalMinutes <  windowStart + 30 &&
+                    currentTotalMinutes <  matchMinutes
+                ) {
+                    const notificationKey = `/notified-${item.date}-${item.time}-${item.title || 'alert'}-${reminder.label}`;
+                    const alreadyNotified = await notificationCache.match(notificationKey);
+                    if (alreadyNotified) continue;
+
+                    await self.registration.showNotification(`${title} — ${reminder.prefix} to go`, {
+                        body: `${teamInfo}${reminder.prefix} until kick-off ${matchTime}. ${item.description || ''}`.trim(),
+                        icon: 'logo.jpeg', badge: 'logo.jpeg',
+                        tag: notificationKey,
+                        data: { dateOfArrival: Date.now() }
+                    });
+                    await notificationCache.put(notificationKey, new Response('sent'));
                 }
-            };
-
-            await self.registration.showNotification(title, options);
-
-            // Save a record in our background storage so it never triggers again today
-            await notificationCache.put(notificationKey, new Response('sent'));
+            }
         }
     } catch (err) {
         console.error("Background match checking synchronization failed:", err);
@@ -174,7 +176,26 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// PUSH HOOK
+// PUSH HOOK — handles server-sent push notifications from the admin panel
 self.addEventListener('push', (event) => {
+    // If the push has a payload (sent from admin), show it directly
+    if (event.data) {
+        try {
+            const data = event.data.json();
+            event.waitUntil(
+                self.registration.showNotification(data.title || 'Goldenacre BC', {
+                    body: data.body || '',
+                    icon: 'logo.jpeg',
+                    badge: 'logo.jpeg',
+                    tag: 'admin-push-' + Date.now(),
+                    data: { url: data.url || '/index.html' }
+                })
+            );
+            return;
+        } catch (e) {
+            // fall through to fixture check if payload isn't JSON
+        }
+    }
+    // No payload — fall back to checking fixtures as before
     event.waitUntil(checkForUpcomingMatches());
 });

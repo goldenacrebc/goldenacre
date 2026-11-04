@@ -518,12 +518,36 @@
                         statusText.textContent = 'Match reminders have been turned off.';
                     } else {
                         bellBtn.disabled = true;
-                        statusText.textContent = 'Requesting system browser permission...';
+                        statusText.textContent = 'Requesting permission...';
                         const permission = await Notification.requestPermission();
                         if (permission === 'granted') {
                             localStorage.setItem('match_reminders_active', 'true');
                             updateButtonState();
-                            statusText.textContent = 'Success! Alarms scheduled natively 2 hours before match fixtures.';
+                            statusText.textContent = 'Enabled! Registering for push alerts...';
+
+                            // Register service worker and subscribe to push
+                            try {
+                                const reg = await navigator.serviceWorker.ready;
+                                const VAPID_PUBLIC_KEY = 'H-prIph2KO5an7k9ag9qLS9XDpwUse7fVXY58ZFJhA__u4PgXNjXjKjKAudn0wfZ-D33IbbAMJtb05G_x8BtnQ';
+                                const sub = await reg.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: VAPID_PUBLIC_KEY
+                                });
+
+                                // Save subscription to Supabase
+                                const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+                                const SUPABASE_ANON_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+                                const _sup = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                                await _sup.from('push_subscriptions').upsert({
+                                    endpoint: sub.endpoint,
+                                    subscription: JSON.stringify(sub)
+                                }, { onConflict: 'endpoint' });
+
+                                statusText.textContent = 'All set! You\'ll receive club push alerts on this device.';
+                            } catch (pushErr) {
+                                console.warn('Push subscription failed (will still use local reminders):', pushErr);
+                                statusText.textContent = 'Reminders active. Push alerts unavailable on this browser.';
+                            }
                         } else {
                             statusText.textContent = 'Permission denied in browser settings.';
                             bellBtn.disabled = false;
