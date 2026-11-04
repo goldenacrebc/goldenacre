@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "date": "",
+    "team": "1st 16",
+    "title": "goldenacre vs northern",
+    "time": "6:30 pm",
+    "location": "Goldenacre",
+    "description": "Testing Push functions",
+    "notify": true
+  }
+]
