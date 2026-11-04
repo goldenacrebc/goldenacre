@@ -1,29 +1,2 @@
 [
-  {
-    "date": "",
-    "team": "1st 16",
-    "title": "Northern vs Goldenacre",
-    "time": "6:30 pm",
-    "location": "Goldenacre",
-    "description": "Test",
-    "notify": true
-  },
-  {
-    "date": "",
-    "team": "2nd 16",
-    "title": "Nortern",
-    "time": "6:30 pm",
-    "location": "Goldenacre",
-    "description": "2nd 16 Match Fixture",
-    "notify": true
-  },
-  {
-    "date": "",
-    "team": "1st 16",
-    "title": "goldenacre vs northern",
-    "time": "6:30 pm",
-    "location": "Goldenacre",
-    "description": "Testing Push functions",
-    "notify": true
-  }
 ]
