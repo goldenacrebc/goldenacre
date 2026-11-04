@@ -52,6 +52,16 @@
             <!-- SECTION 1: NEWS & ANNOUNCEMENTS -->
             <h3 style="color: var(--brand-green); font-family: Georgia, serif; margin: 20px 0 10px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">📰 News & Urgent Alerts</h3>
             <div class="modules-grid" style="margin-bottom: 24px;">
+                <!-- Club News -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-icon">📰</span>
+                        <h4>Club News</h4>
+                        <p>Post general club updates and announcements to the Club News feed.</p>
+                    </div>
+                    <button class="module-action-btn" onclick="toggleCard('club-news-card')">Open Publisher</button>
+                </div>
+
                 <!-- Internal News -->
                 <div class="module-card">
                     <div>
@@ -81,6 +91,96 @@
                     </div>
                     <button class="module-action-btn" onclick="toggleCard('broadcast-card')">Open Broadcast Tool</button>
                 </div>
+            </div>
+
+            <!-- FORM CARD: Club News -->
+            <div id="club-news-card" class="admin-card-custom">
+                <h3>📰 Publish Club News</h3>
+                <p class="card-subtitle">Posts directly to the website under Club News.</p>
+
+                <form id="form-club-news">
+                    <div class="form-group-custom">
+                        <label for="club-news-title">Headline / Title</label>
+                        <input type="text" id="club-news-title" placeholder="e.g. Clubhouse opening hours" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="club-news-content">Update Story / Details</label>
+                        <textarea id="club-news-content" placeholder="Write your club news here..." required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label>Attach Photo (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="club-upload-text">Click or drag an image file here to attach</p>
+                            <input type="file" id="club-image" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="club-preview-box">
+                            <img id="club-preview-img" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="club-news">Publish Club News Live</button>
+                    <p class="status-msg-custom" id="status-club-news"></p>
+                </form>
+            </div>
+
+            <!-- FORM CARD: Internal News Form -->
+            <div id="internal-news-card" class="admin-card-custom">
+                <h3>🏠 Publish Internal Club News</h3>
+                <p class="card-subtitle">Posts directly to the website under Internal Club News.</p>
+
+                <form id="form-internal-news">
+                    <div class="form-group-custom">
+                        <label for="internal-title">Headline / Title</label>
+                        <input type="text" id="internal-title" placeholder="e.g. Green Maintenance Notice" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="internal-content">Update Story / Details</label>
+                        <textarea id="internal-content" placeholder="Write update details here..." required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label>Attach Photo (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="internal-upload-text">Click or drag an image file here to attach</p>
+                            <input type="file" id="internal-image" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="internal-preview-box">
+                            <img id="internal-preview-img" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="internal-news">Publish Internal News Live</button>
+                    <p class="status-msg-custom" id="status-internal"></p>
+                </form>
+            </div>
+
+            <!-- FORM CARD: External Competitions Form -->
+            <div id="external-news-card" class="admin-card-custom">
+                <h3>🏆 Publish External Competition News</h3>
+                <p class="card-subtitle">Posts directly to the website under External Competitions.</p>
+
+                <form id="form-external-news">
+                    <div class="form-group-custom">
+                        <label for="external-title">Headline / Title</label>
+                        <input type="text" id="external-title" placeholder="e.g. District Cup Semi-Final Result" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="external-content">Update Story / Details</label>
+                        <textarea id="external-content" placeholder="Write match details here..." required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label>Attach Photo (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <span class="upload-icon">📸</span>
+                            <p class="upload-text" id="external-upload-text">Click or drag an image file here to attach</p>
+                            <input type="file" id="external-image" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="external-preview-box">
+                            <img id="external-preview-img" src="" alt="Preview">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn-custom btn-publish" data-type="external-news">Publish External News Live</button>
+                    <p class="status-msg-custom" id="status-external"></p>
+                </form>
             </div>
 
             <!-- SECTION 2: CALENDAR & MATCH FIXTURES -->
@@ -210,7 +310,7 @@
                                 <option value="">— select competition first —</option>
                             </select>
                             <button type="button" onclick="removeDrawRound()"
-                                style="flex-shrink:0;background:#fee2e2;border:1px solid #fca5a5;color:#dc2626;border-radius:6px;padding:6px 10px;font-size:0.85rem;font-weight:700;cursor:pointer;">− Round</button>
+                                style="flex-shrink:0;background:#fee2e2;border:1px solid #fca5a5;color:#dc2626;border-radius:6px;padding:6px 10px;font-size:0.85rem;font-weight:700;cursor:pointer;">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -361,192 +461,12 @@
                 <h4 style="color: var(--brand-green); font-family: Georgia, serif; margin-bottom: 8px;">Existing Commercial Sponsors</h4>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Select sponsors below to remove them:</p>
 
-                <div id="sponsor-manage-list" style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #f8fafc; margin-bottom: 16px;">
+                <div id="sponsor-manage-list" style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #f8fafc; margin-bottom: 12px;">
                     <p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin: 10px 0;">Loading sponsors...</p>
                 </div>
 
                 <button type="button" class="submit-btn-custom" id="btn-execute-sponsor-delete" style="background-color: #dc2626;">Remove Selected Sponsors</button>
                 <p class="status-msg-custom" id="status-sponsor-manage"></p>
-            </div>
-
-            <!-- FORM CARD: Internal News Form -->
-            <div id="internal-news-card" class="admin-card-custom">
-                <h3>🏠 Publish Internal Club News</h3>
-                <p class="card-subtitle">Posts directly to the website under Internal Club News.</p>
-
-                <form id="form-internal-news">
-                    <div class="form-group-custom">
-                        <label for="internal-title">Headline / Title</label>
-                        <input type="text" id="internal-title" placeholder="e.g. Green Maintenance Notice" required>
-                    </div>
-                    <div class="form-group-custom">
-                        <label for="internal-content">Update Story / Details</label>
-                        <textarea id="internal-content" placeholder="Write update details here..." required></textarea>
-                    </div>
-                    <div class="form-group-custom">
-                        <label>Attach Photo (Optional)</label>
-                        <div class="image-upload-wrapper">
-                            <span class="upload-icon">📸</span>
-                            <p class="upload-text" id="internal-upload-text">Click or drag an image file here to attach</p>
-                            <input type="file" id="internal-image" accept="image/*">
-                        </div>
-                        <div class="image-preview-container" id="internal-preview-box">
-                            <img id="internal-preview-img" src="" alt="Preview">
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="internal-news">Publish Internal News Live</button>
-                    <p class="status-msg-custom" id="status-internal"></p>
-                </form>
-            </div>
-
-            <!-- FORM CARD: External Competitions Form -->
-            <div id="external-news-card" class="admin-card-custom">
-                <h3>🏆 Publish External Competition News</h3>
-                <p class="card-subtitle">Posts directly to the website under External Competitions.</p>
-
-                <form id="form-external-news">
-                    <div class="form-group-custom">
-                        <label for="external-title">Headline / Title</label>
-                        <input type="text" id="external-title" placeholder="e.g. District Cup Semi-Final Result" required>
-                    </div>
-                    <div class="form-group-custom">
-                        <label for="external-content">Update Story / Details</label>
-                        <textarea id="external-content" placeholder="Write match details here..." required></textarea>
-                    </div>
-                    <div class="form-group-custom">
-                        <label>Attach Photo (Optional)</label>
-                        <div class="image-upload-wrapper">
-                            <span class="upload-icon">📸</span>
-                            <p class="upload-text" id="external-upload-text">Click or drag an image file here to attach</p>
-                            <input type="file" id="external-image" accept="image/*">
-                        </div>
-                        <div class="image-preview-container" id="external-preview-box">
-                            <img id="external-preview-img" src="" alt="Preview">
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="external-news">Publish External News Live</button>
-                    <p class="status-msg-custom" id="status-external"></p>
-                </form>
-            </div>
-
-            <!-- FORM CARD: Social Events Form -->
-            <div id="events-card" class="admin-card-custom">
-                <h3>🎉 Publish Social Event or Activity</h3>
-                <p class="card-subtitle">Adds upcoming social activities, roll-ups, or coaching sessions to the calendar feed.</p>
-
-                <form id="form-events">
-                    <div class="form-group-custom">
-                        <label for="event-title">Event Name</label>
-                        <input type="text" id="event-title" placeholder="e.g. Wednesday Roll-up" required>
-                    </div>
-                    
-                    <div class="form-grid">
-                        <div class="form-group-custom">
-                            <label for="event-type">Event Category / Type</label>
-                            <select id="event-type" required>
-                                <option value="social">🎉 Social Event</option>
-                                <option value="rollups">🎯 Roll-up</option>
-                                <option value="coaching">📋 Coaching</option>
-                            </select>
-                        </div>
-                        <div class="form-group-custom">
-                            <label for="event-tag">Gold Pill Tag (Optional)</label>
-                            <input type="text" id="event-tag" placeholder="e.g. Popular, Free, Weekly">
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group-custom">
-                            <label for="event-time">Time</label>
-                            <input type="text" id="event-time" placeholder="e.g. 7:00 pm" value="7:00 pm" required>
-                        </div>
-                        <div class="form-group-custom">
-                            <label for="event-location">Location</label>
-                            <input type="text" id="event-location" placeholder="e.g. Goldenacre Clubhouse" value="Goldenacre Bowling Club" required>
-                        </div>
-                    </div>
-                    <div class="form-group-custom">
-                        <label for="event-desc">Event Details & Schedule</label>
-                        <textarea id="event-desc" placeholder="Provide event details..." required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="events">Publish Event Live</button>
-                    <p class="status-msg-custom" id="status-events"></p>
-                </form>
-            </div>
-
-            <!-- FORM CARD: Weekly Team Sheets Form -->
-            <div id="teams-card" class="admin-card-custom">
-                <h3>📋 Publish Weekly Team Sheet</h3>
-                <p class="card-subtitle">Configure 4 rinks of players for the upcoming Friday league fixture.</p>
-
-                <form id="form-teams">
-                    <div class="form-grid">
-                        <div class="form-group-custom">
-                            <label for="team-target">Select Team Sheet</label>
-                            <select id="team-target">
-                                <option value="firsts">1st XVI Team Sheet</option>
-                                <option value="seconds">2nd XVI Team Sheet</option>
-                            </select>
-                        </div>
-                        <div class="form-group-custom">
-                            <label for="team-venue">Venue</label>
-                            <select id="team-venue">
-                                <option value="home">Home</option>
-                                <option value="away">Away</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group-custom">
-                        <label for="team-opponent">Opponent</label>
-                        <input type="text" id="team-opponent" placeholder="e.g. vs Edinburgh BC" required>
-                    </div>
-
-                    <h4 style="color:var(--brand-green); margin-bottom: 12px; font-family:Georgia, serif;">Rink Selections (4 Rinks)</h4>
-                    
-                    <div class="rink-builder-box">
-                        <h4>Rink 1</h4>
-                        <div class="form-grid">
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="0" data-pos="lead"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="0" data-pos="second"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="0" data-pos="third"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="0" data-pos="skip"></div>
-                        </div>
-                    </div>
-
-                    <div class="rink-builder-box">
-                        <h4>Rink 2</h4>
-                        <div class="form-grid">
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="1" data-pos="lead"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="1" data-pos="second"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="1" data-pos="third"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="1" data-pos="skip"></div>
-                        </div>
-                    </div>
-
-                    <div class="rink-builder-box">
-                        <h4>Rink 3</h4>
-                        <div class="form-grid">
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="2" data-pos="lead"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="2" data-pos="second"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="2" data-pos="third"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="2" data-pos="skip"></div>
-                        </div>
-                    </div>
-
-                    <div class="rink-builder-box">
-                        <h4>Rink 4</h4>
-                        <div class="form-grid">
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Lead</label><input type="text" class="rink-input" data-rink="3" data-pos="lead"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Second</label><input type="text" class="rink-input" data-rink="3" data-pos="second"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Third</label><input type="text" class="rink-input" data-rink="3" data-pos="third"></div>
-                            <div class="form-group-custom" style="margin-bottom:10px;"><label>Skip</label><input type="text" class="rink-input" data-rink="3" data-pos="skip"></div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn-custom btn-publish" data-type="teams">Publish Team Sheet Live</button>
-                    <p class="status-msg-custom" id="status-teams"></p>
-                </form>
             </div>
 
             <!-- FORM CARD: News Archivist & Restorer -->
@@ -632,7 +552,7 @@
                 <!-- SUB-SECTION 2: Manage / Delete Existing Entries -->
                 <div id="cal-section-manage" style="display: none;">
                     <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">Select entries below to edit or delete:</p>
-                    <div id="cal-manage-list-container" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc; margin-bottom: 16px;">
+                    <div id="cal-manage-list-container" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
                         <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading entries...</p>
                     </div>
                     <button type="submit" class="submit-btn-custom" id="btn-execute-cal-delete" style="background-color: #dc2626;">Delete Selected Entries</button>
@@ -664,7 +584,7 @@
                 <h4 style="color: var(--brand-green); font-family: Georgia, serif; margin-bottom: 8px;">Active & Past Broadcasts</h4>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Toggle alerts on or off to control the live banner on the homepage:</p>
                 
-                <div id="broadcast-manage-list" style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #f8fafc; margin-bottom: 16px;">
+                <div id="broadcast-manage-list" style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #f8fafc; margin-bottom: 12px;">
                     <p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin: 10px 0;">Loading broadcasts...</p>
                 </div>
 
@@ -741,8 +661,8 @@
                 <p class="card-subtitle">Tips for publishing updates effectively on goldenacre.co.uk.</p>
                 
                 <ul style="line-height: 1.6; font-size: 0.9rem; color: var(--text-dark); padding-left: 20px;">
+                    <li><strong>News:</strong> Club News, Internal News, and External News are all managed from the same admin dashboard.</li>
                     <li><strong>Team Sheets:</strong> Select the Team Sheets card every Friday night, fill out the rinks, and hit publish.</li>
-                    <li><strong>Internal/External News:</strong> Posts directly to the home page under respective news feeds.</li>
                     <li><strong>Social Events, Roll-ups & Coaching:</strong> Categorize events properly and add an optional gold pill tag badge.</li>
                     <li><strong>Archivist & Restorer:</strong> Check articles to archive them or uncheck previously archived articles to restore them to live status instantly.</li>
                     <li><strong>Calendar Manager:</strong> Add future fixtures, edit event details, or remove entries directly from `events.json` and `fixtures.json`.</li>
