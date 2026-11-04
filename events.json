@@ -38,14 +38,14 @@
     "location": "Goldenacre Bowling Club",
     "description": "The Goldenacre Christmas party featuring live entertainment.",
     "image": "photos/entertainment/amanda-jane.png"
-},
+  },
   {
     "date": "2026-12-25",
     "title": "Christmas Day",
     "time": "All Day",
-    "location": "",
+    "location": ".",
     "description": "Happy Christmas from Everyone at Goldenacre Bowling Club.",
-    "notify": true
+    "notify": false
   },
   {
     "date": "2027-01-01",
