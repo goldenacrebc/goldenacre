@@ -1,5 +1,13 @@
 [
   {
+    "title": "test",
+    "description": "test",
+    "category": "club",
+    "tag": "latest",
+    "image": "logo.jpeg",
+    "modal": "test"
+  },
+  {
     "title": "Goldenacre Christmas Party",
     "description": "Names are now being taken for our Christmas Cabaret Night on Saturday, 12th.December (£10 per ticket).  As this is always a very popular function, it would be advisable to put your name on the booking sheet in the Club a.s.a.p..  If unable to do so, please contact Billy Taylor, Archie Telford or Bill Lee with your details.  As food will be served, ticket money will be required by 1st.December.",
     "category": "club",
