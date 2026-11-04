@@ -1802,12 +1802,17 @@ galleryForm.addEventListener('submit', async (e) => {
         btn.disabled = false;
     }
 });
+}
 
-    // =========================================================================
-    // PUSH NOTIFICATIONS MODULE
-    // =========================================================================
+// =========================================================================
+// PUSH NOTIFICATIONS MODULE
+// =========================================================================
+(function() {
+    const SUPABASE_URL = 'https://xprnfaadcqlxeamoywjs.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
+    const pushClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Load subscriber count when the push card is opened
+    // Wrap toggleCard to load subscriber count when push card opens
     const _origToggleCard = window.toggleCard;
     window.toggleCard = function(cardId) {
         _origToggleCard(cardId);
@@ -1818,7 +1823,7 @@ galleryForm.addEventListener('submit', async (e) => {
         const el = document.getElementById('push-subscriber-count');
         if (!el) return;
         try {
-            const { count, error } = await supabaseClient
+            const { count, error } = await pushClient
                 .from('push_subscriptions')
                 .select('*', { count: 'exact', head: true });
             if (error) throw error;
@@ -1828,7 +1833,6 @@ galleryForm.addEventListener('submit', async (e) => {
         }
     }
 
-    // Send push notification via Supabase Edge Function
     const formPushNotify = document.getElementById('form-push-notify');
     if (formPushNotify) {
         formPushNotify.addEventListener('submit', async (e) => {
@@ -1846,7 +1850,7 @@ galleryForm.addEventListener('submit', async (e) => {
             btn.disabled = true;
 
             try {
-                const { data, error } = await supabaseClient.functions.invoke('send-push', {
+                const { data, error } = await pushClient.functions.invoke('send-push', {
                     body: { title, body, url }
                 });
 
@@ -1871,4 +1875,4 @@ galleryForm.addEventListener('submit', async (e) => {
             }
         });
     }
-}());
+})();
