@@ -3,56 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club News Publisher | Goldenacre Bowling Club</title>
-    <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta http-equiv="refresh" content="0; url=admin.html#modules-tab">
+    <title>Club News | Goldenacre Bowling Club</title>
+    <script>
+        window.location.replace('admin.html#modules-tab');
+    </script>
 </head>
 <body>
-    <header class="admin-header-custom">
-        <div class="admin-header-title">
-            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
-                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
-            </a>
-            <h1>📰 Club News Publisher</h1>
-        </div>
-        <div class="header-actions">
-            <a href="admin.html" class="header-nav-btn">← Admin Portal</a>
-            <a href="index.html" id="logout-btn" class="logout-btn-custom">Log Out</a>
-        </div>
-    </header>
-
-    <main class="admin-dashboard-container">
-        <div class="admin-welcome-banner">
-            <div>
-                <h2>Publish Club News</h2>
-                <p>Posts are saved to news.json and appear in the Club News section on Latest Club News.</p>
-            </div>
-        </div>
-        <section class="admin-card-custom open" style="display:block">
-            <form id="form-club-news">
-                <div class="form-group-custom">
-                    <label for="club-news-title">Headline / Title</label>
-                    <input type="text" id="club-news-title" required maxlength="160" placeholder="e.g. Clubhouse opening hours">
-                </div>
-                <div class="form-group-custom">
-                    <label for="club-news-content">Update Story / Details</label>
-                    <textarea id="club-news-content" required placeholder="Write your club news here..."></textarea>
-                </div>
-                <div class="form-group-custom">
-                    <label for="club-news-image">Attach Photo (Optional)</label>
-                    <input type="file" id="club-news-image" accept="image/*">
-                </div>
-                <button type="submit" class="submit-btn-custom" id="btn-publish-club-news">Publish Club News Live</button>
-                <p class="status-msg-custom" id="status-club-news" role="status" aria-live="polite"></p>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        <p style="text-align:center;color:#64748b;font-size:.85rem;padding:25px 0">&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
-    </footer>
-    <script src="club-news-admin.js" defer></script>
+    <p>Club news is managed from the admin dashboard. <a href="admin.html#modules-tab">Open the admin portal</a>.</p>
 </body>
 </html>
