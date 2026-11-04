@@ -51,8 +51,8 @@
     "date": "2027-01-01",
     "title": "New Years Day",
     "time": "All Day",
-    "location": "",
+    "location": ".",
     "description": "Happy New Year from Everyone at Goldenacre.",
-    "notify": true
+    "notify": false
   }
 ]
