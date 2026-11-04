@@ -2,6 +2,7 @@
     const supabaseUrl = 'https://xprnfaadcqlxeamoywjs.supabase.co';
     const supabaseKey = 'sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
     const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    window.adminSupabaseClient = supabaseClient;
 
     async function checkAdminAuth() {
         const { data: { user }, error } = await supabaseClient.auth.getUser();
@@ -32,7 +33,7 @@
         }
 
         if (cardId === 'archive-news-card') {
-            loadArchiveList();
+            window.loadArchiveList();
         } else if (cardId === 'calendar-manager-card') {
             switchCalSubTab('add');
         } else if (cardId === 'broadcast-card') {
@@ -88,6 +89,7 @@
 
     setupImagePreview('internal-image', 'internal-upload-text', 'internal-preview-box', 'internal-preview-img');
     setupImagePreview('external-image', 'external-upload-text', 'external-preview-box', 'external-preview-img');
+    setupImagePreview('club-image', 'club-upload-text', 'club-preview-box', 'club-preview-img');
 
     function fileToBase64(file) {
         return new Promise((resolve, reject) => {
@@ -108,131 +110,6 @@
         const bytes = new TextEncoder().encode(str);
         const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
         return btoa(binString);
-    }
-
-    async function loadArchiveList() {
-        const container = document.getElementById('archive-list-container');
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Fetching news articles...</p>`;
-
-        try {
-            const { data: tokenData, error: tokenError } = await supabaseClient
-                .from('settings').select('value').eq('key', 'github_token').single();
-            if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
-
-            const owner = "goldenacrebc";
-            const repo = "goldenacre";
-            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/news.json`;
-
-            const getRes = await fetch(fileUrl, {
-                headers: { "Authorization": `token ${tokenData.value}` }
-            });
-            if (!getRes.ok) throw new Error("Failed to fetch news.json");
-
-            const fileData = await getRes.json();
-            const newsItems = JSON.parse(decodeBase64Utf8(fileData.content));
-
-            if (newsItems.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No news articles found.</p>`;
-                return;
-            }
-
-            let html = '';
-            newsItems.forEach((item, index) => {
-                const tag = (item.tag || '').toLowerCase();
-                const isArchived = tag === 'archive' || tag === 'archived';
-                html += `
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color); background: #fff; margin-bottom: 6px; border-radius: 6px;">
-                        <div>
-                            <strong>${item.title}</strong> 
-                            <span style="font-size: 0.75rem; background: ${isArchived ? '#cbd5e1' : '#dcfce7'}; color: ${isArchived ? '#334155' : '#16a34a'}; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">
-                                ${item.tag || 'latest'}
-                            </span>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">${item.category || 'general'}</div>
-                        </div>
-                        <label style="cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-                            <input type="checkbox" class="archive-checkbox" data-index="${index}" ${isArchived ? 'checked' : ''}> 
-                            ${isArchived ? '<span style="color:#b91c1c;">Archived (Uncheck to Restore)</span>' : 'Archive'}
-                        </label>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-
-        } catch (err) {
-            container.innerHTML = `<p style="color: #dc2626; text-align: center; margin: 20px 0;">Error loading news: ${err.message}</p>`;
-        }
-    }
-
-    const btnExecArchive = document.getElementById('btn-execute-archive');
-    if (btnExecArchive) {
-        btnExecArchive.addEventListener('click', async () => {
-            const statusMsg = document.getElementById('status-archive');
-            const btn = document.getElementById('btn-execute-archive');
-
-            statusMsg.style.backgroundColor = '#e0f2fe';
-            statusMsg.style.color = '#0369a1';
-            statusMsg.innerText = "Processing archive status changes...";
-            btn.disabled = true;
-
-            try {
-                const { data: tokenData, error: tokenError } = await supabaseClient
-                    .from('settings').select('value').eq('key', 'github_token').single();
-                if (tokenError || !tokenData) throw new Error("Could not retrieve GitHub token.");
-
-                const owner = "goldenacrebc";
-                const repo = "goldenacre";
-                const branch = "main";
-                const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/news.json`;
-
-                const getRes = await fetch(fileUrl, {
-                    headers: { "Authorization": `token ${tokenData.value}` }
-                });
-                if (!getRes.ok) throw new Error("Failed to fetch news.json for updating.");
-
-                const fileData = await getRes.json();
-                let newsItems = JSON.parse(decodeBase64Utf8(fileData.content));
-
-                const checkboxes = document.querySelectorAll('.archive-checkbox');
-                checkboxes.forEach(cb => {
-                    const idx = parseInt(cb.getAttribute('data-index'));
-                    if (newsItems[idx]) {
-                        if (cb.checked) {
-                            newsItems[idx].tag = 'archive';
-                        } else {
-                            newsItems[idx].tag = 'latest';
-                        }
-                    }
-                });
-
-                const commitRes = await fetch(fileUrl, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${tokenData.value}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: `Admin portal: updated archive statuses for news feed`,
-                        content: encodeUtf8Base64(JSON.stringify(newsItems, null, 2)),
-                        sha: fileData.sha,
-                        branch: branch
-                    })
-                });
-
-                if (!commitRes.ok) throw new Error("Failed to commit archive/restore updates to GitHub.");
-
-                statusMsg.style.backgroundColor = '#dcfce7';
-                statusMsg.style.color = '#16a34a';
-                statusMsg.innerText = "Successfully updated live news statuses! Refreshing list...";
-                btn.disabled = false;
-                loadArchiveList();
-
-            } catch (err) {
-                statusMsg.style.backgroundColor = '#fee2e2';
-                statusMsg.style.color = '#dc2626';
-                statusMsg.innerText = "Error: " + err.message;
-                btn.disabled = false;
-            }
-        });
     }
 
     let cachedEventsList = [];
@@ -982,14 +859,15 @@
                 const branch = "main";
 
                 let targetFile = "";
-                if (type === 'internal-news' || type === 'external-news') targetFile = 'news.json';
+                if (type === 'internal-news' || type === 'external-news' || type === 'club-news') targetFile = 'news.json';
                 else if (type === 'events') targetFile = 'events.json';
                 else if (type === 'fixtures') targetFile = 'fixtures.json';
                 else if (type === 'teams') targetFile = 'team-sheets.json';
 
                 let imageUrl = "logo.jpeg";
-                if (type === 'internal-news' || type === 'external-news') {
-                    const fileInputId = type === 'internal-news' ? 'internal-image' : 'external-image';
+                if (type === 'internal-news' || type === 'external-news' || type === 'club-news') {
+                    const newsPrefix = type.replace('-news', '');
+                    const fileInputId = `${newsPrefix}-image`;
                     const imageFile = document.getElementById(fileInputId).files[0];
                     if (imageFile) {
                         statusMsg.innerText = "Uploading photo to GitHub repository...";
@@ -1047,11 +925,11 @@
                     };
 
                     commitMessage = `Admin portal update: updated ${teamKey} team sheet`;
-                } else if (type === 'internal-news' || type === 'external-news') {
-                    const isInternal = type === 'internal-news';
-                    const title = document.getElementById(isInternal ? 'internal-title' : 'external-title').value.trim();
-                    const content = document.getElementById(isInternal ? 'internal-content' : 'external-content').value.trim();
-                    const category = isInternal ? 'internal' : 'external';
+                } else if (type === 'internal-news' || type === 'external-news' || type === 'club-news') {
+                    const newsPrefix = type.replace('-news', '');
+                    const title = document.getElementById(`${newsPrefix}-title`).value.trim();
+                    const content = document.getElementById(`${newsPrefix}-content`).value.trim();
+                    const category = newsPrefix;
                     const modalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
                     existingContent.unshift({
@@ -1140,6 +1018,9 @@
                 } else if (type === 'external-news') {
                     document.getElementById('external-preview-box').style.display = 'none';
                     document.getElementById('external-upload-text').innerText = "Click or drag an image file here to attach";
+                } else if (type === 'club-news') {
+                    document.getElementById('club-preview-box').style.display = 'none';
+                    document.getElementById('club-upload-text').innerText = "Click or drag an image file here to attach";
                 }
                 btn.disabled = false;
 
