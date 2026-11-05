@@ -5,7 +5,7 @@
     "time": "6:30 pm",
     "location": "Goldenacre",
     "description": "testing notification system",
-    "notify": "4hr",
+    "notify": true,
     "team": "Friendly"
   }
 ]
