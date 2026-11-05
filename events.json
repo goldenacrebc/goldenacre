@@ -24,6 +24,14 @@
     "notify": true
   },
   {
+    "date": "2026-11-28",
+    "title": "Coffee Morning",
+    "time": "10am",
+    "location": "Goldenacre",
+    "description": "To make this event take place we really need donations for the following stalls :\n-Bric a Brac, Bakery, Books and Jigsaws, Tombola, Raffle\n\nIt would be nice to see you at the coffee morning.",
+    "notify": false
+  },
+  {
     "date": "2026-12-07",
     "title": "Pool League",
     "time": "7:00 pm",
