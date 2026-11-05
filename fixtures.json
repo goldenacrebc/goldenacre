@@ -1,11 +1,11 @@
 [
   {
     "date": "2026-11-05",
-    "team": "1st 16",
     "title": "goldenacre vs parkside",
     "time": "6:30 pm",
     "location": "Goldenacre",
     "description": "testing notification system",
-    "notify": true
+    "notify": "4hr",
+    "team": "Friendly"
   }
 ]
