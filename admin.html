@@ -618,11 +618,43 @@
             <!-- FORM CARD: News Archivist & Restorer -->
             <div id="archive-news-card" class="admin-card-custom">
                 <h3>📦 News Archivist & Restorer</h3>
-                <p class="card-subtitle">Archive or restore articles, or select Delete permanently and save to remove them from the news feed. Deletion requires confirmation and cannot be undone.</p>
+                <p class="card-subtitle">Edit articles, archive or restore them, or select Delete permanently and save to remove them from the news feed. Deletion requires confirmation and cannot be undone.</p>
 
                 <div id="archive-list-container" style="margin-bottom: 20px; max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: #f8fafc;">
                     <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">Loading news articles...</p>
                 </div>
+
+                <form id="news-edit-form" style="display: none; margin-bottom: 20px; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: #fff;">
+                    <h4 style="margin: 0 0 14px; color: var(--brand-green);">Edit News Article</h4>
+                    <input type="hidden" id="news-edit-index" value="">
+                    <div class="form-group-custom">
+                        <label for="news-edit-title">Headline / Title</label>
+                        <input type="text" id="news-edit-title" required>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="news-edit-description">Story / Details</label>
+                        <textarea id="news-edit-description" required></textarea>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="news-edit-category">Category</label>
+                        <select id="news-edit-category" required>
+                            <option value="internal">Internal Competitions</option>
+                            <option value="external">External Competitions</option>
+                            <option value="club">Club News</option>
+                        </select>
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="news-edit-image">Image path</label>
+                        <input type="text" id="news-edit-image" placeholder="e.g. photos/club-news.jpg">
+                    </div>
+                    <div class="form-group-custom">
+                        <label for="news-edit-image-file">Replace image (Optional)</label>
+                        <input type="file" id="news-edit-image-file" accept="image/*">
+                    </div>
+                    <button type="submit" class="submit-btn-custom" id="btn-save-news-edit">Save Article Changes</button>
+                    <button type="button" class="submit-btn-custom" id="btn-cancel-news-edit" style="background-color: #64748b; margin-top: 8px;">Cancel</button>
+                    <p class="status-msg-custom" id="status-news-edit"></p>
+                </form>
 
                 <button type="button" class="submit-btn-custom" id="btn-execute-archive">Save Archive Changes Live</button>
                 <p class="status-msg-custom" id="status-archive"></p>
