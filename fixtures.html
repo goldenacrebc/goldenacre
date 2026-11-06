@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Fixtures | Goldenacre Bowling Club</title>
+    <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
+    <link rel="stylesheet" href="style.css?fixture-card=2">
+    <script src="fixture-card.js?version=2" defer></script>
+    <script src="fixtures-page.js" defer></script>
+    <script src="nav-loader.js" defer></script>
+</head>
+<body class="site-page">
+    <header>
+        <details class="site-menu">
+            <summary>Club Links</summary>
+            <div class="site-menu-panel">
+                <!-- populated by nav-loader.js -->
+            </div>
+        </details>
+        <a href="login.html" class="members-area-link">Members Area</a>
+        <nav>
+            <a href="index.html" class="header-badge-link" aria-label="Goldenacre Bowling Club home">
+                <img src="logo.jpeg" alt="Goldenacre Bowling Club Logo" class="header-badge">
+            </a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="site-hero-content">
+            <p class="hero-tagline">Bowling • Competition • Community</p>
+            <h1>Team Fixtures</h1>
+        </div>
+    </section>
+
+    <main class="content-section fixtures-page">
+        <p class="fixtures-eyebrow">The season on the green</p>
+        <h2>Upcoming fixtures</h2>
+        <p class="section-intro">See when Goldenacre's teams are playing. Confirmed fixtures will appear here as soon as they are published.</p>
+
+        <div class="fixtures-toolbar">
+            <div class="fixtures-tabs" role="tablist" aria-label="Fixtures by team">
+                <button id="fixtures-tab-first" class="fixtures-tab" type="button" role="tab" aria-selected="true" aria-controls="fixtures-list" tabindex="0" data-team="first">1st Team</button>
+                <button id="fixtures-tab-second" class="fixtures-tab" type="button" role="tab" aria-selected="false" aria-controls="fixtures-list" tabindex="-1" data-team="second">2nd Team</button>
+                <button id="fixtures-tab-seniors" class="fixtures-tab" type="button" role="tab" aria-selected="false" aria-controls="fixtures-list" tabindex="-1" data-team="seniors">Senior</button>
+                <button id="fixtures-tab-friendly" class="fixtures-tab" type="button" role="tab" aria-selected="false" aria-controls="fixtures-list" tabindex="-1" data-team="friendly">Friendly</button>
+            </div>
+            <span id="fixtures-count" class="fixtures-count" aria-live="polite"></span>
+        </div>
+
+        <p id="fixtures-status" class="fixtures-status" role="status" aria-live="polite">Loading fixtures…</p>
+        <div id="fixtures-list" class="fixtures-list" role="tabpanel" aria-labelledby="fixtures-tab-first" tabindex="0" aria-live="polite"></div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Goldenacre Bowling Club (Edinburgh). All rights reserved.</p>
+        <p class="footer-link"><a href="events.html">View the events calendar</a></p>
+    </footer>
+</body>
+</html>

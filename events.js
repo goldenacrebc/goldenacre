@@ -233,6 +233,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showDayEvents(date, dayEvents) {
         if (!detailDate || !detailList || !detailDialog) return;
         detailDate.textContent = eventDateLabel.format(date);
+        const fixtureOnlyDay = dayEvents.every(event => event.isFixture);
+        detailDate.hidden = fixtureOnlyDay;
+        if (fixtureOnlyDay) {
+            detailDialog.removeAttribute('aria-labelledby');
+            detailDialog.setAttribute('aria-label', 'Fixture details');
+        } else {
+            detailDialog.setAttribute('aria-labelledby', 'events-detail-date');
+            detailDialog.removeAttribute('aria-label');
+        }
         detailList.replaceChildren();
 
         dayEvents.forEach((event, idx) => {
@@ -259,60 +268,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             ` : '';
 
             if (event.isFixture) {
-                let opponentName = 'Opponent';
-                let clubNameSlug = 'club-badge';
-                if (event.title) {
-                    const parts = event.title.split(/vs\.?|v\.?|-/i);
-                    opponentName = parts.length > 1 ? parts[1].trim() : event.title;
-                    clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-                }
-
-                const badgeFolder = 'bowling_badges/';
-                const badgeFileUrl = `${badgeFolder}${clubNameSlug}.png`;
-                const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
-                const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
-                const fallbackWebp = `${badgeFolder}${clubNameSlug}.webp`;
-                const homeBadgeUrl = 'logo.jpeg';
-                const teamLabel = event.team ? `${event.team} Fixture` : 'Match Fixture';
-                const formattedDateStr = eventDateLabel.format(date);
-
-                let teamBadgeClass = 'tag-fixture-default';
-                if (event.team === '1st 16') teamBadgeClass = 'tag-fixture-1st';
-                else if (event.team === '2nd 16') teamBadgeClass = 'tag-fixture-2nd';
-
-                const initials = opponentName.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
-
-                card.innerHTML = `
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 12px; padding-top: 4px;">
-                        <div style="text-align: center;">
-                            <img src="${homeBadgeUrl}" alt="Goldenacre BC" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="this.style.display='none'">
-                            <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">Goldenacre</div>
-                        </div>
-                        <div style="font-weight: 800; font-size: 1rem; color: #64748b; font-style: italic;">VS</div>
-                        <div style="text-align: center;">
-                            <img src="${badgeFileUrl}" alt="${opponentName}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="
-                                if(this.src.endsWith('.png')) { this.src='${fallbackJpg}'; }
-                                else if(this.src.endsWith('.jpg')) { this.src='${fallbackJpeg}'; }
-                                else if(this.src.endsWith('.jpeg')) { this.src='${fallbackWebp}'; }
-                                else if(this.src.endsWith('.webp')) { 
-                                    this.onerror=null; 
-                                    this.replaceWith(Object.assign(document.createElement('div'), {className:'club-badge-placeholder', innerText:'${initials}', style:'width:56px; height:56px; font-size:0.9rem; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#173b32; color:#ffcc00; font-weight:bold;'}));
-                                }
-                            ">
-                            <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">${opponentName}</div>
-                        </div>
-                    </div>
-                    <div style="text-align: center; margin-bottom: 14px;">
-                        <span class="fixture-team-badge ${teamBadgeClass}" style="display: inline-block; font-weight: 700; font-size: 0.9rem; padding: 4px 12px; border-radius: 20px;">🏆 ${teamLabel}</span>
-                    </div>
-                    <h3 style="font-family: Georgia, serif; font-size: 1.15rem; font-weight: 700; color: #173b32; margin: 0 0 10px 0; text-align: center;">${event.title}</h3>
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 14px; font-size: 0.9rem; color: #334155;">
-                        <p style="margin: 4px 0;"><strong>📅 Date:</strong> ${formattedDateStr}</p>
-                        <p style="margin: 4px 0;"><strong>🕒 Time:</strong> ${event.time || '7:00 pm'}</p>
-                        <p style="margin: 4px 0;"><strong>📍 Venue:</strong> ${event.location || 'Goldenacre Bowling Club'}</p>
-                    </div>
-                    ${event.description ? `<div style="font-size: 0.92rem; color: #334155; line-height: 1.5;"><p style="margin: 0 0 4px 0;"><strong>Details:</strong></p><p style="margin: 0;">${event.description.replace(/\n/g, '<br>')}</p></div>` : ''}
-                `;
+                const fixtureCard = window.createFixtureCardElement(event, { popup: true });
+                if (!fixtureCard) return;
+                detailList.append(fixtureCard);
+                return;
             } else {
                 let badgeHtml = '';
                 const truePillStyle = 'display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px;';
