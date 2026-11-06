@@ -947,9 +947,21 @@
     cursor: pointer;
 }
 
+.events-detail-dialog:has(.fixture-popup-card) .events-detail-close {
+    z-index: 2;
+}
+
 .events-detail-item {
     padding: 14px 0;
     border-top: 1px solid #d9e4dc;
+}
+
+.events-detail-item.event-card-watermark {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 8px;
+    padding: 14px;
 }
 
 .events-detail-item h3 {

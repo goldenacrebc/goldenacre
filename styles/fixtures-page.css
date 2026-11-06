@@ -156,17 +156,42 @@ dialog.news-modal:has(.fixture-popup-card) {
     height: fit-content !important;
 }
 
+dialog.news-modal:has(.fixture-popup-card) .modal-close {
+    z-index: 20;
+}
+
 .fixture-card::before {
     position: absolute;
     z-index: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 78px;
-    background: url("../logo.jpeg") center / cover no-repeat;
+    top: -20%;
+    right: 40%;
+    bottom: -20%;
+    left: auto;
+    width: 48%;
+    background: url("../logo.jpeg") center / contain no-repeat;
     content: "";
-    opacity: 0.05;
+    opacity: 0.32;
     pointer-events: none;
+    transform: rotate(12deg);
+}
+
+.fixture-card.has-opponent-watermark::after {
+    position: absolute;
+    z-index: 1;
+    top: -20%;
+    right: -7%;
+    bottom: -20%;
+    width: 48%;
+    background-image:
+        linear-gradient(90deg, transparent 18%, rgba(23, 59, 50, 0.3) 100%),
+        var(--fixture-opponent-watermark);
+    background-position: center, center;
+    background-size: cover, contain;
+    background-repeat: no-repeat;
+    content: "";
+    opacity: 0.26;
+    pointer-events: none;
+    transform: rotate(12deg);
 }
 
 .fixture-date {
@@ -205,7 +230,7 @@ dialog.news-modal:has(.fixture-popup-card) {
 
 .fixture-details {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -218,11 +243,15 @@ dialog.news-modal:has(.fixture-popup-card) {
 .fixture-info {
     min-width: 0;
     flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 1px 5px rgba(23, 59, 50, 0.08);
 }
 
 .fixture-opponent {
     display: flex;
-    flex: 0 0 64px;
+    flex: 0 0 88px;
     flex-direction: column;
     align-items: center;
     gap: 4px;
@@ -232,8 +261,8 @@ dialog.news-modal:has(.fixture-popup-card) {
 .fixture-opponent-image,
 .fixture-opponent-placeholder {
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: 72px;
+    height: 72px;
     align-items: center;
     justify-content: center;
     border: 1px solid #cbd5e1;
@@ -241,6 +270,11 @@ dialog.news-modal:has(.fixture-popup-card) {
     background: #f8fafc;
     object-fit: contain;
     padding: 3px;
+}
+
+.fixture-opponent-image,
+.fixture-opponent-placeholder {
+    visibility: hidden;
 }
 
 .fixture-opponent-placeholder {
@@ -326,12 +360,12 @@ dialog.news-modal:has(.fixture-popup-card) {
     }
 
     .fixture-opponent {
-        flex-basis: 52px;
+        flex-basis: 68px;
     }
 
     .fixture-opponent-image,
     .fixture-opponent-placeholder {
-        width: 40px;
-        height: 40px;
+        width: 58px;
+        height: 58px;
     }
 }
