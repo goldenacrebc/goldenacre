@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     time: item.time || '',
                     location: item.location || 'Goldenacre Bowling Club',
                     description: item.description || '',
+                    image: item.image || '',
                     tag: item.tag || '',
                     isFixture: false,
                     type: item.type ? item.type.toLowerCase() : 'social'
@@ -135,28 +136,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // Find if any event in this group has a custom gold pill tag
             const eventWithTag = group.events.find(ev => ev.tag);
             const pillTagHtml = eventWithTag ? `<span class="event-pill-tag">${eventWithTag.tag}</span>` : '';
+            const groupHasImage = group.events.some(event => event.image);
 
             const eventsListHtml = group.events.map((event, idx) => {
                 let badgeHtml = '';
+                const formattedDate = group.date.toLocaleDateString('en-GB', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
                 
-                // Extract opponent name and clean filename slug for opponent badge (stripping BC, Bowling Club, etc.)
+                // Extract opponent name and filename slug for opponent badge (used in popup modal)
                 let opponentName = 'Opponent';
                 let clubNameSlug = 'club-badge';
                 if (event.title) {
-                    const parts = event.title.split(/vs\.?|v\.?|-/i);
-                    opponentName = parts.length > 1 ? parts[1].trim() : event.title;
-                    
-                    let cleanSlugTarget = opponentName
-                        .replace(/\b(bc|bowling\s+club|club)\b/gi, '')
-                        .trim();
-                    clubNameSlug = cleanSlugTarget.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    const parts = event.title.split(/vs\.?|-/i);
+                    opponentName = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+                    clubNameSlug = opponentName.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 }
-                const badgeFolder = 'bowling_badges/';
-                const badgeFileUrl = `${badgeFolder}${clubNameSlug}.png`;
-                const fallbackJpg = `${badgeFolder}${clubNameSlug}.jpg`;
-                const fallbackJpeg = `${badgeFolder}${clubNameSlug}.jpeg`;
-                const fallbackWebp = `${badgeFolder}${clubNameSlug}.webp`;
-                const initials = opponentName.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 3).toUpperCase();
+                const badgeFileUrl = `bowling_badges/${clubNameSlug}.png`;
 
                 if (event.isFixture) {
                     let badgeClass = 'tag-fixture-default';
@@ -231,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const formattedDateStr = group.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
                     return `
-                        <div style="${dividerStyle} text-align: left; cursor: pointer;" onclick="openFixturePopup('${encodeURIComponent(event.title)}', '${encodeURIComponent(teamLabel)}', '${encodeURIComponent(formattedDateStr)}', '${encodeURIComponent(event.time || '7:00 pm')}', '${encodeURIComponent(event.location || 'Goldenacre Bowling Club')}', '${encodeURIComponent(event.description || '')}', '${encodeURIComponent(badgeFileUrl)}', '${encodeURIComponent(fallbackJpg)}', '${encodeURIComponent(fallbackJpeg)}', '${encodeURIComponent(fallbackWebp)}', '${encodeURIComponent(initials)}', '${encodeURIComponent(opponentName)}')">
+                        <div style="${dividerStyle} text-align: left; cursor: pointer;" onclick="openFixturePopup('${encodeURIComponent(event.title)}', '${encodeURIComponent(teamLabel)}', '${encodeURIComponent(formattedDateStr)}', '${encodeURIComponent(event.time || '7:00 pm')}', '${encodeURIComponent(event.location || 'Goldenacre Bowling Club')}', '${encodeURIComponent(event.description || '')}', '${encodeURIComponent(badgeFileUrl)}', '${encodeURIComponent(opponentName)}')">
                             <div style="margin-bottom: 6px;">
                                 ${badgeHtml}
                             </div>
@@ -251,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                 } else {
                     return `
-                        <div style="${dividerStyle} text-align: left; cursor: pointer;" onclick="openEventPopup('${encodeURIComponent(event.title)}', '${encodeURIComponent(event.time || '7:00 pm')}', '${encodeURIComponent(event.location || 'Goldenacre Bowling Club')}', '${encodeURIComponent(event.description || '')}')">
+                        <div style="${dividerStyle} text-align: left; cursor: pointer;" onclick="openEventPopup('${encodeURIComponent(event.title)}', '${encodeURIComponent(event.time || '7:00 pm')}', '${encodeURIComponent(event.location || 'Goldenacre Bowling Club')}', '${encodeURIComponent(event.description || '')}', '${encodeURIComponent(event.image || '')}', '${encodeURIComponent(formattedDate)}')">
                             <div style="margin-bottom: 6px;">
                                 ${badgeHtml}
                             </div>
@@ -273,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).join('');
 
             return `
-                <div class="event-card-item" style="display: flex; align-items: flex-start; gap: 16px; position: relative;">
+                <div class="event-card-item${groupHasImage ? '' : ' event-card-watermark'}" style="display: flex; align-items: flex-start; gap: 16px; position: relative;">
                     ${pillTagHtml}
                     <div class="event-date-badge" style="flex-shrink: 0; margin-top: 4px;">
                         <span class="event-month">${monthStr}</span>
@@ -289,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Standard Event Popup Modal Handler (for Roll-ups, Coaching, and Social events)
-window.openEventPopup = function(title, time, location, description) {
+window.openEventPopup = function(title, time, location, description, image = '', date = '') {
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
     const modalTag = document.getElementById('modal-tag');
@@ -297,12 +296,19 @@ window.openEventPopup = function(title, time, location, description) {
 
     if (modalTitle) modalTitle.textContent = decodeURIComponent(title);
     if (modalBody) {
+        const decodedTitle = decodeURIComponent(title);
+        const decodedImage = image ? decodeURIComponent(image) : '';
+        const decodedDate = date ? decodeURIComponent(date) : '';
+        if (globalModal) globalModal.classList.toggle('event-popup-watermark', !decodedImage);
+        modalBody.classList.toggle('event-popup-watermark', !decodedImage);
         modalBody.innerHTML = `
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 0.9rem;">
+            ${decodedImage ? `<div class="event-popup-image"><img src="${decodedImage}" alt="${decodedTitle}" onerror="this.parentElement.remove()"></div>` : ''}
+            ${decodedDate ? `<div class="event-popup-date">${decodedDate}</div>` : ''}
+            <div class="event-popup-meta">
                 <p style="margin: 4px 0;"><strong>🕒 Time:</strong> ${decodeURIComponent(time)}</p>
                 <p style="margin: 4px 0;"><strong>📍 Location:</strong> ${decodeURIComponent(location)}</p>
             </div>
-            ${decodeURIComponent(description) ? `<div style="font-size: 0.92rem; color: #334155; line-height: 1.5;"><p><strong>Details:</strong></p><p>${decodeURIComponent(description).replace(/\n/g, '<br>')}</p></div>` : ''}
+            ${decodeURIComponent(description) ? `<div class="event-popup-description"><p><strong>Details:</strong></p><p>${decodeURIComponent(description).replace(/\n/g, '<br>')}</p></div>` : ''}
         `;
     }
     if (modalTag) {
@@ -314,8 +320,8 @@ window.openEventPopup = function(title, time, location, description) {
     }
 };
 
-// Match Fixture Popup Modal Handler with Multi-Extension Fallback & Initials Circle
-window.openFixturePopup = function(title, teamLabel, dateStr, time, location, description, opponentBadgeUrl, fallbackJpg, fallbackJpeg, fallbackWebp, initials, opponentName) {
+// Match Fixture Popup Modal Handler with Badge vs Badge Header & Sub-Team Name
+window.openFixturePopup = function(title, teamLabel, dateStr, time, location, description, opponentBadgeUrl, opponentName) {
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
     const modalTag = document.getElementById('modal-tag');
@@ -326,55 +332,22 @@ window.openFixturePopup = function(title, teamLabel, dateStr, time, location, de
     const decodedTime = decodeURIComponent(time);
     const decodedLocation = decodeURIComponent(location);
     const decodedDesc = decodeURIComponent(description);
-    const decodedBadge = decodeURIComponent(opponentBadgeUrl);
-    const decodedJpg = decodeURIComponent(fallbackJpg);
-    const decodedJpeg = decodeURIComponent(fallbackJpeg);
-    const decodedWebp = decodeURIComponent(fallbackWebp);
-    const decodedInitials = decodeURIComponent(initials);
-    const decodedOpponent = decodeURIComponent(opponentName);
-
-    const homeBadgeUrl = 'logo.jpeg';
-
+    const decodedOpponentBadge = decodeURIComponent(opponentBadgeUrl);
     if (modalTitle) modalTitle.textContent = "";
 
     if (modalBody) {
-        modalBody.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 12px; padding-top: 4px;">
-                <!-- Home Club Badge -->
-                <div style="text-align: center;">
-                    <img src="${homeBadgeUrl}" alt="Goldenacre BC" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="this.style.display='none'">
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">Goldenacre</div>
-                </div>
-                
-                <!-- VS Divider -->
-                <div style="font-weight: 800; font-size: 1rem; color: #64748b; font-style: italic;">VS</div>
-
-                <!-- Opponent Club Badge with Cascading Multi-Extension Fallback -->
-                <div style="text-align: center;">
-                    <img src="${decodedBadge}" alt="${decodedOpponent}" style="width: 56px; height: 56px; object-fit: contain; border-radius: 50%; border: 1px solid #cbd5e1; padding: 4px; background: #f8fafc;" onerror="
-                        if(this.src.endsWith('.png')) { this.src='${decodedJpg}'; }
-                        else if(this.src.endsWith('.jpg')) { this.src='${decodedJpeg}'; }
-                        else if(this.src.endsWith('.jpeg')) { this.src='${decodedWebp}'; }
-                        else if(this.src.endsWith('.webp')) { 
-                            this.onerror=null; 
-                            this.replaceWith(Object.assign(document.createElement('div'), {className:'club-badge-placeholder', innerText:'${decodedInitials}', style:'width:56px; height:56px; font-size:0.9rem; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#173b32; color:#ffcc00; font-weight:bold;'}));
-                        }
-                    ">
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #173b32; margin-top: 4px;">${decodedOpponent}</div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-bottom: 16px;">
-                <div style="font-weight: 700; color: #173b32; font-size: 0.95rem; background: #f1f5f9; display: inline-block; padding: 4px 12px; border-radius: 20px; border: 1px solid #e2e8f0;">🏆 ${decodedTeam}</div>
-            </div>
-
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 0.9rem;">
-                <p style="margin: 4px 0;"><strong>📅 Date:</strong> ${decodedDate}</p>
-                <p style="margin: 4px 0;"><strong>🕒 Time:</strong> ${decodedTime}</p>
-                <p style="margin: 4px 0;"><strong>📍 Venue:</strong> ${decodedLocation}</p>
-            </div>
-            ${decodedDesc ? `<div style="font-size: 0.92rem; color: #334155; line-height: 1.5;"><p><strong>Details:</strong></p><p>${decodedDesc.replace(/\n/g, '<br>')}</p></div>` : ''}
-        `;
+        modalBody.replaceChildren(window.createFixtureCardElement({
+            title: decodeURIComponent(title),
+            team: decodedTeam,
+            date: decodedDate,
+            time: decodedTime,
+            location: decodedLocation,
+            description: decodedDesc
+        }, {
+            popup: true,
+            dateLabel: decodedDate,
+            badgeUrl: decodedOpponentBadge
+        }));
     }
     if (modalTag) {
         modalTag.textContent = decodedTeam;
