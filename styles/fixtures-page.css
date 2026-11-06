@@ -1,0 +1,337 @@
+.fixtures-page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-top: 48px;
+    padding-bottom: 56px;
+    text-align: left;
+}
+
+.fixtures-page > h2 {
+    margin: 0 0 8px;
+    color: #173b32;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+}
+
+.fixtures-eyebrow {
+    margin-bottom: 5px;
+    color: #9a7a22;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.fixtures-page .section-intro {
+    max-width: 680px;
+    margin: 0 0 24px;
+}
+
+.fixtures-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.fixtures-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fixtures-tab {
+    min-width: 112px;
+    padding: 9px 16px;
+    border: 1px solid #cbd5ce;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #173b32;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.fixtures-tab:hover {
+    border-color: #173b32;
+    background: #f1f5f2;
+}
+
+.fixtures-tab[aria-selected="true"] {
+    border-color: #173b32;
+    background: #173b32;
+    color: #ffdc62;
+}
+
+.fixtures-tab:focus-visible,
+.fixtures-list:focus-visible,
+.fixtures-publisher-link:focus-visible {
+    outline: 3px solid #d5b44c;
+    outline-offset: 3px;
+}
+
+.fixtures-count {
+    margin-left: auto;
+    color: #64746b;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.fixtures-status {
+    min-height: 1.5em;
+    margin: 0 0 12px;
+    color: #64746b;
+    font-size: 0.9rem;
+}
+
+.fixtures-status-empty,
+.fixtures-status-error,
+.fixtures-status-warning {
+    padding: 14px 16px;
+    border: 1px solid #dce5df;
+    border-left: 4px solid #d5b44c;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #33483f;
+}
+
+.fixtures-status-error {
+    border-color: #fecaca;
+    border-left-color: #dc2626;
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.fixtures-status-warning {
+    border-color: #fde68a;
+    border-left-color: #d97706;
+    background: #fffbeb;
+    color: #92400e;
+}
+
+.fixture-month-group + .fixture-month-group {
+    margin-top: 28px;
+}
+
+.fixture-month-heading {
+    margin: 0 0 10px;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #e4e9e5;
+    color: #173b32;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+    text-align: left;
+}
+
+.fixture-month-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.fixture-card {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e1e8e3;
+    border-left: 4px solid #d5b44c;
+    border-radius: 4px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(23, 59, 50, 0.05);
+}
+
+.fixture-card.fixture-popup-card {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 !important;
+    text-align: left;
+}
+
+dialog.news-modal:has(.fixture-popup-card) {
+    height: fit-content !important;
+}
+
+.fixture-card::before {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 78px;
+    background: url("../logo.jpeg") center / cover no-repeat;
+    content: "";
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+.fixture-date {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 0 0 78px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    border-right: 1px solid #edf1ed;
+    background: #f6f8f6;
+    color: #173b32;
+    text-align: center;
+}
+
+.fixture-date-month {
+    color: #8a6c1d;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.fixture-date-day {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+.fixture-date-weekday {
+    color: #64746b;
+    font-size: 0.73rem;
+}
+
+.fixture-details {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+    padding: 13px 15px;
+}
+
+.fixture-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.fixture-opponent {
+    display: flex;
+    flex: 0 0 64px;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.fixture-opponent-image,
+.fixture-opponent-placeholder {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    background: #f8fafc;
+    object-fit: contain;
+    padding: 3px;
+}
+
+.fixture-opponent-placeholder {
+    background: #173b32;
+    color: #ffcc00;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.fixture-card-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px 10px;
+}
+
+.fixture-card-heading h3 {
+    flex: 1 1 180px;
+    margin: 0;
+    color: #173b32;
+    font-size: 1.08rem;
+    line-height: 1.4;
+}
+
+.fixture-home-away {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: #f3edda;
+    color: #745f25;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.fixture-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 14px;
+    margin-top: 7px;
+    color: #58675f;
+    font-size: 0.82rem;
+}
+
+.fixture-time::before {
+    content: "Time: ";
+    color: #173b32;
+    font-weight: 700;
+}
+
+.fixture-location::before {
+    content: "Venue: ";
+    color: #173b32;
+    font-weight: 700;
+}
+
+.fixture-description {
+    margin: 7px 0 0;
+    color: #64746b;
+    font-size: 0.82rem;
+}
+
+@media (max-width: 700px) {
+    .fixture-month-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .fixtures-page {
+        padding: 36px 5% 44px;
+    }
+
+    .fixtures-count {
+        font-size: 0.75rem;
+    }
+
+    .fixture-details {
+        gap: 8px;
+        padding: 12px 10px;
+    }
+
+    .fixture-opponent {
+        flex-basis: 52px;
+    }
+
+    .fixture-opponent-image,
+    .fixture-opponent-placeholder {
+        width: 40px;
+        height: 40px;
+    }
+}
