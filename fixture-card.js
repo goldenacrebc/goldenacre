@@ -37,6 +37,12 @@
 
         image.className = 'fixture-opponent-image';
         image.alt = `${opponentName} badge`;
+        image.addEventListener('load', () => {
+            const card = image.closest('.fixture-card');
+            if (!card) return;
+            card.style.setProperty('--fixture-opponent-watermark', `url("${image.currentSrc || image.src}")`);
+            card.classList.add('has-opponent-watermark');
+        });
         image.src = `${badgeBase}.${extensions[extensionIndex]}`;
         image.addEventListener('error', () => {
             extensionIndex += 1;
@@ -55,6 +61,11 @@
             const placeholder = createElement('span', 'fixture-opponent-placeholder', initials);
             placeholder.setAttribute('role', 'img');
             placeholder.setAttribute('aria-label', `${opponentName} badge unavailable`);
+            const card = image.closest('.fixture-card');
+            if (card) {
+                card.classList.remove('has-opponent-watermark');
+                card.style.removeProperty('--fixture-opponent-watermark');
+            }
             image.replaceWith(placeholder);
         });
 
@@ -121,6 +132,11 @@
 
         details.append(info, opponentBadge);
         card.append(dateElement, details);
+        const badgeImage = opponentBadge.querySelector('.fixture-opponent-image');
+        if (badgeImage && badgeImage.complete && badgeImage.naturalWidth > 0) {
+            card.style.setProperty('--fixture-opponent-watermark', `url("${badgeImage.currentSrc || badgeImage.src}")`);
+            card.classList.add('has-opponent-watermark');
+        }
         return card;
     };
 })();

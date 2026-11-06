@@ -1,11 +1,11 @@
 /* Stylesheet entry point. Section styles are split into styles/*.css. */
 @import url("styles/foundation.css");
-@import url("styles/club-sections.css");
+@import url("styles/club-sections.css?event-watermark=1");
 @import url("styles/membership-footer.css");
 @import url("styles/timelines.css");
 @import url("styles/modals.css");
 @import url("styles/competition-draws.css");
-@import url("styles/fixtures-page.css?fixture-card=2");
+@import url("styles/fixtures-page.css?fixture-card=16");
 
 /* 3-Column Layout */
 .timeline-grid-3col {
@@ -723,6 +723,112 @@ kbd {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.event-card-watermark {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.event-card-watermark::before {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: url("logo.jpeg") center / min(55%, 220px) auto no-repeat;
+    content: "";
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+.event-card-watermark > * {
+    position: relative;
+    z-index: 1;
+}
+
+dialog#global-modal.event-popup-watermark {
+    position: relative;
+    isolation: isolate;
+    background: #ffffff;
+    height: fit-content !important;
+    min-height: 0 !important;
+    max-height: 85vh !important;
+    padding: 0 !important;
+    overflow-y: auto;
+}
+
+dialog#global-modal.event-popup-watermark::before {
+    position: absolute;
+    z-index: 0;
+    inset: -18%;
+    background: url("logo.jpeg") center / cover no-repeat;
+    content: "";
+    opacity: 0.07;
+    pointer-events: none;
+    transform: rotate(-12deg);
+}
+
+dialog#global-modal.event-popup-watermark .modal-content {
+    z-index: 1;
+    height: fit-content !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: transparent;
+}
+
+dialog#global-modal.event-popup-watermark .event-popup-date {
+    background: rgba(246, 248, 246, 0.72);
+    color: #102a24;
+}
+
+.event-popup-meta {
+    margin-bottom: 16px;
+    padding: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.78);
+    border-radius: 8px;
+    background: rgba(248, 250, 252, 0.72);
+    color: #111827;
+    font-size: 0.9rem;
+}
+
+dialog#global-modal.event-popup-watermark .modal-body p {
+    color: #0b1220;
+}
+
+.event-popup-description {
+    color: #0b1220;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.event-popup-description p {
+    color: inherit !important;
+}
+
+.event-popup-image {
+    max-height: 220px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f8fafc;
+    text-align: center;
+}
+
+.event-popup-image img {
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+}
+
+.event-popup-date {
+    margin-bottom: 12px;
+    padding: 9px 12px;
+    border-left: 4px solid #d2b24c;
+    border-radius: 4px;
+    background: #f6f8f6;
+    color: #173b32;
+    font-weight: 700;
+}
+
 .event-card-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
@@ -927,6 +1033,10 @@ kbd {
     dialog.news-modal .modal-content {
         height: fit-content !important;
         max-height: 80vh !important;
+    }
+
+    dialog#global-modal.event-popup-watermark .modal-content {
+        max-height: none !important;
     }
 }
 /* Modern, Table-Free Honours Grid Layout */

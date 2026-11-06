@@ -48,6 +48,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
         }
 
+        function resolveEventImage(event) {
+            if (event.image) return event.image;
+            const title = event.title.toLowerCase();
+            if (title.includes('amanda jane')) return 'photos/entertainment/amanda-jane.png';
+            if (title.includes('paris')) return 'photos/entertainment/paris.png';
+            return '';
+        }
+
         const parsedEvents = (Array.isArray(dataEvents) ? dataEvents : []).map(item => {
             const date = parseLocalDate(item.date);
             if (!date) return null;
@@ -170,6 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const card = document.createElement('button');
             card.type = 'button';
             card.className = 'agenda-item-card';
+            card.classList.toggle('event-card-watermark', !resolveEventImage(event));
             card.style.cssText = 'width: 100%; text-align: left; cursor: pointer; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; display: flex; gap: 16px; align-items: flex-start; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative; transition: transform 0.15s ease, border-color 0.15s ease;';
             
             card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-1px)'; card.style.borderColor = '#173b32'; });
@@ -251,15 +260,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dividerStyle = idx > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;' : 'padding-bottom: 8px;';
             card.style.cssText = `${dividerStyle}`;
 
-            let resolvedImage = event.image;
+            const resolvedImage = resolveEventImage(event);
             const titleLower = event.title.toLowerCase();
-            if (!resolvedImage) {
-                if (titleLower.includes('amanda jane')) {
-                    resolvedImage = 'photos/entertainment/amanda-jane.png';
-                } else if (titleLower.includes('paris')) {
-                    resolvedImage = 'photos/entertainment/paris.png';
-                }
-            }
+            card.classList.toggle('event-card-watermark', !resolvedImage);
 
             const imageBannerHtml = resolvedImage ? `
                 <div style="width: 100%; max-height: 180px; overflow: hidden; border-radius: 8px; background: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; padding: 4px;">
