@@ -345,6 +345,7 @@ window.openFixturePopup = function(title, teamLabel, dateStr, time, location, de
             description: decodedDesc
         }, {
             popup: true,
+            showFixtureTitle: true,
             dateLabel: decodedDate,
             badgeUrl: decodedOpponentBadge
         }));
