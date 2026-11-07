@@ -5,7 +5,177 @@
 @import url("styles/timelines.css");
 @import url("styles/modals.css");
 @import url("styles/competition-draws.css");
-@import url("styles/fixtures-page.css?fixture-card=16");
+@import url("styles/fixtures-page.css?fixture-card=25");
+
+dialog.news-modal,
+dialog.events-detail-dialog,
+dialog.gallery-lightbox {
+    isolation: isolate;
+}
+
+dialog.news-modal::before,
+dialog.events-detail-dialog::before,
+dialog.gallery-lightbox::before {
+    position: absolute;
+    z-index: 0;
+    inset: -18%;
+    background: url("logo.jpeg") center / cover no-repeat;
+    content: "";
+    opacity: 0.07;
+    pointer-events: none;
+    transform: rotate(-12deg);
+}
+
+dialog.news-modal > .modal-content {
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.64);
+}
+
+dialog.events-detail-dialog > .events-detail-content,
+dialog.gallery-lightbox > .gallery-lightbox-inner {
+    position: relative;
+    z-index: 1;
+}
+
+dialog:has(.fixture-popup-card) .fixture-card.fixture-popup-card {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-rows: auto minmax(100px, 1fr);
+    min-height: 190px;
+    padding: 10px !important;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+dialog:has(.fixture-popup-card) .fixture-date {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: start;
+    width: 48px;
+    height: 48px;
+    min-width: 0;
+    flex: none;
+    padding: 2px;
+    border: 1px solid #ffcc00;
+    border-radius: 6px;
+    background: #173b32;
+    color: #ffcc00;
+    z-index: 3;
+}
+
+dialog:has(.fixture-popup-card) .fixture-date-month {
+    color: #ffcc00;
+    font-size: 0.55rem;
+    line-height: 1;
+}
+
+dialog:has(.fixture-popup-card) .fixture-date-day {
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+dialog:has(.fixture-popup-card) .fixture-date-weekday {
+    display: none;
+}
+
+dialog.events-detail-dialog:has(.fixture-popup-card) {
+    padding: 8px !important;
+    overflow-x: hidden !important;
+}
+
+dialog.events-detail-dialog:has(.fixture-popup-card) .events-detail-content {
+    padding: 16px 4px !important;
+}
+
+dialog.events-detail-dialog:has(.fixture-popup-card) #events-detail-date {
+    display: none !important;
+}
+
+dialog:has(.fixture-popup-card) .fixture-details {
+    grid-column: 2;
+    grid-row: 1;
+    display: block;
+    align-self: start;
+    padding: 0;
+    z-index: 3;
+}
+
+dialog:has(.fixture-popup-card) .fixture-info {
+    display: block;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95), 0 0 7px rgba(255, 255, 255, 0.8);
+}
+
+dialog:has(.fixture-popup-card) .fixture-card-heading {
+    display: block;
+}
+
+dialog:has(.fixture-popup-card) .fixture-card-heading h3 {
+    min-width: 0;
+    flex: none;
+    font-size: 1rem;
+}
+
+dialog:has(.fixture-popup-card) .fixture-info .fixture-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+dialog:has(.fixture-popup-card) .fixture-time,
+dialog:has(.fixture-popup-card) .fixture-location {
+    white-space: nowrap;
+}
+
+dialog:has(.fixture-popup-card) .fixture-card.fixture-popup-card::before,
+dialog:has(.fixture-popup-card) .fixture-card.fixture-popup-card.has-opponent-watermark::after {
+    top: 62px;
+    right: auto;
+    bottom: -24%;
+    height: auto;
+}
+
+dialog:has(.fixture-popup-card) .fixture-card.fixture-popup-card::before {
+    left: auto;
+    right: 20%;
+    width: 95%;
+}
+
+dialog:has(.fixture-popup-card) .fixture-card.fixture-popup-card.has-opponent-watermark::after {
+    right: -20%;
+    width: 95%;
+    opacity: 0.38;
+}
+
+dialog:has(.fixture-popup-card) .fixture-opponent {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    dialog#events-detail-dialog:has(.fixture-popup-card) {
+        width: 96vw !important;
+        padding: 6px !important;
+        overflow-x: clip !important;
+    }
+
+    dialog#events-detail-dialog:has(.fixture-popup-card) .events-detail-content {
+        padding: 14px 2px !important;
+    }
+}
 
 /* 3-Column Layout */
 .timeline-grid-3col {

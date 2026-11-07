@@ -115,10 +115,7 @@
         const details = createElement('div', 'fixture-details');
         const info = createElement('div', 'fixture-info');
         const heading = createElement('div', 'fixture-card-heading');
-        heading.append(
-            createElement('h3', '', opponent.name),
-            createElement('span', 'fixture-home-away', opponent.venue)
-        );
+        heading.append(createElement('h3', '', options.showFixtureTitle ? fixture.title || opponent.name : opponent.name));
         info.append(heading);
 
         const metadata = createElement('div', 'fixture-metadata');
@@ -126,12 +123,12 @@
         if (fixture.location) metadata.append(createElement('span', 'fixture-location', fixture.location));
         info.append(metadata);
 
-        if (fixture.description) info.append(createElement('p', 'fixture-description', fixture.description));
         const opponentBadge = createElement('div', 'fixture-opponent');
         opponentBadge.append(createOpponentBadge(opponent.name, options.badgeUrl));
 
         details.append(info, opponentBadge);
         card.append(dateElement, details);
+
         const badgeImage = opponentBadge.querySelector('.fixture-opponent-image');
         if (badgeImage && badgeImage.complete && badgeImage.naturalWidth > 0) {
             card.style.setProperty('--fixture-opponent-watermark', `url("${badgeImage.currentSrc || badgeImage.src}")`);

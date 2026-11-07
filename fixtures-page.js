@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderFixture(fixture) {
-        return window.createFixtureCardElement(fixture);
+        return window.createFixtureCardElement(fixture, { showFixtureTitle: true });
     }
 
     function render() {

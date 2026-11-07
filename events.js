@@ -185,8 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.addEventListener('mouseleave', () => { card.style.transform = 'none'; card.style.borderColor = '#e2e8f0'; });
             
             card.addEventListener('click', () => {
-                const dayEvents = allCalendarItems.filter(e => e.date.getTime() === event.date.getTime());
-                showDayEvents(event.date, dayEvents);
+                showDayEvents(event.date, [event]);
             });
 
             const monthStr = shortMonthFormat.format(event.date).toUpperCase();
@@ -271,7 +270,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             ` : '';
 
             if (event.isFixture) {
-                const fixtureCard = window.createFixtureCardElement(event, { popup: true });
+                const fixtureCard = window.createFixtureCardElement(event, { popup: true, showFixtureTitle: true });
                 if (!fixtureCard) return;
                 detailList.append(fixtureCard);
                 return;
