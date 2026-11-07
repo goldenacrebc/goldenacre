@@ -249,6 +249,115 @@ dialog.news-modal:has(.fixture-popup-card) .modal-close {
     box-shadow: 0 1px 5px rgba(23, 59, 50, 0.08);
 }
 
+.fixture-card:not(.fixture-popup-card) .fixture-info {
+    background: transparent;
+    box-shadow: none;
+}
+
+.fixture-card:not(.fixture-popup-card) {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-rows: auto minmax(90px, 1fr);
+    min-height: 190px;
+    padding: 10px;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-details {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: flex-start;
+    align-items: flex-start;
+    display: block;
+    padding: 0;
+    z-index: 3;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-info {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95), 0 0 7px rgba(255, 255, 255, 0.8);
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-card-heading {
+    display: block;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-card-heading h3 {
+    flex: none;
+    font-size: 1rem;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin-top: 5px;
+    font-size: 0.75rem;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-time,
+.fixture-card:not(.fixture-popup-card) .fixture-location {
+    white-space: nowrap;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-date {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: start;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    padding: 2px;
+    border: 1px solid #ffcc00;
+    border-radius: 6px;
+    background: #173b32;
+    color: #ffcc00;
+    z-index: 3;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-date-month {
+    color: #ffcc00;
+    font-size: 0.55rem;
+    line-height: 1;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-date-day {
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-date-weekday {
+    display: none;
+}
+
+.fixture-card:not(.fixture-popup-card)::before,
+.fixture-card:not(.fixture-popup-card).has-opponent-watermark::after {
+    top: 62px;
+    bottom: -24%;
+}
+
+.fixture-card:not(.fixture-popup-card)::before {
+    right: 20%;
+    width: 95%;
+}
+
+.fixture-card:not(.fixture-popup-card).has-opponent-watermark::after {
+    right: -20%;
+    width: 95%;
+    opacity: 0.38;
+}
+
+.fixture-card:not(.fixture-popup-card) .fixture-opponent {
+    display: none;
+}
+
 .fixture-opponent {
     display: flex;
     flex: 0 0 88px;
