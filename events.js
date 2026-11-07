@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let allCalendarItems = [];
     let displayedMonth = new Date();
     displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
-    let currentView = 'calendar'; // 'calendar' or 'list'
+    let currentView = 'list'; // 'calendar' or 'list'
 
     try {
         const cacheBuster = `?t=${Date.now()}`;
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.type = 'button';
             card.className = 'agenda-item-card';
             card.classList.toggle('event-card-watermark', !resolveEventImage(event));
-            card.style.cssText = 'width: 100%; text-align: left; cursor: pointer; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; display: flex; gap: 16px; align-items: flex-start; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative; transition: transform 0.15s ease, border-color 0.15s ease;';
+            card.style.cssText = 'width: 100%; text-align: left; cursor: pointer; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; gap: 16px; align-items: flex-start; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative; transition: transform 0.15s ease, border-color 0.15s ease;';
             
             card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-1px)'; card.style.borderColor = '#173b32'; });
             card.addEventListener('mouseleave', () => { card.style.transform = 'none'; card.style.borderColor = '#e2e8f0'; });
