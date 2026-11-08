@@ -9,29 +9,7 @@
         {
           "name": "Prelim Round",
           "deadline": "Test draw",
-          "matches": [
-            {
-              "p1": "Lee",
-              "p2": "Billy",
-              "s1": "21",
-              "s2": "15",
-              "winner": 1
-            },
-            {
-              "p1": "Gary",
-              "p2": "George",
-              "s1": "21",
-              "s2": "18",
-              "winner": 1
-            },
-            {
-              "p1": "Lenny",
-              "p2": "Alec",
-              "s1": "21",
-              "s2": "5",
-              "winner": 1
-            }
-          ],
+          "matches": [],
           "extra": []
         },
         {
