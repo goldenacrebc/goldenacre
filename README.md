@@ -53,6 +53,22 @@ Pages that load `style.css` continue to use it as the shared stylesheet entry po
 
 When updating the styling, edit the relevant file in `styles/`; keep the `style.css` import order unchanged unless you intend to change style precedence.
 
+## Background event push reminders
+
+GitHub Actions checks `events.json` and `fixtures.json` every five minutes and sends enabled event and fixture reminders four and/or two hours before their start time, including when a member's phone is not running the site. Delivery is attempted during a 30-minute window after each reminder time.
+
+To enable the workflow:
+
+1. Apply `supabase/migrations/20261109170000_push_reminder_deliveries.sql` to the Supabase project used by the site.
+2. Add these GitHub Actions repository secrets:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `VAPID_PRIVATE_KEY`
+   - `VAPID_ADMIN_EMAIL` (optional; defaults to `mailto:admin@goldenacrebc.co.uk`)
+3. Ensure GitHub Actions is enabled for the repository. Run the **Scheduled event push reminders** workflow manually once to verify its configuration.
+
+The workflow reads subscriptions from the existing `push_subscriptions` table. Keep the Supabase service-role key and VAPID private key in GitHub Secrets; do not put them in website files.
+
 ## Contributing
 
 We welcome contributions from club members and the community! Please feel free to submit issues or pull requests.
