@@ -30,7 +30,7 @@
         const btn = document.getElementById('btn-send-push');
         const title = document.getElementById('push-title').value.trim();
         const body = document.getElementById('push-body').value.trim();
-        const url = document.getElementById('push-url').value.trim() || '/index.html';
+        const url = document.getElementById('push-url').value.trim() || '/events.html';
 
         statusMsg.style.backgroundColor = '#e0f2fe';
         statusMsg.style.color = '#0369a1';
@@ -54,7 +54,7 @@
             statusMsg.style.color = '#16a34a';
             statusMsg.innerText = `✅ Push sent to ${sent} device${sent !== 1 ? 's' : ''}${failed > 0 ? ` (${failed} failed${removed ? `, ${removed} expired removed` : ''})` : ''}.${details}`;
             formPushNotify.reset();
-            document.getElementById('push-url').value = '/index.html';
+            document.getElementById('push-url').value = '/events.html';
             loadPushSubscriberCount();
         } catch (err) {
             statusMsg.style.backgroundColor = '#fee2e2';

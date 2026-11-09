@@ -13,11 +13,17 @@ self.addEventListener('activate', (e) => {
 // Redirects members straight back to the website when an alert card is clicked
 self.addEventListener('notificationclick', (e) => {
     e.notification.close();
-    const targetUrl = (e.notification.data && e.notification.data.url) || '/index.html';
+    const targetUrl = new URL(
+        (e.notification.data && e.notification.data.url) || '/events.html',
+        self.location.origin
+    ).href;
     e.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-            for (let client of windowClients) {
-                if ('focus' in client) return client.focus();
+            const client = windowClients[0];
+            if (client) {
+                return client.navigate(targetUrl).then((navigatedClient) => {
+                    return (navigatedClient || client).focus();
+                });
             }
             if (clients.openWindow) return clients.openWindow(targetUrl);
         })
@@ -189,7 +195,7 @@ self.addEventListener('push', (event) => {
                     badge: 'logo.jpeg',
                     ...(data.image ? { image: data.image } : {}),
                     tag: 'admin-push-' + Date.now(),
-                    data: { url: data.url || '/index.html' }
+                    data: { url: data.url || '/events.html' }
                 })
             );
             return;
