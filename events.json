@@ -1,15 +1,5 @@
 [
   {
-    "date": "2026-11-15",
-    "title": "Friday Night Social",
-    "time": "7:00 pm",
-    "location": "Goldenacre Bowling Club",
-    "description": "Everyone is welcome to come along for a drink, a catch-up and a chance to practise your pool skills over the winter months. A good laugh is always guaranteed.",
-    "type": "social",
-    "notify": false,
-    "tag": "Bar Open"
-  },
-  {
     "date": "2026-10-26",
     "title": "Pool League",
     "time": "7:00 pm",
@@ -24,6 +14,14 @@
     "location": "Goldenacre Bowling club",
     "description": "Pool League Week 3.",
     "notify": true
+  },
+  {
+    "date": "2026-11-20",
+    "title": "Friday Night Social",
+    "time": "7:00 pm",
+    "location": "Goldenacre Bowling Club",
+    "description": "Everyone is welcome to come along for a drink, a catch-up and a chance to practise your pool skills over the winter months. A good laugh is always guaranteed.",
+    "notify": false
   },
   {
     "date": "2026-11-23",
