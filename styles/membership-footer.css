@@ -1541,24 +1541,54 @@ footer a:hover {
 
 @media (max-width: 420px) {
     .club-weather-header {
-        flex-direction: column;
+        align-items: center;
     }
 
     .club-weather {
-        padding: 12px;
+        padding: 10px 12px;
     }
 
-    .club-weather-details {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+    .club-weather-heading h2 {
+        font-size: 0.95rem;
+    }
+
+    .club-weather-heading p {
+        margin: 2px 0;
+        font-size: 0.8rem;
+    }
+
+    .green-status-badge {
         gap: 4px;
-    }
-
-    .club-weather-details dt {
+        padding: 3px 7px;
         font-size: 0.68rem;
     }
 
+    .club-weather-temperature {
+        margin: 4px 0 8px;
+        font-size: 1.35rem;
+    }
+
+    .club-weather-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 12px;
+        margin-bottom: 8px;
+    }
+
+    .club-weather-details > div:first-child {
+        display: none;
+    }
+
+    .club-weather-details dt {
+        font-size: 0.7rem;
+    }
+
     .club-weather-details dd {
-        font-size: 0.72rem;
+        margin-top: 1px;
+        font-size: 0.78rem;
         overflow-wrap: anywhere;
+    }
+
+    .club-weather small {
+        font-size: 0.68rem;
     }
 }
