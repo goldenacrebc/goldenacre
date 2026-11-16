@@ -1543,4 +1543,22 @@ footer a:hover {
     .club-weather-header {
         flex-direction: column;
     }
+
+    .club-weather {
+        padding: 12px;
+    }
+
+    .club-weather-details {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    .club-weather-details dt {
+        font-size: 0.68rem;
+    }
+
+    .club-weather-details dd {
+        font-size: 0.72rem;
+        overflow-wrap: anywhere;
+    }
 }
