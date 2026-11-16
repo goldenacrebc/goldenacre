@@ -74,15 +74,30 @@
 
     <main class="home-main">
 
-        <!-- Compact Green Status Notification Card -->
-        <div id="index-green-status-card" style="display: flex; align-items: center; justify-content: flex-start; background: #ffffff; border: 1px solid #e2e8f0; max-width: 1100px; margin: 25px auto 0 auto; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); font-family: system-ui, sans-serif;">
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <span style="font-weight: 700; font-size: 0.9rem; color: #173b32;">Outdoor Green Status:</span>
-                <div id="index-green-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;">
-                    <span style="height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span> Green is Open
+        <section class="club-weather" id="index-green-status-card" aria-labelledby="club-weather-title">
+            <div class="club-weather-header">
+                <div class="club-weather-heading">
+                    <h2 id="club-weather-title">Weather at Goldenacre</h2>
+                    <p id="weather-condition" role="status">Loading weather…</p>
+                </div>
+                <div id="index-green-badge" class="green-status-badge">
+                    <span class="green-status-dot"></span>
+                    Green is Open
                 </div>
             </div>
-        </div>
+
+            <p class="club-weather-temperature" id="weather-temperature">--°C</p>
+
+            <dl class="club-weather-details">
+                <div><dt>Feels like</dt><dd id="weather-feels-like">—</dd></div>
+                <div><dt>Humidity</dt><dd id="weather-humidity">—</dd></div>
+                <div><dt>Wind</dt><dd id="weather-wind">—</dd></div>
+                <div><dt>Sunrise</dt><dd id="weather-sunrise">—</dd></div>
+                <div><dt>Sunset</dt><dd id="weather-sunset">—</dd></div>
+            </dl>
+
+            <small>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a></small>
+        </section>
 
         <!-- Static App & Bookmark Instructions Card -->
         <div id="pwa-instruction-card" class="pwa-instruction-card" style="margin-top: 20px;">
@@ -679,6 +694,91 @@
             }
         });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const setText = (id, value) => {
+        document.getElementById(id).textContent = value;
+    };
+
+    const weatherDescriptions = {
+        0: "Clear sky",
+        1: "Mainly clear",
+        2: "Partly cloudy",
+        3: "Overcast",
+        45: "Fog",
+        48: "Rime fog",
+        51: "Light drizzle",
+        53: "Drizzle",
+        55: "Heavy drizzle",
+        56: "Freezing drizzle",
+        57: "Heavy freezing drizzle",
+        61: "Light rain",
+        63: "Rain",
+        65: "Heavy rain",
+        66: "Freezing rain",
+        67: "Heavy freezing rain",
+        71: "Light snow",
+        73: "Snow",
+        75: "Heavy snow",
+        77: "Snow grains",
+        80: "Light rain showers",
+        81: "Rain showers",
+        82: "Heavy rain showers",
+        85: "Snow showers",
+        86: "Heavy snow showers",
+        95: "Thunderstorm",
+        96: "Thunderstorm with hail",
+        99: "Heavy thunderstorm with hail"
+    };
+
+    const params = new URLSearchParams({
+        latitude: "55.972",
+        longitude: "-3.198",
+        current: [
+            "temperature_2m",
+            "relative_humidity_2m",
+            "apparent_temperature",
+            "weather_code",
+            "wind_speed_10m",
+            "wind_gusts_10m"
+        ].join(","),
+        daily: "sunrise,sunset",
+        timezone: "Europe/London",
+        forecast_days: "1",
+        wind_speed_unit: "mph"
+    });
+
+    try {
+        const response = await fetch(
+            `https://api.open-meteo.com/v1/forecast?${params}`
+        );
+        if (!response.ok) {
+            throw new Error(`Weather service returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        const current = data.current;
+        const formatTime = (value) => new Intl.DateTimeFormat("en-GB", {
+            hour: "numeric",
+            minute: "2-digit",
+            timeZone: "Europe/London"
+        }).format(new Date(value));
+
+        setText("weather-condition",
+            weatherDescriptions[current.weather_code] || "Current conditions");
+        setText("weather-temperature", `${Math.round(current.temperature_2m)}°C`);
+        setText("weather-feels-like", `${Math.round(current.apparent_temperature)}°C`);
+        setText("weather-humidity", `${current.relative_humidity_2m}%`);
+        setText("weather-wind",
+            `${Math.round(current.wind_speed_10m)} mph (gusts ${Math.round(current.wind_gusts_10m)} mph)`);
+        setText("weather-sunrise", formatTime(data.daily.sunrise[0]));
+        setText("weather-sunset", formatTime(data.daily.sunset[0]));
+    } catch (error) {
+        console.error("Could not load Goldenacre weather:", error);
+        setText("weather-condition", "Weather is temporarily unavailable.");
+    }
+});
+</script>
 
 </body>
 </html>
