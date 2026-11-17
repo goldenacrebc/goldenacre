@@ -203,11 +203,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createFixtureCard(fixture) {
         const card = element('article', 'first-team-fixture-card');
-        const header = element('div', 'first-team-fixture-header');
+        const weekDetails = document.createElement('details');
+        weekDetails.className = 'first-team-week-details';
+        const header = element('summary', 'first-team-fixture-header');
+        header.setAttribute('aria-label', `Show other league results for ${fixture.week}`);
         header.append(
             element('span', 'first-team-week', fixture.week),
             element('time', '', `${fixture.date}${fixture.time ? ` · ${fixture.time}` : ''}`)
         );
+        const otherResults = element('div', 'first-team-other-results');
+        otherResults.setAttribute('role', 'list');
+        otherResults.setAttribute('aria-label', 'Other league results');
+        if (fixture.otherResults.length) {
+            fixture.otherResults.forEach(match => {
+                const row = element('div', 'first-team-other-result');
+                row.setAttribute('role', 'listitem');
+                row.append(
+                    element('span', 'first-team-other-team home', match.homeTeam),
+                    element('span', 'first-team-other-score', match.hasScore ? `${match.homeScore} – ${match.awayScore}` : 'vs'),
+                    element('span', 'first-team-other-team away', match.awayTeam)
+                );
+                otherResults.append(row);
+            });
+        } else {
+            otherResults.append(element('span', 'first-team-other-empty', 'No other results available.'));
+        }
+        weekDetails.append(header, otherResults);
+
         const scoreline = element('div', 'first-team-scoreline');
         const homeSide = element('div', 'first-team-fixture-side home');
         homeSide.append(
@@ -228,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const meta = element('div', 'first-team-fixture-meta');
         const result = element('span', `first-team-result ${fixture.result.toLowerCase()}`, fixture.result);
         meta.append(result);
-        card.append(header, scoreline, meta);
+        card.append(weekDetails, scoreline, meta);
 
         const dateTime = parseSheetDate(fixture.date);
         if (dateTime) header.querySelector('time').dateTime = dateTime;
@@ -238,23 +260,52 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFixtures(rows, config, refs, state) {
         const fixtures = [];
         let weekInfo = null;
+        let weekMatches = [];
+        let goldenacreFixture = null;
+
+        function finishWeek() {
+            if (!goldenacreFixture) return;
+
+            goldenacreFixture.otherResults = weekMatches.filter(match =>
+                match.homeTeam.toLowerCase() !== 'goldenacre' &&
+                match.awayTeam.toLowerCase() !== 'goldenacre'
+            );
+            fixtures.push(goldenacreFixture);
+        }
 
         rows.forEach(row => {
             const weekMatch = (row[0] || '').match(/^Week\s+(\d+)$/i);
             if (weekMatch) {
+                finishWeek();
                 weekInfo = {
                     week: `Week ${weekMatch[1]}`,
                     date: row[1] || '',
                     time: row[6] || ''
                 };
+                weekMatches = [];
+                goldenacreFixture = null;
                 const yearMatch = weekInfo.date.match(/\b(20\d{2})\b/);
                 if (yearMatch) state.seasonYear = yearMatch[1];
                 return;
             }
 
-            if (!weekInfo || (row[0] || '').toLowerCase() !== 'goldenacre') return;
+            if (!weekInfo || !row[0]) return;
 
             const home = (row[3] || '').toLowerCase() === 'vs';
+            if (home) {
+                const homeScore = row[2] || '';
+                const awayScore = row[4] || '';
+                weekMatches.push({
+                    homeTeam: row[0],
+                    awayTeam: row[6] || 'Opponent',
+                    homeScore,
+                    awayScore,
+                    hasScore: homeScore !== '' && awayScore !== ''
+                });
+            }
+
+            if (row[0].toLowerCase() !== 'goldenacre') return;
+
             const teamScore = row[2] === '' || row[2] === undefined ? null : Number(row[2]);
             const opponentScore = row[4] === '' || row[4] === undefined ? null : Number(row[4]);
             const hasScore = Number.isFinite(teamScore) && Number.isFinite(opponentScore);
@@ -265,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 result = teamScore === opponentScore ? 'Draw' : teamScore > opponentScore ? 'Win' : 'Loss';
             }
 
-            fixtures.push({
+            goldenacreFixture = {
                 week: weekInfo.week,
                 date: weekInfo.date,
                 time: weekInfo.time,
@@ -277,8 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 awayScore: home ? opponentScore : teamScore,
                 hasScore,
                 result
-            });
+            };
         });
+
+        finishWeek();
 
         if (!fixtures.length) {
             refs.fixturesStatus.textContent = `No ${config.teamLabel} ${config.division} fixtures were found in the EBA data.`;
