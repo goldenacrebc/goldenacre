@@ -552,7 +552,7 @@
             margin-top: 16px;
         }
 
-        .league-fixture-more summary {
+        .league-fixture-more > summary {
             width: fit-content;
             margin: 0 auto;
             padding: 8px 14px;
@@ -565,11 +565,11 @@
             cursor: pointer;
         }
 
-        .league-fixture-more summary:hover {
+        .league-fixture-more > summary:hover {
             background: #bae6fd;
         }
 
-        .league-fixture-more[open] summary {
+        .league-fixture-more[open] > summary {
             margin-bottom: 14px;
         }
 
