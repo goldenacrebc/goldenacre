@@ -7,9 +7,9 @@
     
     <!-- External stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="members_secure.css?v=1">
+    <link rel="stylesheet" href="members_secure.css?v=2">
     <link rel="stylesheet" href="styles/competition-draws.css">
-    <script src="js/first-team-league.js?v=1" defer></script>
+    <script src="js/first-team-league.js?v=2" defer></script>
 
     <!-- Draw renderer -->
     <script src="draws.js?v=20261101-routing-fix" defer></script>
@@ -685,15 +685,9 @@
                 <div id="seconds-table" class="seconds-pane-content">
                     <section class="league-table-section" aria-labelledby="seconds-league-table-heading" style="margin-top:0;">
                         <h2 id="seconds-league-table-heading">2nd XVI — Division 2</h2>
-                        <div class="league-table-scroll">
-                            <iframe
-                                class="league-table-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A76:L85"
-                                title="Edinburgh Bowling Association 2nd XVI Division 2 table"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin">
-                            </iframe>
-                        </div>
+                        <p id="seconds-standings-status" class="league-data-status" role="status" aria-live="polite">Loading standings…</p>
+                        <div id="seconds-standings-view"></div>
+                        <p class="league-data-source">Data sourced from the Edinburgh Bowling Association (EBA) official website. <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Visit the EBA website</a></p>
                     </section>
                 </div>
 
@@ -701,32 +695,9 @@
                 <div id="seconds-fixtures" class="seconds-pane-content">
                     <section class="league-fixtures-section" aria-labelledby="seconds-fixtures-heading" style="margin-top:0;">
                         <h3 id="seconds-fixtures-heading">2nd XVI Division 2 Fixtures</h3>
-                        <div class="league-fixture-period">
-                            <h4>Weeks 1–7</h4>
-                            <div class="league-table-scroll league-fixture-scroll">
-                                <iframe
-                                    class="league-fixture-frame"
-                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L2:R60"
-                                    title="2nd XVI Division 2 fixtures, weeks 1 to 7"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin">
-                                </iframe>
-                            </div>
-                        </div>
-                        <details class="league-fixture-more">
-                            <summary>Show more fixtures (Weeks 8–14)</summary>
-                            <div class="league-fixture-period">
-                            <div class="league-table-scroll league-fixture-scroll">
-                                <iframe
-                                    class="league-fixture-frame"
-                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=328096682&amp;range=L65:R123"
-                                    title="2nd XVI Division 2 fixtures, weeks 8 to 14"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin">
-                                </iframe>
-                            </div>
-                            </div>
-                        </details>
+                        <p id="seconds-fixtures-status" class="league-data-status" role="status" aria-live="polite">Loading fixtures and results…</p>
+                        <div id="seconds-fixtures-view"></div>
+                        <p class="league-data-source">Data sourced from the Edinburgh Bowling Association (EBA) official website. <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Visit the EBA website</a></p>
                     </section>
                 </div>
             </div>

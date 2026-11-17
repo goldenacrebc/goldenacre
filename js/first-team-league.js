@@ -1,18 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const standingsStatus = document.getElementById('firsts-standings-status');
-    const standingsView = document.getElementById('firsts-standings-view');
-    const fixturesStatus = document.getElementById('firsts-fixtures-status');
-    const fixturesView = document.getElementById('firsts-fixtures-view');
-    const fixturesHeading = document.getElementById('firsts-fixtures-heading');
-
-    if (!standingsStatus || !standingsView || !fixturesStatus || !fixturesView || !fixturesHeading) return;
-
     const publishedSheet = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pub';
-    const standingsGid = '572974802';
-    const fixturesGid = '422711259';
-    let standingsWeek = '';
-    let seasonYear = '';
-    let standingsCaption = null;
+    const leagues = [
+        {
+            idPrefix: 'firsts',
+            teamLabel: '1st XVI',
+            division: 'Division 3',
+            standingsTitle: 'Final standings',
+            standingsGid: '572974802',
+            standingsRange: 'A26:L35',
+            fixturesGid: '422711259',
+            fixturesRange: 'V2:AB127'
+        },
+        {
+            idPrefix: 'seconds',
+            teamLabel: '2nd XVI',
+            division: 'Division 2',
+            standingsTitle: 'Standings',
+            standingsGid: '572974802',
+            standingsRange: 'A76:L85',
+            fixturesGid: '328096682',
+            fixturesRange: 'L2:R127'
+        }
+    ];
 
     function element(tag, className, text) {
         const node = document.createElement(tag);
@@ -59,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchSheetRange(gid, range) {
         const url = `${publishedSheet}?output=csv&gid=${gid}&range=${encodeURIComponent(range)}`;
         const response = await fetch(url, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`The spreadsheet could not be loaded (${response.status}).`);
+        if (!response.ok) throw new Error(`The EBA data could not be loaded (${response.status}).`);
         const csv = await response.text();
-        if (!csv.trim()) throw new Error('The spreadsheet returned no data.');
+        if (!csv.trim()) throw new Error('The EBA spreadsheet returned no data.');
         return parseCsv(csv);
     }
 
@@ -73,25 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return value && value.trim() ? value.trim() : '—';
     }
 
-    function updateSeasonLabels() {
-        if (seasonYear) {
-            fixturesHeading.textContent = `1st XVI Division 3 — ${seasonYear} Fixtures & Results`;
+    function updateSeasonLabels(config, state, fixturesHeading) {
+        if (state.seasonYear) {
+            fixturesHeading.textContent = `${config.teamLabel} ${config.division} — ${state.seasonYear} Fixtures & Results`;
         }
-        if (standingsCaption) {
-            standingsCaption.textContent = `Final standings${standingsWeek ? ` · ${standingsWeek}` : ''}${seasonYear ? ` · ${seasonYear} season` : ''}`;
+        if (state.standingsCaption) {
+            state.standingsCaption.textContent = `${config.standingsTitle}${state.standingsWeek ? ` · ${state.standingsWeek}` : ''}${state.seasonYear ? ` · ${state.seasonYear} season` : ''}`;
         }
     }
 
     function renderForm(value) {
-        const outcomes = Array.from(value).filter(mark => mark === '🟢' || mark === '🔴');
+        const outcomes = Array.from(value).filter(mark => mark === '🟢' || mark === '🟠' || mark === '🔴');
+        const names = { '🟢': 'win', '🟠': 'draw', '🔴': 'loss' };
+        const labels = { '🟢': 'W', '🟠': 'D', '🔴': 'L' };
         const form = element('div', 'league-form');
         form.setAttribute('aria-label', outcomes.length
-            ? `Recent form: ${outcomes.map(mark => mark === '🟢' ? 'win' : 'loss').join(', ')}`
+            ? `Recent form: ${outcomes.map(mark => names[mark]).join(', ')}`
             : 'No recent form recorded');
 
         outcomes.forEach(mark => {
-            const result = mark === '🟢' ? 'win' : 'loss';
-            const badge = element('span', `league-form-item ${result}`, result === 'win' ? 'W' : 'L');
+            const badge = element('span', `league-form-item ${names[mark]}`, labels[mark]);
             badge.setAttribute('aria-hidden', 'true');
             form.append(badge);
         });
@@ -99,9 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return form;
     }
 
-    function renderStandings(rows) {
+    function renderStandings(rows, config, refs, state) {
         const headerIndex = rows.findIndex(row => row.some(value => /^Week\s+\d+$/i.test(value)) && row.some(value => value.toLowerCase() === 'points'));
-        if (headerIndex < 0) throw new Error('The standings header could not be found in the spreadsheet.');
+        if (headerIndex < 0) throw new Error('The standings header could not be found in the EBA data.');
 
         const header = rows[headerIndex];
         const weekColumn = header.findIndex(value => /^Week\s+\d+$/i.test(value));
@@ -118,17 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
             form: columnIndex(header, 'Form')
         };
         if (Object.values(columns).some(index => index < 0)) {
-            throw new Error('The standings columns do not match the expected spreadsheet format.');
+            throw new Error('The standings columns do not match the expected EBA format.');
         }
 
         const clubs = rows.slice(headerIndex + 1).filter(row => row[teamColumn]);
-        if (!clubs.length) throw new Error('No clubs were found in the standings range.');
+        if (!clubs.length) throw new Error('No clubs were found in the EBA standings data.');
 
-        standingsWeek = header[weekColumn] || '';
+        state.standingsWeek = header[weekColumn] || '';
         const scroll = element('div', 'league-standings-scroll');
         const table = element('table', 'league-standings-table');
-        table.setAttribute('aria-label', '1st XVI Division 3 standings');
-        standingsCaption = element('caption', '', '');
+        table.setAttribute('aria-label', `${config.teamLabel} ${config.division} standings`);
+        state.standingsCaption = element('caption', '', '');
 
         const tableHead = document.createElement('thead');
         const headingRow = document.createElement('tr');
@@ -171,11 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
             tableBody.append(row);
         });
 
-        table.append(standingsCaption, tableHead, tableBody);
+        table.append(state.standingsCaption, tableHead, tableBody);
         scroll.append(table);
-        standingsView.replaceChildren(scroll);
-        standingsStatus.textContent = '';
-        updateSeasonLabels();
+        refs.standingsView.replaceChildren(scroll);
+        refs.standingsStatus.textContent = '';
+        updateSeasonLabels(config, state, refs.fixturesHeading);
     }
 
     function parseSheetDate(value) {
@@ -210,12 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
             element('small', '', `Away · Rink ${fixture.awayRink || '—'}`)
         );
 
-        let score;
-        if (fixture.hasScore) {
-            score = element('div', 'first-team-score', `${fixture.homeScore} – ${fixture.awayScore}`);
-        } else {
-            score = element('div', 'first-team-score pending', 'vs');
-        }
+        const score = fixture.hasScore
+            ? element('div', 'first-team-score', `${fixture.homeScore} – ${fixture.awayScore}`)
+            : element('div', 'first-team-score pending', 'vs');
         scoreline.append(homeSide, score, awaySide);
 
         const meta = element('div', 'first-team-fixture-meta');
@@ -228,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    function renderFixtures(rows) {
+    function renderFixtures(rows, config, refs, state) {
         const fixtures = [];
         let weekInfo = null;
 
@@ -241,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     time: row[6] || ''
                 };
                 const yearMatch = weekInfo.date.match(/\b(20\d{2})\b/);
-                if (yearMatch) seasonYear = yearMatch[1];
+                if (yearMatch) state.seasonYear = yearMatch[1];
                 return;
             }
 
@@ -274,46 +281,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (!fixtures.length) {
-            fixturesStatus.textContent = 'No 1st XVI fixtures were found in the published range.';
+            refs.fixturesStatus.textContent = `No ${config.teamLabel} ${config.division} fixtures were found in the EBA data.`;
             return;
         }
 
         const primaryList = element('div', 'first-team-fixture-list');
         fixtures.slice(0, 7).forEach(fixture => primaryList.append(createFixtureCard(fixture)));
-        fixturesView.replaceChildren(primaryList);
+        refs.fixturesView.replaceChildren(primaryList);
 
         if (fixtures.length > 7) {
             const more = document.createElement('details');
             more.className = 'league-fixture-more';
-            more.append(element('summary', '', `Show weeks 8–${fixtures.length}`));
+            const finalWeek = fixtures[fixtures.length - 1].week.replace('Week ', '');
+            more.append(element('summary', '', `Show weeks 8–${finalWeek}`));
             const laterList = element('div', 'first-team-fixture-list');
             fixtures.slice(7).forEach(fixture => laterList.append(createFixtureCard(fixture)));
             more.append(laterList);
-            fixturesView.append(more);
+            refs.fixturesView.append(more);
         }
 
-        fixturesStatus.textContent = '';
-        updateSeasonLabels();
+        refs.fixturesStatus.textContent = '';
+        updateSeasonLabels(config, state, refs.fixturesHeading);
     }
 
-    async function loadStandings() {
-        try {
-            renderStandings(await fetchSheetRange(standingsGid, 'A26:L35'));
-        } catch (error) {
-            standingsStatus.className = 'league-data-status error';
-            standingsStatus.textContent = `${error.message} Open the source spreadsheet to view the data.`;
+    function initializeLeague(config) {
+        const refs = {
+            standingsStatus: document.getElementById(`${config.idPrefix}-standings-status`),
+            standingsView: document.getElementById(`${config.idPrefix}-standings-view`),
+            fixturesStatus: document.getElementById(`${config.idPrefix}-fixtures-status`),
+            fixturesView: document.getElementById(`${config.idPrefix}-fixtures-view`),
+            fixturesHeading: document.getElementById(`${config.idPrefix}-fixtures-heading`)
+        };
+        if (Object.values(refs).some(ref => !ref)) return;
+
+        const state = { standingsWeek: '', seasonYear: '', standingsCaption: null };
+
+        async function loadStandings() {
+            try {
+                renderStandings(await fetchSheetRange(config.standingsGid, config.standingsRange), config, refs, state);
+            } catch (error) {
+                refs.standingsStatus.className = 'league-data-status error';
+                refs.standingsStatus.textContent = `${error.message} Visit the EBA website to check the source data.`;
+            }
         }
-    }
 
-    async function loadFixtures() {
-        try {
-            renderFixtures(await fetchSheetRange(fixturesGid, 'V2:AB127'));
-        } catch (error) {
-            fixturesStatus.className = 'league-data-status error';
-            fixturesStatus.textContent = `${error.message} Open the source spreadsheet to view the data.`;
+        async function loadFixtures() {
+            try {
+                renderFixtures(await fetchSheetRange(config.fixturesGid, config.fixturesRange), config, refs, state);
+            } catch (error) {
+                refs.fixturesStatus.className = 'league-data-status error';
+                refs.fixturesStatus.textContent = `${error.message} Visit the EBA website to check the source data.`;
+            }
         }
+
+        loadStandings();
+        loadFixtures();
     }
 
-    loadStandings();
-    loadFixtures();
+    leagues.forEach(initializeLeague);
 });

@@ -359,6 +359,11 @@
             color: #991b1b;
         }
 
+        .league-form-item.draw {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
         .league-fixtures-section.first-team-league-fixtures {
             max-width: 900px;
         }
