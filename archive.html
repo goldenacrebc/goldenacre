@@ -6,6 +6,7 @@
     <title>News Archive | Goldenacre Bowling Club</title>
     <link rel="icon" type="image/x-icon" href="photos/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/archive-page.css">
     <script src="nav-loader.js" defer></script>
 </head>
 <body class="site-page">
@@ -93,6 +94,11 @@
 
                             const body = document.createElement('div');
                             body.className = 'news-body';
+                            const archivedBadge = document.createElement('span');
+                            archivedBadge.className = 'news-badge badge-archived';
+                            archivedBadge.textContent = 'Archived';
+                            body.appendChild(archivedBadge);
+
                             const badge = document.createElement('span');
                             badge.className = `news-badge badge-${category.key}`;
                             badge.textContent = category.key === 'club' ? 'Club News' : category.key[0].toUpperCase() + category.key.slice(1);
