@@ -19,7 +19,8 @@
 
     <main id="news" class="content-section archive-page">
         <h1>News Archive</h1>
-        <div id="archive-years"></div>
+        <p class="archive-intro">Choose a year, then a news category to browse past articles.</p>
+        <div id="archive-years" aria-label="News archive by year"></div>
     </main>
 
     <footer>
@@ -47,82 +48,131 @@
                 const byYear = new Map();
 
                 archivedItems.forEach(item => {
-                    // Keep explicit archive years stable; un-dated archive items use the current year.
                     const year = String(item.year || currentYear);
                     if (!byYear.has(year)) byYear.set(year, []);
                     byYear.get(year).push(item);
                 });
-                // Show the current year's archive heading even before its first item is archived.
+                // Keep the current year available, even before anything has been archived for it.
                 if (!byYear.has(currentYear)) byYear.set(currentYear, []);
 
                 const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
-                years.forEach(year => {
-                    const section = document.createElement('section');
-                    section.className = 'news-category-group';
+                const yearNav = document.createElement('nav');
+                yearNav.className = 'archive-year-list';
+                yearNav.setAttribute('aria-label', 'Archive years');
 
-                    const heading = document.createElement('h2');
-                    heading.className = 'news-category-heading';
-                    heading.textContent = year;
-                    section.appendChild(heading);
+                const categoryPanel = document.createElement('div');
+                categoryPanel.className = 'archive-category-panel';
+                categoryPanel.hidden = true;
+                categoryPanel.setAttribute('aria-label', 'News categories');
 
-                    categories.forEach(category => {
-                        const categoryItems = byYear.get(year).filter(item => {
-                            const itemCategory = ['club', 'internal', 'external'].includes(item.category) ? item.category : 'external';
-                            return itemCategory === category.key;
-                        });
-                        if (!categoryItems.length) return;
+                const results = document.createElement('div');
+                results.className = 'archive-results';
+                results.setAttribute('aria-live', 'polite');
 
-                        const categoryHeading = document.createElement('h3');
-                        categoryHeading.className = 'news-category-heading';
-                        categoryHeading.textContent = category.label;
-                        section.appendChild(categoryHeading);
+                let activeYearButton = null;
+                let activeCategoryButton = null;
 
-                        const grid = document.createElement('div');
-                        grid.className = 'news-grid-2col';
-                        categoryItems.forEach(item => {
-                            const article = document.createElement('article');
-                            article.className = 'news-block';
+                function showCategory(year, category, button) {
+                    if (activeCategoryButton) activeCategoryButton.setAttribute('aria-current', 'false');
+                    activeCategoryButton = button;
+                    button.setAttribute('aria-current', 'true');
+                    results.replaceChildren();
 
-                            const media = document.createElement('div');
-                            media.className = 'news-media';
-                            const image = document.createElement('img');
-                            image.src = item.image || 'logo.jpeg';
-                            image.alt = item.title || 'Club news';
-                            image.className = 'news-img';
-                            media.appendChild(image);
-                            article.appendChild(media);
-
-                            const body = document.createElement('div');
-                            body.className = 'news-body';
-                            const archivedBadge = document.createElement('span');
-                            archivedBadge.className = 'news-badge badge-archived';
-                            archivedBadge.textContent = 'Archived';
-                            body.appendChild(archivedBadge);
-
-                            const badge = document.createElement('span');
-                            badge.className = `news-badge badge-${category.key}`;
-                            badge.textContent = category.key === 'club' ? 'Club News' : category.key[0].toUpperCase() + category.key.slice(1);
-                            body.appendChild(badge);
-
-                            const title = document.createElement('h3');
-                            title.textContent = item.title || '';
-                            body.appendChild(title);
-                            const description = document.createElement('p');
-                            description.textContent = item.description || '';
-                            body.appendChild(description);
-                            article.appendChild(body);
-                            grid.appendChild(article);
-                        });
-                        section.appendChild(grid);
+                    const yearItems = byYear.get(year) || [];
+                    const categoryItems = yearItems.filter(item => {
+                        const itemCategory = ['club', 'internal', 'external'].includes(item.category) ? item.category : 'external';
+                        return itemCategory === category.key;
                     });
 
-                    if (!byYear.get(year).length) {
+                    const heading = document.createElement('h2');
+                    heading.className = 'archive-results-heading';
+                    heading.textContent = `${category.label} — ${year}`;
+                    results.appendChild(heading);
+
+                    if (!categoryItems.length) {
                         const emptyMessage = document.createElement('p');
-                        emptyMessage.textContent = 'No archived news yet.';
-                        section.appendChild(emptyMessage);
+                        emptyMessage.className = 'archive-empty';
+                        emptyMessage.textContent = `No ${category.label.toLowerCase()} archived for ${year}.`;
+                        results.appendChild(emptyMessage);
+                        return;
                     }
-                    archiveYears.appendChild(section);
+
+                    const list = document.createElement('ul');
+                    list.className = 'archive-article-list';
+                    categoryItems.forEach(item => {
+                        const entry = document.createElement('li');
+                        entry.className = 'archive-article';
+
+                        const title = document.createElement('h3');
+                        title.textContent = item.title || 'Untitled article';
+                        entry.appendChild(title);
+
+                        if (item.description) {
+                            const description = document.createElement('p');
+                            description.textContent = item.description;
+                            entry.appendChild(description);
+                        }
+                        list.appendChild(entry);
+                    });
+                    results.appendChild(list);
+                }
+
+                years.forEach((year, index) => {
+                    if (index > 0) {
+                        const separator = document.createElement('span');
+                        separator.className = 'archive-year-separator';
+                        separator.setAttribute('aria-hidden', 'true');
+                        separator.textContent = '|';
+                        yearNav.appendChild(separator);
+                    }
+
+                    const yearButton = document.createElement('button');
+                    yearButton.type = 'button';
+                    yearButton.className = 'archive-year-button';
+                    yearButton.textContent = year;
+                    yearButton.setAttribute('aria-expanded', 'false');
+                    yearButton.setAttribute('aria-controls', 'archive-category-panel');
+                    yearButton.addEventListener('click', () => {
+                        const isOpen = yearButton.getAttribute('aria-expanded') === 'true';
+                        if (activeYearButton) {
+                            activeYearButton.setAttribute('aria-expanded', 'false');
+                            activeYearButton.classList.remove('is-active');
+                        }
+                        results.replaceChildren();
+                        categoryPanel.replaceChildren();
+                        if (activeCategoryButton) {
+                            activeCategoryButton = null;
+                        }
+
+                        if (isOpen) {
+                            categoryPanel.hidden = true;
+                            activeYearButton = null;
+                            return;
+                        }
+
+                        activeYearButton = yearButton;
+                        yearButton.setAttribute('aria-expanded', 'true');
+                        yearButton.classList.add('is-active');
+                        categoryPanel.id = 'archive-category-panel';
+                        categoryPanel.hidden = false;
+
+                        categories.forEach(category => {
+                            const categoryItems = (byYear.get(year) || []).filter(item => {
+                                const itemCategory = ['club', 'internal', 'external'].includes(item.category) ? item.category : 'external';
+                                return itemCategory === category.key;
+                            });
+                            const categoryButton = document.createElement('button');
+                            categoryButton.type = 'button';
+                            categoryButton.className = 'archive-category-button';
+                            categoryButton.textContent = `${category.label} (${categoryItems.length})`;
+                            categoryButton.addEventListener('click', () => showCategory(year, category, categoryButton));
+                            categoryPanel.appendChild(categoryButton);
+                        });
+                    });
+                    yearNav.appendChild(yearButton);
                 });
+
+                archiveYears.append(yearNav, categoryPanel, results);
             } catch (error) {
                 console.error('Failed to load news.json', error);
                 archiveYears.textContent = 'News archive could not be loaded. Please try again later.';
