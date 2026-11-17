@@ -29,6 +29,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const archiveYears = document.getElementById('archive-years');
+            const currentYear = String(new Date().getFullYear());
             const categories = [
                 { key: 'club', label: 'Club News' },
                 { key: 'internal', label: 'Internal Club News' },
@@ -45,18 +46,15 @@
                 const byYear = new Map();
 
                 archivedItems.forEach(item => {
-                    const year = String(item.year || 'Other years');
+                    // Keep explicit archive years stable; un-dated archive items use the current year.
+                    const year = String(item.year || currentYear);
                     if (!byYear.has(year)) byYear.set(year, []);
                     byYear.get(year).push(item);
                 });
-                if (!byYear.has('2026')) byYear.set('2026', []);
+                // Show the current year's archive heading even before its first item is archived.
+                if (!byYear.has(currentYear)) byYear.set(currentYear, []);
 
-                const years = [...byYear.keys()].sort((a, b) => {
-                    if (a === 'Other years') return 1;
-                    if (b === 'Other years') return -1;
-                    return Number(b) - Number(a);
-                });
-
+                const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
                 years.forEach(year => {
                     const section = document.createElement('section');
                     section.className = 'news-category-group';
