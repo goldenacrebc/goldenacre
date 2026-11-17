@@ -7,8 +7,9 @@
     
     <!-- External stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="members_secure.css">
+    <link rel="stylesheet" href="members_secure.css?v=1">
     <link rel="stylesheet" href="styles/competition-draws.css">
+    <script src="js/first-team-league.js?v=1" defer></script>
 
     <!-- Draw renderer -->
     <script src="draws.js?v=20261101-routing-fix" defer></script>
@@ -596,7 +597,7 @@
             <div id="firsts" class="portal-tab-content">
                 <h2 class="team-sheet-heading" style="margin-top:0;">1st Sixteen Team & Matches</h2>
                 <p style="color: var(--app-text-muted); font-size: 0.9rem; margin-bottom: 20px;">
-                    Access team sheets, division tables, and upcoming match fixtures.
+                    Team sheets, live standings, and 1st XVI league results from the published spreadsheet.
                 </p>
 
                 <!-- Modern Sub-Card Navigation for 1st XVI -->
@@ -630,48 +631,19 @@
                 <div id="firsts-table" class="firsts-pane-content">
                     <section class="league-table-section" aria-labelledby="league-table-heading" style="margin-top:0;">
                         <h2 id="league-table-heading">1st XVI — Division 3</h2>
-                        <div class="league-table-scroll">
-                            <iframe
-                                class="league-table-frame"
-                                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=572974802&amp;range=A26:L35"
-                                title="Edinburgh Bowling Association 1st XVI Division 3 table"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin">
-                            </iframe>
-                        </div>
+                        <p id="firsts-standings-status" class="league-data-status" role="status" aria-live="polite">Loading standings…</p>
+                        <div id="firsts-standings-view"></div>
+                        <p class="league-data-source">Data sourced from the Edinburgh Bowling Association (EBA) official website. <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Visit the EBA website</a></p>
                     </section>
                 </div>
 
                 <!-- Match Fixtures Pane -->
                 <div id="firsts-fixtures" class="firsts-pane-content">
-                    <section class="league-fixtures-section" aria-labelledby="firsts-fixtures-heading" style="margin-top:0;">
-                        <h3 id="firsts-fixtures-heading">1st XVI Division 3 Fixtures</h3>
-                        <div class="league-fixture-period">
-                            <h4>Weeks 1–7</h4>
-                            <div class="league-table-scroll league-fixture-scroll">
-                                <iframe
-                                    class="league-fixture-frame"
-                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V2:AB60"
-                                    title="1st XVI Division 3 fixtures, weeks 1 to 7"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin">
-                                </iframe>
-                            </div>
-                        </div>
-                        <details class="league-fixture-more">
-                            <summary>Show more fixtures (Weeks 8–14)</summary>
-                            <div class="league-fixture-period">
-                            <div class="league-table-scroll league-fixture-scroll">
-                                <iframe
-                                    class="league-fixture-frame"
-                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3Actu1PSn-5TSGsRxwFW64nlx2dzhvKQBhmo6wsGHEPN0gTYWSVm1cChKxuwU_CGYZLfKfJ6RbBFT/pubhtml/sheet?headers=false&amp;gid=422711259&amp;range=V65:AB123"
-                                    title="1st XVI Division 3 fixtures, weeks 8 to 14"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin">
-                                </iframe>
-                            </div>
-                            </div>
-                        </details>
+                    <section class="league-fixtures-section first-team-league-fixtures" aria-labelledby="firsts-fixtures-heading" style="margin-top:0;">
+                        <h3 id="firsts-fixtures-heading">1st XVI Division 3 — Fixtures &amp; Results</h3>
+                        <p id="firsts-fixtures-status" class="league-data-status" role="status" aria-live="polite">Loading fixtures and results…</p>
+                        <div id="firsts-fixtures-view"></div>
+                        <p class="league-data-source">Data sourced from the Edinburgh Bowling Association (EBA) official website. <a href="https://edinburghba.co.uk/" target="_blank" rel="noopener noreferrer">Visit the EBA website</a></p>
                     </section>
                 </div>
             </div>

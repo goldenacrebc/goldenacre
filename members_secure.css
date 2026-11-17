@@ -254,6 +254,220 @@
             font-size: 1.2rem;
         }
 
+        .league-data-status {
+            margin: 16px 0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            background: #fff;
+            color: #475569;
+            text-align: center;
+        }
+
+        .league-data-status:empty {
+            display: none;
+        }
+
+        .league-data-status.error {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .league-data-source {
+            margin: 14px 0 0;
+            text-align: right;
+        }
+
+        .league-data-source a {
+            color: #0369a1;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .league-data-source a:hover {
+            text-decoration: underline;
+        }
+
+        .league-standings-scroll {
+            overflow-x: auto;
+            border: 1px solid #dbe3e8;
+            border-radius: 8px;
+            background: #fff;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .league-standings-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .league-standings-table caption {
+            padding: 12px;
+            color: #475569;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .league-standings-table th,
+        .league-standings-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .league-standings-table thead th {
+            background: #173b32;
+            color: #fff;
+            font-size: 0.78rem;
+            letter-spacing: 0.02em;
+        }
+
+        .league-standings-table tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .league-standings-table tbody tr.goldenacre-row {
+            background: #fffbeb;
+            font-weight: 700;
+        }
+
+        .league-form {
+            display: flex;
+            gap: 3px;
+        }
+
+        .league-form-item {
+            display: inline-grid;
+            width: 22px;
+            height: 22px;
+            place-items: center;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .league-form-item.win {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .league-form-item.loss {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .league-fixtures-section.first-team-league-fixtures {
+            max-width: 900px;
+        }
+
+        .first-team-fixture-list {
+            display: grid;
+            gap: 10px;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .first-team-fixture-card {
+            padding: 14px 16px;
+            border: 1px solid #dbe3e8;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 2px 6px #0f172a0a;
+        }
+
+        .first-team-fixture-header,
+        .first-team-fixture-meta,
+        .first-team-scoreline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .first-team-fixture-header {
+            margin-bottom: 12px;
+            color: #64748b;
+            font-size: 0.82rem;
+        }
+
+        .first-team-week {
+            color: #173b32;
+            font-weight: 800;
+        }
+
+        .first-team-scoreline {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 14px;
+        }
+
+        .first-team-fixture-side {
+            display: grid;
+            gap: 4px;
+        }
+
+        .first-team-fixture-side.away {
+            text-align: right;
+        }
+
+        .first-team-fixture-side strong {
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        .first-team-fixture-side small {
+            color: #64748b;
+            font-size: 0.76rem;
+        }
+
+        .first-team-score {
+            color: #173b32;
+            font-size: 1.25rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .first-team-score.pending {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .first-team-fixture-meta {
+            justify-content: flex-start;
+            margin-top: 12px;
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+
+        .first-team-result {
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 800;
+        }
+
+        .first-team-result.win {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .first-team-result.loss {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .first-team-result.draw {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .first-team-result.pending {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
         .league-fixtures-section {
             max-width: 900px;
             margin: 30px auto 0;
@@ -368,9 +582,26 @@
                 padding: 12px;
             }
 
+            .league-standings-table {
+                min-width: 660px;
+            }
+
             .league-fixtures-section {
                 margin-top: 22px;
                 padding-top: 16px;
+            }
+
+            .first-team-fixture-card {
+                padding: 12px;
+            }
+
+            .first-team-scoreline {
+                gap: 8px;
+            }
+
+            .first-team-fixture-side strong {
+                font-size: 0.9rem;
+                overflow-wrap: anywhere;
             }
 
             .league-fixture-scroll {
