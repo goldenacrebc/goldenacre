@@ -15,7 +15,8 @@
     .marker-needed-card{border:1px solid var(--border);border-radius:8px;padding:12px}
     .marker-needed-card h3{font-size:1rem;margin:0 0 5px;color:var(--green)}
     .marker-needed-card p{margin:4px 0}
-    .day-count{display:inline-block;min-width:16px;margin-top:3px;padding:1px 4px;border-radius:8px;background:#eef2f5;color:#475569;font-size:.62rem;font-weight:650;line-height:1.2}
+    .day-count{display:block;width:max-content;max-width:100%;margin:3px auto 0;padding:1px 4px;border-radius:4px;background:#eef2f5;color:#475569;font-size:.62rem;font-weight:650;line-height:1.2;white-space:nowrap}
+    .day-count.block-count{background:#ffedd5;color:#9a3412}
     .calendar-day.closed{background:#fee2e2;color:#991b1b}
     .calendar-day.closed .day-number{color:#991b1b}
     .btn:disabled{opacity:.55;cursor:not-allowed}
@@ -61,7 +62,7 @@
       .calendar-grid{gap:2px;border:0}
       .calendar-weekday,.calendar-day{padding:0;border:0;min-width:0}
       .calendar-weekday{padding:4px 0;background:transparent;font-size:.65rem}
-      .calendar-day{height:42px;padding:4px 1px;border-radius:6px;text-align:center}
+      .calendar-day{height:50px;padding:4px 1px;border-radius:6px;text-align:center}
       .calendar-day.outside{background:transparent}
       .calendar-day.selected{outline:2px solid var(--green);outline-offset:-2px;background:#fffbeb}
       .calendar-day.closed{background:#fee2e2;color:#991b1b}
@@ -70,7 +71,7 @@
       #marker-needed-dialog,#register-tie-dialog,#marker-dialog,#block-book-dialog,#green-closure-dialog,#edit-tie-dialog{padding:10px;max-height:85dvh}
       .dialog-toolbar h2{font-size:.95rem}
       #marker-needed-dialog,#register-tie-dialog{width:calc(100% - 24px)}
-      .day-count{min-width:15px;margin-top:2px;font-size:.58rem}
+      .day-count{margin-top:2px;padding:1px 2px;font-size:.54rem}
     }
   </style>
 </head>
@@ -86,7 +87,7 @@
     <section class="card">
       <div class="calendar-toolbar"><button class="btn" onclick="shiftMonth(-1)" aria-label="Previous month">← Previous</button><h2 id="calendar-title">Bookings calendar</h2><button class="btn" onclick="shiftMonth(1)" aria-label="Next month">Next →</button></div>
       <div id="calendar" class="calendar-grid" aria-label="Monthly bookings calendar"></div>
-      <p class="muted">Select a date to see its schedule. A number beneath the date shows how many bookings are scheduled.</p>
+      <p class="muted">Select a date to see its schedule. Each date shows tie and all-rink block counts separately.</p>
     </section>
     <section class="card">
       <div class="row"><h2 id="day-schedule-title" style="margin-right:auto">Schedule</h2><button class="btn" id="open-tie-form" type="button">Register a tie</button></div>
@@ -172,14 +173,14 @@
   function timeText(m){const [s,e]=interval(m);if(!Number.isFinite(s))return m.time||'';return `${fmt(s)} – ${fmt(e)}`}
   function fmt(n){n=((n%1440)+1440)%1440;return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}
   function dayRows(date){return matches.filter(m=>m.date===date)}
-  function bookingCount(rows){const ties=rows.filter(isTie).length,reservations=new Set(rows.filter(isBlock).map(m=>[m.p1,m.comp,m.time].join('|')));return ties+reservations.size}
+  function bookingCounts(rows){const ties=rows.filter(isTie).length,blocks=new Set(rows.filter(isBlock).map(m=>[m.p1,m.comp,m.time].join('|'))).size;return {ties,blocks}}
   function needsMarker(m){const marker=String(m.marker??'').trim();return isTie(m)&&(!marker||marker.toUpperCase()==='TBC')}
   function setStatus(id,msg,error=false){$(id).textContent=msg;$(id).style.color=error?'#b91c1c':'#166534'}
   async function refresh(){const {data,error}=await db.from('matches').select('*');if(error){setStatus('admin-status','Could not load bookings: '+error.message,true);return}matches=data||[];render()}
   function render(){renderCalendar();renderSchedule(selectedDate);renderMarkerNeeded(selectedDate);updateTieRegistrationAvailability(selectedDate)}
   function renderCalendar(){const grid=$('calendar'),year=calendarMonth.getFullYear(),month=calendarMonth.getMonth();$('calendar-title').textContent=calendarMonth.toLocaleDateString('en-GB',{month:'long',year:'numeric'});grid.innerHTML='';['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(day=>{const el=document.createElement('div');el.className='calendar-weekday';el.textContent=day;grid.appendChild(el)});
     const first=new Date(year,month,1,12),offset=(first.getDay()+6)%7,start=new Date(year,month,1-offset,12);const today=new Date();today.setHours(0,0,0,0);
-    for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const date=dateKey(d),rows=dayRows(date),count=bookingCount(rows),closed=rows.some(isClosed),el=document.createElement('button');el.type='button';el.className='calendar-day'+(d.getMonth()!==month?' outside':'')+(date===selectedDate?' selected':'')+(date===dateKey(today)?' today':'')+(closed?' closed':'');el.setAttribute('aria-label',`${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}: ${closed?'green closed':count?`${count} booking${count===1?'':'s'}`:'no bookings'}`);el.innerHTML=`<span class="day-number">${d.getDate()}</span>${count?`<span class="day-count">${count}</span>`:''}`;el.addEventListener('click',()=>selectDate(date));grid.appendChild(el)}
+    for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const date=dateKey(d),rows=dayRows(date),counts=bookingCounts(rows),closed=rows.some(isClosed),details=[];if(counts.ties)details.push(`${counts.ties} ${counts.ties===1?'tie':'ties'}`);if(counts.blocks)details.push(`${counts.blocks} ${counts.blocks===1?'block':'blocks'}`);const el=document.createElement('button');el.type='button';el.className='calendar-day'+(d.getMonth()!==month?' outside':'')+(date===selectedDate?' selected':'')+(date===dateKey(today)?' today':'')+(closed?' closed':'');el.setAttribute('aria-label',`${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}: ${closed?'green closed':details.length?details.join(', '):'no bookings'}`);el.innerHTML=`<span class="day-number">${d.getDate()}</span>${closed?'':`${counts.ties?`<span class="day-count tie-count">${counts.ties} ${counts.ties===1?'tie':'ties'}</span>`:''}${counts.blocks?`<span class="day-count block-count">${counts.blocks} ${counts.blocks===1?'block':'blocks'}</span>`:''}`}`;el.addEventListener('click',()=>selectDate(date));grid.appendChild(el)}
   }
   function shiftMonth(amount){calendarMonth.setMonth(calendarMonth.getMonth()+amount);renderCalendar()}
   function selectDate(date){selectedDate=date;$('play-date').value=date;const chosenDate=new Date(date+'T12:00:00');calendarMonth=new Date(chosenDate.getFullYear(),chosenDate.getMonth(),1,12);render();if(dayRows(date).some(needsMarker))$('marker-needed-dialog').showModal()}
