@@ -6,7 +6,72 @@
   <title>Goldenacre BC - Rink Bookings</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1e293b;background:#f8fafc;--green:#173b32;--gold:#ffcc00;--border:#dbe3e8}*{box-sizing:border-box}body{margin:0}header{background:var(--green);color:white;padding:16px max(16px,calc((100% - 1000px)/2));display:flex;justify-content:space-between;align-items:center}header h1{font:bold 1.25rem Georgia,serif;margin:0}a{color:inherit}.wrap{max-width:1000px;margin:24px auto;padding:0 16px}.card{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;margin:0 0 18px;box-shadow:0 3px 10px #0000000a}.card h2{color:var(--green);font:bold 1.15rem Georgia,serif;margin:0 0 14px}form,.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.field{flex:1 1 150px}.field label{display:block;font-weight:650;font-size:.86rem;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid #bdc9d1;border-radius:6px;background:white;font:inherit}.btn{border:0;border-radius:6px;background:var(--green);color:white;font-weight:700;padding:10px 14px;cursor:pointer}.btn:hover{filter:brightness(.9)}.btn.gold{background:var(--gold);color:var(--green)}.btn.red{background:#b91c1c}.tools{display:flex;gap:8px;flex-wrap:wrap}.notice{font-size:.9rem;color:#475569;background:#fffbeb;padding:10px 12px;border-left:4px solid var(--gold);margin-bottom:14px}.status{min-height:1.3em;font-weight:600;margin:12px 0 0}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--border);vertical-align:top}th{background:#f1f5f9;color:var(--green)}.muted{color:#64748b;font-size:.85rem}.tag{display:inline-block;background:#dcfce7;color:#166534;border-radius:4px;padding:3px 7px;font-size:.8rem;font-weight:700}.tag.block{background:#ffedd5;color:#9a3412}.tag.closed{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions .btn{padding:6px 9px;font-size:.8rem}.calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.calendar-toolbar h2{margin:0}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--border);border-left:1px solid var(--border)}.calendar-weekday,.calendar-day{padding:7px;min-width:0;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}.calendar-weekday{text-align:center;background:#f1f5f9;color:var(--green);font-size:.8rem;font-weight:700}.calendar-day{height:94px;text-align:left;background:#fff;cursor:pointer;overflow:hidden}.calendar-day:hover{background:#f0fdf4}.calendar-day.outside{background:#f8fafc;color:#94a3b8}.calendar-day.selected{outline:2px solid var(--green);outline-offset:-2px;background:#fffbeb}.calendar-day.today .day-number{color:#166534;font-weight:800}.day-number{display:block;margin-bottom:4px;font-weight:650}.day-mark{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.68rem;line-height:1.35;color:#166534}.day-mark.block-mark{color:#9a3412}.day-mark.closed-mark{color:#b91c1c}.calendar-legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;color:#475569;font-size:.82rem}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:#16a34a}.legend-dot.block{background:#ea580c}.legend-dot.closed{background:#dc2626}@media(max-width:600px){header{padding:14px 16px}.card{padding:15px}.calendar-day{height:76px;padding:5px}.calendar-weekday{font-size:.68rem;padding:5px}.day-mark{font-size:.6rem}.calendar-toolbar .btn{padding:8px 10px}}
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1e293b;background:#f8fafc;--green:#173b32;--gold:#ffcc00;--border:#dbe3e8}*{box-sizing:border-box}body{margin:0}header{background:var(--green);color:white;padding:16px max(16px,calc((100% - 1000px)/2));display:flex;justify-content:space-between;align-items:center}header h1{font:bold 1.25rem Georgia,serif;margin:0}a{color:inherit}.wrap{max-width:1000px;margin:24px auto;padding:0 16px}.card{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;margin:0 0 18px;box-shadow:0 3px 10px #0000000a}.card h2{color:var(--green);font:bold 1.15rem Georgia,serif;margin:0 0 14px}form,.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.field{flex:1 1 150px}.field label{display:block;font-weight:650;font-size:.86rem;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid #bdc9d1;border-radius:6px;background:white;font:inherit}.btn{border:0;border-radius:6px;background:var(--green);color:white;font-weight:700;padding:10px 14px;cursor:pointer}.btn:hover{filter:brightness(.9)}.btn.gold{background:var(--gold);color:var(--green)}.btn.red{background:#b91c1c}.tools{display:flex;gap:8px;flex-wrap:wrap}.notice{font-size:.9rem;color:#475569;background:#fffbeb;padding:10px 12px;border-left:4px solid var(--gold);margin-bottom:14px}.status{min-height:1.3em;font-weight:600;margin:12px 0 0}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--border);vertical-align:top}th{background:#f1f5f9;color:var(--green)}.muted{color:#64748b;font-size:.85rem}.tag{display:inline-block;background:#dcfce7;color:#166534;border-radius:4px;padding:3px 7px;font-size:.8rem;font-weight:700}.tag.block{background:#ffedd5;color:#9a3412}.tag.closed{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions .btn{padding:6px 9px;font-size:.8rem}dialog{border:1px solid var(--border);border-radius:10px;padding:20px;width:min(440px,calc(100% - 32px));box-shadow:0 12px 40px #0003}dialog::backdrop{background:#0f172a80}dialog h2{color:var(--green);font:bold 1.15rem Georgia,serif;margin:0 0 14px}dialog form{display:flex;flex-wrap:wrap;gap:12px;align-items:end}dialog .status{flex-basis:100%}.calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.calendar-toolbar h2{margin:0}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--border);border-left:1px solid var(--border)}.calendar-weekday,.calendar-day{padding:7px;min-width:0;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}.calendar-weekday{text-align:center;background:#f1f5f9;color:var(--green);font-size:.8rem;font-weight:700}.calendar-day{height:94px;text-align:left;background:#fff;cursor:pointer;overflow:hidden}.calendar-day:hover{background:#f0fdf4}.calendar-day.outside{background:#f8fafc;color:#94a3b8}.calendar-day.selected{outline:2px solid var(--green);outline-offset:-2px;background:#fffbeb}.calendar-day.today .day-number{color:#166534;font-weight:800}.day-number{display:block;margin-bottom:4px;font-weight:650}.day-mark{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.68rem;line-height:1.35;color:#166534}.day-mark.block-mark{color:#9a3412}.day-mark.closed-mark{color:#b91c1c}.calendar-legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;color:#475569;font-size:.82rem}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:#16a34a}.legend-dot.block{background:#ea580c}.legend-dot.closed{background:#dc2626}@media(max-width:600px){header{padding:14px 16px}.card{padding:15px}.calendar-day{height:76px;padding:5px}.calendar-weekday{font-size:.68rem;padding:5px}.day-mark{font-size:.6rem}.calendar-toolbar .btn{padding:8px 10px}}
+    #marker-needed-dialog{width:min(600px,calc(100% - 24px));max-height:80vh;overflow:auto}
+    #register-tie-dialog,#marker-dialog{max-height:85vh;overflow:auto}
+    .dialog-toolbar{position:sticky;top:-10px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;background:white}
+    .dialog-toolbar h2{margin:0}
+    #marker-needed-list{display:grid;gap:10px}
+    .marker-needed-card{border:1px solid var(--border);border-radius:8px;padding:12px}
+    .marker-needed-card h3{font-size:1rem;margin:0 0 5px;color:var(--green)}
+    .marker-needed-card p{margin:4px 0}
+    .day-count{display:inline-block;min-width:16px;margin-top:3px;padding:1px 4px;border-radius:8px;background:#eef2f5;color:#475569;font-size:.62rem;font-weight:650;line-height:1.2}
+    .calendar-day.closed{background:#fee2e2;color:#991b1b}
+    .calendar-day.closed .day-number{color:#991b1b}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    @media(max-width:640px){
+      header{flex-direction:column;align-items:flex-start;gap:8px}
+      .calendar-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .calendar-toolbar h2{grid-column:1/-1;grid-row:1;text-align:center}
+      .calendar-toolbar button:first-child{grid-column:1;grid-row:2}
+      .calendar-toolbar button:last-child{grid-column:2;grid-row:2}
+      #booking-form .field,#marker-form .field,#block-book-form .field,#green-closure-form .field,#edit-tie-form .field{flex:1 1 100%;min-width:0}
+      #booking-form .tools,#marker-form .tools,#block-book-form .tools,#green-closure-form .tools,#edit-tie-form .tools{flex-basis:100%}
+      .tools .btn{flex:1 1 auto}
+      .table-wrap{overflow:visible}
+      .table-wrap table{display:block;width:100%;min-width:0}
+      .table-wrap thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      .table-wrap tbody{display:grid;gap:12px}
+      .table-wrap tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+      .table-wrap td{min-width:0;padding:9px 10px;overflow-wrap:anywhere}
+      .table-wrap td::before{display:block;color:#64748b;font-size:.72rem;font-weight:700;margin-bottom:3px}
+      .table-wrap td:nth-child(1){grid-column:1/-1}
+      .table-wrap td:nth-child(1)::before{content:"Time"}
+      .table-wrap td:nth-child(2){grid-column:1/-1}
+      .table-wrap td:nth-child(2)::before{content:"Competition / round"}
+      .table-wrap td:nth-child(3)::before{content:"Match"}
+      .table-wrap td:nth-child(4)::before{content:"Marker"}
+      .table-wrap td:nth-child(5)::before{content:"Rink"}
+      .table-wrap td:nth-child(6){grid-column:1/-1;border-bottom:0}
+      .table-wrap td:nth-child(6)::before{content:"Actions"}
+      body{font-size:13px}
+      header h1{font-size:1rem}
+      .wrap{margin:10px auto;padding:0 12px}
+      .card{padding:10px;margin-bottom:10px;border-radius:8px}
+      .card h2,dialog h2{font-size:.95rem;margin-bottom:9px}
+      .notice{font-size:.78rem;padding:8px 9px;margin-bottom:9px}
+      .field label{font-size:.74rem}
+      .field input,.field select{padding:7px 8px}
+      .btn{font-size:.76rem;padding:8px 9px}
+      .muted{font-size:.72rem}
+      .calendar-toolbar h2{font-size:.9rem}
+      .calendar-toolbar .btn{font-size:.7rem;padding:7px 8px}
+      .calendar-legend{gap:5px 9px;margin:7px 0;font-size:.66rem}
+      .legend-dot{width:7px;height:7px}
+      .calendar-grid{gap:2px;border:0}
+      .calendar-weekday,.calendar-day{padding:0;border:0;min-width:0}
+      .calendar-weekday{padding:4px 0;background:transparent;font-size:.65rem}
+      .calendar-day{height:42px;padding:4px 1px;border-radius:6px;text-align:center}
+      .calendar-day.outside{background:transparent}
+      .calendar-day.selected{outline:2px solid var(--green);outline-offset:-2px;background:#fffbeb}
+      .calendar-day.closed{background:#fee2e2;color:#991b1b}
+      .calendar-day.closed .day-number{color:#991b1b}
+      .day-number{margin:0;font-size:.72rem;line-height:1.2}
+      #marker-needed-dialog,#register-tie-dialog,#marker-dialog,#block-book-dialog,#green-closure-dialog,#edit-tie-dialog{padding:10px;max-height:85dvh}
+      .dialog-toolbar h2{font-size:.95rem}
+      #marker-needed-dialog,#register-tie-dialog{width:calc(100% - 24px)}
+      .day-count{min-width:15px;margin-top:2px;font-size:.58rem}
+    }
   </style>
 </head>
 <body>
@@ -15,91 +80,199 @@
     <section class="card">
       <h2>Admin: Match-day management</h2>
       <p class="muted">Six rinks are available. League bookings reserve all six rinks for their time, with a one-hour buffer. Rink draws are random and may reuse a rink at a non-overlapping time.</p>
-      <div class="tools"><button class="btn gold" onclick="runDraw()">🎲 Draw rinks for selected date</button><button class="btn" onclick="blockBook()">🔒 Block-book all rinks</button><button class="btn red" onclick="closeGreen()">🔴 Close green for date range</button></div>
+      <div class="tools"><button class="btn gold" onclick="runDraw()">🎲 Draw rinks for selected date</button><button class="btn" onclick="openBlockBooking()">🔒 Block-book all rinks</button><button class="btn red" onclick="openGreenClosure()">🔴 Close green for date range</button></div>
       <p id="admin-status" class="status" aria-live="polite"></p>
     </section>
     <section class="card">
       <div class="calendar-toolbar"><button class="btn" onclick="shiftMonth(-1)" aria-label="Previous month">← Previous</button><h2 id="calendar-title">Bookings calendar</h2><button class="btn" onclick="shiftMonth(1)" aria-label="Next month">Next →</button></div>
-      <div class="calendar-legend"><span><i class="legend-dot"></i> Ties scheduled</span><span><i class="legend-dot block"></i> League / full-green booking</span><span><i class="legend-dot closed"></i> Green closed</span></div>
       <div id="calendar" class="calendar-grid" aria-label="Monthly bookings calendar"></div>
-      <p class="muted">Select any date to see its schedule and use it for a new booking. Days with bookings show the number of ties and any green reservations.</p>
+      <p class="muted">Select a date to see its schedule. A number beneath the date shows how many bookings are scheduled.</p>
     </section>
     <section class="card">
-      <h2>Register a competition tie</h2>
-      <div class="notice">Choose a start time and expected duration. The booking occupies one rink for that interval. You can draw or redraw rink assignments on the day.</div>
-      <form id="booking-form" onsubmit="registerTie(event)">
-        <div class="field"><label for="competition">Competition</label><select id="competition"><option>Gents Championship</option><option>Senior Gents Championship</option><option>Gerard Handicap</option><option>Tom Wilson</option><option>2 Bowl Singles</option><option>2 Bowl Senior Singles</option><option>Pairs Trophy</option><option>Triples Cup</option><option>Fours / Rinks League</option></select></div>
-        <div class="field"><label for="round">Round</label><input id="round" value="Quarter Final" required></div>
-        <div class="field"><label for="player-a">Player / Team A</label><input id="player-a" required></div>
-        <div class="field"><label for="player-b">Player / Team B</label><input id="player-b" required></div>
-        <div class="field"><label for="marker">Marker (optional)</label><input id="marker" placeholder="Name or leave blank"></div>
-        <div class="field"><label for="play-date">Date</label><input id="play-date" type="date" required></div>
-        <div class="field"><label for="start-time">Start time</label><input id="start-time" type="time" value="14:00" required></div>
-        <div class="field"><label for="duration">Duration</label><select id="duration"><option value="60">1 hour</option><option value="120">2 hours</option><option value="180" selected>3 hours</option><option value="240">4 hours</option></select></div>
-        <button class="btn" type="submit">Submit tie</button>
-      </form>
-      <p id="form-status" class="status" aria-live="polite"></p>
-    </section>
-    <section class="card">
-      <div class="row"><h2 style="margin-right:auto">📅 Schedule</h2><div class="field" style="flex:0 1 190px"><label for="filter-date">Show date</label><input id="filter-date" type="date"></div></div>
+      <div class="row"><h2 id="day-schedule-title" style="margin-right:auto">Schedule</h2><button class="btn" id="open-tie-form" type="button">Register a tie</button></div>
+      <p id="tie-registration-note" class="status" hidden aria-live="polite"></p>
       <div class="table-wrap"><table><thead><tr><th>Time</th><th>Competition / round</th><th>Match</th><th>Marker</th><th>Rink</th><th>Action</th></tr></thead><tbody id="schedule"></tbody></table></div>
+      <p id="schedule-status" class="status" aria-live="polite"></p>
     </section>
   </main>
+<dialog id="marker-needed-dialog" aria-labelledby="marker-needed-title">
+  <div class="dialog-toolbar"><h2 id="marker-needed-title">Ties needing a marker</h2><button class="btn red" id="close-marker-needed" type="button">Close</button></div>
+  <p id="marker-needed-caption" class="muted"></p>
+  <div id="marker-needed-list"></div>
+</dialog>
+<dialog id="marker-dialog" aria-labelledby="marker-dialog-title">
+  <h2 id="marker-dialog-title">Volunteer as marker</h2>
+  <p id="marker-tie-summary" class="muted"></p>
+  <form id="marker-form">
+    <div class="field"><label for="marker-name">Your name</label><input id="marker-name" required></div>
+    <div class="tools"><button class="btn" type="submit">Confirm marker</button><button class="btn red" id="cancel-marker" type="button">Cancel</button></div>
+    <p id="marker-status" class="status" aria-live="polite"></p>
+  </form>
+</dialog>
+<dialog id="register-tie-dialog" aria-labelledby="register-tie-title">
+  <h2 id="register-tie-title">Register a competition tie</h2>
+  <div class="notice">Choose a start time and expected duration. The booking occupies one rink for that interval.</div>
+  <form id="booking-form" onsubmit="registerTie(event)">
+    <div class="field"><label for="competition">Competition</label><select id="competition"><option>Gents Championship</option><option>Senior Gents Championship</option><option>Gerard Handicap</option><option>Tom Wilson</option><option>2 Bowl Singles</option><option>2 Bowl Senior Singles</option><option>Pairs Trophy</option><option>Triples Cup</option><option>Fours / Rinks League</option></select></div>
+    <div class="field"><label for="round">Round</label><input id="round" value="Quarter Final" required></div>
+    <div class="field"><label for="player-a">Player / Team A</label><input id="player-a" required></div>
+    <div class="field"><label for="player-b">Player / Team B</label><input id="player-b" required></div>
+    <div class="field"><label for="marker">Marker (optional)</label><input id="marker" placeholder="Name or leave blank"></div>
+    <div class="field"><label for="play-date">Date</label><input id="play-date" type="date" required></div>
+    <div class="field"><label for="start-time">Start time</label><input id="start-time" type="time" value="14:00" required></div>
+    <div class="field"><label for="duration">Duration</label><select id="duration"><option value="60">1 hour</option><option value="120">2 hours</option><option value="180" selected>3 hours</option><option value="240">4 hours</option></select></div>
+    <div class="tools"><button class="btn" id="submit-tie" type="submit">Submit tie</button><button class="btn red" id="cancel-register-tie" type="button">Cancel</button></div>
+    <p id="tie-dialog-status" class="status" aria-live="polite"></p>
+  </form>
+</dialog>
+<dialog id="block-book-dialog" aria-labelledby="block-book-title">
+  <h2 id="block-book-title">Block-book all rinks</h2>
+  <form id="block-book-form">
+    <div class="field"><label for="block-event">League / event name</label><input id="block-event" value="Men’s League" required></div>
+    <div class="field"><label for="block-date">Date</label><input id="block-date" type="date" required></div>
+    <div class="field"><label for="block-start">Start time</label><input id="block-start" type="time" value="18:30" required></div>
+    <div class="field"><label for="block-end">End time</label><input id="block-end" type="time" value="21:00" required></div>
+    <div class="tools"><button class="btn" type="submit">Block-book</button><button class="btn red" id="cancel-block-book" type="button">Cancel</button></div>
+    <p id="block-book-status" class="status" aria-live="polite"></p>
+  </form>
+</dialog>
+<dialog id="green-closure-dialog" aria-labelledby="green-closure-title">
+  <h2 id="green-closure-title">Close green</h2>
+  <form id="green-closure-form">
+    <div class="field"><label for="closure-reason">Reason</label><input id="closure-reason" value="Maintenance" required></div>
+    <div class="field"><label for="closure-from">Start date</label><input id="closure-from" type="date" required></div>
+    <div class="field"><label for="closure-to">End date</label><input id="closure-to" type="date" required></div>
+    <div class="tools"><button class="btn red" type="submit">Close green</button><button class="btn" id="cancel-green-closure" type="button">Cancel</button></div>
+    <p id="green-closure-status" class="status" aria-live="polite"></p>
+  </form>
+</dialog>
+<dialog id="edit-tie-dialog" aria-labelledby="edit-tie-title">
+  <h2 id="edit-tie-title">Edit tie date and time</h2>
+  <form id="edit-tie-form">
+    <div class="field"><label for="edit-tie-date">Date</label><input id="edit-tie-date" type="date" required></div>
+    <div class="field"><label for="edit-tie-time">Start time</label><input id="edit-tie-time" type="time" required></div>
+    <div class="tools"><button class="btn" type="submit">Save changes</button><button class="btn red" id="cancel-tie-edit" type="button">Cancel</button></div>
+    <p id="edit-tie-status" class="status" aria-live="polite"></p>
+  </form>
+</dialog>
 <script>
   const SUPABASE_URL='https://xprnfaadcqlxeamoywjs.supabase.co';
   const SUPABASE_ANON_KEY='sb_publishable_FLKn6BtisIoFBvS7lFjVFg_fRuprjea';
   const db=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   const RINKS=[1,2,3,4,5,6], BUFFER=60, OPEN=600, CLOSE=1260;
-  let matches=[];
+  let matches=[],editingTieId=null,markerTieId=null,markerExpected=null,selectedDate=null;
   let calendarMonth=new Date();calendarMonth.setDate(1);calendarMonth.setHours(12,0,0,0);
   const $=id=>document.getElementById(id);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
   function mins(s){if(!s)return NaN;const m=String(s).trim().match(/^(\d{1,2}):(\d{2})/);return m?Number(m[1])*60+Number(m[2]):NaN}
   function interval(m){const t=String(m.time||'').trim();if(t.toLowerCase()==='all day')return [0,1440];const parts=t.split('-');const start=mins(parts[0]);if(!Number.isFinite(start))return [NaN,NaN];let end=parts.length>1?mins(parts[1]):start+180;if(end<=start)end+=1440;return [start,end]}
-  function isBlock(m){return m.p1==='CLUB GREEN RESERVED'}function isClosed(m){return m.p1==='GREEN CLOSED'}function isTie(m){return !isBlock(m)&&!isClosed(m)}
+  function isBlock(m){return m.p1==='CLUB GREEN RESERVED'}function isClosed(m){return m.p1==='GREEN CLOSED'}function isTie(m){return !isBlock(m)&&!isClosed(m)}function isLeagueGame(m){return /\bleague\b/i.test(`${m.comp||''} ${m.round||''}`)}function isEditableTie(m){return isTie(m)&&!isLeagueGame(m)}
   function overlaps(a,b,buffer=0){return a[0] < b[1]+buffer && b[0] < a[1]+buffer}
   function timeText(m){const [s,e]=interval(m);if(!Number.isFinite(s))return m.time||'';return `${fmt(s)} – ${fmt(e)}`}
   function fmt(n){n=((n%1440)+1440)%1440;return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}
   function dayRows(date){return matches.filter(m=>m.date===date)}
+  function bookingCount(rows){const ties=rows.filter(isTie).length,reservations=new Set(rows.filter(isBlock).map(m=>[m.p1,m.comp,m.time].join('|')));return ties+reservations.size}
+  function needsMarker(m){const marker=String(m.marker??'').trim();return isTie(m)&&(!marker||marker.toUpperCase()==='TBC')}
   function setStatus(id,msg,error=false){$(id).textContent=msg;$(id).style.color=error?'#b91c1c':'#166534'}
   async function refresh(){const {data,error}=await db.from('matches').select('*');if(error){setStatus('admin-status','Could not load bookings: '+error.message,true);return}matches=data||[];render()}
-  function render(){renderCalendar();renderSchedule()}
+  function render(){renderCalendar();renderSchedule(selectedDate);renderMarkerNeeded(selectedDate);updateTieRegistrationAvailability(selectedDate)}
   function renderCalendar(){const grid=$('calendar'),year=calendarMonth.getFullYear(),month=calendarMonth.getMonth();$('calendar-title').textContent=calendarMonth.toLocaleDateString('en-GB',{month:'long',year:'numeric'});grid.innerHTML='';['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(day=>{const el=document.createElement('div');el.className='calendar-weekday';el.textContent=day;grid.appendChild(el)});
     const first=new Date(year,month,1,12),offset=(first.getDay()+6)%7,start=new Date(year,month,1-offset,12);const today=new Date();today.setHours(0,0,0,0);
-    for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const date=dateKey(d),rows=dayRows(date),ties=rows.filter(isTie),blocks=rows.filter(isBlock),closed=rows.some(isClosed),el=document.createElement('button');el.type='button';el.className='calendar-day'+(d.getMonth()!==month?' outside':'')+(date===$('filter-date').value?' selected':'')+(date===dateKey(today)?' today':'');el.setAttribute('aria-label',`${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}: ${closed?'green closed':`${ties.length} ties, ${blocks.length} league bookings`}`);let marks='';if(closed)marks+='<span class="day-mark closed-mark">Green closed</span>';if(blocks.length)marks+=`<span class="day-mark block-mark">${blocks.length} league booking${blocks.length===1?'':'s'}</span>`;if(ties.length)marks+=`<span class="day-mark">${ties.length} tie${ties.length===1?'':'s'} scheduled</span>`;el.innerHTML=`<span class="day-number">${d.getDate()}</span>${marks}`;el.addEventListener('click',()=>selectDate(date));grid.appendChild(el)}
+    for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const date=dateKey(d),rows=dayRows(date),count=bookingCount(rows),closed=rows.some(isClosed),el=document.createElement('button');el.type='button';el.className='calendar-day'+(d.getMonth()!==month?' outside':'')+(date===selectedDate?' selected':'')+(date===dateKey(today)?' today':'')+(closed?' closed':'');el.setAttribute('aria-label',`${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}: ${closed?'green closed':count?`${count} booking${count===1?'':'s'}`:'no bookings'}`);el.innerHTML=`<span class="day-number">${d.getDate()}</span>${count?`<span class="day-count">${count}</span>`:''}`;el.addEventListener('click',()=>selectDate(date));grid.appendChild(el)}
   }
   function shiftMonth(amount){calendarMonth.setMonth(calendarMonth.getMonth()+amount);renderCalendar()}
-  function selectDate(date){$('filter-date').value=date;$('play-date').value=date;render();$('schedule').scrollIntoView({behavior:'smooth',block:'center'})}
-  function renderSchedule(){const date=$('filter-date').value;const rows=dayRows(date);const body=$('schedule');body.innerHTML='';if(!date){body.innerHTML='<tr><td colspan="6">Select a date in the calendar to view its schedule.</td></tr>';return}if(!rows.length){body.innerHTML='<tr><td colspan="6">No bookings for this date.</td></tr>';return}
+  function selectDate(date){selectedDate=date;$('play-date').value=date;const chosenDate=new Date(date+'T12:00:00');calendarMonth=new Date(chosenDate.getFullYear(),chosenDate.getMonth(),1,12);render();if(dayRows(date).some(needsMarker))$('marker-needed-dialog').showModal()}
+  function updateTieRegistrationAvailability(date){const closed=Boolean(date&&dayRows(date).some(isClosed)),note=$('tie-registration-note');$('open-tie-form').disabled=closed;$('submit-tie').disabled=closed;note.hidden=!closed;note.textContent=closed?'The green is closed on this date. Tie registration is unavailable.':'';note.style.color=closed?'#b91c1c':'';if(closed&&$('register-tie-dialog').open){$('register-tie-dialog').close();$('tie-dialog-status').textContent=''}}
+  function renderSchedule(date){const rows=dayRows(date);const body=$('schedule');body.innerHTML='';$('day-schedule-title').textContent=`Schedule — ${new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}`;if(!rows.length){body.innerHTML='<tr><td colspan="6">No bookings for this date.</td></tr>';return}
     const seen=new Set();for(const m of rows){let ids=[m.id];if(isBlock(m)||isClosed(m)){const key=[m.p1,m.comp,m.time].join('|');if(seen.has(key))continue;seen.add(key);ids=rows.filter(x=>[x.p1,x.comp,x.time].join('|')===key).map(x=>x.id)}
       const block=isBlock(m),closed=isClosed(m),title=closed?'Green closed':block?'All-rink league booking':`${esc(m.p1)} vs ${esc(m.p2)}`;
       const rink=closed?'<span class="tag closed">All rinks closed</span>':block?'<span class="tag block">All 6 rinks</span>':m.rink?`<span class="tag">Rink ${esc(m.rink)}</span>`:'<span class="muted">Awaiting draw</span>';
-      const markerValue=String(m.marker??'').trim();const markerAvailable=!block&&!closed&&(!markerValue||markerValue.toUpperCase()==='TBC');
-      const marker=block||closed?'—':markerAvailable?'<span class="muted">No marker yet</span>':esc(markerValue);
+      const markerAvailable=needsMarker(m);
+      const marker=block||closed?'—':markerAvailable?'<span class="muted">No marker yet</span>':esc(m.marker??'');
       const volunteerButton=markerAvailable?'<button class="btn" data-volunteer-marker="true">I can mark</button>':'';
-      const tr=document.createElement('tr');tr.innerHTML=`<td>${esc(timeText(m))}</td><td>${esc(m.comp)}<br><span class="muted">${esc(m.round)}</span></td><td>${title}</td><td>${marker}</td><td>${rink}</td><td><div class="actions">${volunteerButton}<button class="btn red" onclick="cancelRows(${JSON.stringify(ids)})">Cancel</button></div></td>`;
-      const volunteer=tr.querySelector('[data-volunteer-marker]');if(volunteer)volunteer.addEventListener('click',()=>claimMarker(m.id,m.marker??null));body.appendChild(tr)
+      const tr=document.createElement('tr');tr.innerHTML=`<td>${esc(timeText(m))}</td><td>${esc(m.comp)}<br><span class="muted">${esc(m.round)}</span></td><td>${title}</td><td>${marker}</td><td>${rink}</td><td><div class="actions">${volunteerButton}${isEditableTie(m)?'<button class="btn" data-edit-tie="true">Edit date/time</button>':''}<button class="btn red" onclick="cancelRows(${JSON.stringify(ids)})">Cancel</button></div></td>`;
+      const editButton=tr.querySelector('[data-edit-tie]');if(editButton)editButton.addEventListener('click',()=>openTieEditor(m));
+      const volunteer=tr.querySelector('[data-volunteer-marker]');if(volunteer)volunteer.addEventListener('click',()=>openMarkerDialog(m));body.appendChild(tr)
     }
   }
-  $('filter-date').addEventListener('change',()=>{if($('filter-date').value){$('play-date').value=$('filter-date').value;const d=new Date($('filter-date').value+'T12:00:00');calendarMonth=new Date(d.getFullYear(),d.getMonth(),1,12)}render()});
-  $('play-date').addEventListener('change',()=>{if($('play-date').value){$('filter-date').value=$('play-date').value;const d=new Date($('play-date').value+'T12:00:00');calendarMonth=new Date(d.getFullYear(),d.getMonth(),1,12)}render()});
+  function renderMarkerNeeded(date){const rows=dayRows(date).filter(needsMarker),list=$('marker-needed-list'),dialog=$('marker-needed-dialog');list.innerHTML='';if(!rows.length){if(dialog.open)dialog.close();return}const formatted=new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});$('marker-needed-caption').textContent=`These ties on ${formatted} still need a marker.`;for(const m of rows){const item=document.createElement('article');item.className='marker-needed-card';item.innerHTML=`<h3>${esc(m.comp)} — ${esc(m.round)}</h3><p>${esc(m.p1)} vs ${esc(m.p2)}</p><p class="muted">${esc(timeText(m))}</p><button class="btn" type="button">I can mark</button>`;item.querySelector('button').addEventListener('click',()=>openMarkerDialog(m));list.appendChild(item)}}
+  $('close-marker-needed').addEventListener('click',()=> $('marker-needed-dialog').close());
+  $('open-tie-form').addEventListener('click',()=>{if(selectedDate&&dayRows(selectedDate).some(isClosed)){updateTieRegistrationAvailability(selectedDate);return}$('play-date').value=selectedDate;$('tie-dialog-status').textContent='';$('register-tie-dialog').showModal()});
+  $('cancel-register-tie').addEventListener('click',()=> $('register-tie-dialog').close());
+  function openMarkerDialog(m){if(!needsMarker(m))return;markerTieId=String(m.id);markerExpected=m.marker??null;$('marker-tie-summary').textContent=`${m.comp} — ${m.round}: ${m.p1} vs ${m.p2} (${timeText(m)})`;$('marker-name').value='';$('marker-status').textContent='';$('marker-dialog').showModal()}
+  $('cancel-marker').addEventListener('click',()=>{$('marker-dialog').close();markerTieId=null;markerExpected=null});
+  $('marker-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const name=$('marker-name').value.trim();if(!name){setStatus('marker-status','Enter your name to volunteer as marker.',true);return}
+    let query=db.from('matches').update({marker:name}).eq('id',markerTieId);
+    if(markerExpected===null)query=query.is('marker',null);else query=query.eq('marker',markerExpected);
+    const {data,error}=await query.select('id');
+    if(error){setStatus('marker-status','Could not update the marker: '+error.message,true);return}
+    if(!data||data.length===0){setStatus('marker-status','This tie already has a marker, or the booking has changed. Refresh the schedule and try again.',true);await refresh();return}
+    $('marker-dialog').close();markerTieId=null;markerExpected=null;setStatus('schedule-status',`${name} has volunteered to mark the tie.`);await refresh()
+  });
+  function openBlockBooking(){$('block-event').value='Men’s League';$('block-date').value=promptDate();$('block-start').value='18:30';$('block-end').value='21:00';$('block-book-status').textContent='';$('block-book-dialog').showModal()}
+  function openGreenClosure(){$('closure-reason').value='Maintenance';$('closure-from').value=promptDate();$('closure-to').value=promptDate();$('green-closure-status').textContent='';$('green-closure-dialog').showModal()}
+  $('cancel-block-book').addEventListener('click',()=> $('block-book-dialog').close());
+  $('cancel-green-closure').addEventListener('click',()=> $('green-closure-dialog').close());
+  $('block-book-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const event=$('block-event').value.trim(),date=$('block-date').value,start=$('block-start').value,end=$('block-end').value,a=mins(start),b=mins(end),slot=[a,b];
+    if(!event||!date||!Number.isFinite(a)||!Number.isFinite(b)||b<=a||a<OPEN||b>CLOSE){setStatus('block-book-status','Enter an event name and a valid time range between 10:00 and 21:00.',true);return}
+    const rows=dayRows(date);
+    if(rows.some(isClosed)){setStatus('block-book-status','The green is already closed on this date.',true);return}
+    if(rows.filter(isBlock).some(m=>overlaps(slot,interval(m),BUFFER))){setStatus('block-book-status','This conflicts with an existing all-rink block booking.',true);return}
+    if(rows.filter(isTie).some(m=>overlaps(slot,interval(m),BUFFER))){setStatus('block-book-status','This conflicts with a tie booking (including the one-hour buffer). Cancel or move that tie first.',true);return}
+    const inserts=RINKS.map(rink=>({date,time:`${fmt(a)} - ${fmt(b)}`,comp:event,round:'Reserved Slot',p1:'CLUB GREEN RESERVED',p2:event,marker:'N/A',rink}));
+    const {error}=await db.from('matches').insert(inserts);
+    if(error){setStatus('block-book-status','Could not block-book: '+error.message,true);return}
+    $('block-book-dialog').close();setStatus('admin-status',`🔒 ${event} reserved all six rinks on ${date}, ${fmt(a)}–${fmt(b)} (with one-hour buffer).`);await refresh()
+  });
+  $('green-closure-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const reason=$('closure-reason').value.trim(),from=$('closure-from').value,to=$('closure-to').value;
+    if(!reason||!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to)||from>to){setStatus('green-closure-status','Enter a reason and a valid date range.',true);return}
+    const dates=[];let d=new Date(from+'T12:00:00'),last=new Date(to+'T12:00:00');
+    while(d<=last&&dates.length<366){dates.push(dateKey(d));d.setDate(d.getDate()+1)}
+    if(d<=last){setStatus('green-closure-status','Choose a date range of 366 days or fewer.',true);return}
+    if(dates.some(date=>dayRows(date).length)){setStatus('green-closure-status','One or more selected dates already have bookings. Remove those bookings before closing the green.',true);return}
+    const inserts=dates.flatMap(date=>RINKS.map(rink=>({date,time:'All Day',comp:reason,round:'Green Closure',p1:'GREEN CLOSED',p2:reason,marker:'N/A',rink})));
+    const {error}=await db.from('matches').insert(inserts);
+    if(error){setStatus('green-closure-status','Could not close green: '+error.message,true);return}
+    $('green-closure-dialog').close();setStatus('admin-status',`🔴 Green closed ${from} through ${to}.`);await refresh()
+  });
+  function openTieEditor(m){if(!isEditableTie(m))return;const [start]=interval(m);if(!Number.isFinite(start)){setStatus('schedule-status','❌ This tie has an invalid time and cannot be edited.',true);return}editingTieId=String(m.id);$('edit-tie-date').value=m.date;$('edit-tie-time').value=fmt(start);$('edit-tie-status').textContent='';$('edit-tie-dialog').showModal()}
+  $('cancel-tie-edit').addEventListener('click',()=>{$('edit-tie-dialog').close();editingTieId=null});
+  $('edit-tie-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const m=matches.find(item=>String(item.id)===editingTieId);
+    if(!m||!isEditableTie(m)){setStatus('edit-tie-status','This tie can no longer be edited.',true);return}
+    const date=$('edit-tie-date').value,start=mins($('edit-tie-time').value),[oldStart,oldEnd]=interval(m),duration=oldEnd-oldStart,slot=[start,start+duration];
+    if(!date||!Number.isFinite(start)||!Number.isFinite(duration)||duration<=0){setStatus('edit-tie-status','Enter a valid date and time.',true);return}
+    const why=canBook(date,slot,editingTieId);if(why){setStatus('edit-tie-status',why,true);return}
+    const changed=date!==m.date||start!==oldStart;
+    const payload={date,time:`${fmt(slot[0])} - ${fmt(slot[1])}`};if(changed&&m.rink)payload.rink=null;
+    const {data,error}=await db.from('matches').update(payload).eq('id',editingTieId).select('id');
+    if(error){setStatus('edit-tie-status','Could not update the tie: '+error.message,true);return}
+    if(!data||data.length===0){setStatus('edit-tie-status','The tie was not updated. Refresh the schedule and try again.',true);await refresh();return}
+    $('edit-tie-dialog').close();editingTieId=null;selectedDate=date;$('play-date').value=date;const editedDate=new Date(date+'T12:00:00');calendarMonth=new Date(editedDate.getFullYear(),editedDate.getMonth(),1,12);
+    setStatus('schedule-status',changed&&m.rink?'✅ Tie updated. Its rink assignment was cleared; run the rink draw again.':'✅ Tie date and time updated.');
+    await refresh()
+  });
+  $('play-date').addEventListener('change',()=>{if($('play-date').value){selectedDate=$('play-date').value;const d=new Date(selectedDate+'T12:00:00');calendarMonth=new Date(d.getFullYear(),d.getMonth(),1,12)}render()});
   function requestedInterval(){const s=mins($('start-time').value);return [s,s+Number($('duration').value)]}
   function canBook(date,slot,ignoreId=null){if(!Number.isFinite(slot[0])||slot[0]<OPEN||slot[1]>CLOSE)return 'Bookings must fit between 10:00 and 21:00.';const rows=dayRows(date);if(rows.some(isClosed))return 'The green is closed on this date.';
     for(const b of rows.filter(isBlock)){if(overlaps(slot,interval(b),BUFFER))return `Unavailable within one hour of ${b.comp} (${b.time}).`}
     const ties=rows.filter(m=>isTie(m)&&m.id!==ignoreId);const events=[];for(const t of ties){const x=interval(t);if(overlaps(slot,x))events.push(x)}events.push(slot);const points=[...new Set(events.flatMap(x=>x))].sort((a,b)=>a-b);for(let i=0;i<points.length-1;i++){const mid=(points[i]+points[i+1])/2;if(events.filter(x=>x[0]<=mid&&x[1]>mid).length>RINKS.length)return 'All six rinks are already in use for part of this time.'}return ''}
-  async function registerTie(e){e.preventDefault();const date=$('play-date').value,slot=requestedInterval(),why=canBook(date,slot);if(why){setStatus('form-status','❌ '+why,true);return}
-    const comp=$('competition').value,marker=$('marker').value.trim();const payload={date,time:`${fmt(slot[0])} - ${fmt(slot[1])}`,comp,round:$('round').value,p1:$('player-a').value.trim(),p2:$('player-b').value.trim(),marker:marker||'TBC',rink:null};const {error}=await db.from('matches').insert([payload]);if(error){setStatus('form-status','❌ Could not save: '+error.message,true);return}setStatus('form-status','✅ Tie booked. Run the rink draw on the day to assign a rink.');await refresh()}
-  async function claimMarker(id,expectedMarker){const name=prompt('Enter your name to volunteer as marker:');if(!name||!name.trim())return;let query=db.from('matches').update({marker:name.trim()}).eq('id',id);if(expectedMarker===null)query=query.is('marker',null);else query=query.eq('marker',expectedMarker);const {data,error}=await query.select('id');if(error){alert('Could not update the marker. Please try again or contact the club administrator: '+error.message);return}if(!data||data.length===0){alert('This tie already has a marker, or the booking has changed. Refresh the schedule and try again.');await refresh();return}setStatus('admin-status',`${name.trim()} has volunteered to mark the tie.`);await refresh()}
-  function promptDate(){return $('filter-date').value||$('play-date').value}
-  async function blockBook(){const event=prompt('League / event name:','Men’s League');if(!event)return;const date=promptDate();if(!date){alert('Select a date first.');return}const start=prompt('Start time (HH:MM):','18:30');if(!start)return;const end=prompt('End time (HH:MM):','21:00');if(!end)return;const a=mins(start),b=mins(end),slot=[a,b];if(!Number.isFinite(a)||!Number.isFinite(b)||b<=a||a<OPEN||b>CLOSE){alert('Enter a valid time range between 10:00 and 21:00.');return}const rows=dayRows(date);if(rows.some(isClosed)){alert('The green is already closed on this date.');return}if(rows.filter(isBlock).some(m=>overlaps(slot,interval(m),BUFFER))){alert('This conflicts with an existing all-rink block booking.');return}if(rows.filter(isTie).some(m=>overlaps(slot,interval(m),BUFFER))){alert('This conflicts with a tie booking (including the one-hour buffer). Cancel or move that tie first.');return}
-    const inserts=RINKS.map(rink=>({date,time:`${fmt(a)} - ${fmt(b)}`,comp:event,round:'Reserved Slot',p1:'CLUB GREEN RESERVED',p2:event,marker:'N/A',rink}));const {error}=await db.from('matches').insert(inserts);if(error){alert('Could not block-book: '+error.message);return}setStatus('admin-status',`🔒 ${event} reserved all six rinks on ${date}, ${fmt(a)}–${fmt(b)} (with one-hour buffer).`);await refresh()}
-  async function closeGreen(){const reason=prompt('Closure reason:','Maintenance');if(!reason)return;const from=prompt('Start date (YYYY-MM-DD):',promptDate());if(!from)return;const to=prompt('End date (YYYY-MM-DD):',from);if(!to)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to)||from>to){alert('Enter a valid date range.');return}const dates=[];let d=new Date(from+'T12:00:00'),last=new Date(to+'T12:00:00');while(d<=last&&dates.length<366){dates.push(dateKey(d));d.setDate(d.getDate()+1)}if(dates.some(date=>dayRows(date).length)){alert('At least one selected date already has bookings. Cancel those entries before closing the green.');return}const inserts=dates.flatMap(date=>RINKS.map(rink=>({date,time:'All Day',comp:reason,round:'Green Closure',p1:'GREEN CLOSED',p2:reason,marker:'N/A',rink})));const {error}=await db.from('matches').insert(inserts);if(error){alert('Could not close green: '+error.message);return}setStatus('admin-status',`🔴 Green closed ${from} through ${to}.`);await refresh()}
+  async function registerTie(e){e.preventDefault();const date=$('play-date').value,slot=requestedInterval(),why=canBook(date,slot);if(why){setStatus('tie-dialog-status','❌ '+why,true);return}
+    const comp=$('competition').value,marker=$('marker').value.trim();const payload={date,time:`${fmt(slot[0])} - ${fmt(slot[1])}`,comp,round:$('round').value,p1:$('player-a').value.trim(),p2:$('player-b').value.trim(),marker:marker||'TBC',rink:null};const {error}=await db.from('matches').insert([payload]);if(error){setStatus('tie-dialog-status','❌ Could not save: '+error.message,true);return}$('register-tie-dialog').close();setStatus('schedule-status','✅ Tie booked. Run the rink draw on the day to assign a rink.');await refresh()}
+  function promptDate(){return selectedDate||$('play-date').value}
   async function runDraw(){const date=promptDate();if(!date){alert('Select a date first.');return}const rows=dayRows(date);if(rows.some(isClosed)){alert('The green is closed on this date.');return}const ties=rows.filter(isTie).sort((a,b)=>interval(a)[0]-interval(b)[0]);const assigned=[];const planned=[];
     for(const m of ties){const slot=interval(m);const blocked=rows.filter(isBlock).some(b=>overlaps(slot,interval(b),BUFFER));if(blocked){alert(`Cannot draw: ${m.p1} vs ${m.p2} overlaps a block booking or its one-hour buffer.`);return}const used=assigned.filter(x=>overlaps(slot,x.slot)).map(x=>x.rink);const choices=RINKS.filter(r=>!used.includes(r));if(!choices.length){alert('Cannot draw: more than six ties overlap in time. No rink assignments were changed.');return}const rink=choices[Math.floor(Math.random()*choices.length)];assigned.push({slot,rink});planned.push({id:m.id,rink})}
     for(const p of planned){const {error}=await db.from('matches').update({rink:p.rink}).eq('id',p.id);if(error){alert('Draw partially failed while saving: '+error.message);await refresh();return}}setStatus('admin-status',`✨ Random draw complete: ${planned.length} tie(s) assigned across rinks 1–6.`);await refresh()}
   async function cancelRows(ids){if(!confirm('Cancel this booking?'))return;const {error}=await db.from('matches').delete().in('id',ids);if(error){alert('Could not cancel: '+error.message);return}await refresh()}
-  const today=new Date(),date=dateKey(today);$('play-date').value=date;$('filter-date').value=date;calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);refresh();
+  const today=new Date(),date=dateKey(today);selectedDate=date;$('play-date').value=date;calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);refresh();
 </script>
 </body>
 </html>
