@@ -8,40 +8,91 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Rinks Booking | Goldenacre Bowling Club</title>
   <link rel="manifest" href="rinks-booking-manifest.json">
-  <link rel="apple-touch-icon" href="logo.jpeg">
+  <link rel="icon" type="image/svg+xml" href="rinks-booking-icon.svg">
+  <link rel="apple-touch-icon" href="rinks-booking-icon.svg">
   <style>
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #173b32; }
     body { display: flex; flex-direction: column; }
-    .install-panel { position: relative; z-index: 1; padding: 10px 16px; background: #f8fafc; border-bottom: 1px solid #dbe3e8; }
-    .install-row { max-width: 1000px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    h1 { margin: 0; font: bold 1rem Georgia, serif; }
-    #install-help { margin: 4px 0 0; font-size: .82rem; color: #475569; }
-    button { border: 0; border-radius: 6px; padding: 9px 13px; background: #173b32; color: white; font: inherit; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .install-panel { position: relative; z-index: 1; width: min(700px, calc(100% - 32px)); margin: 12px auto; padding: 14px 18px; background: #fff8df; border: 1.5px solid #ffcc00; border-radius: 12px; box-shadow: 0 3px 10px rgba(23, 59, 50, .1); }
+    .install-panel[hidden] { display: none; }
+    .install-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-right: 28px; }
+    .install-heading { display: flex; align-items: center; gap: 12px; }
+    .install-icon { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 9px; }
+    h1 { margin: 0; font: bold 1rem Georgia, serif; color: #173b32; }
+    #install-help { margin: 4px 0 0; font-size: .82rem; line-height: 1.45; color: #475569; }
+    #install-instructions { margin: 12px 0 0 54px; padding-top: 10px; border-top: 1px dashed rgba(23, 59, 50, .2); font-size: .84rem; line-height: 1.5; }
+    #install-instructions ol { margin: 0; padding-left: 20px; }
+    #install-instructions li + li { margin-top: 4px; }
+    #install-button { flex: 0 0 auto; border: 0; border-radius: 7px; padding: 9px 13px; background: #173b32; color: white; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    #install-button:hover { background: #245548; }
+    #dismiss-button { position: absolute; top: 8px; right: 9px; display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #173b32; font: 1.5rem/1 system-ui, sans-serif; cursor: pointer; opacity: .7; }
+    #dismiss-button:hover, #dismiss-button:focus-visible { background: rgba(23, 59, 50, .08); opacity: 1; }
     button[hidden] { display: none; }
     #booking-frame { display: block; width: 100%; flex: 1 1 auto; min-height: 0; border: 0; }
-    @media (max-width: 520px) { .install-row { align-items: flex-start; } h1 { font-size: .9rem; } #install-help { font-size: .74rem; } button { padding: 8px 10px; font-size: .82rem; } }
+    @media (max-width: 520px) {
+      .install-panel { width: calc(100% - 20px); margin: 10px auto; padding: 12px; }
+      .install-row { align-items: flex-start; gap: 8px; }
+      .install-heading { gap: 9px; }
+      .install-icon { width: 36px; height: 36px; flex-basis: 36px; }
+      h1 { font-size: .9rem; }
+      #install-help, #install-instructions { font-size: .76rem; }
+      #install-instructions { margin-left: 45px; }
+      #install-button { padding: 8px 10px; font-size: .78rem; }
+    }
   </style>
 </head>
 <body>
-  <section class="install-panel" aria-label="Install rink bookings">
+  <section class="install-panel" id="install-panel" aria-label="Install rink bookings">
+    <button id="dismiss-button" type="button" aria-label="Dismiss installation instructions" title="Dismiss">&times;</button>
     <div class="install-row">
       <div>
-        <h1>Goldenacre Rinks Booking</h1>
-        <p id="install-help" role="status">Add this booking app to your home screen for quick access.</p>
+        <div class="install-heading">
+          <img class="install-icon" src="rinks-booking-icon.svg" alt="">
+          <div>
+            <h1 id="install-title">Add Rinks Booking to your device</h1>
+            <p id="install-help" role="status">Save the rink diary to your home screen for quick access.</p>
+          </div>
+        </div>
+        <div id="install-instructions">
+          <ol id="install-steps"><li>Open your browser menu and choose “Install app” or “Add to Home screen”.</li></ol>
+        </div>
       </div>
       <button id="install-button" type="button" hidden>Install app</button>
     </div>
   </section>
   <iframe id="booking-frame" title="Goldenacre Bowling Club rink bookings" src="rinks_booking_system.html"></iframe>
   <script>
+    const installPanel = document.getElementById('install-panel');
     const installButton = document.getElementById('install-button');
     const installHelp = document.getElementById('install-help');
+    const installTitle = document.getElementById('install-title');
+    const installSteps = document.getElementById('install-steps');
+    const dismissButton = document.getElementById('dismiss-button');
     const bookingFrame = document.getElementById('booking-frame');
+    const hiddenStorageKey = 'rinks_booking_install_instructions_hidden';
     let installPrompt;
 
     function isInstalledApp() {
-      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      return window.matchMedia('(display-mode: standalone)').matches
+        || window.matchMedia('(display-mode: fullscreen)').matches
+        || window.matchMedia('(display-mode: minimal-ui)').matches
+        || window.navigator.standalone === true;
+    }
+
+    function hideInstalledInstructions() {
+      if (isInstalledApp()) {
+        installPanel.hidden = true;
+        document.documentElement.classList.add('rinks-app-installed');
+        return true;
+      }
+      return false;
+    }
+
+    function setInstallInstructions(title, message, steps) {
+      installTitle.textContent = title;
+      installHelp.textContent = message;
+      installSteps.innerHTML = steps.map((step) => `<li>${step}</li>`).join('');
     }
 
     function hideMembersPortalLink() {
@@ -53,38 +104,63 @@
       }
     }
 
+    dismissButton.addEventListener('click', () => {
+      localStorage.setItem(hiddenStorageKey, 'true');
+      installPanel.hidden = true;
+    });
+
+    hideInstalledInstructions();
+
+    if (!hideInstalledInstructions() && localStorage.getItem(hiddenStorageKey) === 'true') {
+      installPanel.hidden = true;
+    }
+
     bookingFrame.addEventListener('load', hideMembersPortalLink);
-    window.matchMedia('(display-mode: standalone)').addEventListener?.('change', hideMembersPortalLink);
 
-    if (isInstalledApp()) {
-      installHelp.textContent = 'You are using the rink bookings app.';
-    } else {
-      window.addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        installPrompt = event;
-        installButton.hidden = false;
-        installHelp.textContent = 'Install this app for quick, full-screen access to rink bookings.';
+    const standaloneMedia = window.matchMedia('(display-mode: standalone)');
+    if (standaloneMedia.addEventListener) {
+      standaloneMedia.addEventListener('change', () => {
+        hideInstalledInstructions();
+        hideMembersPortalLink();
       });
+    }
 
-      installButton.addEventListener('click', async () => {
-        if (!installPrompt) return;
-        installPrompt.prompt();
-        await installPrompt.userChoice;
-        installPrompt = null;
-        installButton.hidden = true;
-      });
+    const ua = navigator.userAgent || navigator.vendor || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-      window.addEventListener('appinstalled', () => {
-        installButton.hidden = true;
-        installHelp.textContent = 'Rink bookings has been added to your device.';
-      });
+    if (!isInstalledApp()) {
+      if (isIOS) {
+        setInstallInstructions('Add Rinks Booking to your Home Screen', 'Get quick, full-screen access to the rink diary.', [
+          'Tap the <strong>Share</strong> button in Safari.',
+          'Scroll down and choose <strong>“Add to Home Screen”</strong>.',
+          'Tap <strong>Add</strong> to finish.'
+        ]);
+      } else {
+        setInstallInstructions('Add Rinks Booking to your device', 'Save the rink diary to your home screen for quick access.', [
+          'Open your browser menu and choose <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.'
+        ]);
 
-      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
-        installHelp.textContent = 'On iPhone or iPad: tap Share in Safari, then “Add to Home Screen”.';
-      } else if (!installPrompt) {
-        installHelp.textContent = 'Use your browser menu and choose “Install app” or “Add to Home screen”.';
+        window.addEventListener('beforeinstallprompt', (event) => {
+          event.preventDefault();
+          installPrompt = event;
+          installButton.hidden = false;
+          installHelp.textContent = 'Install for quick, full-screen access to the rink diary.';
+        });
+
+        installButton.addEventListener('click', async () => {
+          if (!installPrompt) return;
+          installPrompt.prompt();
+          await installPrompt.userChoice;
+          installPrompt = null;
+          installButton.hidden = true;
+        });
       }
     }
+
+    window.addEventListener('appinstalled', () => {
+      installPanel.hidden = true;
+      localStorage.setItem(hiddenStorageKey, 'true');
+    });
   </script>
 </body>
 </html>
