@@ -1,15 +1,17 @@
 {
-    "name": "Goldenacre Bowling Club",
-    "short_name": "Goldenacre BC",
-    "start_url": "index.html",
-    "display": "standalone",
-    "background_color": "#173b32",
-    "theme_color": "#173b32",
-    "icons": [
-        {
-            "src": "logo.jpeg",
-            "sizes": "192x192 512x512",
-            "type": "image/x-icon"
-        }
-    ]
+  "id": "/index.html",
+  "name": "Goldenacre Bowling Club",
+  "short_name": "Goldenacre BC",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#173b32",
+  "theme_color": "#173b32",
+  "icons": [
+    {
+      "src": "logo.jpeg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg"
+    }
+  ]
 }
