@@ -1,0 +1,19 @@
+{
+  "id": "/rinks/",
+  "name": "Goldenacre Rinks Booking",
+  "short_name": "Rinks Booking",
+  "description": "View and manage Goldenacre Bowling Club rink bookings.",
+  "start_url": "/rinks/",
+  "scope": "/rinks/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#173b32",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
