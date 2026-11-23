@@ -6,7 +6,12 @@
   <title>Goldenacre BC - Rink Bookings</title>
   <link rel="manifest" href="/rinks/manifest.json">
   <meta name="theme-color" content="#173b32">
-  <link rel="apple-touch-icon" href="/rinks/rinks-booking-icon.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Rinks">
+  <link rel="apple-touch-icon" href="../rinks-booking-icon.svg">
+  <link rel="manifest" href="/rinks/manifest.json">
+  <meta name="theme-color" content="#173b32">
+  <link rel="apple-touch-icon" href="../inks-booking-icon.svg">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1e293b;background:#f8fafc;--green:#173b32;--gold:#ffcc00;--border:#dbe3e8}*{box-sizing:border-box}body{margin:0}header{background:var(--green);color:white;padding:16px max(16px,calc((100% - 1000px)/2));display:flex;justify-content:space-between;align-items:center}header h1{font:bold 1.25rem Georgia,serif;margin:0}a{color:inherit}.wrap{max-width:1000px;margin:24px auto;padding:0 16px}.card{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;margin:0 0 18px;box-shadow:0 3px 10px #0000000a}.card h2{color:var(--green);font:bold 1.15rem Georgia,serif;margin:0 0 14px}form,.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.field{flex:1 1 150px}.field label{display:block;font-weight:650;font-size:.86rem;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid #bdc9d1;border-radius:6px;background:white;font:inherit}.btn{border:0;border-radius:6px;background:var(--green);color:white;font-weight:700;padding:10px 14px;cursor:pointer}.btn:hover{filter:brightness(.9)}.btn.gold{background:var(--gold);color:var(--green)}.btn.red{background:#b91c1c}.tools{display:flex;gap:8px;flex-wrap:wrap}.notice{font-size:.9rem;color:#475569;background:#fffbeb;padding:10px 12px;border-left:4px solid var(--gold);margin-bottom:14px}.status{min-height:1.3em;font-weight:600;margin:12px 0 0}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--border);vertical-align:top}th{background:#f1f5f9;color:var(--green)}.muted{color:#64748b;font-size:.85rem}.tag{display:inline-block;background:#dcfce7;color:#166534;border-radius:4px;padding:3px 7px;font-size:.8rem;font-weight:700}.tag.block{background:#ffedd5;color:#9a3412}.tag.closed{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions .btn{padding:6px 9px;font-size:.8rem}dialog{border:1px solid var(--border);border-radius:10px;padding:20px;width:min(440px,calc(100% - 32px));box-shadow:0 12px 40px #0003}dialog::backdrop{background:#0f172a80}dialog h2{color:var(--green);font:bold 1.15rem Georgia,serif;margin:0 0 14px}dialog form{display:flex;flex-wrap:wrap;gap:12px;align-items:end}dialog .status{flex-basis:100%}.calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.calendar-toolbar h2{margin:0}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--border);border-left:1px solid var(--border)}.calendar-weekday,.calendar-day{padding:7px;min-width:0;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}.calendar-weekday{text-align:center;background:#f1f5f9;color:var(--green);font-size:.8rem;font-weight:700}.calendar-day{height:94px;text-align:left;background:#fff;cursor:pointer;overflow:hidden}.calendar-day:hover{background:#f0fdf4}.calendar-day.outside{background:#f8fafc;color:#94a3b8}.calendar-day.selected{outline:2px solid var(--green);outline-offset:-2px;background:#fffbeb}.calendar-day.today .day-number{color:#166534;font-weight:800}.day-number{display:block;margin-bottom:4px;font-weight:650}.day-mark{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.68rem;line-height:1.35;color:#166534}.day-mark.block-mark{color:#9a3412}.day-mark.closed-mark{color:#b91c1c}.calendar-legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;color:#475569;font-size:.82rem}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:#16a34a}.legend-dot.block{background:#ea580c}.legend-dot.closed{background:#dc2626}@media(max-width:600px){header{padding:14px 16px}.card{padding:15px}.calendar-day{height:76px;padding:5px}.calendar-weekday{font-size:.68rem;padding:5px}.day-mark{font-size:.6rem}.calendar-toolbar .btn{padding:8px 10px}}
@@ -82,8 +87,7 @@
   </style>
 </head>
 <body>
-  <header><h1>🏆 Goldenacre Bowling Club — Rink Bookings</h1><a href="/members_secure.html">← Members Portal</a></header>
-  <p id="admin-auth-status" class="muted" hidden role="status"></p>
+<header><h1>🏆 Goldenacre Bowling Club — Rink Bookings</h1>
   <main class="wrap">
     <section class="card" id="admin-management" hidden>
       <h2>Admin: Match-day management</h2>
@@ -288,6 +292,9 @@
     for(const p of planned){const {error}=await db.from('matches').update({rink:p.rink}).eq('id',p.id);if(error){alert('Draw partially failed while saving: '+error.message);await refresh();return}}setStatus('admin-status',`✨ Random draw complete: ${planned.length} tie(s) assigned across rinks 1–6.`);await refresh()}
   async function cancelRows(ids){if(!isAdmin)return;if(!confirm('Cancel this booking?'))return;const {error}=await db.from('matches').delete().in('id',ids);if(error){alert('Could not cancel: '+error.message);return}await refresh()}
   const today=new Date(),date=dateKey(today);selectedDate=date;$('play-date').value=date;calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);initializeAdminAccess();refresh();
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/rinks/sw.js', { scope: '/rinks/' });
+  }
 </script>
 </body>
 </html>
